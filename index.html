@@ -66,16 +66,17 @@
         }
 
         /* ツアーオーバーレイ */
+        /* ツアー: overlayは全体を覆いclickをブロック。tooltipとspotlight内はauto */
         #tour-overlay {
             position: fixed; inset: 0; z-index: 9999;
-            pointer-events: none;
+            pointer-events: auto;   /* ← 背面クリックをブロック */
         }
         #tour-spotlight {
             position: fixed; z-index: 10000;
             border-radius: 16px;
             box-shadow: 0 0 0 9999px rgba(0,0,0,0.65);
             transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
-            pointer-events: none;
+            pointer-events: none;   /* spotlight自体は透過 */
         }
         #tour-tooltip {
             position: fixed; z-index: 10001;
@@ -87,6 +88,7 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.25);
             transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
             font-family: sans-serif;
+            pointer-events: auto;   /* ← tooltipのボタンはクリック可能 */
         }
     </style>
 </head>
@@ -127,18 +129,18 @@
                     </button>
 
                     <!-- アンケートボタン -->
-                    <button onclick="window.open('https://forms.gle/byfhaFViuqJkjoSY7','_blank')" class="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group transition-colors" title="ユーザーアンケートに答える">
-                        <i data-lucide="clipboard-list" class="w-5 h-5 group-hover:scale-110 transition-all duration-300 text-pink-500 dark:text-cyan-400"></i>
+                    <button onclick="window.open('https://forms.gle/byfhaFViuqJkjoSY7','_blank')" class="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group transition-colors" title="フィードバックを送る">
+                        <i data-lucide="send" class="w-5 h-5 group-hover:scale-110 transition-all duration-300 text-pink-500 dark:text-cyan-400"></i>
                     </button>
 
                     <!-- APIキー設定ボタン -->
                     <button id="key-config-toggle-btn" onclick="toggleKeyConfigModal(true)" class="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group transition-colors" title="Gemini APIキーを登録変更する">
-                        <i data-lucide="key" class="w-5 h-5 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-pink-505 dark:text-cyan-400"></i>
+                        <i data-lucide="key" class="w-5 h-5 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 text-pink-500 dark:text-cyan-400"></i>
                     </button>
 
                     <!-- お知らせボタン -->
                     <button id="announcement-toggle-btn" onclick="toggleAnnouncementModal(true)" class="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-707 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group transition-colors" title="お知らせを見る">
-                        <i data-lucide="megaphone" class="w-5 h-5 group-hover:scale-110 transition-all duration-500 text-pink-505 dark:text-cyan-400"></i>
+                        <i data-lucide="megaphone" class="w-5 h-5 group-hover:scale-110 transition-all duration-500 text-pink-500 dark:text-cyan-400"></i>
                     </button>
 
                     <!-- 手動テーマ切り替えボタン -->
@@ -209,12 +211,12 @@
                             </label>
                             <div id="image-preview-container" class="hidden w-full h-full flex flex-col items-center justify-center relative">
                                 <div class="relative inline-block max-w-full">
-                                    <img id="image-preview" src="" alt="アップロードプレビュー" class="max-h-40 rounded-lg object-contain shadow-md border border-slate-200 dark:border-slate-800 cursor-zoom-in hover:opacity-90 transition-opacity" />
+                                    <img id="image-preview" src="" alt="アップロードプレビュー" onclick="toggleImageExpandModal(true)" class="max-h-40 rounded-lg object-contain shadow-md border border-slate-200 dark:border-slate-800 cursor-zoom-in hover:opacity-90 transition-opacity" title="クリックで拡大" />
                                     <button id="clear-image-btn" type="button" class="absolute -top-3 -right-3 bg-rose-600 hover:bg-rose-500 text-white rounded-full p-1.5 shadow-md transition-all animate-fade-in" title="画像を外す">
                                         <i data-lucide="x" class="w-4 h-4"></i>
                                     </button>
                                 </div>
-                                <span id="image-name" class="text-xs text-slate-605 dark:text-slate-455 font-semibold mt-2 truncate max-w-xs block">image.jpg</span>
+                                <span id="image-name" class="text-xs text-slate-605 dark:text-slate-400 font-semibold mt-2 truncate max-w-xs block">image.jpg</span>
                             </div>
                         </div>
                     </div>
@@ -234,7 +236,7 @@
             </section>
 
             <!-- 右側：予習結果ノート表示の大メインパネル -->
-            <section id="right-content-panel" class="w-full max-w-4xl bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-sm dark:shadow-xl transition-colors duration-305 backdrop-blur-md relative">
+            <section id="right-content-panel" class="w-full max-w-4xl bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-sm dark:shadow-xl transition-colors duration-300 backdrop-blur-md relative">
                 
                 <!-- ホームダッシュボード -->
                 <div id="home-container" class="w-full p-6 md:p-12 space-y-8 sm:space-y-12 bg-gradient-to-b from-slate-100/50 to-slate-200/20 dark:from-[#0c1220]/50 dark:to-slate-950 animate-fade-in mx-auto">
@@ -250,7 +252,7 @@
                     <!-- モード選択カード -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mx-auto" id="home-navigation-cards">
                         <!-- カード 1. 英語コミュニケーション -->
-                        <button id="mode-card-0" onclick="selectTab(0)" class="p-6 bg-white dark:bg-[#0f172a] hover:bg-slate-50 dark:hover:bg-[#1e293b] border border-slate-200 dark:border-slate-805/80 hover:border-pink-500 dark:hover:border-cyan-500 rounded-2xl text-left transition-all duration-305 flex flex-col justify-between min-h-[160px] md:h-48 group shadow-sm hover:-translate-y-1">
+                        <button id="mode-card-0" onclick="selectTab(0)" class="p-6 bg-white dark:bg-[#0f172a] hover:bg-slate-50 dark:hover:bg-[#1e293b] border border-slate-200 dark:border-slate-805/80 hover:border-pink-500 dark:hover:border-cyan-500 rounded-2xl text-left transition-all duration-300 flex flex-col justify-between min-h-[160px] md:h-48 group shadow-sm hover:-translate-y-1">
                             <div class="flex justify-between items-start w-full">
                                 <div class="p-3 bg-slate-50 dark:bg-slate-900/80 text-pink-500 dark:text-cyan-400 group-hover:bg-gradient-to-br group-hover:from-pink-500 group-hover:to-orange-500 dark:group-hover:from-cyan-400 dark:group-hover:to-blue-500 group-hover:text-white dark:group-hover:text-white transition-all duration-300 shadow-sm rounded-xl flex items-center justify-center">
                                     <i data-lucide="message-circle" class="w-6 h-6"></i>
@@ -264,42 +266,76 @@
                         </button>
 
                         <!-- カード 2. 論理表現 (ロック) -->
-                        <button id="mode-card-1" onclick="selectTab(1)" class="p-6 bg-white dark:bg-[#0f172a] hover:bg-slate-50 dark:hover:bg-[#1e293b] border border-slate-200 dark:border-slate-800 rounded-2xl text-left transition-all duration-300 flex flex-col justify-between min-h-[160px] md:h-48 group shadow-sm hover:-translate-y-1 opacity-75 cursor-not-allowed">
+                        <button id="mode-card-1" onclick="selectTab(1)" class="p-6 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-2xl text-left transition-all duration-300 flex flex-col justify-between min-h-[160px] md:h-48 shadow-sm opacity-60 cursor-not-allowed">
                             <div class="flex justify-between items-start w-full">
-                                <div class="p-3 bg-slate-100 dark:bg-slate-900/50 text-slate-404 dark:text-slate-505 flex items-center justify-center rounded-xl">
-                                    <i data-lucide="lock" class="w-5 h-5"></i>
+                                <div class="p-3 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center rounded-xl">
+                                    <i data-lucide="lock" class="w-5 h-5 text-slate-400 dark:text-slate-500"></i>
                                 </div>
-                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-505 bg-slate-100 dark:bg-slate-900/40 px-2 py-1 rounded font-mono border border-slate-200 dark:border-slate-800">Coming Soon</span>
+                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded font-mono border border-slate-200 dark:border-slate-700">Coming Soon</span>
                             </div>
                             <div class="space-y-1 mt-4 md:mt-0">
-                                <span class="text-xs sm:text-sm font-extrabold text-slate-400 dark:text-slate-500 block animate-none">論理表現</span>
-                                <span class="text-[10px] text-slate-404 dark:text-slate-505 block leading-relaxed font-semibold">現在開発アップデート中...</span>
+                                <span class="text-xs sm:text-sm font-extrabold text-slate-400 dark:text-slate-500 block">論理表現</span>
+                                <span class="text-[10px] text-slate-400 dark:text-slate-500 block leading-relaxed font-semibold">現在開発アップデート中...</span>
                             </div>
                         </button>
 
                         <!-- カード 3. 英文添削機能 (ロック) -->
-                        <button id="mode-card-2" onclick="selectTab(2)" class="p-6 bg-white dark:bg-[#0f172a] hover:bg-slate-50 dark:hover:bg-[#1e293b] border border-slate-200 dark:border-slate-800 rounded-2xl text-left transition-all duration-300 flex flex-col justify-between min-h-[160px] md:h-48 group shadow-sm hover:-translate-y-1 opacity-75 cursor-not-allowed">
+                        <button id="mode-card-2" onclick="selectTab(2)" class="p-6 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 rounded-2xl text-left transition-all duration-300 flex flex-col justify-between min-h-[160px] md:h-48 shadow-sm opacity-60 cursor-not-allowed">
                             <div class="flex justify-between items-start w-full">
-                                <div class="p-3 bg-slate-100 dark:bg-slate-900/50 text-[#64748b] flex items-center justify-center rounded-xl">
-                                    <i data-lucide="lock" class="w-5 h-5 text-slate-404 dark:text-slate-505"></i>
+                                <div class="p-3 bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center rounded-xl">
+                                    <i data-lucide="lock" class="w-5 h-5 text-slate-400 dark:text-slate-500"></i>
                                 </div>
-                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-505 bg-slate-100 dark:bg-slate-900/40 px-2 py-1 rounded font-mono border border-slate-200 dark:border-slate-800">Coming Soon</span>
+                                <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded font-mono border border-slate-200 dark:border-slate-700">Coming Soon</span>
                             </div>
                             <div class="space-y-1 mt-4 md:mt-0">
-                                <span class="text-xs sm:text-sm font-extrabold text-slate-404 dark:text-slate-505 block animate-none">英文添削機能</span>
-                                <span class="text-[10px] text-slate-404 dark:text-slate-505 block leading-relaxed font-semibold">現在開発アップデート中...</span>
+                                <span class="text-xs sm:text-sm font-extrabold text-slate-400 dark:text-slate-500 block">英文添削機能</span>
+                                <span class="text-[10px] text-slate-400 dark:text-slate-500 block leading-relaxed font-semibold">現在開発アップデート中...</span>
                             </div>
                         </button>
                     </div>
 
-                    <!-- 【スキャン予習履歴機能セクション】 (編集時にスムーズに名前変更ができます) -->
-                    <div id="history-section" class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800 space-y-4 hidden">
-                        <div class="flex items-center space-x-2">
-                            <i data-lucide="history" class="w-5 h-5 text-pink-505 dark:text-cyan-400"></i>
-                            <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">スキャン予習履歴から再開</h3>
+                    <!-- 履歴セクション: 常時表示 -->
+                    <div id="history-section" class="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <i data-lucide="history" class="w-4 h-4 text-pink-500 dark:text-cyan-400"></i>
+                                <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">スキャン予習履歴</h3>
+                            </div>
+                            <!-- ゴミ箱ボタン（削除済みがある時だけ表示） -->
+                            <button id="trash-btn" onclick="toggleTrashModal(true)" class="hidden flex items-center space-x-1 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 rounded-lg text-[11px] font-bold transition-all" title="削除した履歴を見る">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                <span id="trash-count">0</span>
+                            </button>
                         </div>
-                        <div id="history-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto scrollbar-none">
-                            <!-- スキャンの履歴カードがJSによりバグフリーで動的に追加されます -->
+                        <div id="history-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-64 overflow-y-auto scrollbar-none">
+                            <!-- JSで動的に生成 -->
+                        </div>
+                        <!-- 空の時 -->
+                        <div id="history-empty" class="hidden py-6 flex flex-col items-center text-center space-y-1.5">
+                            <i data-lucide="inbox" class="w-7 h-7 text-slate-300 dark:text-slate-700"></i>
+                            <p class="text-xs font-bold text-slate-400 dark:text-slate-600">履歴はありません</p>
+                        </div>
+                    </div>
+                    <!-- ゴミ箱モーダル -->
+                    <div id="trash-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+                        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-2xl max-w-md w-full transform scale-95 transition-all duration-300" id="trash-modal-card">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-2">
+                                    <i data-lucide="trash-2" class="w-4 h-4 text-rose-500"></i>
+                                    <h3 class="text-sm font-black text-slate-900 dark:text-white">削除した履歴</h3>
+                                </div>
+                                <button onclick="toggleTrashModal(false)" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
+                                    <i data-lucide="x" class="w-4 h-4 text-slate-500"></i>
+                                </button>
+                            </div>
+                            <div id="trash-list" class="space-y-2 max-h-64 overflow-y-auto scrollbar-none"></div>
+                            <div id="trash-empty" class="py-6 text-center hidden">
+                                <p class="text-xs font-bold text-slate-400 dark:text-slate-600">ゴミ箱は空です</p>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                                <button onclick="emptyTrash()" class="text-[11px] font-bold text-rose-400 hover:text-rose-600 transition-colors">ゴミ箱を空にする</button>
+                                <button onclick="toggleTrashModal(false)" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all">閉じる</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,7 +350,7 @@
                             </div>
                             <div>
                                 <h3 class="text-sm font-extrabold text-slate-900 dark:text-white" id="notebook-mode-title">スキャン結果画面</h3>
-                                <p class="text-xs text-slate-500 dark:text-slate-404 font-semibold" id="notebook-mode-desc">予習アシストがまもなく起動します</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 font-semibold" id="notebook-mode-desc">予習アシストがまもなく起動します</p>
                             </div>
                         </div>
                     </div>
@@ -329,7 +365,7 @@
                                     <i id="scan-pulse-icon" data-lucide="scan-line" class="w-5 h-5 animate-pulse"></i>
                                 </div>
                                 <h4 class="text-sm font-black text-slate-900 dark:text-white">スキャン予習分析 待機中</h4>
-                                <p class="text-xs text-slate-555 dark:text-slate-404 mt-1 max-w-md font-semibold leading-relaxed">
+                                <p class="text-xs text-slate-555 dark:text-slate-400 mt-1 max-w-md font-semibold leading-relaxed">
                                     左のインプットパネルから本文プリントの表面写真をアップロードし、ボタンを押してください。以下の予習ノートが瞬時に生成されます。
                                 </p>
                             </div>
@@ -342,7 +378,7 @@
                                     </div>
                                     <div>
                                         <h5 class="text-xs font-black text-slate-900 dark:text-white">本文（ピリオド対訳・文法理由解説）</h5>
-                                        <p class="text-[10px] text-slate-500 dark:text-slate-450 mt-1 font-semibold leading-relaxed">一文ずつ美しく改行され、正確な和訳と「なぜその訳になるのか」の文法解説が対照表記されます。</p>
+                                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-relaxed">一文ずつ美しく改行され、正確な和訳と「なぜその訳になるのか」の文法解説が対照表記されます。</p>
                                     </div>
                                 </div>
 
@@ -352,12 +388,12 @@
                                     </div>
                                     <div>
                                         <h5 class="text-xs font-black text-slate-900 dark:text-white">Put into Japanese</h5>
-                                        <p class="text-[10px] text-slate-500 dark:text-slate-404 mt-1 font-semibold leading-relaxed">丸数字に対応する正確な和訳と、テストで減点されないための訳し方の重要ポイントを徹底指導します。</p>
+                                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-relaxed">丸数字に対応する正確な和訳と、テストで減点されないための訳し方の重要ポイントを徹底指導します。</p>
                                     </div>
                                 </div>
 
                                 <div class="p-4 bg-white dark:bg-[#0c1220]/90 border border-slate-200/50 dark:border-slate-855 rounded-2xl flex items-start space-x-3.5 shadow-sm">
-                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-505 dark:text-cyan-400">
+                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400">
                                         <i id="preview-book-icon" data-lucide="book-open" class="w-4.5 h-4.5"></i>
                                     </div>
                                     <div>
@@ -367,42 +403,29 @@
                                 </div>
 
                                 <div class="p-4 bg-white dark:bg-[#0c1220]/90 border border-slate-200/50 dark:border-slate-800/80 rounded-2xl flex items-start space-x-3.5 shadow-sm">
-                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-505 dark:text-cyan-400">
+                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400">
                                         <i id="preview-help-icon" data-lucide="help-circle" class="w-4.5 h-4.5"></i>
                                     </div>
                                     <div>
                                         <h5 class="text-xs font-black text-slate-900 dark:text-white">Questionsの解答解説</h5>
-                                        <p class="text-[10px] text-slate-550 dark:text-slate-404 mt-1 font-semibold leading-relaxed">英語の質問に対して的確な回答例を提示し、本文の該当箇所を引用しながら解き方を明快に解説します。</p>
+                                        <p class="text-[10px] text-slate-550 dark:text-slate-400 mt-1 font-semibold leading-relaxed">英語の質問に対して的確な回答例を提示し、本文の該当箇所を引用しながら解き方を明快に解説します。</p>
                                     </div>
                                 </div>
 
                                 <div class="p-4 bg-gradient-to-br from-white to-pink-50/10 dark:from-[#0c1220]/90 dark:to-cyan-955/25 border border-slate-200 dark:border-slate-800/80 rounded-2xl flex items-start space-x-3.5 shadow-sm">
-                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-505 dark:text-cyan-400">
+                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400">
                                         <i id="preview-game-icon" data-lucide="gamepad-2" class="w-4.5 h-4.5"></i>
                                     </div>
                                     <div>
                                         <h5 class="text-xs font-black text-slate-900 dark:text-white">Vocabulary 単語テスト</h5>
-                                        <p class="text-[10px] text-slate-500 dark:text-slate-404 mt-1 font-semibold leading-relaxed">「この中にはない」選択肢を含む厳格な4択＋1クイズを全問自動生成。予習ついでにボキャブラリーを完全定着させます。</p>
+                                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-relaxed">「この中にはない」選択肢を含む厳格な4択＋1クイズを全問自動生成。予習ついでにボキャブラリーを完全定着させます。</p>
                                     </div>
                                 </div>
 
-                                <div class="p-4 bg-gradient-to-br from-white to-indigo-50/10 dark:from-[#0c1220]/90 dark:to-indigo-900/10 border border-slate-200 dark:border-slate-800/80 rounded-2xl flex items-start space-x-3.5 shadow-sm">
-                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-505 dark:text-cyan-400">
-                                        <i data-lucide="message-circle" class="w-4.5 h-4.5"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="text-xs font-black text-slate-900 dark:text-white">AI家庭教師チャット</h5>
-                                        <p class="text-[10px] text-slate-500 dark:text-slate-404 mt-1 font-semibold leading-relaxed">分からない文法・和訳・構文をその場で質問。スキャンした教材を丸ごと文脈として理解したAIが即座に解説します。</p>
-                                    </div>
-                                </div>
-
-                                <div class="p-4 bg-gradient-to-br from-white to-rose-50/10 dark:from-[#0c1220]/90 dark:to-rose-900/10 border border-slate-200 dark:border-slate-800/80 rounded-2xl flex items-start space-x-3.5 shadow-sm">
-                                    <div class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-pink-505 dark:text-cyan-400">
-                                        <i data-lucide="award" class="w-4.5 h-4.5"></i>
-                                    </div>
+                                
                                     <div>
                                         <h5 class="text-xs font-black text-slate-900 dark:text-white">定期テスト予想問題</h5>
-                                        <p class="text-[10px] text-slate-500 dark:text-slate-404 mt-1 font-semibold leading-relaxed">本文の文法・構文の傾向を分析し、本番さながらの予想問題を3題自動作成。解説付きで本番直前対策が完結します。</p>
+                                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-semibold leading-relaxed">本文の文法・構文の傾向を分析し、本番さながらの予想問題を3題自動作成。解説付きで本番直前対策が完結します。</p>
                                     </div>
                                 </div>
                             </div>
@@ -423,9 +446,9 @@
                             <h4 id="loading-status-title" class="text-base font-black text-slate-900 dark:text-white mb-2">本文プリントを徹底解析中...</h4>
                             <!-- 下部に水平プログレスバーを併設 -->
                             <div class="w-64 h-2 bg-slate-100 dark:bg-[#0c1220] rounded-full overflow-hidden mb-4 border border-slate-205 dark:border-slate-750">
-                                <div id="scan-progress-bar-fill" class="h-full bg-gradient-to-r from-pink-500 to-rose-400 dark:from-cyan-400 dark:to-blue-500 w-0 transition-all duration-305"></div>
+                                <div id="scan-progress-bar-fill" class="h-full bg-gradient-to-r from-pink-500 to-rose-400 dark:from-cyan-400 dark:to-blue-500 w-0 transition-all duration-300"></div>
                             </div>
-                            <p id="loading-status-desc" class="text-xs text-slate-500 dark:text-slate-404 max-w-sm leading-relaxed font-semibold px-4">
+                            <p id="loading-status-desc" class="text-xs text-slate-500 dark:text-slate-400 max-w-sm leading-relaxed font-semibold px-4">
                                 AIモデルがテキストや画像を読み取り、予習情報を爆速生成しています...
                             </p>
                         </div>
@@ -455,9 +478,9 @@
                 <i data-lucide="menu" class="w-6 h-6"></i>
             </span>
         </button>
-        <div id="quick-nav-links" class="flex flex-col space-y-1 bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 p-3 rounded-2xl shadow-xl backdrop-blur-md transform translate-x-40 opacity-0 pointer-events-none transition-all duration-305 w-48 font-bold">
+        <div id="quick-nav-links" class="flex flex-col space-y-1 bg-white/95 dark:bg-slate-900/95 border border-slate-200 dark:border-slate-800 p-3 rounded-2xl shadow-xl backdrop-blur-md transform translate-x-40 opacity-0 pointer-events-none transition-all duration-300 w-48 font-bold">
             <button onclick="scrollToSection('section-transcription')" class="flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-all text-left">
-                <i id="quick-text-icon" data-lucide="file-text" class="w-4 h-4 text-pink-505 dark:text-cyan-400"></i>
+                <i id="quick-text-icon" data-lucide="file-text" class="w-4 h-4 text-pink-500 dark:text-cyan-400"></i>
                 <span class="text-slate-700 dark:text-slate-300">本文</span>
             </button>
             <button onclick="scrollToSection('section-put-into')" class="flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-all text-left">
@@ -465,7 +488,7 @@
                 <span class="text-slate-700 dark:text-slate-300">Put into Japanese</span>
             </button>
             <button onclick="scrollToSection('section-vocabulary')" class="flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-all text-left">
-                <i id="quick-book-icon" data-lucide="book-open" class="w-4 h-4 text-pink-505 dark:text-cyan-400 shrink-0"></i>
+                <i id="quick-book-icon" data-lucide="book-open" class="w-4 h-4 text-pink-500 dark:text-cyan-400 shrink-0"></i>
                 <span class="text-slate-700 dark:text-slate-300">Vocabulary</span>
             </button>
             <button onclick="scrollToSection('section-quiz-box')" class="flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-all text-left">
@@ -476,16 +499,13 @@
                 <i id="quick-help-icon" data-lucide="help-circle" class="w-4 h-4 text-pink-500 dark:text-cyan-400 shrink-0"></i>
                 <span class="text-slate-700 dark:text-slate-300">Questions</span>
             </button>
-            <button onclick="scrollToSection('section-ai-interactive-suite')" class="flex items-center space-x-2.5 px-3 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-all text-left bg-gradient-to-r from-pink-500/10 to-transparent dark:from-cyan-500/10 border-l-2 border-pink-500 dark:border-cyan-400">
-                <i data-lucide="sparkles" class="w-4 h-4 text-pink-500 dark:text-cyan-400 animate-pulse"></i>
-                <span class="text-pink-600 dark:text-cyan-400">AI個別特訓</span>
-            </button>
+            
         </div>
     </div>
 
     <!-- お知らせモーダル -->
-    <div id="announcement-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-955/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-305">
-        <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl max-w-lg w-full transform scale-95 transition-all duration-305" id="announcement-modal-card">
+    <div id="announcement-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl max-w-lg w-full transform scale-95 transition-all duration-300" id="announcement-modal-card">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
                 <div class="flex items-center space-x-2.5">
                     <div class="p-2 bg-pink-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400 rounded-xl">
@@ -498,16 +518,28 @@
                 </button>
             </div>
 
-            <div class="space-y-4 animate-fade-in">
+            <div class="space-y-3 animate-fade-in max-h-72 overflow-y-auto scrollbar-none pr-0.5">
+                <!-- Ver1.0.0 正式リリース -->
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-cyan-950/40 dark:to-blue-950/40 p-3.5 rounded-xl border border-pink-200 dark:border-cyan-800/60">
+                    <div class="flex items-center space-x-1.5 mb-1">
+                        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-pink-500 dark:bg-cyan-500 text-white tracking-wider">🎉 RELEASE</span>
+                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500">Ver 1.0.0</span>
+                    </div>
+                    <h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1">本日 Ver1.0.0 正式リリース‼</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed">英語予習ProMasterが正式版として公開されました！<br>※バグなどがある場合は「フィードバックを送信」ボタンからお伝えください。</p>
+                </div>
+                <!-- スキャン機能搭載 -->
                 <div class="bg-slate-100/60 dark:bg-slate-900/40 p-3.5 rounded-xl border border-slate-200/60 dark:border-slate-800/80">
-                    <span class="text-[9px] font-black uppercase text-pink-500 dark:text-cyan-400">UPDATE</span>
-                    <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 mt-1">本格予習スキャン機能が搭載完了</h4>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-404 mt-1 font-medium leading-relaxed">英語コミュニケーションの無駄な入力タブを整理し、画像スキャン専用に最適化。本文の対訳、和訳解説、Vocabulary、Questionsを完全に生成します。</p>
+                    <div class="flex items-center space-x-1.5 mb-1">
+                        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-500 text-white tracking-wider">⚡ UPDATE</span>
+                    </div>
+                    <h4 class="text-xs font-bold text-slate-800 dark:text-slate-100 mt-0.5">本格予習スキャン機能が搭載完了</h4>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 font-medium leading-relaxed">画像スキャン専用に最適化。本文の対訳、和訳解説、Vocabulary、Questionsを完全に生成します。</p>
                 </div>
             </div>
 
             <div class="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end">
-                <button onclick="toggleAnnouncementModal(false)" class="px-5 py-2 bg-slate-150 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-[#1e293b] text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-all">
+                <button onclick="toggleAnnouncementModal(false)" class="px-5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-[#1e293b] text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-all">
                     閉じる
                 </button>
             </div>
@@ -515,8 +547,8 @@
     </div>
 
     <!-- Gemini APIキー設定モーダル -->
-    <div id="key-config-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-955/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-305">
-        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl max-w-md w-full transform scale-95 transition-all duration-305" id="key-config-modal-card">
+    <div id="key-config-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl max-w-md w-full transform scale-95 transition-all duration-300" id="key-config-modal-card">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3 mb-4">
                 <div class="flex items-center space-x-2.5">
                     <div class="p-2 bg-pink-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400 rounded-xl">
@@ -561,7 +593,7 @@
     </div>
 
     <!-- Image拡大プレビューモーダル -->
-    <div id="image-expand-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-955/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 font-sans">
+    <div id="image-expand-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 font-sans">
         <div class="relative max-w-4xl w-full flex flex-col items-center">
             <!-- 閉じるボタン -->
             <button onclick="toggleImageExpandModal(false)" class="absolute -top-12 right-0 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all focus:outline-none" title="閉じる">
@@ -573,25 +605,37 @@
     </div>
 
     <!-- 通常トースト -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 px-5 py-4 rounded-2xl shadow-2xl max-w-sm flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-305 pointer-events-none z-50 font-sans">
+    <div id="toast" class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 px-5 py-4 rounded-2xl shadow-2xl max-w-sm flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans">
         <div class="p-1.5 bg-pink-100 dark:bg-cyan-900/40 rounded-full text-pink-500 dark:text-cyan-400">
             <i data-lucide="info" class="w-5 h-5"></i>
         </div>
         <p class="text-sm font-bold" id="toast-message">メッセージ</p>
     </div>
 
-    <!-- エラートースト（コピーボタン付き） -->
-    <div id="error-toast" class="fixed bottom-6 right-6 bg-white dark:bg-slate-900 border border-rose-300 dark:border-rose-700 text-slate-800 dark:text-slate-100 px-5 py-4 rounded-2xl shadow-2xl max-w-sm flex flex-col gap-2.5 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans">
-        <div class="flex items-start space-x-3">
+    <!-- アンドゥトースト（ゴミ箱移動時） -->
+    <div id="undo-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 dark:bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl max-w-sm flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans border border-slate-700">
+        <p class="text-xs font-bold flex-1" id="undo-toast-message"></p>
+        <button onclick="undoLastDelete()" class="shrink-0 px-3 py-1 bg-pink-500 dark:bg-cyan-500 hover:opacity-90 text-white rounded-lg text-[11px] font-black transition-all pointer-events-auto">元に戻す</button>
+    </div>
+
+    <!-- エラートースト（コピー＋フィードバックボタン付き） -->
+    <div id="error-toast" class="fixed bottom-6 right-6 bg-white dark:bg-slate-900 border border-rose-300 dark:border-rose-700 text-slate-800 dark:text-slate-100 px-4 py-3.5 rounded-2xl shadow-2xl max-w-xs flex flex-col gap-2 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans">
+        <div class="flex items-start space-x-2.5">
             <div class="p-1.5 bg-rose-100 dark:bg-rose-900/40 rounded-full text-rose-500 dark:text-rose-400 shrink-0 mt-0.5">
-                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
             </div>
-            <p class="text-xs font-bold text-rose-700 dark:text-rose-300 leading-relaxed" id="error-toast-message">エラー</p>
+            <p class="text-[11px] font-bold text-rose-700 dark:text-rose-300 leading-relaxed" id="error-toast-message">エラー</p>
         </div>
-        <button id="error-copy-btn" onclick="copyErrorMessage()" class="self-end flex items-center space-x-1.5 px-3 py-1.5 bg-rose-100 hover:bg-rose-200 dark:bg-rose-900/40 dark:hover:bg-rose-800/60 text-rose-600 dark:text-rose-300 rounded-lg text-[11px] font-black transition-all active:scale-95">
-            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-            <span id="error-copy-label">エラー内容をコピー</span>
-        </button>
+        <div class="flex items-center justify-end space-x-2 pt-0.5">
+            <button id="error-copy-btn" onclick="copyErrorMessage()" class="flex items-center space-x-1 px-2.5 py-1.5 bg-rose-100 hover:bg-rose-200 dark:bg-rose-900/40 dark:hover:bg-rose-800/60 text-rose-600 dark:text-rose-300 rounded-lg text-[11px] font-black transition-all active:scale-95 pointer-events-auto">
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                <span id="error-copy-label">コピー</span>
+            </button>
+            <button onclick="copyAndOpenFeedback()" class="flex items-center space-x-1 px-2.5 py-1.5 bg-pink-500 hover:bg-pink-600 dark:bg-cyan-600 dark:hover:bg-cyan-500 text-white rounded-lg text-[11px] font-black transition-all active:scale-95 pointer-events-auto" title="エラー内容をコピーしてフィードバックフォームを開く">
+                <i data-lucide="send" class="w-3 h-3"></i>
+                <span>報告する</span>
+            </button>
+        </div>
     </div>
 
     <!-- ツアーオーバーレイ -->
@@ -876,19 +920,33 @@
 
         // セクション目次スクロール — カード要素の先頭に正確にジャンプ
         function scrollToSection(id) {
-            const el = document.getElementById(id);
             const container = document.getElementById('notebook-display-area');
-            if (!el || !container) return;
+            if (!container) return;
 
-            // コンテナ内の相対offsetTopを再帰計算
-            let offsetTop = 0;
-            let cur = el;
-            while (cur && cur !== container) {
-                offsetTop += cur.offsetTop;
-                cur = cur.offsetParent;
-            }
-            container.scrollTo({ top: Math.max(0, offsetTop - 8), behavior: 'smooth' });
+            // 目次を先に閉じる
             if (isQuickNavOpen) toggleQuickNav();
+
+            // セクションカードを特定
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            // コンテナ内でのel.offsetTopを正確に計算
+            // el.offsetParentをコンテナに到達するまで積み上げる
+            let top = 0;
+            let node = el;
+            while (node && node !== container) {
+                top += node.offsetTop;
+                node = node.offsetParent;
+                // offsetParentがcontainerを飛び越えた場合（fixed/absolute混入）は
+                // getBoundingClientRect方式にフォールバック
+                if (node && !container.contains(node)) {
+                    const cRect = container.getBoundingClientRect();
+                    const eRect = el.getBoundingClientRect();
+                    top = container.scrollTop + eRect.top - cRect.top;
+                    break;
+                }
+            }
+            container.scrollTo({ top: Math.max(0, top - 12), behavior: 'smooth' });
         }
 
         // 5. タブと画面の切り替え
@@ -969,7 +1027,7 @@
 
             if (index === 0) {
                 if (imageUploadPanel) {
-                    imageUploadPanel.className = "lg:col-span-5 lg:sticky lg:top-24 w-full bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 flex flex-col space-y-4 shadow-sm dark:shadow-xl backdrop-blur-md transition-all duration-305";
+                    imageUploadPanel.className = "lg:col-span-5 lg:sticky lg:top-24 w-full bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 flex flex-col space-y-4 shadow-sm dark:shadow-xl backdrop-blur-md transition-all duration-300";
                     imageUploadPanel.classList.remove('hidden');
                 }
                 
@@ -1251,17 +1309,23 @@
                 if (quickNavMenu) quickNavMenu.classList.add('hidden');
             }
 
+            // 0-90%を30秒かけて進め、90-95%まで緩やかに。完了時に100%へ
+            let elapsed = 0;
+            const TOTAL_MS = 30000;
             const progressTimer = setInterval(() => {
-                if (progress < 99) {
-                    let remaining = 100 - progress;
-                    let increment = remaining * 0.15;
-                    if (increment < 0.1) increment = 0.1;
-                    progress += increment;
-                    let displayProgress = Math.min(Math.floor(progress), 99);
-                    if (progressPercentText && progressBarFill) {
-                        progressPercentText.textContent = `${displayProgress}%`;
-                        progressBarFill.style.width = `${displayProgress}%`;
-                    }
+                elapsed += 350;
+                let p;
+                if (elapsed < TOTAL_MS) {
+                    // 90%まで線形
+                    p = Math.min(90, (elapsed / TOTAL_MS) * 90);
+                } else {
+                    // 超えたら95%までゆっくり
+                    p = Math.min(95, 90 + (elapsed - TOTAL_MS) / 20000 * 5);
+                }
+                progress = p;
+                if (progressPercentText && progressBarFill) {
+                    progressPercentText.textContent = `${Math.floor(p)}%`;
+                    progressBarFill.style.width = `${p}%`;
                 }
             }, 350);
 
@@ -1344,11 +1408,19 @@
             try {
                 const responseData = await fetchGeminiWithBackoff(payload);
                 if (responseData && responseData.error) throw new Error(responseData.error.message || "Gemini APIエラーが発生しました。");
-                if (!responseData || !responseData.candidates || !responseData.candidates[0] || !responseData.candidates[0].content || !responseData.candidates[0].content.parts || !responseData.candidates[0].content.parts[0]) {
-                    throw new Error("解析中に予期せぬエラーが発生しました。");
+                const candidate = responseData && responseData.candidates && responseData.candidates[0];
+                if (!candidate) {
+                    const blocked = responseData && responseData.promptFeedback && responseData.promptFeedback.blockReason;
+                    throw new Error(blocked ? `画像がブロックされました: ${blocked}` : "APIから応答がありませんでした。");
+                }
+                const finishReason = candidate.finishReason;
+                if (finishReason === "SAFETY") throw new Error("安全フィルターにより画像がブロックされました。別の画像をお試しください。");
+                if (finishReason === "RECITATION") throw new Error("著作権フィルターにより処理がブロックされました。");
+                if (!candidate.content || !candidate.content.parts || !candidate.content.parts[0] || !candidate.content.parts[0].text) {
+                    throw new Error(`解析結果が空でした (finishReason: ${finishReason || "不明"})。画像が鮮明か確認してください。`);
                 }
 
-                const rawJsonText = responseData.candidates[0].content.parts[0].text;
+                const rawJsonText = candidate.content.parts[0].text;
                 clearInterval(progressTimer);
                 if (progressPercentText && progressBarFill) {
                     progressPercentText.textContent = "100%";
@@ -1443,50 +1515,160 @@
             }
         }
 
-        function renderHistoryList() {
-            const container = document.getElementById('history-section');
-            const listEl = document.getElementById('history-list');
-            if (!container || !listEl) return;
+        // ゴミ箱データ
+        let trashedHistory = [];
 
-            if (scanHistory.length === 0) {
-                container.classList.add('hidden');
-                return;
+        function renderHistoryList() {
+            const listEl    = document.getElementById('history-list');
+            const emptyEl   = document.getElementById('history-empty');
+            const trashBtn  = document.getElementById('trash-btn');
+            const trashCnt  = document.getElementById('trash-count');
+            if (!listEl) return;
+
+            listEl.innerHTML = '';
+
+            // ゴミ箱ボタン表示制御
+            if (trashBtn) {
+                if (trashedHistory.length > 0) {
+                    trashBtn.classList.remove('hidden');
+                    if (trashCnt) trashCnt.textContent = trashedHistory.length;
+                } else {
+                    trashBtn.classList.add('hidden');
+                }
             }
 
-            container.classList.remove('hidden');
-            listEl.innerHTML = "";
+            if (scanHistory.length === 0) {
+                if (emptyEl) emptyEl.classList.remove('hidden');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+            if (emptyEl) emptyEl.classList.add('hidden');
 
             scanHistory.forEach(item => {
-                const previewText = item.data.transcription ? item.data.transcription.substring(0, 32) + "..." : "No preview text available.";
+                const preview = item.data.transcription ? item.data.transcription.substring(0, 32) + '…' : 'プレビューなし';
                 const card = document.createElement('div');
-                card.className = "flex items-center justify-between p-3.5 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 hover:border-pink-400 dark:hover:border-cyan-400 rounded-xl transition-all cursor-pointer shadow-sm group hover:-translate-y-0.5";
+                card.className = 'flex items-center justify-between p-3.5 bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 hover:border-pink-400 dark:hover:border-cyan-400 rounded-xl transition-all cursor-pointer shadow-sm group hover:-translate-y-0.5';
                 card.onclick = () => loadHistoryItem(item.id);
-
                 card.innerHTML = `
                     <div class="flex items-start space-x-3 truncate">
-                        <div class="p-2 bg-pink-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400 rounded-lg group-hover:scale-105 transition-all">
+                        <div class="p-2 bg-pink-100 dark:bg-slate-800 text-pink-500 dark:text-cyan-400 rounded-lg group-hover:scale-105 transition-all shrink-0">
                             <i data-lucide="file-check" class="w-4 h-4"></i>
                         </div>
-                        <div class="truncate text-left">
-                            <h4 class="text-xs font-black text-slate-800 dark:text-slate-200 truncate max-w-[160px]" id="history-name-text-${item.id}">
-                                ${escapeHtml(item.name)}
-                            </h4>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate max-w-[160px] font-medium italic">${escapeHtml(previewText)}</p>
+                        <div class="truncate text-left min-w-0">
+                            <h4 class="text-xs font-black text-slate-800 dark:text-slate-200 truncate">${escapeHtml(item.name)}</h4>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate font-medium italic">${escapeHtml(preview)}</p>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-1 shrink-0">
-                        <button onclick="renameHistoryItem(event, ${item.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 hover:text-pink-500 transition-colors" title="名前を変更">
+                    <div class="flex items-center space-x-1 shrink-0 ml-2">
+                        <button onclick="renameHistoryItem(event,${item.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 hover:text-pink-500 transition-colors" title="名前を変更">
                             <i data-lucide="edit-2" class="w-3.5 h-3.5"></i>
                         </button>
-                        <button onclick="deleteHistoryItem(event, ${item.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 hover:text-rose-500 transition-colors" title="履歴から削除">
+                        <button onclick="softDeleteHistoryItem(event,${item.id})" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-400 hover:text-rose-500 transition-colors" title="ゴミ箱に移動">
                             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                         </button>
-                    </div>
-                `;
+                    </div>`;
                 listEl.appendChild(card);
             });
-
             if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        // ゴミ箱に移動（ソフト削除）
+        function softDeleteHistoryItem(e, id) {
+            e.stopPropagation();
+            const item = scanHistory.find(x => x.id === id);
+            if (!item) return;
+            trashedHistory.unshift(item);
+            scanHistory = scanHistory.filter(x => x.id !== id);
+            renderHistoryList();
+            // アンドゥトースト
+            showUndoToast(`「${item.name}」をゴミ箱に移動しました`, () => {
+                trashedHistory = trashedHistory.filter(x => x.id !== id);
+                scanHistory.unshift(item);
+                renderHistoryList();
+            });
+        }
+
+        // アンドゥ付きトースト
+        let undoTimer = null;
+        function showUndoToast(msg, undoFn) {
+            const el = document.getElementById('undo-toast');
+            const msgEl = document.getElementById('undo-toast-message');
+            if (!el || !msgEl) { showToast(msg); return; }
+            if (undoTimer) clearTimeout(undoTimer);
+            msgEl.textContent = msg;
+            el.dataset.hasFn = '1';
+            el._undoFn = undoFn;
+            el.classList.remove('translate-y-24','opacity-0','pointer-events-none');
+            el.classList.add('translate-y-0','opacity-100');
+            undoTimer = setTimeout(() => {
+                el.classList.add('translate-y-24','opacity-0','pointer-events-none');
+                el.classList.remove('translate-y-0','opacity-100');
+            }, 5000);
+        }
+
+        function undoLastDelete() {
+            const el = document.getElementById('undo-toast');
+            if (el && el._undoFn) { el._undoFn(); el._undoFn = null; }
+            if (el) {
+                el.classList.add('translate-y-24','opacity-0','pointer-events-none');
+                el.classList.remove('translate-y-0','opacity-100');
+            }
+        }
+
+        // ゴミ箱モーダル
+        function toggleTrashModal(show) {
+            const modal = document.getElementById('trash-modal');
+            const card  = document.getElementById('trash-modal-card');
+            if (!modal || !card) return;
+            if (show) {
+                renderTrashList();
+                modal.classList.remove('opacity-0','pointer-events-none');
+                card.classList.remove('scale-95'); card.classList.add('scale-100');
+            } else {
+                modal.classList.add('opacity-0','pointer-events-none');
+                card.classList.remove('scale-100'); card.classList.add('scale-95');
+            }
+        }
+
+        function renderTrashList() {
+            const listEl  = document.getElementById('trash-list');
+            const emptyEl = document.getElementById('trash-empty');
+            if (!listEl) return;
+            listEl.innerHTML = '';
+            if (trashedHistory.length === 0) {
+                if (emptyEl) emptyEl.classList.remove('hidden');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+            if (emptyEl) emptyEl.classList.add('hidden');
+            trashedHistory.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl';
+                row.innerHTML = `
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300 truncate max-w-[200px]">${escapeHtml(item.name)}</span>
+                    <button onclick="restoreFromTrash(${item.id})" class="flex items-center space-x-1 px-2.5 py-1 bg-green-100 hover:bg-green-200 dark:bg-green-900/40 dark:hover:bg-green-800/60 text-green-700 dark:text-green-300 rounded-lg text-[11px] font-black transition-all">
+                        <i data-lucide="undo-2" class="w-3 h-3"></i><span>元に戻す</span>
+                    </button>`;
+                listEl.appendChild(row);
+            });
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function restoreFromTrash(id) {
+            const item = trashedHistory.find(x => x.id === id);
+            if (!item) return;
+            trashedHistory = trashedHistory.filter(x => x.id !== id);
+            scanHistory.unshift(item);
+            renderHistoryList();
+            renderTrashList();
+            showToast(`「${item.name}」を履歴に戻しました`);
+        }
+
+        function emptyTrash() {
+            if (!confirm('ゴミ箱の履歴をすべて完全削除しますか？')) return;
+            trashedHistory = [];
+            renderTrashList();
+            renderHistoryList();
         }
 
         function loadHistoryItem(id) {
@@ -1848,11 +2030,11 @@
                             <h5 class="text-sm font-black text-slate-900 dark:text-white">AIオリジナル学習ストーリー: ${escapeHtml(resultJson.title)}</h5>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs leading-relaxed font-bold">
-                            <div class="bg-white dark:bg-slate-955 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-inner select-text">
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-inner select-text">
                                 <span class="text-[9px] uppercase tracking-wider text-pink-500 dark:text-cyan-400 font-extrabold block mb-2">English Text</span>
                                 <div class="text-slate-800 dark:text-slate-100">${resultJson.storyEnglish}</div>
                             </div>
-                            <div class="bg-white dark:bg-slate-955 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-inner select-text">
+                            <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-inner select-text">
                                 <span class="text-[9px] uppercase tracking-wider text-pink-500 dark:text-cyan-400 font-extrabold block mb-2">和訳・対訳</span>
                                 <div class="text-slate-600 dark:text-slate-300">${escapeHtml(resultJson.storyJapanese)}</div>
                             </div>
@@ -1957,7 +2139,7 @@
 
             const q = aiExamDataList[aiExamCurrentIdx];
             let choicesHtml = q.choices.map((choice, i) => `
-                <button onclick="submitAiPredictiveAnswer('${escapeHtml(choice)}')" class="w-full text-left p-3.5 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold bg-white dark:bg-slate-955 hover:bg-pink-50 dark:hover:bg-cyan-955/20 hover:border-pink-300 dark:hover:border-cyan-500 text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between group active:scale-99 animate-fade-in">
+                <button onclick="submitAiPredictiveAnswer('${escapeHtml(choice)}')" class="w-full text-left p-3.5 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold bg-white dark:bg-slate-900 hover:bg-pink-50 dark:hover:bg-cyan-955/20 hover:border-pink-300 dark:hover:border-cyan-500 text-slate-800 dark:text-slate-200 transition-all flex items-center justify-between group active:scale-99 animate-fade-in">
                     <span>${String.fromCharCode(65 + i)}. ${escapeHtml(choice)}</span>
                     <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-pink-500 dark:group-hover:text-cyan-400 transition-colors"></i>
                 </button>
@@ -1974,7 +2156,7 @@
                         <span class="text-[10px] font-extrabold bg-pink-100 dark:bg-slate-800 text-pink-600 dark:text-cyan-400 px-2 py-0.5 rounded-lg shadow-sm">AI Predictor</span>
                     </div>
 
-                    <div class="p-4 bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-800 rounded-xl shadow-inner">
+                    <div class="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-inner">
                         <p class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-slate-100 leading-relaxed">${escapeHtml(q.questionText)}</p>
                     </div>
 
@@ -2026,7 +2208,7 @@
                         <h5 class="text-base font-black ${isCorrect ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-404'}">${isCorrect ? 'AI予測に正解' : '予測不一致'}</h5>
                     </div>
 
-                    <div class="bg-white dark:bg-slate-955 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs select-text text-slate-800 dark:text-slate-202 text-left">
+                    <div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs select-text text-slate-800 dark:text-slate-202 text-left">
                         <p class="font-bold"><strong>問題:</strong> ${escapeHtml(q.questionText)}</p>
                         <p class="font-semibold text-slate-600 dark:text-slate-400"><strong>あなたの解答:</strong> <span class="${isCorrect ? 'text-emerald-600' : 'text-rose-500'} font-black">${escapeHtml(selectedChoice)}</span></p>
                         <p class="font-semibold text-slate-600 dark:text-slate-400"><strong>正解の選択肢:</strong> <span class="text-emerald-505 font-bold">${escapeHtml(q.correctAnswer)}</span></p>
@@ -2057,7 +2239,7 @@
             const accuracy = Math.round((correctCount / aiExamDataList.length) * 100);
 
             let summaryHtml = aiExamAnswersCheck.map(ans => `
-                <div class="p-3 bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-808 rounded-xl space-y-1 text-[11px] text-left leading-relaxed">
+                <div class="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-808 rounded-xl space-y-1 text-[11px] text-left leading-relaxed">
                     <p class="font-bold text-slate-800 dark:text-slate-100 flex items-center space-x-1.5">
                         <i data-lucide="${ans.isCorrect ? 'check-circle' : 'x-circle'}" class="${ans.isCorrect ? 'text-emerald-500' : 'text-rose-500'} w-4 h-4 shrink-0"></i>
                         <span>問 ${ans.num}: ${escapeHtml(ans.questionText)}</span>
@@ -2074,7 +2256,7 @@
                         <h5 class="text-base font-black text-slate-900 dark:text-white mt-1">AI試験対策テスト 採点結果</h5>
                     </div>
 
-                    <div class="py-4 bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-808 rounded-2xl shadow-inner max-w-sm mx-auto space-y-1">
+                    <div class="py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-808 rounded-2xl shadow-inner max-w-sm mx-auto space-y-1">
                         <p class="text-3xl font-black text-pink-500 dark:text-cyan-400 font-mono">${correctCount} / ${aiExamDataList.length}</p>
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">正答率 ${accuracy}%</p>
                     </div>
@@ -2146,7 +2328,7 @@
                                     <strong>正確な和訳:</strong> ${escapeHtml(item.japanese)}
                                 </p>
                                 <div class="text-xs text-slate-600 dark:text-slate-300 font-bold leading-relaxed pt-3 border-t border-pink-200 dark:border-slate-800 flex items-start space-x-2">
-                                    <i data-lucide="help-circle" class="w-4 h-4 text-pink-505 dark:text-cyan-400 shrink-0 mt-0.5"></i>
+                                    <i data-lucide="help-circle" class="w-4 h-4 text-pink-500 dark:text-cyan-400 shrink-0 mt-0.5"></i>
                                     <span><strong>訳し方のポイント解説:</strong> ${escapeHtml(item.translationPoint)}</span>
                                 </div>
                             </div>
@@ -2244,88 +2426,7 @@
                 `;
                 scanResultContainer.appendChild(questionsCard);
 
-                // --- ⑥ AI個別特訓・インタラクティブ・スイート (LLM追加モジュール) ---
-                const aiInteractiveSuite = document.createElement('div');
-                aiInteractiveSuite.id = "section-ai-interactive-suite";
-                aiInteractiveSuite.className = "bg-gradient-to-br from-pink-500/10 via-rose-500/5 to-slate-50 dark:from-cyan-500/10 dark:via-indigo-950/20 dark:to-slate-900 border-2 border-pink-300 dark:border-cyan-500 rounded-3xl p-6 md:p-8 shadow-lg space-y-6 animate-fade-in transition-colors duration-500";
-                aiInteractiveSuite.innerHTML = `
-                    <div class="flex items-center space-x-3 border-b border-pink-200 dark:border-cyan-800 pb-4">
-                        <div class="p-2 bg-pink-500 dark:bg-cyan-500 text-white rounded-xl shadow">
-                            <i data-lucide="sparkles" class="w-5 h-5 text-white animate-pulse"></i>
-                        </div>
-                        <div>
-                            <h4 class="text-base font-black tracking-wider text-slate-900 dark:text-white">AI個別特訓アドバンスド・スイート</h4>
-                            <p class="text-[10px] text-slate-500 dark:text-slate-404 font-extrabold">スキャンした英文プリント情報を限界活用するLLM拡張特訓モジュール</p>
-                        </div>
-                    </div>
-
-                    <!-- 3大機能へのナビゲーションチップ -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <button onclick="scrollToSection('ai-individual-chat-card')" class="p-3 bg-white dark:bg-slate-955 border border-pink-200 dark:border-cyan-900/50 hover:border-pink-500 dark:hover:border-cyan-400 rounded-2xl text-left transition-all hover:scale-[1.01] shadow-sm">
-                            <span class="text-xs font-black text-pink-600 dark:text-cyan-400 flex items-center space-x-1">
-                                <i data-lucide="message-circle" class="w-4 h-4"></i>
-                                <span>AI質問アシスタント</span>
-                            </span>
-                            <span class="text-[9px] text-slate-404 block mt-1 leading-relaxed">予習の疑問を何でもその場で解決</span>
-                        </button>
-                        <button onclick="generateAiVocabularyStory()" class="p-3 bg-white dark:bg-slate-955 border border-pink-200 dark:border-cyan-900/50 hover:border-pink-500 dark:hover:border-cyan-400 rounded-2xl text-left transition-all hover:scale-[1.01] shadow-sm">
-                            <span class="text-xs font-black text-pink-600 dark:text-cyan-400 flex items-center space-x-1">
-                                <i data-lucide="book-open" class="w-4 h-4"></i>
-                                <span>記憶定着 AIストーリー</span>
-                            </span>
-                            <span class="text-[9px] text-slate-404 block mt-1 leading-relaxed">重要単語で作るあなた専用対訳小説</span>
-                        </button>
-                        <button onclick="generateAiPredictiveExam()" class="p-3 bg-white dark:bg-slate-955 border border-pink-200 dark:border-cyan-900/50 hover:border-pink-500 dark:hover:border-cyan-400 rounded-2xl text-left transition-all hover:scale-[1.01] shadow-sm">
-                            <span class="text-xs font-black text-pink-600 dark:text-cyan-400 flex items-center space-x-1">
-                                <i data-lucide="award" class="w-4 h-4"></i>
-                                <span>定期テスト 予想問題</span>
-                            </span>
-                            <span class="text-[9px] text-slate-404 block mt-1 leading-relaxed">傾向文法から出題する自動攻略テスト</span>
-                        </button>
-                    </div>
-
-                    <!-- 1. AIチャットカード -->
-                    <div id="ai-individual-chat-card" class="bg-white dark:bg-slate-955 border border-slate-200 dark:border-slate-808 rounded-2xl p-4 space-y-3.5 shadow-inner transition-colors">
-                        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-808 pb-2">
-                            <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5">
-                                <i data-lucide="message-square" class="w-4.5 h-4.5 text-pink-500"></i>
-                                <span>AI家庭教師チャットルーム</span>
-                            </span>
-                            <span class="text-[9px] text-slate-400">Contextual Learning Powered by Gemini</span>
-                        </div>
-
-                        <!-- 履歴表示コンテナ -->
-                        <div id="ai-chat-message-log" class="h-44 overflow-y-auto bg-slate-50 dark:bg-[#0a0f1d] p-3 rounded-xl border border-slate-200/60 dark:border-slate-808/80 shadow-inner scrollbar-none space-y-3 transition-colors">
-                            <div class="flex justify-start mb-3.5">
-                                <div class="max-w-[85%] bg-slate-100 dark:bg-slate-800 text-slate-707 dark:text-slate-300 rounded-2xl rounded-tl-none px-4 py-2.5 text-xs font-bold shadow-sm transition-colors">
-                                    こんにちは。このプリントについて分からない文法や、和訳をもっと違った日本語にしたいなど、何でも聞いてね。
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- サジェストチップ -->
-                        <div class="flex flex-wrap gap-1.5 text-[9px] font-black">
-                            <button onclick="fillAiChatSuggest('この本文全体の文法の最重要ポイントを3行でまとめてください。')" class="px-2.5 py-1 rounded-lg bg-pink-100/50 hover:bg-pink-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-pink-600 dark:text-cyan-400 border border-pink-200/50 dark:border-slate-700 transition-colors">文法ポイントを3行で</button>
-                            <button onclick="fillAiChatSuggest('出てくる助動詞や重要仮定法の解説をもっと詳しく教えて！')" class="px-2.5 py-1 rounded-lg bg-pink-100/50 hover:bg-pink-100 dark:bg-slate-800 dark:hover:bg-slate-700 text-pink-600 dark:text-cyan-400 border border-pink-200/50 dark:border-slate-700 transition-colors">助動詞 仮定法解説</button>
-                            <button onclick="fillAiChatSuggest('この英文と同等の意味で書き換え可能な、より簡単な英作文例を作って！')" class="px-2.5 py-1 rounded-lg bg-pink-100/50 hover:bg-pink-100 dark:bg-slate-800 dark:hover:bg-slate-750 text-pink-600 dark:text-cyan-400 border border-pink-200/50 dark:border-slate-700 transition-colors">同一意味の英作書き換え</button>
-                        </div>
-
-                        <!-- 入力フィールド -->
-                        <div class="flex items-center space-x-2">
-                            <input type="text" id="ai-chat-input-field" class="flex-1 bg-slate-50 dark:bg-[#0c1220] border border-slate-200 dark:border-slate-808 rounded-xl px-3 py-2.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-pink-500 dark:focus:ring-cyan-400 text-slate-800 dark:text-slate-100 placeholder-slate-400 transition-colors" placeholder="AIチャットに質問を投げかける..." onkeydown="if(event.key === 'Enter') sendAiChatQuery()">
-                            <button onclick="sendAiChatQuery()" class="p-2.5 bg-pink-500 hover:bg-pink-600 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center">
-                                <i data-lucide="send" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- 2. AIオリジナルストーリー出力領域 -->
-                    <div id="ai-story-result-box" class="hidden"></div>
-
-                    <!-- 3. AI定期テスト予想問題領域 -->
-                    <div id="ai-exam-result-box" class="hidden"></div>
-                `;
-                scanResultContainer.appendChild(aiInteractiveSuite);
+                
 
                 // クイズデータのキャッシュ
                 quizVocabularySource = data.vocabulary;
@@ -2388,23 +2489,26 @@
 
         function copyErrorMessage() {
             if (!lastErrorMessage) return;
-            navigator.clipboard.writeText(lastErrorMessage).then(() => {
-                const labelEl = document.getElementById('error-copy-label');
-                if (labelEl) {
-                    labelEl.textContent = 'コピーしました！';
-                    setTimeout(() => { labelEl.textContent = 'エラー内容をコピー'; }, 2000);
-                }
-            }).catch(() => {
-                // フォールバック
+            const label = document.getElementById('error-copy-label');
+            const copyFn = () => {
+                if (label) { label.textContent = 'コピー済み✓'; setTimeout(() => { label.textContent = 'コピー'; }, 2000); }
+            };
+            navigator.clipboard.writeText(lastErrorMessage).then(copyFn).catch(() => {
                 const ta = document.createElement('textarea');
                 ta.value = lastErrorMessage;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                const labelEl = document.getElementById('error-copy-label');
-                if (labelEl) labelEl.textContent = 'コピーしました！';
+                document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+                copyFn();
             });
+        }
+
+        function copyAndOpenFeedback() {
+            if (!lastErrorMessage) return;
+            navigator.clipboard.writeText(lastErrorMessage).catch(() => {
+                const ta = document.createElement('textarea');
+                ta.value = lastErrorMessage;
+                document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+            });
+            setTimeout(() => window.open('https://forms.gle/byfhaFViuqJkjoSY7', '_blank'), 200);
         }
 
         // ===== 使い方ツアー =====
@@ -2417,7 +2521,7 @@
             {
                 targetId: 'key-config-toggle-btn',
                 title: 'Step 1: Gemini APIキーを登録する',
-                desc: '🔑 まずこの鍵ボタンを押してAPIキーを登録します。\n\nAPIキーの取得方法:\n① https://aistudio.google.com にアクセス\n② Googleアカウントでサインイン\n③「Get API key」→「Create API key」をクリック\n④ 表示されたキーをコピーしてここに貼り付けてください。\n\n無料で利用できます（18歳未満も可）。',
+                desc: '🔑 まずこの鍵ボタンを押してAPIキーを登録します。\n\nAPIキーの取得方法:\n① Google AI Studio にアクセス\n② Googleアカウントでサインイン\n③「Get API key」→「Create API key」をクリック\n④ 表示されたキーをコピーしてここに貼り付けてください。\n\n無料で利用できます（18歳未満も可）。', link: { label: 'Google AI Studio を開く', url: 'https://aistudio.google.com' },
             },
             {
                 targetId: 'mode-card-0',
@@ -2445,7 +2549,7 @@
             {
                 targetId: 'announcement-toggle-btn',
                 title: 'ツアー完了！',
-                desc: 'お知らせボタンで最新のアップデート情報を確認できます。ご不明な点はアンケートボタンからフィードバックをお送りください。楽しい予習を！🎉',
+                desc: 'お知らせボタンで最新のアップデート情報を確認できます。ご不明な点はフィードバックボタンからお気軽にお送りください。楽しい予習を！🎉',
             },
         ];
 
@@ -2455,6 +2559,7 @@
         function startTour() {
             tourActive = true;
             tourCurrentStep = 0;
+            document.body.style.overflow = 'hidden'; // 背景スクロール禁止
             const overlay = document.getElementById('tour-overlay');
             if (overlay) overlay.classList.remove('hidden');
             renderTourStep(tourCurrentStep);
@@ -2462,12 +2567,15 @@
 
         function endTour() {
             tourActive = false;
+            document.body.style.overflow = ''; // スクロール復元
             const overlay = document.getElementById('tour-overlay');
             const spotlight = document.getElementById('tour-spotlight');
             const tooltip = document.getElementById('tour-tooltip');
             if (overlay) overlay.classList.add('hidden');
             if (spotlight) spotlight.style.cssText = '';
             if (tooltip) tooltip.style.cssText = '';
+            const linkBtn = document.getElementById('tour-link-btn');
+            if (linkBtn) linkBtn.remove();
         }
 
         function tourNext() {
@@ -2490,20 +2598,38 @@
             const step = TOUR_STEPS[idx];
             if (!step) return;
 
-            // onShow コールバック
             if (step.onShow) step.onShow();
 
             const titleEl = document.getElementById('tour-title');
-            const descEl = document.getElementById('tour-desc');
+            const descEl  = document.getElementById('tour-desc');
             const badgeEl = document.getElementById('tour-step-badge');
             const prevBtn = document.getElementById('tour-prev-btn');
             const nextBtn = document.getElementById('tour-next-btn');
-            const dotsEl = document.getElementById('tour-dots');
+            const dotsEl  = document.getElementById('tour-dots');
+            const tooltip  = document.getElementById('tour-tooltip');
+            const spotlight = document.getElementById('tour-spotlight');
+            if (!tooltip || !spotlight) return;
 
             if (titleEl) titleEl.textContent = step.title;
-            if (descEl) { descEl.innerHTML = ''; descEl.style.whiteSpace = 'pre-line'; descEl.textContent = step.desc; }
+            if (descEl) {
+                descEl.style.whiteSpace = 'pre-line';
+                descEl.textContent = step.desc;
+            }
+            // リンクボタン
+            const existingLink = document.getElementById('tour-link-btn');
+            if (existingLink) existingLink.remove();
+            if (step.link) {
+                const linkBtn = document.createElement('a');
+                linkBtn.id = 'tour-link-btn';
+                linkBtn.href = step.link.url;
+                linkBtn.target = '_blank';
+                linkBtn.rel = 'noopener noreferrer';
+                linkBtn.className = 'inline-flex items-center space-x-1.5 mt-2 mb-1 px-3 py-1.5 bg-blue-100 hover:bg-blue-200 dark:bg-blue-900/40 dark:hover:bg-blue-800/60 text-blue-700 dark:text-blue-300 rounded-lg text-[11px] font-black transition-all pointer-events-auto no-underline';
+                linkBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>' + step.link.label + '</span>';
+                if (descEl) descEl.insertAdjacentElement('afterend', linkBtn);
+            }
             if (badgeEl) badgeEl.textContent = `Step ${idx + 1} / ${TOUR_STEPS.length}`;
-            if (prevBtn) prevBtn.style.opacity = idx === 0 ? '0.3' : '1';
+            if (prevBtn) { prevBtn.style.opacity = idx === 0 ? '0.3' : '1'; prevBtn.style.pointerEvents = idx === 0 ? 'none' : 'auto'; }
             if (nextBtn) nextBtn.textContent = idx === TOUR_STEPS.length - 1 ? '完了 ✓' : '次へ →';
 
             // ドット
@@ -2511,45 +2637,65 @@
                 dotsEl.innerHTML = '';
                 TOUR_STEPS.forEach((_, i) => {
                     const d = document.createElement('div');
-                    d.className = `w-1.5 h-1.5 rounded-full transition-all ${i === idx ? 'bg-pink-500 dark:bg-cyan-400 w-3' : 'bg-slate-300 dark:bg-slate-600'}`;
+                    d.style.cssText = `width:${i===idx?'12px':'6px'};height:6px;border-radius:9999px;background:${i===idx?(globalTheme==='dark'?'#22d3ee':'#ec4899'):'#cbd5e1'};transition:all 0.3s`;
                     dotsEl.appendChild(d);
                 });
             }
 
-            // スポットライト位置計算
-            const target = document.getElementById(step.targetId);
-            const spotlight = document.getElementById('tour-spotlight');
-            const tooltip = document.getElementById('tour-tooltip');
-            if (!spotlight || !tooltip) return;
+            // テーマに合わせてtooltipの色を強制設定
+            const isDark = globalTheme === 'dark';
+            tooltip.style.background   = isDark ? '#0c1220' : '#ffffff';
+            tooltip.style.borderColor  = isDark ? '#1e293b' : '#e2e8f0';
+            tooltip.style.color        = isDark ? '#e2e8f0' : '#1e293b';
 
-            const pad = 12;
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                setTimeout(() => {
-                    const r = target.getBoundingClientRect();
+            const targetEl = document.getElementById(step.targetId);
+            const pad = 10;
+
+            const positionTooltip = () => {
+                const r = targetEl ? targetEl.getBoundingClientRect() : null;
+
+                // スポットライト
+                if (r && r.width > 0) {
                     spotlight.style.cssText = `
-                        left: ${r.left - pad}px; top: ${r.top - pad}px;
-                        width: ${r.width + pad * 2}px; height: ${r.height + pad * 2}px;
-                        border-radius: 16px;
-                        box-shadow: 0 0 0 9999px rgba(0,0,0,0.65);
-                        pointer-events: none;
-                        position: fixed; z-index: 10000;
-                        transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+                        left:${r.left-pad}px; top:${r.top-pad}px;
+                        width:${r.width+pad*2}px; height:${r.height+pad*2}px;
+                        border-radius:16px;
+                        box-shadow:0 0 0 9999px rgba(0,0,0,0.65);
+                        pointer-events:none;
+                        position:fixed; z-index:10000;
+                        transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
                     `;
-                    // ツールチップ位置
-                    const tipW = 320, tipH = 220;
-                    let tx = r.right + 16;
-                    let ty = r.top + r.height / 2 - tipH / 2;
-                    if (tx + tipW > window.innerWidth - 16) tx = r.left - tipW - 16;
-                    if (tx < 16) tx = 16;
-                    if (ty < 16) ty = 16;
-                    if (ty + tipH > window.innerHeight - 16) ty = window.innerHeight - tipH - 16;
-                    tooltip.style.cssText = `left: ${tx}px; top: ${ty}px; max-width: ${tipW}px; position: fixed; z-index: 10001;`;
-                }, 200);
+                } else {
+                    spotlight.style.cssText = 'position:fixed;width:0;height:0;box-shadow:0 0 0 9999px rgba(0,0,0,0.65);top:50%;left:50%;z-index:10000;pointer-events:none;';
+                }
+
+                // ツールチップ位置
+                const tipW = 310;
+                const tipH = tooltip.offsetHeight || 240;
+                let tx, ty;
+                if (r && r.width > 0) {
+                    tx = r.right + 16;
+                    ty = r.top + r.height / 2 - tipH / 2;
+                    if (tx + tipW > window.innerWidth - 12) tx = r.left - tipW - 16;
+                    if (tx < 12) tx = Math.max(12, window.innerWidth/2 - tipW/2);
+                    if (ty < 12) ty = 12;
+                    if (ty + tipH > window.innerHeight - 12) ty = window.innerHeight - tipH - 12;
+                } else {
+                    tx = window.innerWidth/2 - tipW/2;
+                    ty = window.innerHeight/2 - tipH/2;
+                }
+                tooltip.style.left     = tx + 'px';
+                tooltip.style.top      = ty + 'px';
+                tooltip.style.maxWidth = tipW + 'px';
+                tooltip.style.position = 'fixed';
+                tooltip.style.zIndex   = '10001';
+            };
+
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                setTimeout(positionTooltip, 250);
             } else {
-                // ターゲットなし → 中央表示
-                spotlight.style.cssText = 'display:none';
-                tooltip.style.cssText = `left: 50%; top: 50%; transform: translate(-50%,-50%); max-width: 340px; position: fixed; z-index: 10001;`;
+                positionTooltip();
             }
         }
     </script>
