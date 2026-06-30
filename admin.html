@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>予習ProMaster 管理画面</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide-static/0.378.0/lucide.min.js"></script>
+<style>
+  :root{
+    --bg:#0b0f17; --panel:#11161f; --panel2:#161c28; --border:#232b3a;
+    --text:#e8ecf4; --sub:#8b94a8; --accent:#f59e0b; --accent2:#fb923c;
+    --green:#34d399; --red:#f87171; --blue:#60a5fa;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic UI",sans-serif;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:24px 16px 80px;}
+  header.top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 0 20px;border-bottom:1px solid var(--border);margin-bottom:24px;
+  }
+  header.top h1{font-size:15px;font-weight:900;margin:0;display:flex;align-items:center;gap:8px;}
+  header.top h1 .badge{
+    font-size:10px;font-weight:900;color:#0b0f17;background:var(--accent);
+    padding:2px 8px;border-radius:999px;
+  }
+  #logout-btn{
+    background:none;border:1px solid var(--border);color:var(--sub);
+    padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;
+  }
+  #logout-btn:hover{color:var(--text);border-color:var(--sub);}
+
+  #login-screen{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;flex-direction:column;
+    gap:18px; padding:24px;
+  }
+  #login-screen .card{
+    background:var(--panel);border:1px solid var(--border);border-radius:16px;
+    padding:32px 28px;width:100%;max-width:380px;
+  }
+  #login-screen h2{font-size:16px;font-weight:900;margin:0 0 6px;}
+  #login-screen p{font-size:12px;color:var(--sub);margin:0 0 20px;line-height:1.6;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:11px;font-weight:700;color:var(--sub);margin-bottom:6px;}
+  .field input, .field textarea, .field select{
+    width:100%;background:var(--panel2);border:1px solid var(--border);color:var(--text);
+    padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{outline:none;border-color:var(--accent);}
+  .field textarea{resize:vertical;min-height:64px;}
+  .btn{
+    width:100%;padding:12px;border-radius:10px;border:none;font-size:13px;font-weight:900;
+    cursor:pointer;transition:opacity .15s;
+  }
+  .btn:hover{opacity:.88;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#1a1205;}
+  .btn-secondary{background:var(--panel2);color:var(--text);border:1px solid var(--border);}
+  .btn-danger{background:rgba(248,113,113,.12);color:var(--red);border:1px solid rgba(248,113,113,.3);}
+  .btn-sm{padding:7px 12px;font-size:11px;width:auto;}
+  #login-error{color:var(--red);font-size:11px;font-weight:700;margin-top:10px;display:none;}
+
+  section.panel{
+    background:var(--panel);border:1px solid var(--border);border-radius:16px;
+    padding:20px;margin-bottom:18px;
+  }
+  section.panel h2{
+    font-size:13px;font-weight:900;margin:0 0 4px;display:flex;align-items:center;gap:8px;
+  }
+  section.panel h2 i{width:15px;height:15px;color:var(--accent);}
+  section.panel .desc{font-size:11px;color:var(--sub);margin:0 0 16px;line-height:1.6;}
+
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  @media(max-width:520px){.row2,.row3{grid-template-columns:1fr;}}
+
+  .item-card{
+    background:var(--panel2);border:1px solid var(--border);border-radius:12px;
+    padding:14px;margin-bottom:10px;
+  }
+  .item-card .item-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .item-card .item-title{font-size:12.5px;font-weight:800;}
+  .item-card .item-sub{font-size:10.5px;color:var(--sub);margin-top:2px;}
+  .item-actions{display:flex;gap:6px;flex-shrink:0;}
+  .icon-btn{
+    background:none;border:1px solid var(--border);color:var(--sub);
+    width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .icon-btn:hover{color:var(--text);border-color:var(--sub);}
+  .icon-btn.danger:hover{color:var(--red);border-color:var(--red);}
+
+  .empty-msg{font-size:11px;color:var(--sub);text-align:center;padding:18px 0;}
+
+  .pill-select{display:flex;gap:6px;flex-wrap:wrap;}
+  .pill{
+    padding:7px 14px;border-radius:999px;border:1.5px solid var(--border);
+    font-size:11px;font-weight:800;cursor:pointer;color:var(--sub);background:none;
+  }
+
+  #save-bar{
+    position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-top:1px solid var(--border);
+    padding:12px 16px;display:flex;gap:10px;justify-content:center;z-index:50;
+  }
+  #save-bar .inner{max-width:760px;width:100%;display:flex;gap:10px;align-items:center;}
+  #save-status{font-size:11px;color:var(--sub);flex:1;}
+  #save-status.ok{color:var(--green);}
+  #save-status.err{color:var(--red);}
+
+  .toast{
+    position:fixed;top:18px;left:50%;transform:translateX(-50%);
+    background:var(--panel2);border:1px solid var(--border);color:var(--text);
+    padding:10px 18px;border-radius:10px;font-size:12px;font-weight:700;z-index:200;
+    opacity:0;transition:opacity .25s; pointer-events:none;
+  }
+  .toast.show{opacity:1;}
+
+  #json-preview{
+    width:100%;background:#070a10;border:1px solid var(--border);color:#9aa5b8;
+    font-family:"SF Mono",Consolas,monospace;font-size:11px;line-height:1.6;
+    padding:14px;border-radius:10px;max-height:280px;overflow:auto;white-space:pre-wrap;
+  }
+  .hidden{display:none !important;}
+  .spinner{
+    width:14px;height:14px;border:2px solid rgba(255,255,255,.2);border-top-color:#fff;
+    border-radius:50%;animation:spin .6s linear infinite;display:inline-block;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="card">
+    <h2>予習ProMaster 管理画面</h2>
+    <p>GitHubリポジトリの <code>config.json</code> を直接編集します。<br>GitHub Personal Access Token（Fine-grained, Contents: Read & write）でログインしてください。</p>
+    <div class="field">
+      <label>GitHub Personal Access Token</label>
+      <input type="password" id="login-token" placeholder="ghp_xxxxxxxxxxxxxxxx">
+    </div>
+    <div class="field">
+      <label>リポジトリ（owner/repo）</label>
+      <input type="text" id="login-repo" placeholder="例：yourname/promaster">
+    </div>
+    <div class="field">
+      <label>ブランチ</label>
+      <input type="text" id="login-branch" value="main">
+    </div>
+    <button class="btn btn-primary" id="login-btn">ログイン</button>
+    <p id="login-error"></p>
+  </div>
+  <p style="font-size:10.5px;color:var(--sub);max-width:380px;text-align:center;line-height:1.7;">
+    Tokenはこの端末のブラウザ内（localStorage）にのみ保存され、外部送信はGitHub API宛のみです。<br>
+    Token発行：GitHub → Settings → Developer settings → Fine-grained tokens
+  </p>
+</div>
+
+<div id="admin-screen" class="hidden">
+  <div class="wrap">
+    <header class="top">
+      <h1><span class="badge">ADMIN</span>予習ProMaster 管理画面</h1>
+      <button id="logout-btn" onclick="logout()">ログアウト</button>
+    </header>
+
+    <section class="panel">
+      <h2><i data-lucide="megaphone"></i>お知らせ</h2>
+      <p class="desc">ユーザーが次回アプリを開いたときに全画面表示されます。一番上のお知らせが最新版として扱われます（バージョンが変わると再表示）。</p>
+      <div id="announcement-list"></div>
+      <p id="announcement-empty" class="empty-msg hidden">お知らせはまだありません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addAnnouncement()">＋ お知らせを追加</button>
+    </section>
+
+    <section class="panel">
+      <h2><i data-lucide="calendar-clock"></i>テスト・提出物の予定（全体配信）</h2>
+      <p class="desc">ここで追加した予定は、全ユーザーのHOME画面に「学校全体」予定として自動表示され、カウントダウンにも反映されます。</p>
+      <div id="schedule-list"></div>
+      <p id="schedule-empty" class="empty-msg hidden">予定はまだありません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addSchedule()">＋ 予定を追加</button>
+    </section>
+
+    <section class="panel">
+      <h2><i data-lucide="book-open"></i>英コミュ セクション追加</h2>
+      <p class="desc">新しいLesson/Sectionのプリセットデータを追加します。本体アプリの解析結果と同じJSON形式で入力してください。</p>
+      <div id="section-list"></div>
+      <p id="section-empty" class="empty-msg hidden">追加済みセクションはありません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addSection()">＋ セクションを追加</button>
+    </section>
+
+    <section class="panel">
+      <h2><i data-lucide="code"></i>config.json プレビュー</h2>
+      <p class="desc">保存ボタンを押すと、この内容でGitHubリポジトリの <code>config.json</code> がコミットされます。</p>
+      <pre id="json-preview">{}</pre>
+    </section>
+  </div>
+
+  <div id="save-bar">
+    <div class="inner">
+      <span id="save-status">未保存の変更があります</span>
+      <button class="btn btn-secondary btn-sm" onclick="reloadFromGitHub()">再読込</button>
+      <button class="btn btn-primary btn-sm" id="save-btn" onclick="saveToGitHub()">GitHubに保存して公開</button>
+    </div>
+  </div>
+</div>
+
+<div id="schedule-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:380px;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">予定を編集</h3>
+    <div class="field">
+      <label>種類</label>
+      <div class="pill-select">
+        <button type="button" class="pill" id="sch-type-test" onclick="setSchType('test')">テスト</button>
+        <button type="button" class="pill" id="sch-type-submission" onclick="setSchType('submission')">提出物</button>
+      </div>
+    </div>
+    <div class="field"><label>タイトル</label><input type="text" id="sch-title" placeholder="例：1学期期末考査"></div>
+    <div class="field"><label>教科（任意）</label><input type="text" id="sch-subject" placeholder="例：英語"></div>
+    <div class="field"><label>日付</label><input type="date" id="sch-date"></div>
+    <div class="field"><label>メモ（任意）</label><textarea id="sch-memo" placeholder="範囲・持ち物など"></textarea></div>
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeScheduleModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmSchedule()">反映する</button>
+    </div>
+  </div>
+</div>
+
+<div id="announcement-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:420px;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">お知らせを編集</h3>
+    <div class="row2">
+      <div class="field">
+        <label>バッジ</label>
+        <select id="ann-badge">
+          <option value="INFO">INFO</option>
+          <option value="UPDATE">UPDATE</option>
+          <option value="WARNING">WARNING</option>
+          <option value="IMPORTANT">IMPORTANT</option>
+        </select>
+      </div>
+      <div class="field"><label>バージョン</label><input type="text" id="ann-version" placeholder="例：1.2.0"></div>
+    </div>
+    <div class="field"><label>タイトル</label><input type="text" id="ann-title" placeholder="例：新機能を追加しました"></div>
+    <div class="field"><label>本文</label><textarea id="ann-body" placeholder="お知らせの詳細"></textarea></div>
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeAnnouncementModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmAnnouncement()">反映する</button>
+    </div>
+  </div>
+</div>
+
+<div id="section-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:520px;max-height:88vh;overflow:auto;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">セクションを追加</h3>
+    <div class="row3">
+      <div class="field"><label>ID（半角英数字）</label><input type="text" id="sec-id" placeholder="例：L2S1"></div>
+      <div class="field"><label>Lessonラベル</label><input type="text" id="sec-lesson-label" placeholder="例：Lesson 2"></div>
+      <div class="field"><label>Sectionラベル</label><input type="text" id="sec-section-label" placeholder="例：Section 1"></div>
+    </div>
+    <div class="field">
+      <label>解析結果データ（JSON）</label>
+      <textarea id="sec-data-json" style="min-height:220px;font-family:'SF Mono',Consolas,monospace;font-size:11px;" placeholder='{"lessonTitle":"...","transcription":"...","transcriptionAnalysis":[],"putIntoJapaneseAnswers":[],"vocabulary":[],"questions":[]}'></textarea>
+    </div>
+    <p id="sec-json-error" style="color:var(--red);font-size:11px;font-weight:700;display:none;"></p>
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeSectionModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmSection()">反映する</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let session = null;
+let configData = { announcements: [], globalSchedules: [], extraSections: [] };
+let currentSha = null;
+let dirty = false;
+const LS_KEY = 'pm_admin_session_v1';
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+document.getElementById('login-btn').addEventListener('click', async () => {
+  const token = document.getElementById('login-token').value.trim();
+  const repo = document.getElementById('login-repo').value.trim();
+  const branch = document.getElementById('login-branch').value.trim() || 'main';
+  const errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  if (!token || !repo) {
+    errEl.textContent = 'TokenとRepositoryは必須です';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  session = { token, repo, branch };
+  try {
+    await reloadFromGitHub();
+    localStorage.setItem(LS_KEY, JSON.stringify(session));
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('admin-screen').classList.remove('hidden');
+    lucide.createIcons();
+  } catch (e) {
+    errEl.textContent = '接続に失敗しました：' + e.message;
+    errEl.style.display = 'block';
+    session = null;
+  }
+});
+
+function logout() {
+  localStorage.removeItem(LS_KEY);
+  location.reload();
+}
+
+window.addEventListener('DOMContentLoaded', async () => {
+  lucide.createIcons();
+  const saved = localStorage.getItem(LS_KEY);
+  if (saved) {
+    try {
+      session = JSON.parse(saved);
+      await reloadFromGitHub();
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('admin-screen').classList.remove('hidden');
+      lucide.createIcons();
+    } catch (e) {
+      session = null;
+      localStorage.removeItem(LS_KEY);
+    }
+  }
+});
+
+function ghApiUrl() {
+  return `https://api.github.com/repos/${session.repo}/contents/config.json?ref=${encodeURIComponent(session.branch)}`;
+}
+
+async function reloadFromGitHub() {
+  const res = await fetch(ghApiUrl(), {
+    headers: { 'Authorization': `Bearer ${session.token}`, 'Accept': 'application/vnd.github+json' }
+  });
+  if (res.status === 404) {
+    currentSha = null;
+    configData = { announcements: [], globalSchedules: [], extraSections: [] };
+    renderAll();
+    setSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
+    return;
+  }
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`GitHub API エラー (${res.status}): ${body.slice(0,200)}`);
+  }
+  const json = await res.json();
+  currentSha = json.sha;
+  const decoded = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
+  configData = JSON.parse(decoded);
+  configData.announcements = configData.announcements || [];
+  configData.globalSchedules = configData.globalSchedules || [];
+  configData.extraSections = configData.extraSections || [];
+  dirty = false;
+  renderAll();
+  setSaveStatus('GitHubの最新内容を読み込みました', 'ok');
+  showToast('読み込み完了');
+}
+
+async function saveToGitHub() {
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.innerHTML = '<span class="spinner"></span>';
+  try {
+    const content = JSON.stringify(configData, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+    const body = {
+      message: `config.json を更新 (${new Date().toLocaleString('ja-JP')})`,
+      content: encoded,
+      branch: session.branch,
+    };
+    if (currentSha) body.sha = currentSha;
+
+    const res = await fetch(`https://api.github.com/repos/${session.repo}/contents/config.json`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${session.token}`,
+        'Accept': 'application/vnd.github+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const errBody = await res.text();
+      throw new Error(`保存に失敗しました (${res.status}): ${errBody.slice(0,200)}`);
+    }
+    const json = await res.json();
+    currentSha = json.content.sha;
+    dirty = false;
+    setSaveStatus('保存しました。ユーザーは次回アプリ起動時にこの内容が反映されます。', 'ok');
+    showToast('GitHubに保存しました');
+  } catch (e) {
+    setSaveStatus('エラー：' + e.message, 'err');
+    showToast('保存に失敗しました');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origText;
+  }
+}
+
+function setSaveStatus(msg, kind) {
+  const el = document.getElementById('save-status');
+  el.textContent = msg;
+  el.classList.remove('ok', 'err');
+  if (kind) el.classList.add(kind);
+}
+
+function markDirty() {
+  dirty = true;
+  setSaveStatus('未保存の変更があります');
+  updatePreview();
+}
+
+function updatePreview() {
+  document.getElementById('json-preview').textContent = JSON.stringify(configData, null, 2);
+}
+
+function renderAll() {
+  renderAnnouncements();
+  renderSchedules();
+  renderSections();
+  updatePreview();
+}
+
+const BADGE_COLOR = { INFO: '#06b6d4', UPDATE: '#34d399', WARNING: '#f59e0b', IMPORTANT: '#f87171' };
+
+function renderAnnouncements() {
+  const wrap = document.getElementById('announcement-list');
+  const empty = document.getElementById('announcement-empty');
+  const list = configData.announcements;
+  if (list.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  wrap.innerHTML = list.map((a, idx) => `
+    <div class="item-card">
+      <div class="item-head">
+        <div>
+          <span style="font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:999px;color:#0b0f17;background:${BADGE_COLOR[a.badge]||'#06b6d4'}">${esc(a.badge||'INFO')}</span>
+          <span class="item-title" style="margin-left:6px;">${esc(a.title||'(無題)')}</span>
+          <p class="item-sub">Ver ${esc(a.version||'-')} ・ ${esc((a.body||'').slice(0,60))}${(a.body||'').length>60?'…':''}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="editAnnouncement(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="removeAnnouncement(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function renderSchedules() {
+  const wrap = document.getElementById('schedule-list');
+  const empty = document.getElementById('schedule-empty');
+  const list = configData.globalSchedules;
+  if (list.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  const typeLabel = { test: 'テスト', submission: '提出物' };
+  wrap.innerHTML = list.map((s, idx) => `
+    <div class="item-card">
+      <div class="item-head">
+        <div>
+          <span class="item-title">${esc(s.title||'(無題)')}</span>
+          <p class="item-sub">${typeLabel[s.type]||s.type} ・ ${esc(s.subject||'-')} ・ ${esc(s.date||'-')}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="editSchedule(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="removeSchedule(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function renderSections() {
+  const wrap = document.getElementById('section-list');
+  const empty = document.getElementById('section-empty');
+  const list = configData.extraSections;
+  if (list.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  wrap.innerHTML = list.map((s, idx) => `
+    <div class="item-card">
+      <div class="item-head">
+        <div>
+          <span class="item-title">${esc(s.name || (s.lessonLabel+' '+s.sectionLabel))}</span>
+          <p class="item-sub">ID: ${esc(s.id||'-')}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="editSection(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="removeSection(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+let annEditIdx = null;
+function addAnnouncement() { openAnnouncementModal(null); }
+function editAnnouncement(idx) { openAnnouncementModal(idx); }
+function openAnnouncementModal(idx) {
+  annEditIdx = idx;
+  const a = idx != null ? configData.announcements[idx] : { badge: 'INFO', version: '', title: '', body: '' };
+  document.getElementById('ann-badge').value = a.badge || 'INFO';
+  document.getElementById('ann-version').value = a.version || '';
+  document.getElementById('ann-title').value = a.title || '';
+  document.getElementById('ann-body').value = a.body || '';
+  document.getElementById('announcement-modal').classList.remove('hidden');
+}
+function closeAnnouncementModal() {
+  document.getElementById('announcement-modal').classList.add('hidden');
+}
+function confirmAnnouncement() {
+  const entry = {
+    badge: document.getElementById('ann-badge').value,
+    version: document.getElementById('ann-version').value.trim(),
+    title: document.getElementById('ann-title').value.trim(),
+    body: document.getElementById('ann-body').value.trim(),
+  };
+  if (!entry.title || !entry.version) { showToast('バージョンとタイトルは必須です'); return; }
+  if (annEditIdx != null) configData.announcements[annEditIdx] = entry;
+  else configData.announcements.unshift(entry);
+  closeAnnouncementModal();
+  renderAnnouncements();
+  markDirty();
+}
+function removeAnnouncement(idx) {
+  if (!confirm('このお知らせを削除しますか？')) return;
+  configData.announcements.splice(idx, 1);
+  renderAnnouncements();
+  markDirty();
+}
+
+let schEditIdx = null;
+let schSelectedType = 'test';
+function addSchedule() { openScheduleModal(null); }
+function editSchedule(idx) { openScheduleModal(idx); }
+function openScheduleModal(idx) {
+  schEditIdx = idx;
+  const s = idx != null ? configData.globalSchedules[idx] : { type: 'test', title: '', subject: '', date: '', memo: '' };
+  document.getElementById('sch-title').value = s.title || '';
+  document.getElementById('sch-subject').value = s.subject || '';
+  document.getElementById('sch-date').value = s.date || '';
+  document.getElementById('sch-memo').value = s.memo || '';
+  setSchType(s.type || 'test');
+  document.getElementById('schedule-modal').classList.remove('hidden');
+}
+function setSchType(type) {
+  schSelectedType = type;
+  ['test', 'submission'].forEach(t => {
+    const btn = document.getElementById('sch-type-' + t);
+    const active = t === type;
+    btn.style.background = active ? '#f43f5e' : 'transparent';
+    btn.style.borderColor = active ? '#f43f5e' : 'var(--border)';
+    btn.style.color = active ? '#fff' : 'var(--sub)';
+  });
+}
+function closeScheduleModal() {
+  document.getElementById('schedule-modal').classList.add('hidden');
+}
+function confirmSchedule() {
+  const entry = {
+    id: Date.now(),
+    type: schSelectedType,
+    title: document.getElementById('sch-title').value.trim(),
+    subject: document.getElementById('sch-subject').value.trim() || null,
+    date: document.getElementById('sch-date').value,
+    memo: document.getElementById('sch-memo').value.trim() || null,
+  };
+  if (!entry.title || !entry.date) { showToast('タイトルと日付は必須です'); return; }
+  if (schEditIdx != null) {
+    entry.id = configData.globalSchedules[schEditIdx].id || entry.id;
+    configData.globalSchedules[schEditIdx] = entry;
+  } else {
+    configData.globalSchedules.push(entry);
+  }
+  closeScheduleModal();
+  renderSchedules();
+  markDirty();
+}
+function removeSchedule(idx) {
+  if (!confirm('この予定を削除しますか？')) return;
+  configData.globalSchedules.splice(idx, 1);
+  renderSchedules();
+  markDirty();
+}
+
+let secEditIdx = null;
+function addSection() { openSectionModal(null); }
+function editSection(idx) { openSectionModal(idx); }
+function openSectionModal(idx) {
+  secEditIdx = idx;
+  const s = idx != null ? configData.extraSections[idx] : { id: '', lessonLabel: '', sectionLabel: '', data: {} };
+  document.getElementById('sec-id').value = s.id || '';
+  document.getElementById('sec-lesson-label').value = s.lessonLabel || '';
+  document.getElementById('sec-section-label').value = s.sectionLabel || '';
+  document.getElementById('sec-data-json').value = s.data ? JSON.stringify(s.data, null, 2) : '';
+  document.getElementById('sec-json-error').style.display = 'none';
+  document.getElementById('section-modal').classList.remove('hidden');
+}
+function closeSectionModal() {
+  document.getElementById('section-modal').classList.add('hidden');
+}
+function confirmSection() {
+  const id = document.getElementById('sec-id').value.trim();
+  const lessonLabel = document.getElementById('sec-lesson-label').value.trim();
+  const sectionLabel = document.getElementById('sec-section-label').value.trim();
+  const dataRaw = document.getElementById('sec-data-json').value.trim();
+  const errEl = document.getElementById('sec-json-error');
+  errEl.style.display = 'none';
+
+  if (!id || !lessonLabel || !sectionLabel) { showToast('ID・ラベルは必須です'); return; }
+  let dataObj;
+  try {
+    dataObj = JSON.parse(dataRaw);
+  } catch (e) {
+    errEl.textContent = 'JSONの形式が正しくありません：' + e.message;
+    errEl.style.display = 'block';
+    return;
+  }
+  const entry = {
+    id, lessonLabel, sectionLabel,
+    name: `${lessonLabel}  ${dataObj.lessonTitle || ''}  ${sectionLabel}`,
+    data: dataObj,
+  };
+  if (secEditIdx != null) configData.extraSections[secEditIdx] = entry;
+  else configData.extraSections.push(entry);
+  closeSectionModal();
+  renderSections();
+  markDirty();
+}
+function removeSection(idx) {
+  if (!confirm('このセクションを削除しますか？')) return;
+  configData.extraSections.splice(idx, 1);
+  renderSections();
+  markDirty();
+}
+
+window.addEventListener('beforeunload', (e) => {
+  if (dirty) { e.preventDefault(); e.returnValue = ''; }
+});
+</script>
+</body>
+</html>
