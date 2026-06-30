@@ -1,12 +1,5 @@
 {
-  "announcements": [
-    {
-      "badge": "INFO",
-      "version": "1.0.0",
-      "title": "「β版」プレリリース開始!!🎉",
-      "body": "本日7/1に「β版」がリリースされました!!\n今日から1週間7/7まではプレリリース期間として皆様からのバグの発見をしていただきそれを修正する期間となっております。"
-    }
-  ],
+  "announcements": [],
   "globalSchedules": [],
   "extraSections": []
 }
