@@ -1,14 +1,18 @@
 {
   "announcements": [
     {
+      "badge": "UPDATE",
+      "version": "1.50",
+      "title": "新規公開",
+      "body": "楽しいね"
+    },
+    {
       "version": "1.1.0",
       "badge": "INFO",
       "title": "只今試験中です",
       "body": "現在テスト運用中のため、予告なく変更・停止する場合があります。バグや気になる点があれば「フィードバックを送る」からお知らせください。"
     }
   ],
-  "globalSchedules": [
-  ],
-  "extraSections": [
-  ]
+  "globalSchedules": [],
+  "extraSections": []
 }
