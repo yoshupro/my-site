@@ -7,6 +7,15 @@
       "body": "現在テスト運用中のため、予告なく変更・停止する場合があります。バグや気になる点があれば「フィードバックを送る」からお知らせください。"
     }
   ],
-  "globalSchedules": [],
+  "globalSchedules": [
+    {
+      "id": 1782815898494,
+      "type": "test",
+      "title": "テスト",
+      "subject": "国語",
+      "date": "2026-07-02",
+      "memo": null
+    }
+  ],
   "extraSections": []
 }
