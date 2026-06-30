@@ -2296,18 +2296,19 @@
                 // 通常のプリント読み取り：プロンプト画面を表示、結果を隠す
                 if (sp) sp.classList.remove('hidden');
                 if (sr) sr.classList.add('hidden');
-                // セクションフラグをリセット・戻るボタンを英コHOMEに向ける
+                // セクションフラグをリセット
                 if (modeStates && modeStates[0]) modeStates[0].fromSection = false;
-                const _backBtn = document.getElementById('back-to-section-btn');
-                if (_backBtn) {
-                    _backBtn.classList.remove('hidden');
-                    _backBtn.style.display = 'flex';
-                    _backBtn.onclick = function() { showEnglishEntrySelector(); };
-                    const _span = _backBtn.querySelector('span');
-                    if (_span) _span.textContent = '英コHOMEに戻る';
-                }
             }
             initScanPanelResize();
+            // 戻るボタン（目次ボタンと同じ行・一番左）：initScanPanelResize()が強制非表示にするため、必ずこの後に表示させる
+            const _backBtn = document.getElementById('back-to-section-btn');
+            if (_backBtn) {
+                _backBtn.classList.remove('hidden');
+                _backBtn.style.display = 'flex';
+                _backBtn.onclick = function() { showEnglishEntrySelector(); };
+                const _span = _backBtn.querySelector('span');
+                if (_span) _span.textContent = '英コHOMEに戻る';
+            }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -3305,11 +3306,11 @@
                 }
             }, 200);
 
-            let promptText = "あなたは高校英語の学習支援AIです。添付の英語学習プリント画像をもとに、生徒用の予習学習ノートを作成してください。本文の丸写しは不要です。各英文を教育的に要約・解説する形で出力してください。クラス名・氏名欄など学習内容と無関係な部分は無視してください。\n" +
-                             "1. transcription/transcriptionAnalysis: 各英文について①日本語での内容要約 ②文法・構文の解説（英文そのものの転記は最小限にとどめ、解説を中心にすること）。\n" +
-                             "2. putIntoJapaneseAnswers: 丸数字付き英文の自然な日本語訳と訳出ポイント（英文の転記は番号と冒頭数語程度にとどめること）。\n" +
-                             "3. vocabulary: 重要語彙の語義と、プリント本文とは全く異なる独自の学習用例文。\n" +
-                             "4. questions: Questions欄の模範解答(英語)・日本語訳・本文根拠を含む解説。\n" +
+            let promptText = "あなたは高校英語の学習支援AIです。添付の英語学習プリント画像をもとに、生徒用の予習学習ノートを作成してください。本文の丸写しは不要です。各英文を教育的に要約・解説する形で出力してください。クラス名・氏名欄など学習内容と無関係な部分は無視してください。できるだけ濃く・具体的に解説してください。\n" +
+                             "1. transcription/transcriptionAnalysis: 各英文について①日本語での内容要約 ②文法・構文の解説 ③文の構造（SVOC等の文型・どの語がどの働きをしているか） ④文中で使われている重要表現・イディオムとその意味（英文そのものの転記は最小限にとどめ、解説を中心にすること）。\n" +
+                             "2. putIntoJapaneseAnswers: 丸数字付き英文の自然な日本語訳と訳出ポイント、および和訳の際に間違えやすいポイント（直訳と意訳の違いなど）（英文の転記は番号と冒頭数語程度にとどめること）。\n" +
+                             "3. vocabulary: 重要語彙の語義、プリント本文とは全く異なる独自の学習用例文、同義語・反意語、派生語（名詞形・動詞形・形容詞形など）、発音やアクセントで注意すべき点、大学入試での頻出度の目安。\n" +
+                             "4. questions: Questions欄の模範解答(英語)・日本語訳・本文根拠を含む解説、および理解度を確認できる類題を1問。\n" +
                              "5. lessonTitle: Lesson/Unit番号など。";
             
             let responseSchema = {
@@ -3323,9 +3324,11 @@
                             properties: {
                                 english: { type: "STRING" },
                                 japanese: { type: "STRING" },
-                                grammarExplanation: { type: "STRING" }
+                                grammarExplanation: { type: "STRING" },
+                                sentenceStructure: { type: "STRING", description: "文型（SVOC等）や文の構造の解説" },
+                                keyExpressions: { type: "STRING", description: "文中の重要表現・イディオムとその意味。なければ空文字" }
                             },
-                            required: ["english", "japanese", "grammarExplanation"]
+                            required: ["english", "japanese", "grammarExplanation", "sentenceStructure", "keyExpressions"]
                         }
                     },
                     putIntoJapaneseAnswers: {
@@ -3336,9 +3339,10 @@
                                 num: { type: "STRING" },
                                 english: { type: "STRING" },
                                 japanese: { type: "STRING" },
-                                translationPoint: { type: "STRING" }
+                                translationPoint: { type: "STRING" },
+                                commonMistake: { type: "STRING", description: "和訳の際に間違えやすいポイント" }
                             },
-                            required: ["num", "english", "japanese", "translationPoint"]
+                            required: ["num", "english", "japanese", "translationPoint", "commonMistake"]
                         }
                     },
                     vocabulary: {
@@ -3348,9 +3352,13 @@
                             properties: {
                                 word: { type: "STRING" },
                                 meaning: { type: "STRING" },
-                                usage: { type: "STRING" }
+                                usage: { type: "STRING" },
+                                synonymsAntonyms: { type: "STRING", description: "同義語・反意語。なければ空文字" },
+                                derivatives: { type: "STRING", description: "派生語（名詞形・動詞形・形容詞形など）。なければ空文字" },
+                                pronunciation: { type: "STRING", description: "発音・アクセントの注意点。なければ空文字" },
+                                examFrequency: { type: "STRING", description: "大学入試での頻出度の目安（例: 頻出/標準/やや難）" }
                             },
-                            required: ["word", "meaning", "usage"]
+                            required: ["word", "meaning", "usage", "synonymsAntonyms", "derivatives", "pronunciation", "examFrequency"]
                         }
                     },
                     questions: {
@@ -3362,9 +3370,10 @@
                                 questionJapanese: { type: "STRING", description: "質問文の日本語訳" },
                                 answer: { type: "STRING" },
                                 answerJapanese: { type: "STRING" },
-                                explanation: { type: "STRING" }
+                                explanation: { type: "STRING" },
+                                similarQuestion: { type: "STRING", description: "理解度確認用の類題（問題文＋答え）。なければ空文字" }
                             },
-                            required: ["question", "questionJapanese", "answer", "answerJapanese", "explanation"]
+                            required: ["question", "questionJapanese", "answer", "answerJapanese", "explanation", "similarQuestion"]
                         }
                     },
                     lessonTitle: { type: "STRING", description: "Lesson番号やタイトル（例: Lesson 3, Unit 2など）。見つからなければ空文字" }
@@ -3468,7 +3477,7 @@
                         showToast("フィルター検知。別の解析方法で再試行中...");
                         try {
                             // プロンプトを簡略化して再試行
-                            const parts2 = [{ text: "この英語学習プリントの内容を日本語で解説してください。英文を直接転記せず、各文の内容説明・文法解説・重要単語のみをJSON形式で出力してください。フォーマット: {transcription:'',transcriptionAnalysis:[{english:'',japanese:'',grammarExplanation:''}],putIntoJapaneseAnswers:[{num:'',english:'',japanese:'',translationPoint:''}],vocabulary:[{word:'',meaning:'',usage:''}],questions:[{question:'',questionJapanese:'',answer:'',answerJapanese:'',explanation:''}],lessonTitle:''}" }];
+                            const parts2 = [{ text: "この英語学習プリントの内容を日本語で解説してください。英文を直接転記せず、各文の内容説明・文法解説・構文解説・重要単語のみをJSON形式で出力してください。フォーマット: {transcription:'',transcriptionAnalysis:[{english:'',japanese:'',grammarExplanation:'',sentenceStructure:'',keyExpressions:''}],putIntoJapaneseAnswers:[{num:'',english:'',japanese:'',translationPoint:'',commonMistake:''}],vocabulary:[{word:'',meaning:'',usage:'',synonymsAntonyms:'',derivatives:'',pronunciation:'',examFrequency:''}],questions:[{question:'',questionJapanese:'',answer:'',answerJapanese:'',explanation:'',similarQuestion:''}],lessonTitle:''}" }];
                             if (currentUploadedImage && currentUploadedImage.base64) {
                                 parts2.push({ inlineData: { mimeType: currentUploadedImage.mimeType, data: currentUploadedImage.base64 } });
                             }
@@ -4747,6 +4756,16 @@
                             <span class="text-blue-500 dark:text-cyan-400 font-extrabold block mb-1">一文解説 & 訳し方の理由:</span>
                             ${escapeHtml(line.grammarExplanation)}
                         </div>
+                        ${line.sentenceStructure ? `
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-relaxed pl-2.5 border-l-2 border-violet-200 dark:border-violet-900">
+                            <span class="text-violet-500 dark:text-violet-400 font-extrabold block mb-1">文構造（文型）解説:</span>
+                            ${escapeHtml(line.sentenceStructure)}
+                        </div>` : ''}
+                        ${line.keyExpressions ? `
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 font-bold leading-relaxed pl-2.5 border-l-2 border-amber-200 dark:border-amber-900">
+                            <span class="text-amber-500 dark:text-amber-400 font-extrabold block mb-1">重要表現・イディオム:</span>
+                            ${escapeHtml(line.keyExpressions)}
+                        </div>` : ''}
                     </div>
                 `).join('');
 
@@ -4783,6 +4802,11 @@
                                     <i data-lucide="help-circle" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0 mt-0.5"></i>
                                     <span><strong>訳し方のポイント解説:</strong> ${escapeHtml(item.translationPoint)}</span>
                                 </div>
+                                ${item.commonMistake ? `
+                                <div class="text-xs text-rose-600 dark:text-rose-400 font-bold leading-relaxed pt-3 border-t border-blue-200 dark:border-slate-800 flex items-start space-x-2">
+                                    <i data-lucide="alert-triangle" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
+                                    <span><strong>間違えやすいポイント:</strong> ${escapeHtml(item.commonMistake)}</span>
+                                </div>` : ''}
                             </div>
                         </div>
                     `;
@@ -4810,8 +4834,15 @@
                         <div class="flex items-baseline space-x-3 flex-wrap gap-y-2 animate-fade-in">
                             <span class="text-base font-black text-slate-900 dark:text-white tracking-wide border-b-2 border-blue-200 dark:border-cyan-900/80 pb-0.5">${escapeHtml(item.word)}</span>
                             <span class="text-sm font-black text-blue-600 dark:text-cyan-400">【意味】${escapeHtml(item.meaning)}</span>
+                            ${item.examFrequency ? `<span class="text-[10px] font-black text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded-full border border-orange-200 dark:border-orange-900">入試頻出度: ${escapeHtml(item.examFrequency)}</span>` : ''}
                         </div>
                         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-bold italic tracking-wide mt-1.5 pl-2 border-l-2 border-slate-200 dark:border-slate-700">${escapeHtml(item.usage)}</p>
+                        ${(item.synonymsAntonyms || item.derivatives || item.pronunciation) ? `
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-2">
+                            ${item.synonymsAntonyms ? `<div class="text-[11px] text-slate-600 dark:text-slate-300 font-bold bg-slate-50 dark:bg-slate-900/40 px-2.5 py-2 rounded-lg"><span class="text-blue-500 dark:text-cyan-400 block mb-0.5">同義語・反意語</span>${escapeHtml(item.synonymsAntonyms)}</div>` : ''}
+                            ${item.derivatives ? `<div class="text-[11px] text-slate-600 dark:text-slate-300 font-bold bg-slate-50 dark:bg-slate-900/40 px-2.5 py-2 rounded-lg"><span class="text-blue-500 dark:text-cyan-400 block mb-0.5">派生語</span>${escapeHtml(item.derivatives)}</div>` : ''}
+                            ${item.pronunciation ? `<div class="text-[11px] text-slate-600 dark:text-slate-300 font-bold bg-slate-50 dark:bg-slate-900/40 px-2.5 py-2 rounded-lg"><span class="text-blue-500 dark:text-cyan-400 block mb-0.5">発音・アクセント</span>${escapeHtml(item.pronunciation)}</div>` : ''}
+                        </div>` : ''}
                     </div>
                 `).join('');
 
@@ -4878,6 +4909,11 @@
                                 <i data-lucide="help-circle" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0 mt-0.5 animate-fade-in"></i>
                                 <span class="flex-1"><strong>なぜその解答になるのか（本文引用と解説）:</strong> <span class="block mt-2 font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 p-3.5 rounded-xl shadow-sm">${escapeHtml(q.explanation)}</span></span>
                             </div>
+                            ${q.similarQuestion ? `
+                            <div class="pt-4 border-t border-slate-200 dark:border-slate-700 text-xs text-violet-600 dark:text-violet-400 font-bold leading-relaxed flex items-start space-x-2">
+                                <i data-lucide="repeat" class="w-4 h-4 text-violet-500 shrink-0 mt-0.5"></i>
+                                <span class="flex-1"><strong>理解度チェック類題:</strong> <span class="block mt-2 font-semibold text-slate-700 dark:text-slate-300 bg-violet-50/50 dark:bg-violet-900/10 border border-violet-100 dark:border-violet-900/40 p-3.5 rounded-xl shadow-sm">${escapeHtml(q.similarQuestion)}</span></span>
+                            </div>` : ''}
                         </div>
                     </div>
                 `).join('');
@@ -9216,8 +9252,6 @@ const TARGET1900 = [
             if (content)     { content.style.display = ''; content.classList.remove('hidden'); }
             const _et3 = document.getElementById('scan-panel-expand-tab-outer');
             if (_et3) _et3.style.display = 'none';
-            const _bb3 = document.getElementById('back-to-section-btn');
-            if (_bb3) { _bb3.style.display = 'none'; _bb3.classList.add('hidden'); }
             // main-container・右パネル・ラッパーのスタイルも念のためリセット
             const _mc = document.getElementById('main-container');
             if (_mc) { _mc.style.padding = ''; _mc.style.maxWidth = ''; _mc.style.gap = ''; }
