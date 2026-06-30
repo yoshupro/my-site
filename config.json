@@ -1,5 +1,18 @@
 {
-  "announcements": [],
+  "announcements": [
+    {
+      "badge": "INFO",
+      "version": "1.0.0",
+      "title": "【プレリリース記念のお知らせ】",
+      "body": "本日よりプレリリースが始まりました。そこでこちらのサイトの名称を皆さんから募集します！！\n以下のリンクから受け付けております！どんどんバシバシお送りください！\nhttps://docs.google.com/forms/d/e/1FAIpQLSd4GtwgZnI1krvD4fm0SkCiOYnMq9Bdr68MlIAN6_eNBTgFUw/viewform?usp=publish-editor"
+    },
+    {
+      "badge": "INFO",
+      "version": "1.0.0",
+      "title": "「予習ProMaster(仮名)β版」プレリリース開始!!🎉",
+      "body": "本日7/1より「予習ProMaster(仮名)β版」がプレリリースされました!!多分バグなど質問などたくさんあると思うので以下のリンクから教えてください!!それではぜひ新しい学習システムをお使いください!!\nhttps://docs.google.com/forms/d/e/1FAIpQLSeOqsafSKfjKV_QEub0Pa8tB8XAdjzehe_WbrDbu4oEPXQE8w/viewform?usp=dialog\n\n【プレリリース期間】\n7/1〜7/7"
+    }
+  ],
   "globalSchedules": [],
   "extraSections": []
 }
