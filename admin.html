@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>予習ProMaster 管理画面</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide-static/0.378.0/lucide.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <style>
   :root{
     --bg:#0b0f17; --panel:#11161f; --panel2:#161c28; --border:#232b3a;
@@ -303,7 +303,7 @@ document.getElementById('login-btn').addEventListener('click', async () => {
     localStorage.setItem(LS_KEY, JSON.stringify(session));
     document.getElementById('login-screen').classList.add('hidden');
     document.getElementById('admin-screen').classList.remove('hidden');
-    lucide.createIcons();
+    if (typeof lucide !== "undefined") lucide.createIcons();
   } catch (e) {
     errEl.textContent = '接続に失敗しました：' + e.message;
     errEl.style.display = 'block';
@@ -317,7 +317,7 @@ function logout() {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-  lucide.createIcons();
+  if (typeof lucide !== "undefined") lucide.createIcons();
   const saved = localStorage.getItem(LS_KEY);
   if (saved) {
     try {
@@ -325,7 +325,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       await reloadFromGitHub();
       document.getElementById('login-screen').classList.add('hidden');
       document.getElementById('admin-screen').classList.remove('hidden');
-      lucide.createIcons();
+      if (typeof lucide !== "undefined") lucide.createIcons();
     } catch (e) {
       session = null;
       localStorage.removeItem(LS_KEY);
@@ -458,7 +458,7 @@ function renderAnnouncements() {
       </div>
     </div>
   `).join('');
-  lucide.createIcons();
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 function renderSchedules() {
@@ -486,7 +486,7 @@ function renderSchedules() {
       </div>
     </div>
   `).join('');
-  lucide.createIcons();
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 function renderSections() {
@@ -513,7 +513,7 @@ function renderSections() {
       </div>
     </div>
   `).join('');
-  lucide.createIcons();
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 function esc(s) {
