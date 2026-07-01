@@ -94,14 +94,32 @@
             font-family: sans-serif;
             pointer-events: auto;   /* ← tooltipのボタンはクリック可能 */
         }
-        /* ===== スクロール時ヘッダー縮小 ===== */
-        #sticky-header { transition: all 0.25s ease; }
-        #sticky-header.header-scrolled #header-container { padding-top: 0.375rem !important; padding-bottom: 0.375rem !important; }
-        #sticky-header.header-scrolled #logo-badge { width: 28px !important; height: 28px !important; }
-        #sticky-header.header-scrolled #logo-badge img { width: 28px !important; height: 28px !important; }
-        #sticky-header.header-scrolled #logo-text { font-size: 0.875rem !important; }
-        #sticky-header.header-scrolled #logo-subtext { font-size: 0 !important; opacity: 0 !important; max-height: 0 !important; overflow: hidden !important; margin: 0 !important; }
-        #logo-badge, #logo-badge img, #logo-text, #logo-subtext { transition: all 0.25s ease; }
+        /* ===== ロゴ行はスクロールで上に隠れる & マウスを画面上部に置くとニョコっと出てくる =====
+           （タブバー #mode-tab-bar は sticky-header 自体には手を付けず、常に表示させる） */
+        #sticky-header {
+            transition: none;
+        }
+        #header-container {
+            transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.22s ease, padding-top 0.28s ease, padding-bottom 0.28s ease;
+            max-height: 200px;
+            opacity: 1;
+            overflow: visible;
+        }
+        #sticky-header.header-hidden #header-container {
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            pointer-events: none;
+            overflow: hidden; /* 隠れている間だけはみ出しを防ぐ（設定メニュー等が開いていない前提） */
+        }
+        /* 画面最上部にマウスが来た時に検知するための透明なホバーゾーン */
+        #header-hover-zone {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 24px;
+            z-index: 51;
+        }
         /* プログレスバーが0%のとき非表示 */
         #t19f-bar2[style*="width:0%"], #t19q-bar2[style*="width:0%"] { opacity: 0; }
         /* ===== フラッシュカード 3Dフリップ ===== */
@@ -1987,11 +2005,10 @@
         };
 
         // ===== お知らせバージョン管理 =====
-        // ローカルのデフォルトお知らせ（config.json取得失敗時のフォールバック）
-        const LATEST_ANNOUNCEMENT_VERSION = '1.1.0';
-        const DEFAULT_ANNOUNCEMENTS = [
-            { version: '1.1.0', badge: 'INFO', title: '只今試験中です', body: '現在テスト運用中のため、予告なく変更・停止する場合があります。バグや気になる点があれば「フィードバックを送る」からお知らせください。' }
-        ];
+        // デフォルトのお知らせは持たない：お知らせは管理サイト（admin.html）から
+        // config.json 経由で入力される内容のみを表示する。
+        const LATEST_ANNOUNCEMENT_VERSION = '';
+        const DEFAULT_ANNOUNCEMENTS = [];
 
         function getActiveAnnouncements() {
             return (window._remoteAnnouncements && window._remoteAnnouncements.length > 0)
@@ -2006,36 +2023,39 @@
         function renderAnnouncementContent() {
             const list = getActiveAnnouncements();
             const colorMap = { INFO: '#06b6d4', UPDATE: '#22c55e', WARNING: '#f59e0b', IMPORTANT: '#ef4444' };
-            const html = list.map(a => {
+            const emptyHtml = `<p class="text-xs text-slate-400 dark:text-slate-500 font-bold text-center py-4">現在お知らせはありません</p>`;
+            const html = list.length > 0 ? list.map(a => {
                 const color = colorMap[a.badge] || '#06b6d4';
                 return `<div class="flex items-start space-x-3 p-3 rounded-2xl border" style="background:${color}11;border-color:${color}33;">
                     <span class="text-[10px] font-black px-2 py-0.5 rounded-full text-white shrink-0 mt-0.5" style="background:${color}">${escapeHtml(a.badge || 'INFO')}</span>
-                    <div>
-                        <p class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(a.title || '')}</p>
-                        <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">${escapeHtml(a.body || '')}</p>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs font-black text-slate-800 dark:text-white break-words">${escapeHtml(a.title || '')}</p>
+                        <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1 leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body || '')}</p>
                     </div>
                 </div>`;
-            }).join('');
+            }).join('') : emptyHtml;
             const bannerBody = document.querySelector('#announcement-banner .p-5.space-y-3');
             if (bannerBody) bannerBody.innerHTML = html;
             const modalList = document.querySelector('#announcement-modal .space-y-3');
             if (modalList) {
-                modalList.innerHTML = list.map(a => {
+                modalList.innerHTML = list.length > 0 ? list.map(a => {
                     const color = colorMap[a.badge] || '#06b6d4';
-                    return `<div class="p-3.5 rounded-xl border" style="background:${color}11;border-color:${color}33;">
-                        <div class="flex items-center space-x-1.5 mb-1">
-                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full text-white tracking-wider" style="background:${color}">${escapeHtml(a.badge || 'INFO')}</span>
+                    return `<div class="p-3.5 rounded-xl border overflow-hidden" style="background:${color}11;border-color:${color}33;">
+                        <div class="flex items-center space-x-1.5 mb-1 flex-wrap gap-y-1">
+                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full text-white tracking-wider shrink-0" style="background:${color}">${escapeHtml(a.badge || 'INFO')}</span>
                             <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500">Ver ${escapeHtml(a.version || '')}</span>
                         </div>
-                        <h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1">${escapeHtml(a.title || '')}</h4>
-                        <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed">${escapeHtml(a.body || '')}</p>
+                        <h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1 break-words">${escapeHtml(a.title || '')}</h4>
+                        <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body || '')}</p>
                     </div>`;
-                }).join('');
+                }).join('') : emptyHtml;
             }
         }
 
         function checkAndShowAnnouncement() {
             renderAnnouncementContent();
+            const list = getActiveAnnouncements();
+            if (!list || list.length === 0) return; // お知らせが1件も無い場合は何も表示しない
             const latest = getLatestAnnouncementVersion();
             const seen = safeStorage.get('pm_announcement_seen');
             if (seen !== latest) {
@@ -2786,7 +2806,7 @@
             toggleKeyConfigModal(false);
         }
 
-        // 4. スクロールでロゴを縮小 & --sticky-top をリアルタイム更新
+        // 4. スクロールでヘッダーが上に隠れる & マウスを画面上部に置くとニョコっと出てくる
         function updateStickyTop() {
             const hdr = document.getElementById('sticky-header');
             if (!hdr) return;
@@ -2796,16 +2816,59 @@
         function setupScrollShrink() {
             const header = document.getElementById('sticky-header');
             if (!header) return;
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 30) {
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.remove('header-scrolled');
+            let hoveringTop = false;
+
+            function applyHeaderState() {
+                // マウスが画面上部にある間は常に表示
+                if (hoveringTop) {
+                    header.classList.remove('header-hidden');
+                    return;
                 }
-                // トランジション完了後（500ms）に top を更新
-                clearTimeout(window._stickyTopTimer);
-                window._stickyTopTimer = setTimeout(updateStickyTop, 520);
+                // ページ上端付近（隠す必要がない位置）では常に表示
+                if (window.scrollY <= 30) {
+                    header.classList.remove('header-hidden');
+                    return;
+                }
+                header.classList.add('header-hidden');
+            }
+
+            window.addEventListener('scroll', () => {
+                applyHeaderState();
+                // ※ ここでは --sticky-top を更新しない。
+                // ロゴ行の開閉に合わせて更新すると、画像アップロードパネルなど
+                // var(--sticky-top) を使う他の固定要素までスクロールのたびに
+                // 位置がズレてしまうため、スクロール中は他の要素に一切影響を与えない。
             }, { passive: true });
+
+            // 画面上部に透明なホバーゾーンを用意し、マウスが乗ったらヘッダーを再表示
+            let hoverZone = document.getElementById('header-hover-zone');
+            if (!hoverZone) {
+                hoverZone = document.createElement('div');
+                hoverZone.id = 'header-hover-zone';
+                document.body.appendChild(hoverZone);
+            }
+            hoverZone.addEventListener('mouseenter', () => {
+                hoveringTop = true;
+                applyHeaderState();
+            });
+            hoverZone.addEventListener('mouseleave', () => {
+                hoveringTop = false;
+                applyHeaderState();
+            });
+            // ヘッダー自体（ロゴ行）にマウスが乗っている間も隠れないようにする
+            // ※ タブバー部分でのホバーには反応させない（タブバーは常時表示のため不要）
+            const headerContainer = document.getElementById('header-container');
+            if (headerContainer) {
+                headerContainer.addEventListener('mouseenter', () => {
+                    hoveringTop = true;
+                    applyHeaderState();
+                });
+                headerContainer.addEventListener('mouseleave', () => {
+                    hoveringTop = false;
+                    applyHeaderState();
+                });
+            }
+
             updateStickyTop();
         }
 
