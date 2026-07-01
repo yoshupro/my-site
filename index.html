@@ -180,7 +180,7 @@
                     </div>
                     <div class="flex flex-col">
                         <h1 id="logo-text" class="text-xl font-black tracking-tight text-slate-900 dark:text-white">
-                            <span class="bg-gradient-to-r from-cyan-500 via-blue-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">予習ProMaster</span>
+                            <span class="bg-gradient-to-r from-cyan-500 via-blue-500 via-violet-500 to-pink-500 bg-clip-text text-transparent">予習ProMaster</span><span class="text-[10px] align-top ml-1 font-bold text-slate-400 dark:text-slate-500">β版</span>
                         </h1>
                         <p id="logo-subtext" class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest mt-0.5 origin-left">Logical Prep System</p>
                     </div>
@@ -287,14 +287,14 @@
             <!-- 裏で画像解析中・解析完了 通知バー（タブバーのすぐ下に表示） -->
             <div id="analysis-status-bar" class="hidden w-full px-4 sm:px-6 py-2 transition-colors">
                 <div class="max-w-7xl w-full mx-auto">
-                    <!-- 解析中の表示 -->
-                    <div id="analysis-status-running" class="hidden items-center justify-center space-x-2 py-2 px-4 rounded-xl bg-slate-100 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
+                    <!-- 解析中の表示（押すとローディング中の画面へ） -->
+                    <button id="analysis-status-running" onclick="jumpToRunningAnalysis()" class="hidden w-full items-center justify-center space-x-2 py-2 px-4 rounded-xl bg-slate-100 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700/70 transition-colors">
                         <span class="relative flex h-2.5 w-2.5">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500"></span>
                         </span>
                         <span class="text-xs font-bold text-slate-600 dark:text-slate-300">裏で画像解析中です…</span>
-                    </div>
+                    </button>
                     <!-- 解析完了の表示（押すと結果画面へ） -->
                     <button id="analysis-status-done" onclick="jumpToCompletedAnalysis()" class="hidden w-full items-center justify-center space-x-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-90 text-white shadow-md transition-all animate-fade-in">
                         <i data-lucide="check-circle-2" class="w-4 h-4"></i>
@@ -392,7 +392,7 @@
                     <!-- トップヘッダー -->
                     <div class="text-center mb-8 space-y-2">
                         <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
-                            <span class="bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 bg-clip-text text-transparent">予習ProMaster</span>
+                            <span class="bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 bg-clip-text text-transparent">予習ProMaster</span><span class="text-xs align-top ml-1 font-bold text-slate-400 dark:text-slate-500">β版</span>
                         </h2>
                         <p class="text-sm text-slate-500 dark:text-slate-400 font-semibold">科目を選んで今日の予習をはじめよう</p>
                     </div>
@@ -2189,6 +2189,7 @@
                 updateSectionNavBtnVisibility();
                 showToast(section.sectionLabel + ' の解析結果を表示しています');
                 if (typeof lucide !== 'undefined') lucide.createIcons();
+                updateAnalysisStatusBar();
             }, 150);
         }
 
@@ -2217,6 +2218,7 @@
             const entrySel = document.getElementById('english-entry-selector');
             if (entrySel) entrySel.classList.remove('hidden');
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            updateAnalysisStatusBar();
         }
 
         // 前回の続きから再開
@@ -2226,8 +2228,11 @@
             if (hasHistory) {
                 loadHistoryItem(scanHistory[0].id);
             } else if (hasLastSection) {
-                selectPresetSection(hasLastSection);
+                loadPresetSection(hasLastSection);
             } else if (modeStates[0] && modeStates[0].hasAnalyzed) {
+                manualScanState.analysisResult = modeStates[0].analysisResult;
+                manualScanState.hasAnalyzed = true;
+                manualScanState.isAnalyzing = false;
                 showManualScanPanel();
                 const sp = document.getElementById('scan-prompt-state');
                 const sr = document.getElementById('scan-result-container');
@@ -2255,6 +2260,7 @@
             const mainContainer = document.getElementById('main-container');
             if (mainContainer) mainContainer.className = "flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6 relative z-10 animate-fade-in";
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            updateAnalysisStatusBar();
         }
 
         // ===== 手動スキャンパネル表示 =====
@@ -2291,11 +2297,31 @@
             const mainContainer = document.getElementById('main-container');
             if (mainContainer) mainContainer.className = "flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-row gap-6 items-start relative z-10 animate-fade-in";
             const sp = document.getElementById('scan-prompt-state');
+            const sl = document.getElementById('scan-loading-state');
             const sr = document.getElementById('scan-result-container');
+            const scanStartBtn = document.getElementById('scan-start-btn');
             if (!fromSection) {
-                // 通常のプリント読み取り：プロンプト画面を表示、結果を隠す
-                if (sp) sp.classList.remove('hidden');
-                if (sr) sr.classList.add('hidden');
+                // ここは「自分で画像をアップロード」専用の判定。プリセットSection側の
+                // modeStates[0] は一切参照しない（お互いが干渉しないように完全に分離）。
+                if (manualScanState.isAnalyzing) {
+                    // 自分の解析が裏で進行中のままこの画面に戻ってきた：ローディング画面を表示
+                    if (sp) sp.classList.add('hidden');
+                    if (sr) sr.classList.add('hidden');
+                    if (sl) sl.classList.remove('hidden');
+                    if (scanStartBtn) scanStartBtn.disabled = true;
+                } else if (manualScanState.hasAnalyzed && manualScanState.analysisResult) {
+                    // 自分の解析が完了済み：結果画面を表示
+                    if (sp) sp.classList.add('hidden');
+                    if (sl) sl.classList.add('hidden');
+                    if (sr) sr.classList.remove('hidden');
+                    renderAnalysisResult(manualScanState.analysisResult);
+                } else {
+                    // 通常のプリント読み取り：プロンプト画面を表示、結果を隠す
+                    if (sp) sp.classList.remove('hidden');
+                    if (sl) sl.classList.add('hidden');
+                    if (sr) sr.classList.add('hidden');
+                    if (scanStartBtn) scanStartBtn.disabled = false;
+                }
                 // セクションフラグをリセット
                 if (modeStates && modeStates[0]) modeStates[0].fromSection = false;
             }
@@ -2310,9 +2336,8 @@
                 if (_span) _span.textContent = '英コHOMEに戻る';
             }
             if (typeof lucide !== 'undefined') lucide.createIcons();
+            updateAnalysisStatusBar();
         }
-
-        let scanHistory = [];
 
         // 【予定管理用データベース】今後のテスト・提出物
         // 1件: { id, type: 'test'|'submission', title, subject, date, memo }
@@ -2462,14 +2487,34 @@
         // running: 解析実行中かどうか / done: 完了したが結果画面をまだ見ていないかどうか
         let backgroundAnalysisState = { running: false, done: false, targetModeIndex: 0 };
 
+        // 「自分で画像をアップロード」専用の状態（プリセットSection選択とは完全に別管理）
+        // modeStates[0] はプリセットSectionを開いた時にも上書きされる「今表示中の内容」であるのに対し、
+        // こちらは"自分でスキャンした画像の解析"の進行状況だけを追跡する。
+        // これにより、セクション選択→自分でアップロード画面に戻る、といった行き来をしても
+        // お互いの状態が干渉しない。
+        let manualScanState = { isAnalyzing: false, hasAnalyzed: false, analysisResult: null };
+
+        // 解析対象タブのスキャンパネル（プロンプト/ローディング/結果のいずれか）が
+        // 実際に画面上に見えているかどうかを判定する。
+        // ※ currentSubject や activeTabIndex だけで判定すると、英コHOME選択画面や
+        //    セクション選択画面など「同じ英コ内だがスキャンパネル自体は見えていない」
+        //    画面でも誤って『見ている』扱いになってしまうため、実際のDOM表示状態
+        //    （祖先要素も含めdisplay:noneでないか）で判定する。
+        function isScanPanelVisibleForTarget() {
+            if (activeTabIndex !== backgroundAnalysisState.targetModeIndex) return false;
+            const rightPanel = document.getElementById('right-content-panel');
+            return !!rightPanel && rightPanel.offsetParent !== null && !rightPanel.classList.contains('hidden');
+        }
+
         function updateAnalysisStatusBar() {
             const bar = document.getElementById('analysis-status-bar');
             const runningEl = document.getElementById('analysis-status-running');
             const doneEl = document.getElementById('analysis-status-done');
             if (!bar || !runningEl || !doneEl) return;
 
-            // 今まさに解析対象タブを見ているなら、専用のローディング画面が出ているのでバーは不要
-            const viewingTarget = (activeTabIndex === backgroundAnalysisState.targetModeIndex) && currentSubject === 'english';
+            // 今まさにスキャンパネル（解析対象タブ）を見ているなら、専用のローディング/結果画面が
+            // 出ているのでこの通知バーは不要
+            const viewingTarget = isScanPanelVisibleForTarget();
 
             if (backgroundAnalysisState.done) {
                 bar.classList.remove('hidden');
@@ -2492,6 +2537,14 @@
             backgroundAnalysisState.done = false;
             _navigateTo('english');
             selectTab(backgroundAnalysisState.targetModeIndex || 0);
+            updateAnalysisStatusBar();
+        }
+
+        // 通知バーの「裏で画像解析中です…」をタップしたら、
+        // ローディング中の「自分で画像をアップロード」画面へ移動
+        function jumpToRunningAnalysis() {
+            activeTabIndex = backgroundAnalysisState.targetModeIndex || 0;
+            _navigateTo('scan');
             updateAnalysisStatusBar();
         }
 
@@ -3051,10 +3104,6 @@
             if (notebookInterface) notebookInterface.classList.remove('hidden');
             checkInputValidity();
 
-            // タブ0(英語コミュニケーション)を実際に見ている間は「解析完了」通知を出す必要がないので消す
-            if (index === 0 && backgroundAnalysisState.targetModeIndex === 0) {
-                backgroundAnalysisState.done = false;
-            }
             updateAnalysisStatusBar();
             if (index === 0) updateSectionNavBtnVisibility();
 
@@ -3138,6 +3187,11 @@
                 modeStates[activeTabIndex].analysisResult = null;
                 modeStates[activeTabIndex].hasAnalyzed = false;
                 modeStates[activeTabIndex].isAnalyzing = false;
+            }
+            if (activeTabIndex === 0) {
+                manualScanState.analysisResult = null;
+                manualScanState.hasAnalyzed = false;
+                manualScanState.isAnalyzing = false;
             }
             
             const imageInput = document.getElementById('image-input');
@@ -3257,6 +3311,9 @@
 
             const targetModeIndex = activeTabIndex;
             modeStates[targetModeIndex].isAnalyzing = true;
+            if (targetModeIndex === 0) {
+                manualScanState.isAnalyzing = true;
+            }
 
             // 「裏で解析中」表示の管理：解析開始時にフラグを立てて状態バーを更新
             backgroundAnalysisState.running = true;
@@ -3426,6 +3483,11 @@
                     modeStates[targetModeIndex].analysisResult = parsedData;
                     modeStates[targetModeIndex].hasAnalyzed = true;
                     modeStates[targetModeIndex].isAnalyzing = false;
+                    if (targetModeIndex === 0) {
+                        manualScanState.analysisResult = parsedData;
+                        manualScanState.hasAnalyzed = true;
+                        manualScanState.isAnalyzing = false;
+                    }
 
                     // スキャン履歴データ保存
                     saveToHistory(parsedData, currentUploadedImage);
@@ -3467,55 +3529,65 @@
                 clearInterval(progressTimer);
                 console.error(err);
                 modeStates[targetModeIndex].isAnalyzing = false;
+                if (targetModeIndex === 0) manualScanState.isAnalyzing = false;
                 backgroundAnalysisState.running = false;
                 backgroundAnalysisState.done = false;
                 updateAnalysisStatusBar();
+                let errMsg = err.message || "不明なエラー";
+                if (errMsg === "RECITATION_RETRY" && activeTabIndex === targetModeIndex) {
+                    // 著作権フィルター：画面を見ている場合のみ自動で1回だけ再試行
+                    showToast("フィルター検知。別の解析方法で再試行中...");
+                    try {
+                        // プロンプトを簡略化して再試行
+                        const parts2 = [{ text: "この英語学習プリントの内容を日本語で解説してください。英文を直接転記せず、各文の内容説明・文法解説・構文解説・重要単語のみをJSON形式で出力してください。フォーマット: {transcription:'',transcriptionAnalysis:[{english:'',japanese:'',grammarExplanation:'',sentenceStructure:'',keyExpressions:''}],putIntoJapaneseAnswers:[{num:'',english:'',japanese:'',translationPoint:'',commonMistake:''}],vocabulary:[{word:'',meaning:'',usage:'',synonymsAntonyms:'',derivatives:'',pronunciation:'',examFrequency:''}],questions:[{question:'',questionJapanese:'',answer:'',answerJapanese:'',explanation:'',similarQuestion:''}],lessonTitle:''}" }];
+                        if (currentUploadedImage && currentUploadedImage.base64) {
+                            parts2.push({ inlineData: { mimeType: currentUploadedImage.mimeType, data: currentUploadedImage.base64 } });
+                        }
+                        const payload2 = { contents: [{ role: "user", parts: parts2 }], generationConfig: { responseMimeType: "application/json" } };
+                        const responseData2 = await fetchGeminiWithBackoff(payload2, 3, 1000);
+                        const candidate2 = responseData2 && responseData2.candidates && responseData2.candidates[0];
+                        if (candidate2 && candidate2.content && candidate2.content.parts && candidate2.content.parts[0] && candidate2.content.parts[0].text) {
+                            const parsedData2 = JSON.parse(candidate2.content.parts[0].text);
+                            modeStates[targetModeIndex].analysisResult = parsedData2;
+                            modeStates[targetModeIndex].hasAnalyzed = true;
+                            modeStates[targetModeIndex].isAnalyzing = false;
+                            if (targetModeIndex === 0) {
+                                manualScanState.analysisResult = parsedData2;
+                                manualScanState.hasAnalyzed = true;
+                                manualScanState.isAnalyzing = false;
+                            }
+                            saveToHistory(parsedData2, currentUploadedImage);
+                            incrementCount();
+                            updateScanUI();
+                            backgroundAnalysisState.running = false;
+                            const scanLoadingState2 = document.getElementById('scan-loading-state');
+                            const scanPromptState2 = document.getElementById('scan-prompt-state');
+                            const scanResultContainer2 = document.getElementById('scan-result-container');
+                            if (scanLoadingState2) scanLoadingState2.classList.add('hidden');
+                            if (scanPromptState2) scanPromptState2.classList.add('hidden');
+                            if (scanResultContainer2) scanResultContainer2.classList.remove('hidden');
+                            renderAnalysisResult(parsedData2);
+                            showToast("スキャン分析が完了しました");
+                            updateSectionNavBtnVisibility();
+                            return;
+                        }
+                    } catch (e2) { console.error("再試行も失敗:", e2); }
+                    errMsg = "著作権フィルターにより処理がブロックされました。画像を変えるか、しばらく時間をおいて再試行してください。";
+                } else if (errMsg === "RECITATION_RETRY") {
+                    errMsg = "著作権フィルターにより処理がブロックされました。画像を変えるか、しばらく時間をおいて再試行してください。";
+                } else if (errMsg.includes("利用上限") || errMsg.includes("1日の利用")) {
+                    errMsg = "本日の利用上限（5回）に達しました。明日またお試しください。";
+                } else if (errMsg.includes("429")) {
+                    errMsg = "リクエスト制限に達しました。しばらく待ってから再試行してください。";
+                } else if (errMsg.includes("SAFETY")) {
+                    errMsg = "安全フィルターにより処理がブロックされました。別の画像をお試しください。";
+                } else if (errMsg.includes("NetworkError") || errMsg.includes("Failed to fetch")) {
+                    errMsg = "ネットワークエラーです。接続を確認してください。";
+                }
+                // 画面を見ていてもいなくても、失敗したことは必ずトーストで知らせる
+                // （バックグラウンドで無言で消えて何が起きたか分からなくなるのを防ぐ）
+                showToast(`エラー: ${errMsg}`);
                 if (activeTabIndex === targetModeIndex) {
-                    let errMsg = err.message || "不明なエラー";
-                    if (errMsg === "RECITATION_RETRY") {
-                        // 著作権フィルター：自動で1回だけ再試行
-                        showToast("フィルター検知。別の解析方法で再試行中...");
-                        try {
-                            // プロンプトを簡略化して再試行
-                            const parts2 = [{ text: "この英語学習プリントの内容を日本語で解説してください。英文を直接転記せず、各文の内容説明・文法解説・構文解説・重要単語のみをJSON形式で出力してください。フォーマット: {transcription:'',transcriptionAnalysis:[{english:'',japanese:'',grammarExplanation:'',sentenceStructure:'',keyExpressions:''}],putIntoJapaneseAnswers:[{num:'',english:'',japanese:'',translationPoint:'',commonMistake:''}],vocabulary:[{word:'',meaning:'',usage:'',synonymsAntonyms:'',derivatives:'',pronunciation:'',examFrequency:''}],questions:[{question:'',questionJapanese:'',answer:'',answerJapanese:'',explanation:'',similarQuestion:''}],lessonTitle:''}" }];
-                            if (currentUploadedImage && currentUploadedImage.base64) {
-                                parts2.push({ inlineData: { mimeType: currentUploadedImage.mimeType, data: currentUploadedImage.base64 } });
-                            }
-                            const payload2 = { contents: [{ role: "user", parts: parts2 }], generationConfig: { responseMimeType: "application/json" } };
-                            const responseData2 = await fetchGeminiWithBackoff(payload2, 3, 1000);
-                            const candidate2 = responseData2 && responseData2.candidates && responseData2.candidates[0];
-                            if (candidate2 && candidate2.content && candidate2.content.parts && candidate2.content.parts[0] && candidate2.content.parts[0].text) {
-                                const parsedData2 = JSON.parse(candidate2.content.parts[0].text);
-                                modeStates[targetModeIndex].analysisResult = parsedData2;
-                                modeStates[targetModeIndex].hasAnalyzed = true;
-                                modeStates[targetModeIndex].isAnalyzing = false;
-                                saveToHistory(parsedData2, currentUploadedImage);
-                                incrementCount();
-                                updateScanUI();
-                                backgroundAnalysisState.running = false;
-                                const scanLoadingState2 = document.getElementById('scan-loading-state');
-                                const scanPromptState2 = document.getElementById('scan-prompt-state');
-                                const scanResultContainer2 = document.getElementById('scan-result-container');
-                                if (scanLoadingState2) scanLoadingState2.classList.add('hidden');
-                                if (scanPromptState2) scanPromptState2.classList.add('hidden');
-                                if (scanResultContainer2) scanResultContainer2.classList.remove('hidden');
-                                renderAnalysisResult(parsedData2);
-                                showToast("スキャン分析が完了しました");
-                                updateSectionNavBtnVisibility();
-                                return;
-                            }
-                        } catch (e2) { console.error("再試行も失敗:", e2); }
-                        errMsg = "著作権フィルターにより処理がブロックされました。画像を変えるか、しばらく時間をおいて再試行してください。";
-                    } else if (errMsg.includes("利用上限") || errMsg.includes("1日の利用")) {
-                        errMsg = "本日の利用上限（5回）に達しました。明日またお試しください。";
-                    } else if (errMsg.includes("429")) {
-                        errMsg = "リクエスト制限に達しました。しばらく待ってから再試行してください。";
-                    } else if (errMsg.includes("SAFETY")) {
-                        errMsg = "安全フィルターにより処理がブロックされました。別の画像をお試しください。";
-                    } else if (errMsg.includes("NetworkError") || errMsg.includes("Failed to fetch")) {
-                        errMsg = "ネットワークエラーです。接続を確認してください。";
-                    }
-                    showToast(`エラー: ${errMsg}`);
                     resetScanDisplay();
                 }
             } finally {
@@ -4052,6 +4124,9 @@
             modeStates[0].analysisResult = item.data;
             modeStates[0].hasAnalyzed = true;
             modeStates[0].isAnalyzing = false;
+            manualScanState.analysisResult = item.data;
+            manualScanState.hasAnalyzed = true;
+            manualScanState.isAnalyzing = false;
 
             if (item.image) {
                 currentUploadedImage = { ...item.image };
@@ -4729,6 +4804,13 @@
         function renderAnalysisResult(data) {
             const scanResultContainer = document.getElementById('scan-result-container');
             if (!scanResultContainer) return;
+            // このタブで解析結果を実際に表示する＝もうユーザーは結果を見たので、
+            // 「解析完了」通知バーの対象になっていた場合は消す（各画面ごとに個別で
+            // 消す処理を書くと漏れが出るため、結果描画のこの一箇所に集約する）
+            if (activeTabIndex === backgroundAnalysisState.targetModeIndex && backgroundAnalysisState.done) {
+                backgroundAnalysisState.done = false;
+                updateAnalysisStatusBar();
+            }
             scanResultContainer.innerHTML = "";
 
             // 不完全データのガード（localStorageから復元したデータが不完全な場合）
