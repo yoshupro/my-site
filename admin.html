@@ -440,6 +440,14 @@ function renderAll() {
 
 const BADGE_COLOR = { INFO: '#06b6d4', UPDATE: '#34d399', WARNING: '#f59e0b', IMPORTANT: '#f87171' };
 
+function formatDateTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '';
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
 function renderAnnouncements() {
   const wrap = document.getElementById('announcement-list');
   const empty = document.getElementById('announcement-empty');
@@ -457,7 +465,7 @@ function renderAnnouncements() {
           ${a.badge ? `<span style="font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:999px;color:#0b0f17;background:${esc(a.badgeColor || BADGE_COLOR[a.badge] || '#06b6d4')}">${esc(a.badge)}</span>` : ''}
           <span class="item-title" style="margin-left:6px;">${esc(a.title||'(無題)')}</span>
           ${a.link ? `<span title="${esc(a.link)}" style="margin-left:6px;color:var(--blue);font-size:10px;">🔗リンクあり</span>` : ''}
-          <p class="item-sub">${a.version ? 'Ver ' + esc(a.version) + ' ・ ' : ''}${esc((a.body||'').slice(0,60))}${(a.body||'').length>60?'…':''}</p>
+          <p class="item-sub">${formatDateTime(a.createdAt) ? formatDateTime(a.createdAt) + ' 追加 ・ ' : ''}${a.version ? 'Ver ' + esc(a.version) + ' ・ ' : ''}${esc((a.body||'').slice(0,60))}${(a.body||'').length>60?'…':''}</p>
         </div>
         <div class="item-actions">
           <button class="icon-btn" onclick="editAnnouncement(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
@@ -549,6 +557,8 @@ function confirmAnnouncement() {
   // 全項目任意：何も入力されていなくても保存できる。
   // バージョンだけは「既読/未読の判定」に使うため、空欄なら自動で採番する。
   const versionInput = document.getElementById('ann-version').value.trim();
+  const now = new Date().toISOString();
+  const existing = annEditIdx != null ? configData.announcements[annEditIdx] : null;
   const entry = {
     badge: document.getElementById('ann-badge').value.trim(),
     badgeColor: document.getElementById('ann-badge-color').value || '#06b6d4',
@@ -556,6 +566,9 @@ function confirmAnnouncement() {
     title: document.getElementById('ann-title').value.trim(),
     body: document.getElementById('ann-body').value.trim(),
     link: document.getElementById('ann-link').value.trim(),
+    // 追加日時は初回作成時のまま保持し、編集した場合は更新日時を別に記録する
+    createdAt: (existing && existing.createdAt) || now,
+    updatedAt: now,
   };
   if (annEditIdx != null) configData.announcements[annEditIdx] = entry;
   else configData.announcements.unshift(entry);
