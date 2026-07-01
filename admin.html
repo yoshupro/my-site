@@ -257,15 +257,30 @@
 
 <div id="section-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:520px;max-height:88vh;overflow:auto;">
-    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">セクションを追加</h3>
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">セクションを追加</h3>
+    <p class="desc" style="margin-bottom:14px;">プリントの写真をアップロードすると、Gemini AIが自動で解析し、本体アプリと同じ内容（本文・対訳ノート／Put into Japanese／Vocabulary／Questions）を生成します。</p>
     <div class="row3">
       <div class="field"><label>ID（半角英数字）</label><input type="text" id="sec-id" placeholder="例：L2S1"></div>
       <div class="field"><label>Lessonラベル</label><input type="text" id="sec-lesson-label" placeholder="例：Lesson 2"></div>
       <div class="field"><label>Sectionラベル</label><input type="text" id="sec-section-label" placeholder="例：Section 1"></div>
     </div>
+
     <div class="field">
-      <label>解析結果データ（JSON）</label>
-      <textarea id="sec-data-json" style="min-height:220px;font-family:'SF Mono',Consolas,monospace;font-size:11px;" placeholder='{"lessonTitle":"...","transcription":"...","transcriptionAnalysis":[],"putIntoJapaneseAnswers":[],"vocabulary":[],"questions":[]}'></textarea>
+      <label>プリント画像</label>
+      <input type="file" id="sec-image-file" accept="image/*" onchange="handleSectionImageSelect(event)">
+      <div id="sec-image-preview-wrap" class="hidden" style="margin-top:10px;">
+        <img id="sec-image-preview" style="max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--border);display:block;">
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm" id="sec-analyze-btn" onclick="analyzeSectionImage()" disabled style="margin:4px 0 6px;display:flex;align-items:center;justify-content:center;gap:6px;">
+      <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+      <span id="sec-analyze-btn-text">Gemini AIで解析する</span>
+    </button>
+    <p id="sec-analyze-status" style="font-size:11px;color:var(--sub);margin:0 0 14px;min-height:14px;"></p>
+
+    <div class="field">
+      <label>解析結果データ（JSON・自動生成／手動編集も可）</label>
+      <textarea id="sec-data-json" style="min-height:180px;font-family:'SF Mono',Consolas,monospace;font-size:11px;" placeholder="画像をアップロードして「Gemini AIで解析する」を押すと、ここに自動で入力されます"></textarea>
     </div>
     <p id="sec-json-error" style="color:var(--red);font-size:11px;font-weight:700;display:none;"></p>
     <div class="row2" style="margin-top:16px;">
@@ -638,6 +653,9 @@ function removeSchedule(idx) {
 }
 
 let secEditIdx = null;
+let secImageBase64 = null;
+let secImageMimeType = null;
+
 function addSection() { openSectionModal(null); }
 function editSection(idx) { openSectionModal(idx); }
 function openSectionModal(idx) {
@@ -646,13 +664,202 @@ function openSectionModal(idx) {
   document.getElementById('sec-id').value = s.id || '';
   document.getElementById('sec-lesson-label').value = s.lessonLabel || '';
   document.getElementById('sec-section-label').value = s.sectionLabel || '';
-  document.getElementById('sec-data-json').value = s.data ? JSON.stringify(s.data, null, 2) : '';
+  document.getElementById('sec-data-json').value = s.data && Object.keys(s.data).length ? JSON.stringify(s.data, null, 2) : '';
   document.getElementById('sec-json-error').style.display = 'none';
+  // 画像アップロード関連の状態をリセット
+  secImageBase64 = null;
+  secImageMimeType = null;
+  document.getElementById('sec-image-file').value = '';
+  document.getElementById('sec-image-preview-wrap').classList.add('hidden');
+  document.getElementById('sec-analyze-btn').disabled = true;
+  document.getElementById('sec-analyze-status').textContent = '';
   document.getElementById('section-modal').classList.remove('hidden');
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 function closeSectionModal() {
   document.getElementById('section-modal').classList.add('hidden');
 }
+
+function handleSectionImageSelect(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    // "data:image/png;base64,xxxx" の形式なので、カンマ以降のbase64部分だけを取り出す
+    const result = reader.result;
+    const commaIdx = result.indexOf(',');
+    secImageBase64 = result.slice(commaIdx + 1);
+    secImageMimeType = file.type || 'image/jpeg';
+    const previewImg = document.getElementById('sec-image-preview');
+    previewImg.src = result;
+    document.getElementById('sec-image-preview-wrap').classList.remove('hidden');
+    document.getElementById('sec-analyze-btn').disabled = false;
+    document.getElementById('sec-analyze-status').textContent = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+// 本体アプリ（index.html）の processGeminiRequest と同じプロンプト・スキーマ・
+// エンドポイントを使用し、管理画面からも同一クオリティの解析結果を生成する
+const SECTION_ANALYSIS_PROMPT = "あなたは高校英語の学習支援AIです。添付の英語学習プリント画像をもとに、生徒用の予習学習ノートを作成してください。本文の丸写しは不要です。各英文を教育的に要約・解説する形で出力してください。クラス名・氏名欄など学習内容と無関係な部分は無視してください。できるだけ濃く・具体的に解説してください。\n" +
+  "1. transcription/transcriptionAnalysis: 各英文について①日本語での内容要約 ②文法・構文の解説 ③文の構造（SVOC等の文型・どの語がどの働きをしているか） ④文中で使われている重要表現・イディオムとその意味（英文そのものの転記は最小限にとどめ、解説を中心にすること）。\n" +
+  "2. putIntoJapaneseAnswers: 丸数字付き英文の自然な日本語訳と訳出ポイント、および和訳の際に間違えやすいポイント（直訳と意訳の違いなど）（英文の転記は番号と冒頭数語程度にとどめること）。\n" +
+  "3. vocabulary: 重要語彙の語義、プリント本文とは全く異なる独自の学習用例文、同義語・反意語、派生語（名詞形・動詞形・形容詞形など）、発音やアクセントで注意すべき点、大学入試での頻出度の目安。\n" +
+  "4. questions: Questions欄の模範解答(英語)・日本語訳・本文根拠を含む解説、および理解度を確認できる類題を1問。\n" +
+  "5. lessonTitle: Lesson/Unit番号など。";
+
+const SECTION_ANALYSIS_SCHEMA = {
+  type: "OBJECT",
+  properties: {
+    transcription: { type: "STRING", description: "純粋な英語本文全体の書き起こし" },
+    transcriptionAnalysis: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: {
+          english: { type: "STRING" },
+          japanese: { type: "STRING" },
+          grammarExplanation: { type: "STRING" },
+          sentenceStructure: { type: "STRING", description: "文型（SVOC等）や文の構造の解説" },
+          keyExpressions: { type: "STRING", description: "文中の重要表現・イディオムとその意味。なければ空文字" }
+        },
+        required: ["english", "japanese", "grammarExplanation", "sentenceStructure", "keyExpressions"]
+      }
+    },
+    putIntoJapaneseAnswers: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: {
+          num: { type: "STRING" },
+          english: { type: "STRING" },
+          japanese: { type: "STRING" },
+          translationPoint: { type: "STRING" },
+          commonMistake: { type: "STRING", description: "和訳の際に間違えやすいポイント" }
+        },
+        required: ["num", "english", "japanese", "translationPoint", "commonMistake"]
+      }
+    },
+    vocabulary: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: {
+          word: { type: "STRING" },
+          meaning: { type: "STRING" },
+          usage: { type: "STRING" },
+          synonymsAntonyms: { type: "STRING", description: "同義語・反意語。なければ空文字" },
+          derivatives: { type: "STRING", description: "派生語（名詞形・動詞形・形容詞形など）。なければ空文字" },
+          pronunciation: { type: "STRING", description: "発音・アクセントの注意点。なければ空文字" },
+          examFrequency: { type: "STRING", description: "大学入試での頻出度の目安（例: 頻出/標準/やや難）" }
+        },
+        required: ["word", "meaning", "usage", "synonymsAntonyms", "derivatives", "pronunciation", "examFrequency"]
+      }
+    },
+    questions: {
+      type: "ARRAY",
+      items: {
+        type: "OBJECT",
+        properties: {
+          question: { type: "STRING" },
+          questionJapanese: { type: "STRING", description: "質問文の日本語訳" },
+          answer: { type: "STRING" },
+          answerJapanese: { type: "STRING" },
+          explanation: { type: "STRING" },
+          similarQuestion: { type: "STRING", description: "理解度確認用の類題（問題文＋答え）。なければ空文字" }
+        },
+        required: ["question", "questionJapanese", "answer", "answerJapanese", "explanation", "similarQuestion"]
+      }
+    },
+    lessonTitle: { type: "STRING", description: "Lesson番号やタイトル（例: Lesson 3, Unit 2など）。見つからなければ空文字" }
+  },
+  required: ["transcription", "transcriptionAnalysis", "putIntoJapaneseAnswers", "vocabulary", "questions", "lessonTitle"]
+};
+
+async function fetchGeminiForSection(payload, retries = 5, delay = 600) {
+  const url = 'https://promaster-api.kawaa1456.workers.dev';
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) return await response.json();
+      if (response.status === 429 || response.status >= 500) {
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2;
+        continue;
+      }
+      const errData = await response.json().catch(() => ({}));
+      throw new Error((errData.error && errData.error.message) || `HTTP error! status: ${response.status}`);
+    } catch (error) {
+      if (i === retries - 1) throw error;
+      await new Promise(res => setTimeout(res, delay));
+      delay *= 2;
+    }
+  }
+}
+
+async function analyzeSectionImage() {
+  if (!secImageBase64) { showToast('先に画像を選択してください'); return; }
+  const btn = document.getElementById('sec-analyze-btn');
+  const btnText = document.getElementById('sec-analyze-btn-text');
+  const statusEl = document.getElementById('sec-analyze-status');
+  btn.disabled = true;
+  btnText.textContent = '解析中…（数十秒かかります）';
+  statusEl.style.color = 'var(--sub)';
+  statusEl.textContent = 'Gemini AIが画像を解析しています。しばらくお待ちください。';
+
+  const parts = [{ text: SECTION_ANALYSIS_PROMPT }, { inlineData: { mimeType: secImageMimeType, data: secImageBase64 } }];
+  const payload = {
+    contents: [{ role: "user", parts }],
+    generationConfig: { responseMimeType: "application/json", responseSchema: SECTION_ANALYSIS_SCHEMA }
+  };
+
+  try {
+    let responseData = await fetchGeminiForSection(payload);
+    if (responseData && responseData.error) throw new Error(responseData.error.message || 'Gemini APIエラーが発生しました。');
+    let candidate = responseData && responseData.candidates && responseData.candidates[0];
+    if (!candidate) {
+      const blocked = responseData && responseData.promptFeedback && responseData.promptFeedback.blockReason;
+      throw new Error(blocked ? `画像がブロックされました: ${blocked}` : 'APIから応答がありませんでした。');
+    }
+    if (candidate.finishReason === 'SAFETY') throw new Error('安全フィルターにより画像がブロックされました。別の画像をお試しください。');
+    if (candidate.finishReason === 'RECITATION') {
+      // 著作権フィルターの場合、簡略化したプロンプトで1回だけ再試行
+      statusEl.textContent = 'フィルター検知。別の解析方法で再試行しています…';
+      const parts2 = [{ text: "この英語学習プリントの内容を日本語で解説してください。英文を直接転記せず、各文の内容説明・文法解説・構文解説・重要単語のみをJSON形式で出力してください。フォーマット: {transcription:'',transcriptionAnalysis:[{english:'',japanese:'',grammarExplanation:'',sentenceStructure:'',keyExpressions:''}],putIntoJapaneseAnswers:[{num:'',english:'',japanese:'',translationPoint:'',commonMistake:''}],vocabulary:[{word:'',meaning:'',usage:'',synonymsAntonyms:'',derivatives:'',pronunciation:'',examFrequency:''}],questions:[{question:'',questionJapanese:'',answer:'',answerJapanese:'',explanation:'',similarQuestion:''}],lessonTitle:''}" }, { inlineData: { mimeType: secImageMimeType, data: secImageBase64 } }];
+      const payload2 = { contents: [{ role: "user", parts: parts2 }], generationConfig: { responseMimeType: "application/json" } };
+      responseData = await fetchGeminiForSection(payload2, 3, 1000);
+      candidate = responseData && responseData.candidates && responseData.candidates[0];
+      if (!candidate || !candidate.content) throw new Error('著作権フィルターにより処理がブロックされました。画像を変えて再試行してください。');
+    }
+    if (!candidate.content || !candidate.content.parts || !candidate.content.parts[0] || !candidate.content.parts[0].text) {
+      throw new Error(`解析結果が空でした (finishReason: ${candidate.finishReason || '不明'})。画像が鮮明か確認してください。`);
+    }
+    const parsedData = JSON.parse(candidate.content.parts[0].text);
+    document.getElementById('sec-data-json').value = JSON.stringify(parsedData, null, 2);
+    document.getElementById('sec-json-error').style.display = 'none';
+    // Lessonラベルが未入力なら、解析結果のlessonTitleから補助的に提案する
+    const lessonLabelEl = document.getElementById('sec-lesson-label');
+    if (!lessonLabelEl.value.trim() && parsedData.lessonTitle) {
+      lessonLabelEl.value = parsedData.lessonTitle;
+    }
+    statusEl.style.color = 'var(--green)';
+    statusEl.textContent = '解析が完了しました。内容を確認して「反映する」を押してください。';
+    showToast('AI解析が完了しました');
+  } catch (e) {
+    console.error(e);
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = 'エラー：' + e.message;
+    showToast('解析に失敗しました');
+  } finally {
+    btn.disabled = false;
+    btnText.textContent = 'Gemini AIで解析する';
+  }
+}
+
 function confirmSection() {
   const id = document.getElementById('sec-id').value.trim();
   const lessonLabel = document.getElementById('sec-lesson-label').value.trim();
@@ -662,6 +869,7 @@ function confirmSection() {
   errEl.style.display = 'none';
 
   if (!id || !lessonLabel || !sectionLabel) { showToast('ID・ラベルは必須です'); return; }
+  if (!dataRaw) { showToast('先に画像をアップロードしてAI解析を行ってください'); return; }
   let dataObj;
   try {
     dataObj = JSON.parse(dataRaw);
@@ -687,6 +895,7 @@ function removeSection(idx) {
   renderSections();
   markDirty();
 }
+
 
 window.addEventListener('beforeunload', (e) => {
   if (dirty) { e.preventDefault(); e.returnValue = ''; }
