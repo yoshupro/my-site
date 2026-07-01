@@ -1,6 +1,12 @@
 {
   "announcements": [
     {
+      "badge": "UPDATE",
+      "version": "1.0.1",
+      "title": "軽微な修正を行いました。",
+      "body": ""
+    },
+    {
       "badge": "INFO",
       "version": "1.0.0",
       "title": "【プレリリース記念のお知らせ】",
