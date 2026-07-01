@@ -41,5 +41,316 @@
       "memo": null
     }
   ],
-  "extraSections": []
+  "extraSections": [
+    {
+      "id": "L3S1",
+      "lessonLabel": "Lesson3",
+      "sectionLabel": "Section1",
+      "name": "Lesson3  Lesson 3 Accessible Japan Section 1  Section1",
+      "data": {
+        "transcription": "Lesson 3 Accessible Japan Section 1\n\nIs Japan accessible to tourists with disabilities? Josh Grisdale, who runs the website Accessible Japan, discusses this question.\n\nWhen I was six months old, I was diagnosed with severe cerebral palsy. I have used an electric wheelchair since I was four years old.\n\nI was born in Canada but now live in Tokyo, working at a care facility. My job is to manage a website for a group that runs nursing homes, kindergartens, and nursery schools.\n\nYou may wonder why I came all the way to Japan despite my physical condition.\n\nWhen I was in high school, I took Japanese language classes. ①The more I studied about Japan, the more I wanted to see Japan with my own eyes.\n\nIn 2000, I received a gift from my father: a one-month trip to Japan! After doing a tour in Asakusa, my father and I were on our way back to the hotel. We got to the subway entrance but we couldn't find an elevator. ②Not knowing what to do, we asked where the elevator was. To our surprise, six subway employees came and carried me and my 130-kilogram wheelchair down the stairs. I will never forget that experience. ③It was then that I dreamed of making Japan my home.",
+        "transcriptionAnalysis": [
+          {
+            "english": "Is Japan accessible to tourists with disabilities?",
+            "japanese": "日本は障害を持つ観光客にとってアクセスしやすいでしょうか？",
+            "grammarExplanation": "\"accessible to A\"は「Aにとってアクセスしやすい」という意味です。\"with disabilities\"は「障害を持つ」という意味を表します。",
+            "sentenceStructure": "Be動詞 (Is) + 主語 (Japan) + 補語 (accessible to tourists with disabilities)? の疑問文の構造です。",
+            "keyExpressions": "accessible to (～にアクセスしやすい), with disabilities (障害を持つ)"
+          },
+          {
+            "english": "Josh Grisdale, who runs the website Accessible Japan, discusses this question.",
+            "japanese": "ウェブサイト「アクセシブル・ジャパン」を運営しているジョシュ・グリズデイル氏が、この問題について議論しています。",
+            "grammarExplanation": "\"who runs the website Accessible Japan\"はJosh Grisdaleを説明する関係代名詞節（非制限用法）です。主語に関する追加情報を提供します。",
+            "sentenceStructure": "主語 (Josh Grisdale) + 関係代名詞節 (who runs...) + 動詞 (discusses) + 目的語 (this question). の構造です。",
+            "keyExpressions": "run a website (ウェブサイトを運営する), discuss a question (問題について議論する)"
+          },
+          {
+            "english": "When I was six months old, I was diagnosed with severe cerebral palsy.",
+            "japanese": "私が生後6ヶ月の時、重度の脳性麻痺と診断されました。",
+            "grammarExplanation": "\"When S + V...\"は「SがVする時」という意味の時を表す副詞節です。\"be diagnosed with A\"は「Aと診断される」という意味の受動態の形です。",
+            "sentenceStructure": "時を表す副詞節 (When I was six months old) + 主語 (I) + 受動態動詞 (was diagnosed) + 前置詞句 (with severe cerebral palsy). の構造です。",
+            "keyExpressions": "six months old (生後6ヶ月), be diagnosed with (～と診断される), severe cerebral palsy (重度の脳性麻痺)"
+          },
+          {
+            "english": "I have used an electric wheelchair since I was four years old.",
+            "japanese": "私は4歳の時から電動車椅子を使っています。",
+            "grammarExplanation": "現在完了形 (have + 過去分詞) と \"since S + V\" (SがVして以来) で、4歳から現在まで電動車椅子を使っている継続を表します。",
+            "sentenceStructure": "主語 (I) + 現在完了動詞 (have used) + 目的語 (an electric wheelchair) + 時を表す副詞句 (since I was four years old). の構造です。",
+            "keyExpressions": "use an electric wheelchair (電動車椅子を使う), since I was four years old (4歳の時から)"
+          },
+          {
+            "english": "I was born in Canada but now live in Tokyo, working at a care facility.",
+            "japanese": "私はカナダで生まれましたが、今は東京の介護施設で働いています。",
+            "grammarExplanation": "\"be born in A\"は「Aで生まれる」という意味です。\"but\"は対比を表す接続詞です。\"working at a care facility\"は付帯状況を表す分詞構文で、主語Iが「働いている」状態を示しています。",
+            "sentenceStructure": "主語 (I) + 動詞 (was born) + 場所 (in Canada) + 接続詞 (but) + 副詞 (now) + 動詞 (live) + 場所 (in Tokyo) + 分詞構文 (working at a care facility). の構造です。",
+            "keyExpressions": "be born in (～で生まれる), live in (～に住む), work at a facility (施設で働く), care facility (介護施設)"
+          },
+          {
+            "english": "My job is to manage a website for a group that runs nursing homes, kindergartens, and nursery schools.",
+            "japanese": "私の仕事は、老人ホーム、幼稚園、保育園を運営するグループのためにウェブサイトを管理することです。",
+            "grammarExplanation": "\"to manage...\"は名詞的用法の不定詞で、動詞\"is\"の補語（～すること）です。\"that runs...\"は\"a group\"を修飾する関係代名詞節（主格）です。",
+            "sentenceStructure": "主語 (My job) + 動詞 (is) + 不定詞句 (to manage a website for a group) + 関係代名詞節 (that runs nursing homes, kindergartens, and nursery schools). の構造です。",
+            "keyExpressions": "manage a website (ウェブサイトを管理する), a group that runs... (～を運営するグループ), nursing home (老人ホーム), kindergarten (幼稚園), nursery school (保育園)"
+          },
+          {
+            "english": "You may wonder why I came all the way to Japan despite my physical condition.",
+            "japanese": "私の身体の状態にもかかわらず、なぜわざわざ日本に来たのか、疑問に思われるかもしれません。",
+            "grammarExplanation": "\"may wonder\"は「～かもしれない、～と思うだろう」という推量を表します。\"why S + V\"は間接疑問文で、「なぜSがVするのか」という意味です。\"all the way to A\"は「わざわざAまで」という意味です。\"despite A\"は「Aにもかかわらず」という意味の前置詞です。",
+            "sentenceStructure": "主語 (You) + 助動詞 (may) + 動詞 (wonder) + 間接疑問文節 (why I came all the way to Japan) + 前置詞句 (despite my physical condition). の構造です。",
+            "keyExpressions": "wonder why (なぜ～かと思う), all the way to (はるばる～まで), despite (～にもかかわらず), physical condition (身体の状態)"
+          },
+          {
+            "english": "When I was in high school, I took Japanese language classes.",
+            "japanese": "高校生の時、日本語の授業を受けました。",
+            "grammarExplanation": "\"When S + V...\"は「SがVする時」という意味の時を表す副詞節です。\"take classes\"は「授業を受ける」という意味です。",
+            "sentenceStructure": "時を表す副詞節 (When I was in high school) + 主語 (I) + 動詞 (took) + 目的語 (Japanese language classes). の構造です。",
+            "keyExpressions": "in high school (高校で), take Japanese language classes (日本語の授業を受ける)"
+          },
+          {
+            "english": "The more I studied about Japan, the more I wanted to see Japan with my own eyes.",
+            "japanese": "日本について学べば学ぶほど、自分の目で日本を見たいという気持ちが強くなりました。",
+            "grammarExplanation": "\"The more ~, the more...\"は「～すればするほど、ますます...」という意味の比較級を用いた重要な構文です。",
+            "sentenceStructure": "The more + S + V + ..., the more + S + V + ... の構造です。",
+            "keyExpressions": "The more ~, the more... (～すればするほど、ますます～), study about Japan (日本について学ぶ), see Japan with my own eyes (自分の目で日本を見る)"
+          },
+          {
+            "english": "In 2000, I received a gift from my father: a one-month trip to Japan!",
+            "japanese": "2000年、私は父から贈り物を受け取りました。それは1ヶ月間の日本旅行でした！",
+            "grammarExplanation": "コロン (:) は、前の内容を具体的に説明・補足する役割を果たします。",
+            "sentenceStructure": "副詞句 (In 2000) + 主語 (I) + 動詞 (received) + 目的語 (a gift) + 前置詞句 (from my father) + 補足説明 (a one-month trip to Japan!). の構造です。",
+            "keyExpressions": "receive a gift from (～から贈り物を受け取る), a one-month trip to Japan (1ヶ月間の日本旅行)"
+          },
+          {
+            "english": "After doing a tour in Asakusa, my father and I were on our way back to the hotel.",
+            "japanese": "浅草での観光を終えた後、父と私はホテルに戻る途中でした。",
+            "grammarExplanation": "\"After doing A\"は「Aをした後」という意味です。\"be on one's way back to A\"は「Aに戻る途中である」という意味です。",
+            "sentenceStructure": "前置詞句 (After doing a tour in Asakusa) + 主語 (my father and I) + 動詞 (were) + 前置詞句 (on our way back to the hotel). の構造です。",
+            "keyExpressions": "do a tour (観光をする), on one's way back to (～に戻る途中)"
+          },
+          {
+            "english": "We got to the subway entrance but we couldn't find an elevator.",
+            "japanese": "私たちは地下鉄の入り口に着きましたが、エレベーターを見つけることができませんでした。",
+            "grammarExplanation": "\"get to A\"は「Aに着く」という意味です。\"but\"は逆接の接続詞です。",
+            "sentenceStructure": "主語 (We) + 動詞 (got) + 場所 (to the subway entrance) + 接続詞 (but) + 主語 (we) + 助動詞 (couldn't) + 動詞 (find) + 目的語 (an elevator). の構造です。",
+            "keyExpressions": "get to (～に着く), subway entrance (地下鉄の入り口), find an elevator (エレベーターを見つける)"
+          },
+          {
+            "english": "Not knowing what to do, we asked where the elevator was.",
+            "japanese": "何をすべきかわからなかったので、私たちはエレベーターがどこにあるか尋ねました。",
+            "grammarExplanation": "\"Not knowing what to do\"は否定の分詞構文で、「何をすべきかわからなかったので」という理由を表します。\"where the elevator was\"は間接疑問文で、\"asked\"の目的語となります。語順は疑問詞 + 主語 + 動詞です。",
+            "sentenceStructure": "分詞構文 (Not knowing what to do) + 主語 (we) + 動詞 (asked) + 間接疑問文節 (where the elevator was). の構造です。",
+            "keyExpressions": "not knowing what to do (何をすべきかわからず), ask where A was (Aがどこにあるか尋ねる)"
+          },
+          {
+            "english": "To our surprise, six subway employees came and carried me and my 130-kilogram wheelchair down the stairs.",
+            "japanese": "驚いたことに、6人の地下鉄職員が来て、私と130キロの車椅子を階段で下ろしてくれました。",
+            "grammarExplanation": "\"To our surprise\"は「驚いたことに」という意味の慣用表現です。\"came and carried\"は動詞の並列です。",
+            "sentenceStructure": "副詞句 (To our surprise) + 主語 (six subway employees) + 動詞 (came and carried) + 目的語 (me and my 130-kilogram wheelchair) + 方向 (down the stairs). の構造です。",
+            "keyExpressions": "To our surprise (驚いたことに), subway employee (地下鉄職員), carry A down the stairs (Aを階段で下ろす), 130-kilogram wheelchair (130キロの車椅子)"
+          },
+          {
+            "english": "I will never forget that experience.",
+            "japanese": "私はその経験を決して忘れないでしょう。",
+            "grammarExplanation": "\"never forget A\"は「Aを決して忘れない」という意味です。",
+            "sentenceStructure": "主語 (I) + 助動詞 (will) + 副詞 (never) + 動詞 (forget) + 目的語 (that experience). の構造です。",
+            "keyExpressions": "never forget (決して忘れない), that experience (その経験)"
+          },
+          {
+            "english": "It was then that I dreamed of making Japan my home.",
+            "japanese": "まさにその時、私は日本を自分の故郷にするという夢を抱きました。",
+            "grammarExplanation": "\"It was then that...\"は強調構文で、「まさにその時～だった」と時を強調します。\"of making Japan my home\"は\"dreamed\"の目的語で、\"making Japan my home\"（日本を自分の故郷にする）という動名詞句です。",
+            "sentenceStructure": "強調構文 (It was then that) + 主語 (I) + 動詞 (dreamed) + 目的語 (of making Japan my home). の構造です。",
+            "keyExpressions": "It was then that... (まさにその時～だった), dream of doing (～することを夢見る), make A B (AをBにする), make Japan my home (日本を自分の故郷にする)"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "The more I studied about Japan, the more I wanted to see Japan with my own eyes.",
+            "japanese": "日本について学べば学ぶほど、自分の目で日本を見たいという気持ちが強くなりました。",
+            "translationPoint": "「The more S+V, the more S+V」の構文を「～すればするほど、ますます～」と自然な日本語で訳すことがポイントです。「with my own eyes」は「自分の目で」と具体的に訳します。",
+            "commonMistake": "「more...more」を直訳しすぎて、「より多く学んだ、より多く見たかった」のように不自然な日本語になることがあります。「～すればするほど」の形に落とし込めないこともあります。"
+          },
+          {
+            "num": "②",
+            "english": "Not knowing what to do, we asked where the elevator was.",
+            "japanese": "何をすべきかわからなかったので、私たちはエレベーターがどこにあるか尋ねました。",
+            "translationPoint": "分詞構文 \"Not knowing what to do\" を「何をすべきかわからなかったので」と理由を明確にして訳す点が重要です。「where the elevator was」のような間接疑問文の語順（疑問詞+主語+動詞）を理解し、自然な日本語に変換します。",
+            "commonMistake": "分詞構文をうまく接続詞でつなげず、「知らないこと、何をすべきか、私たちは尋ねた、エレベーターはどこだったか」のような直訳になることがあります。"
+          },
+          {
+            "num": "③",
+            "english": "It was then that I dreamed of making Japan my home.",
+            "japanese": "まさにその時、私は日本を自分の故郷にするという夢を抱きました。",
+            "translationPoint": "\"It was then that...\"という強調構文を「まさにその時～だった」と強調して訳すことがポイントです。「dream of doing」は「～することを夢見る」と訳し、「make A B」を「AをBにする」と適切に訳します。",
+            "commonMistake": "強調構文の役割を理解せず、ただ「それはその時だった」と訳してしまうことがあります。「日本を私の家にする」という直訳もよくある間違いです。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "accessible",
+            "meaning": "アクセスしやすい、利用しやすい",
+            "usage": "The building is accessible to wheelchair users.",
+            "synonymsAntonyms": "Synonyms: reachable, available. Antonyms: inaccessible.",
+            "derivatives": "access (名/動), accessibility (名)",
+            "pronunciation": "/əkˈsɛsəbəl/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "disability",
+            "meaning": "障害",
+            "usage": "She has a physical disability.",
+            "synonymsAntonyms": "Synonyms: impairment, handicap",
+            "derivatives": "disabled (形), enable (動)",
+            "pronunciation": "/ˌdɪsəˈbɪləti/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "Josh Grisdale",
+            "meaning": "ジョシュ グリズデイル (人名)",
+            "usage": "",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/dʒɒʃ ˈɡrɪsdeɪl/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "diagnose",
+            "meaning": "診断する",
+            "usage": "The doctor diagnosed him with a rare disease.",
+            "synonymsAntonyms": "Synonyms: identify, determine",
+            "derivatives": "diagnosis (名)",
+            "pronunciation": "/ˈdaɪəɡnoʊz/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "be diagnosed with ~",
+            "meaning": "～と診断される",
+            "usage": "She was diagnosed with cancer.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "中"
+          },
+          {
+            "word": "severe",
+            "meaning": "重度の、厳しい",
+            "usage": "He suffered a severe injury.",
+            "synonymsAntonyms": "Synonyms: harsh, acute. Antonyms: mild.",
+            "derivatives": "severity (名), severely (副)",
+            "pronunciation": "/sɪˈvɪr/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "cerebral palsy",
+            "meaning": "脳性麻痺",
+            "usage": "Cerebral palsy affects movement and muscle coordination.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/ˌsɛrəbrəl ˈpɔːlzi/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "electric",
+            "meaning": "電動の、電気の",
+            "usage": "She uses an electric wheelchair.",
+            "synonymsAntonyms": "Synonyms: electrical",
+            "derivatives": "electricity (名), electrician (名)",
+            "pronunciation": "/ɪˈlɛktrɪk/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "facility",
+            "meaning": "施設",
+            "usage": "The sports facility has a swimming pool.",
+            "synonymsAntonyms": "Synonyms: establishment, institution",
+            "derivatives": "facilitate (動)",
+            "pronunciation": "/fəˈsɪləti/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "nursery school",
+            "meaning": "保育園、幼稚園",
+            "usage": "My daughter started nursery school this year.",
+            "synonymsAntonyms": "Synonyms: kindergarten, preschool",
+            "derivatives": "nursery (名)",
+            "pronunciation": "/ˈnɜːrsəri skuːl/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "despite",
+            "meaning": "～にもかかわらず",
+            "usage": "Despite the rain, we went for a walk.",
+            "synonymsAntonyms": "Synonyms: in spite of",
+            "derivatives": "",
+            "pronunciation": "/dɪˈspaɪt/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "all the way to ~",
+            "meaning": "わざわざ～まで、はるばる～まで",
+            "usage": "He came all the way to Tokyo just for the concert.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "中"
+          },
+          {
+            "word": "The more ~, the more...",
+            "meaning": "～すればするほど、ますます...",
+            "usage": "The more you practice, the better you become.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "高"
+          },
+          {
+            "word": "on one's way to ~",
+            "meaning": "～へ向かう途中で、～に戻る途中で",
+            "usage": "I was on my way to work when I saw her.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "中"
+          },
+          {
+            "word": "employee",
+            "meaning": "従業員、社員",
+            "usage": "The company has over 100 employees.",
+            "synonymsAntonyms": "Synonyms: worker, staff member. Antonyms: employer.",
+            "derivatives": "employ (動), employment (名)",
+            "pronunciation": "/ɪmˈplɔɪiː/",
+            "examFrequency": "高"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Q-1 What kind of disability does Grisdale have?",
+            "questionJapanese": "Q-1 グリズデイル氏はどのような種類の障害を持っていますか？",
+            "answer": "He has severe cerebral palsy.",
+            "answerJapanese": "彼は重度の脳性麻痺を患っています。",
+            "explanation": "本文2段落目に「When I was six months old, I was diagnosed with severe cerebral palsy.」と明記されています。",
+            "similarQuestion": "いつ診断されましたか？"
+          },
+          {
+            "question": "Q-2 Why did Grisdale want to visit Japan?",
+            "questionJapanese": "Q-2 グリズデイル氏はなぜ日本を訪れたかったのですか？",
+            "answer": "The more he studied about Japan (in high school), the more he wanted to see Japan with his own eyes.",
+            "answerJapanese": "彼は（高校で）日本について学べば学ぶほど、自分の目で日本を見たいという気持ちが強くなったからです。",
+            "explanation": "本文5段落目に「The more I studied about Japan, the more I wanted to see Japan with my own eyes.」と記載されています。",
+            "similarQuestion": "日本への旅行は誰からの贈り物でしたか？"
+          },
+          {
+            "question": "Q-3 How do you think Grisdale felt when subway employees carried him down the stairs in the station?",
+            "questionJapanese": "Q-3 地下鉄の職員が駅の階段で彼を運び下ろしたとき、グリズデイル氏はどのように感じたと思いますか？",
+            "answer": "b. He was moved by the kindness of the employees.",
+            "answerJapanese": "b. 彼は職員たちの親切さに感動しました。",
+            "explanation": "職員が助けてくれた後に「I will never forget that experience. It was then that I dreamed of making Japan my home.」（その経験を決して忘れない。まさにその時、日本を自分の故郷にする夢を抱いた）とあり、この出来事が日本を故郷にしたいと思うほどの感動的な経験であったことが分かります。選択肢aの「He was upset because there was no elevator.」は直接的な感情としては異なります（不便さはあったものの、その後の親切な対応が強く印象に残った）。選択肢cの「He wanted to work as a subway employee himself.」は本文からは読み取れません。",
+            "similarQuestion": "この出来事の後、グリズデイル氏はどのような夢を抱きましたか？"
+          }
+        ],
+        "lessonTitle": "Lesson 3 Accessible Japan Section 1"
+      }
+    }
+  ]
 }
