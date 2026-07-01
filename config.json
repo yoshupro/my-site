@@ -1,6 +1,16 @@
 {
   "announcements": [
     {
+      "badge": "英コミュセクション追加",
+      "badgeColor": "#f462a8",
+      "version": "auto-1782943389889",
+      "title": "Lesson3-1を追加しました",
+      "body": "",
+      "link": "",
+      "createdAt": "2026-07-01T22:03:09.889Z",
+      "updatedAt": "2026-07-01T22:03:09.889Z"
+    },
+    {
       "badge": "UPDATE",
       "version": "1.0.1",
       "title": "軽微な修正を行いました。",
