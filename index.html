@@ -2024,32 +2024,48 @@
             const list = getActiveAnnouncements();
             const colorMap = { INFO: '#06b6d4', UPDATE: '#22c55e', WARNING: '#f59e0b', IMPORTANT: '#ef4444' };
             const emptyHtml = `<p class="text-xs text-slate-400 dark:text-slate-500 font-bold text-center py-4">現在お知らせはありません</p>`;
+
+            function getColor(a) {
+                return a.badgeColor || colorMap[a.badge] || '#06b6d4';
+            }
+            function getLinkAttrs(a) {
+                // リンクが入力されている場合、カード全体をタップで開けるようにする
+                if (!a.link) return { tag: 'div', open: '<div', close: '</div>' };
+                const safeUrl = escapeHtml(a.link);
+                return { tag: 'a', open: `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer"`, close: '</a>' };
+            }
+
             const html = list.length > 0 ? list.map(a => {
-                const color = colorMap[a.badge] || '#06b6d4';
-                return `<div class="flex items-start space-x-3 p-3 rounded-2xl border" style="background:${color}11;border-color:${color}33;">
-                    <span class="text-[10px] font-black px-2 py-0.5 rounded-full text-white shrink-0 mt-0.5" style="background:${color}">${escapeHtml(a.badge || 'INFO')}</span>
+                const color = getColor(a);
+                const linkEl = getLinkAttrs(a);
+                return `${linkEl.open} class="flex items-start space-x-3 p-3 rounded-2xl border${a.link ? ' cursor-pointer hover:opacity-80 active:opacity-70 transition-opacity' : ''}" style="background:${color}11;border-color:${color}33;">
+                    ${a.badge ? `<span class="text-[10px] font-black px-2 py-0.5 rounded-full text-white shrink-0 mt-0.5" style="background:${color}">${escapeHtml(a.badge)}</span>` : ''}
                     <div class="flex-1 min-w-0">
-                        <p class="text-xs font-black text-slate-800 dark:text-white break-words">${escapeHtml(a.title || '')}</p>
-                        <p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1 leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body || '')}</p>
+                        ${a.title ? `<p class="text-xs font-black text-slate-800 dark:text-white break-words">${escapeHtml(a.title)}</p>` : ''}
+                        ${a.body ? `<p class="text-[11px] text-slate-600 dark:text-slate-300 mt-1 leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body)}</p>` : ''}
+                        ${a.link ? `<span class="inline-flex items-center space-x-1 text-[10px] font-bold mt-1.5" style="color:${color}"><i data-lucide="external-link" class="w-3 h-3"></i><span>詳しくはこちら</span></span>` : ''}
                     </div>
-                </div>`;
+                ${linkEl.close}`;
             }).join('') : emptyHtml;
             const bannerBody = document.querySelector('#announcement-banner .p-5.space-y-3');
             if (bannerBody) bannerBody.innerHTML = html;
             const modalList = document.querySelector('#announcement-modal .space-y-3');
             if (modalList) {
                 modalList.innerHTML = list.length > 0 ? list.map(a => {
-                    const color = colorMap[a.badge] || '#06b6d4';
-                    return `<div class="p-3.5 rounded-xl border overflow-hidden" style="background:${color}11;border-color:${color}33;">
+                    const color = getColor(a);
+                    const linkEl = getLinkAttrs(a);
+                    return `${linkEl.open} class="block p-3.5 rounded-xl border overflow-hidden${a.link ? ' cursor-pointer hover:opacity-80 active:opacity-70 transition-opacity' : ''}" style="background:${color}11;border-color:${color}33;">
                         <div class="flex items-center space-x-1.5 mb-1 flex-wrap gap-y-1">
-                            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full text-white tracking-wider shrink-0" style="background:${color}">${escapeHtml(a.badge || 'INFO')}</span>
-                            <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500">Ver ${escapeHtml(a.version || '')}</span>
+                            ${a.badge ? `<span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full text-white tracking-wider shrink-0" style="background:${color}">${escapeHtml(a.badge)}</span>` : ''}
+                            ${a.version ? `<span class="text-[9px] font-bold text-slate-400 dark:text-slate-500">Ver ${escapeHtml(a.version)}</span>` : ''}
                         </div>
-                        <h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1 break-words">${escapeHtml(a.title || '')}</h4>
-                        <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body || '')}</p>
-                    </div>`;
+                        ${a.title ? `<h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1 break-words">${escapeHtml(a.title)}</h4>` : ''}
+                        ${a.body ? `<p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body)}</p>` : ''}
+                        ${a.link ? `<span class="inline-flex items-center space-x-1 text-[10px] font-bold mt-1.5" style="color:${color}"><i data-lucide="external-link" class="w-3 h-3"></i><span>詳しくはこちら</span></span>` : ''}
+                    ${linkEl.close}`;
                 }).join('') : emptyHtml;
             }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function checkAndShowAnnouncement() {
