@@ -365,6 +365,678 @@
         ],
         "lessonTitle": "Lesson 3 Accessible Japan Section 1"
       }
+    },
+    {
+      "id": "L3S2",
+      "lessonLabel": "Lesson3",
+      "sectionLabel": "Section2",
+      "name": "Lesson3  Lesson 3 Accessible Japan Section 2  Section2",
+      "data": {
+        "transcription": "In 2007, I moved permanently to Tokyo. Being an adventurer at heart, I visited lots of places in Japan. I learned that Japan was very accessible for people in wheelchairs. Yet a lot of visitors from abroad were having difficulty getting information in English. I wanted to do something for them.\n\nIn 2015, I started Accessible Japan, an English website which provides information for visitors with disabilities, like the location of elevators and restrooms as well as the accessibility of tourist sites. ①People should not have to give up their dream of visiting Japan just because of a lack of information.\n\nFortunately, my efforts have touched the lives of many people. ②Encouraged by the information on my website, an Australian girl with cerebral palsy and her father realized their dream of coming to Japan. They both loved anime.\n\nOn another occasion, ③having seen my website, staff members of the Nezu Museum asked me to check the accessibility of their facilities. I noticed a problem with the museum's toilet: it didn't have a backrest. The staff went right to work. On my next visit, they were very proud to show me the new backrest on the toilet.",
+        "transcriptionAnalysis": [
+          {
+            "english": "In 2007, I moved permanently to Tokyo.",
+            "japanese": "2007年に、私は東京へ永住しました。",
+            "grammarExplanation": "「permanently」は「永続的に、恒久的に」という意味の副詞で、「moved」（動詞）を修飾しています。",
+            "sentenceStructure": "「When (時間), Subject (S) + Verb (V) + Adverb (M) + Prepositional Phrase (P)」という基本的な構造です。",
+            "keyExpressions": "「move permanently to ~」: ～へ永住する、引っ越す。"
+          },
+          {
+            "english": "Being an adventurer at heart, I visited lots of places in Japan.",
+            "japanese": "心は冒険家なので、日本のたくさんの場所を訪れました。",
+            "grammarExplanation": "「Being an adventurer at heart」は分詞構文で、理由を表します。「～なので」と訳すと自然です。「at heart」は「心底、本当は」という意味です。",
+            "sentenceStructure": "「分詞構文 (理由), 主節 (S + V + O)」の形です。",
+            "keyExpressions": "「adventurer at heart」: 心は冒険家。「lots of places」: たくさんの場所。"
+          },
+          {
+            "english": "I learned that Japan was very accessible for people in wheelchairs.",
+            "japanese": "日本が車椅子を利用する人々にとって非常にアクセスしやすいことを知りました。",
+            "grammarExplanation": "「I learned that ~」はthat節で学んだ内容を示します。「accessible for people」（人にとってアクセスしやすい）という表現に注意。「in wheelchairs」は「車椅子に乗った状態で」という意味です。",
+            "sentenceStructure": "「S + V + that節 (S' + V' + C' + 前置詞句)」の形です。",
+            "keyExpressions": "「accessible for ~」: ～にとってアクセスしやすい。「in wheelchairs」: 車椅子で。"
+          },
+          {
+            "english": "Yet a lot of visitors from abroad were having difficulty getting information in English.",
+            "japanese": "しかし、多くの海外からの訪問者は、英語での情報を得ることに困難を抱えていました。",
+            "grammarExplanation": "「Yet」は接続副詞で「しかし」と逆説を表します。「have difficulty -ing」は「～するのに苦労する、困難を抱える」という重要構文です。「from abroad」は「海外からの」という意味です。",
+            "sentenceStructure": "「接続副詞, S + V + O (動名詞句 + 前置詞句)」の形です。",
+            "keyExpressions": "「a lot of ~」: 多くの～。 「visitors from abroad」: 海外からの訪問者。「have difficulty getting information」: 情報を得るのに苦労する。"
+          },
+          {
+            "english": "I wanted to do something for them.",
+            "japanese": "私は彼らのために何かしたいと思いました。",
+            "grammarExplanation": "「want to do ~」は「～したい」という意味です。「for them」は「彼らのために」という意味です。",
+            "sentenceStructure": "「S + V + O (不定詞句) + 前置詞句」の形です。",
+            "keyExpressions": "「do something for ~」: ～のために何かをする。"
+          },
+          {
+            "english": "In 2015, I started Accessible Japan, an English website which provides information for visitors with disabilities, like the location of elevators and restrooms as well as the accessibility of tourist sites.",
+            "japanese": "2015年に、私はアクセシブルジャパンという英語のウェブサイトを立ち上げました。このサイトは、エレベーターやトイレの場所、観光地のアクセスしやすさなど、障害を持つ訪問者向けの情報を提供しています。",
+            "grammarExplanation": "「Accessible Japan, an English website」は同格です。「which provides ~」は関係代名詞の非制限用法で、ウェブサイトに関する補足説明をします。「for visitors with disabilities」（障害を持つ訪問者のために）。「like ~ as well as ~」は「～や～など」と例を挙げる表現です。",
+            "sentenceStructure": "「When, S + V + O (同格句) + 関係代名詞節 (S' + V' + O' + 前置詞句 + 例示)」の複雑な構造です。",
+            "keyExpressions": "「with disabilities」: 障害を持つ。「as well as」: ～だけでなく～も（ここでは「～や～など」と例示）。「location of ~」: ～の場所。「accessibility of ~」: ～のアクセスしやすさ。"
+          },
+          {
+            "english": "①People should not have to give up their dream of visiting Japan just because of a lack of information.",
+            "japanese": "人々は、情報不足という理由だけで日本を訪れる夢を諦めるべきではありません。",
+            "grammarExplanation": "「should not have to ~」は「～する必要はない」という意味です。「give up ~」は「～を諦める、放棄する」という句動詞です。「dream of -ing」は「～する夢」。「just because of ~」は「単に～という理由で」。「a lack of ~」は「～の不足」です。",
+            "sentenceStructure": "「S + 助動詞 + 動詞句 (動名詞 + 前置詞句) + 副詞句」の形です。",
+            "keyExpressions": "「give up their dream」: 夢を諦める。「a lack of information」: 情報不足。"
+          },
+          {
+            "english": "Fortunately, my efforts have touched the lives of many people.",
+            "japanese": "幸いなことに、私の努力は多くの人々の人生に影響を与えてきました。",
+            "grammarExplanation": "「Fortunately」（副詞）は文全体を修飾します。「have touched the lives of ~」は現在完了形で「～の人生に影響を与えてきた」という意味です。",
+            "sentenceStructure": "「副詞, S + V + O」の形です。",
+            "keyExpressions": "「touch the lives of ~」: ～の人生に影響を与える。"
+          },
+          {
+            "english": "②Encouraged by the information on my website, an Australian girl with cerebral palsy and her father realized their dream of coming to Japan.",
+            "japanese": "私のウェブサイトの情報に励まされて、脳性麻痺を持つオーストラリア人の少女と彼女の父親は、日本に来るという夢を実現しました。",
+            "grammarExplanation": "「Encouraged by ~」は分詞構文で、理由や付帯状況を表します（ここでは「～に励まされて」と受動態の意味）。「with cerebral palsy」は「脳性麻痺を持つ」。「realized their dream of -ing」は「～するという夢を実現した」という意味です。",
+            "sentenceStructure": "「分詞構文 (受動), S + V + O (動名詞句)」の形です。",
+            "keyExpressions": "「Encouraged by ~」: ～に励まされて。「cerebral palsy」: 脳性麻痺。「realize one's dream」: 夢を実現する。「dream of coming to Japan」: 日本に来る夢。"
+          },
+          {
+            "english": "They both loved anime.",
+            "japanese": "彼らは二人ともアニメが大好きでした。",
+            "grammarExplanation": "「both」は「両方とも」という意味です。",
+            "sentenceStructure": "「S + 副詞 + V + O」の形です。",
+            "keyExpressions": "「both loved ~」: 両方とも～が好きだった。"
+          },
+          {
+            "english": "On another occasion, ③having seen my website, staff members of the Nezu Museum asked me to check the accessibility of their facilities.",
+            "japanese": "別の機会に、私のウェブサイトを見た根津美術館のスタッフが、施設のアクセスしやすさを確認してほしいと私に頼みました。",
+            "grammarExplanation": "「On another occasion」は「別の機会に」という意味です。「having seen my website」は完了分詞構文で、主節の動作よりも前の出来事を表します（ウェブサイトを見たのが依頼するよりも前）。「ask O to do ~」は「Oに～するように頼む」。「check the accessibility of ~」は「～のアクセスしやすさを確認する」という意味です。",
+            "sentenceStructure": "「前置詞句, 完了分詞構文, S + V + O + 補語 (不定詞句)」の形です。",
+            "keyExpressions": "「On another occasion」: 別の機会に。「staff members of ~」: ～のスタッフ。「ask O to do ~」: Oに～するように頼む。「check the accessibility of their facilities」: 施設のアクセスしやすさを確認する。"
+          },
+          {
+            "english": "I noticed a problem with the museum's toilet: it didn't have a backrest.",
+            "japanese": "私は美術館のトイレに問題があることに気づきました。それは背もたれがなかったのです。",
+            "grammarExplanation": "「notice a problem with ~」は「～に問題があることに気づく」という意味です。コロン（:）は前の文の内容を具体的に説明します。「backrest」は「背もたれ」です。",
+            "sentenceStructure": "「S + V + O: S' + V' + O'」の形です。",
+            "keyExpressions": "「notice a problem with ~」: ～に問題があることに気づく。「didn't have a backrest」: 背もたれがなかった。"
+          },
+          {
+            "english": "The staff went right to work.",
+            "japanese": "スタッフはすぐさま作業に取り掛かりました。",
+            "grammarExplanation": "「go right to work」は「すぐさま仕事に取り掛かる」という意味です。「right」は「すぐに、即座に」という意味で動詞を強調します。",
+            "sentenceStructure": "「S + V + 副詞句」の形です。",
+            "keyExpressions": "「go right to work」: すぐに仕事に取り掛かる。"
+          },
+          {
+            "english": "On my next visit, they were very proud to show me the new backrest on the toilet.",
+            "japanese": "私が次に訪れた際、彼らは誇らしげに、トイレの新しい背もたれを見せてくれました。",
+            "grammarExplanation": "「On my next visit」は「次に訪れた際に」という意味です。「be proud to do ~」は「～することを誇りに思う」という表現です。「show O O'」は「OにO'を見せる」というSVOO構文です。",
+            "sentenceStructure": "「前置詞句, S + V + 形容詞句 (不定詞句 + O + O')」の形です。",
+            "keyExpressions": "「On my next visit」: 次の訪問で。「be proud to show ~」: ～を見せることを誇りに思う。「new backrest on the toilet」: トイレの新しい背もたれ。"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "People should not have to give up their dream of visiting Japan just because of a lack of information.",
+            "japanese": "人々は、情報不足という理由だけで日本を訪れる夢を諦めるべきではありません。",
+            "translationPoint": "「should not have to ~」は「～する必要はない」と訳し、強い義務ではなく、不必要性を表します。「give up one's dream of -ing」は「～するという夢を諦める」。「just because of ~」は「単に～という理由で」。「a lack of information」は「情報不足」と訳します。",
+            "commonMistake": "「should not give up」と直訳して「諦めるべきではない」とすると、「～する必要はない」という元のニュアンスが弱まることがあります。「have to」の意味合いを正確に捉えることが重要です。"
+          },
+          {
+            "num": "②",
+            "english": "Encouraged by the information on my website, an Australian girl with cerebral palsy and her father realized their dream of coming to Japan.",
+            "japanese": "私のウェブサイトの情報に励まされて、脳性麻痺を持つオーストラリア人の少女と彼女の父親は、日本に来るという夢を実現しました。",
+            "translationPoint": "分詞構文「Encouraged by ~」は「～に励まされて」と受動の意味で訳します。「with cerebral palsy」は「脳性麻痺を持つ」。「realized their dream of -ing」は「～するという夢を実現した」と訳します。",
+            "commonMistake": "分詞構文を独立した文として訳してしまうと不自然になるため、主節と繋げて自然な日本語にすることが肝要です。「cerebral palsy」をそのまま「脳性麻痺」と訳しましょう。"
+          },
+          {
+            "num": "③",
+            "english": "On another occasion, having seen my website, staff members of the Nezu Museum asked me to check the accessibility of their facilities.",
+            "japanese": "別の機会に、私のウェブサイトを見た根津美術館のスタッフが、施設のアクセスしやすさを確認してほしいと私に頼みました。",
+            "translationPoint": "完了分詞構文「having seen ~」は主節の動詞「asked」よりも前に起こったことなので、「～を見た後で」あるいは「～を見て」と訳します。「ask O to do ~」は「Oに～するように頼む」。「check the accessibility of their facilities」は「施設のアクセスしやすさを確認する」と訳します。",
+            "commonMistake": "完了分詞構文を単純な分詞構文のように「見ながら」と訳すと時系列がずれて不正確になります。動作の前後関係を明確にすることが大切です。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "adventurer",
+            "meaning": "冒険家",
+            "usage": "He is an adventurer at heart. (彼は心は冒険家だ。)",
+            "synonymsAntonyms": "Syn: explorer",
+            "derivatives": "adventure (名), adventurous (形)",
+            "pronunciation": "/ədˈventʃərər/",
+            "examFrequency": ""
+          },
+          {
+            "word": "have difficulty Ving",
+            "meaning": "～するのに苦労する、困難を抱える",
+            "usage": "I had difficulty understanding his English. (私は彼の英語を理解するのに苦労した。)",
+            "synonymsAntonyms": "Syn: struggle to V, find it difficult to V",
+            "derivatives": "difficulty (名), difficult (形)",
+            "pronunciation": "",
+            "examFrequency": "よく出題される重要構文"
+          },
+          {
+            "word": "location",
+            "meaning": "場所、位置",
+            "usage": "The new store's location is perfect. (新しい店の場所は完璧だ。)",
+            "synonymsAntonyms": "Syn: place, spot, site",
+            "derivatives": "locate (動)",
+            "pronunciation": "/loʊˈkeɪʃn/",
+            "examFrequency": ""
+          },
+          {
+            "word": "accessibility",
+            "meaning": "アクセスのしやすさ、利用しやすさ、便利さ",
+            "usage": "The accessibility of the building has improved. (その建物のアクセスしやすさが改善された。)",
+            "synonymsAntonyms": "",
+            "derivatives": "accessible (形), access (動/名)",
+            "pronunciation": "/əkˌsesəˈbɪləti/",
+            "examFrequency": ""
+          },
+          {
+            "word": "fortunately",
+            "meaning": "幸いなことに、運良く",
+            "usage": "Fortunately, no one was hurt in the accident. (幸いなことに、その事故で誰も怪我をしなかった。)",
+            "synonymsAntonyms": "Syn: luckily, by good fortune Ant: unfortunately",
+            "derivatives": "fortunate (形), fortune (名)",
+            "pronunciation": "/ˈfɔːrtʃənətli/",
+            "examFrequency": ""
+          },
+          {
+            "word": "occasion",
+            "meaning": "機会、好機、行事",
+            "usage": "On another occasion, I met him again. (別の機会に、私は彼とまた会った。)",
+            "synonymsAntonyms": "Syn: chance, opportunity, event",
+            "derivatives": "occasional (形)",
+            "pronunciation": "/əˈkeɪʒn/",
+            "examFrequency": ""
+          },
+          {
+            "word": "backrest",
+            "meaning": "背もたれ",
+            "usage": "The chair has a comfortable backrest. (その椅子は快適な背もたれがある。)",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/ˈbækrest/",
+            "examFrequency": ""
+          }
+        ],
+        "questions": [
+          {
+            "question": "Why did Grisdale start Accessible Japan?",
+            "questionJapanese": "グリスデールはなぜアクセシブルジャパンを始めたのですか？",
+            "answer": "He started it because a lot of visitors from abroad were having difficulty getting information about accessible places in English, and he wanted to do something for them.",
+            "answerJapanese": "多くの海外からの旅行者が、アクセスしやすい場所に関する英語の情報を得るのに苦労しており、彼らのために何かしたいと思ったからです。",
+            "explanation": "記事の最初の段落に「Yet a lot of visitors from abroad were having difficulty getting information in English. I wanted to do something for them. In 2015, I started Accessible Japan...」と記述されており、これが設立理由です。",
+            "similarQuestion": "What motivated the founder to establish Accessible Japan?"
+          },
+          {
+            "question": "What kind of information does Accessible Japan provide?",
+            "questionJapanese": "アクセシブルジャパンはどのような情報を提供していますか？",
+            "answer": "It provides information for visitors with disabilities, such as the location of elevators and restrooms, as well as the accessibility of tourist sites.",
+            "answerJapanese": "障害を持つ訪問者向けに、エレベーターやトイレの場所、観光地のアクセスしやすさといった情報を提供しています。",
+            "explanation": "記事の2段落目に「an English website which provides information for visitors with disabilities, like the location of elevators and restrooms as well as the accessibility of tourist sites」と記述があります。",
+            "similarQuestion": "Can you describe the services offered by Accessible Japan?"
+          },
+          {
+            "question": "The episodes of the Australian girl and the Nezu Museum tell us that",
+            "questionJapanese": "オーストラリア人の少女と根津美術館のエピソードは、私たちに何を伝えていますか？",
+            "answer": "b. meeting people face-to-face makes it easier to solve problems.",
+            "answerJapanese": "b. 人と直接会うことで問題を解決しやすくなる。",
+            "explanation": "オーストラリアの少女の件ではウェブサイトの情報が役立ちましたが、根津美術館の件では、Grisdale氏が現地を訪問して問題を指摘し、スタッフがすぐに対応したことで解決しました。これは、単なる情報提供だけでなく、直接的な対面によるやり取りが問題解決をより容易にすることを示唆しています。選択肢aは事実ですが、エピソード全体が示唆する最も重要な点ではありません。選択肢cは本文から読み取れません。",
+            "similarQuestion": "What is the main message conveyed by the two anecdotes in the text?"
+          }
+        ],
+        "lessonTitle": "Lesson 3 Accessible Japan Section 2"
+      }
+    },
+    {
+      "id": "L3S3",
+      "lessonLabel": "Lesson3",
+      "sectionLabel": "Section3",
+      "name": "Lesson3  Lesson 3 Accessible Japan Section 3  Section3",
+      "data": {
+        "transcription": "For the past decade, ①Japan has been making progress in creating a friendly environment for people with disabilities, but there are still many challenges to overcome. For instance, the entrances to restaurants often have steps which divide the building from the outside area. It could be a barrier for people like me. Another problem is the accessibility of hotel rooms. In fact, less than one percent of hotel rooms are accessible for people in wheelchairs.\n\nI suggest that if we meet these challenges, we will have greater business opportunities. For example, if you make your restaurant more accessible, then you will have 10 percent more customers because 10 to 15 percent of the world population is disabled. People with disabilities tend not to travel alone. ②They often travel in groups or with families, which would mean many more customers.\n\nAlso, ③I've been working with tour companies, setting up training sessions for tour guides which help them learn how to support people in wheelchairs. If tourism supports more tourists with disabilities and provides better services, more people will come to Japan, and that will support Japan's economy.",
+        "transcriptionAnalysis": [
+          {
+            "english": "For the past decade, Japan has been making progress in creating a friendly environment for people with disabilities, but there are still many challenges to overcome.",
+            "japanese": "過去10年間、日本は障害を持つ人々にとって友好的な環境を作る上で進歩を遂げてきましたが、克服すべき多くの課題が依然として残っています。",
+            "grammarExplanation": "\"For the past decade\"は「過去10年間」という期間を示し、現在完了進行形「has been making progress」と共によく用いられます。これは過去から現在まで継続している行為や状況を表します。「making progress in doing something」で「～することにおいて進歩する」という意味。「to overcome」は不定詞の形容詞的用法で、「challenges」を修飾し「克服すべき課題」となります。",
+            "sentenceStructure": "主節（Japan has been making progress...）と、接続詞 \"but\" でつながれたもう一つの節（there are still many challenges to overcome）から成る複合文。",
+            "keyExpressions": "for the past decade (過去10年間), make progress in (～において進歩する), friendly environment (友好的な環境), people with disabilities (障害を持つ人々), challenges to overcome (克服すべき課題)"
+          },
+          {
+            "english": "For instance, the entrances to restaurants often have steps which divide the building from the outside area. It could be a barrier for people like me.",
+            "japanese": "例えば、レストランの入り口には、しばしば建物を外部エリアから隔てる段差があります。それは私のような人々にとっては障壁となりえます。",
+            "grammarExplanation": "\"For instance\"は例を挙げる際に使われる表現。「which divide...」は関係代名詞 \"which\" による非制限用法で、「steps」を修飾し、その段差がどのような機能を持つかを説明しています。「divide A from B」は「AをBから隔てる」という意味。「could be」は「～である可能性がある、～となりえる」という可能性を表す助動詞です。",
+            "sentenceStructure": "最初の文は「the entrances to restaurants」が主語、動詞「have」、目的語「steps」に、関係代名詞節が続く。2番目の文は「It」が主語、動詞「could be」、補語「a barrier」。",
+            "keyExpressions": "for instance (例えば), entrances to restaurants (レストランの入り口), divide A from B (AをBから隔てる), a barrier for (～にとっての障壁)"
+          },
+          {
+            "english": "Another problem is the accessibility of hotel rooms. In fact, less than one percent of hotel rooms are accessible for people in wheelchairs.",
+            "japanese": "もう一つの問題は、ホテルの部屋のアクセシビリティです。実際、ホテルの部屋の1パーセント未満しか車椅子利用者にとって利用可能ではありません。",
+            "grammarExplanation": "\"Another problem\"は追加の問題を提示する表現。「accessibility」は「利用しやすさ、アクセス可能性」を意味する名詞。「In fact」は「実際には、実のところ」と事実を強調します。「less than ~」は「～未満」という意味で、数量を表す際に使われます。「accessible for people in wheelchairs」は「車椅子利用者にとって利用可能である」という形容詞句です。",
+            "sentenceStructure": "最初の文は「Another problem」が主語、動詞「is」、補語「the accessibility of hotel rooms」。2番目の文は「less than one percent of hotel rooms」が主語、動詞「are」、補語「accessible for people in wheelchairs」。",
+            "keyExpressions": "another problem (もう一つの問題), accessibility of (～のアクセシビリティ), in fact (実際には), less than (～未満), accessible for (～にとって利用可能な), in wheelchairs (車椅子で)"
+          },
+          {
+            "english": "I suggest that if we meet these challenges, we will have greater business opportunities.",
+            "japanese": "もしこれらの課題を解決すれば、より大きなビジネスチャンスが得られると私は提案します。",
+            "grammarExplanation": "\"I suggest that S + V\"は「SがVすると提案する」という意味です。ここでは、条件文が提案の内容となっています。「meet challenges」は「課題に立ち向かう、課題を解決する」という意味で使われます。「greater business opportunities」は「より大きなビジネスチャンス」を意味します。",
+            "sentenceStructure": "主節「I suggest that...」の中に、接続詞 \"that\" に導かれる名詞節があり、その中に条件節「if we meet these challenges」と帰結節「we will have greater business opportunities」が含まれる。",
+            "keyExpressions": "I suggest that (～だと提案する), meet challenges (課題を解決する), greater business opportunities (より大きなビジネスチャンス)"
+          },
+          {
+            "english": "For example, if you make your restaurant more accessible, then you will have 10 percent more customers because 10 to 15 percent of the world population is disabled. People with disabilities tend not to travel alone. They often travel in groups or with families, which would mean many more customers.",
+            "japanese": "例えば、もしあなたのレストランをもっと利用しやすくすれば、世界の人口の10〜15パーセントが障害を持つ人々であるため、10パーセント多く顧客を得るでしょう。障害を持つ人々は一人で旅行しない傾向があります。彼らはしばしばグループや家族と一緒に旅行するため、それはより多くの顧客を意味するでしょう。",
+            "grammarExplanation": "\"For example\"は例を導入する際に使われます。「make A B」は「AをBにする」という意味。「more accessible」は比較級。「then」は条件節の後に結果を導きます。「10 percent more customers」は「10パーセント多くの顧客」。「because S V」は理由を示します。「tend not to do something」は「～しない傾向がある」という意味。「which would mean...」は関係代名詞 \"which\" による非制限用法で、先行詞は前の節全体（グループや家族と旅行すること）を指します。",
+            "sentenceStructure": "「For example」の後に、条件節「if you make...」、帰結節「then you will have...」、理由を示す従属節「because...」が続く。その後に別の文として「People with disabilities tend not to travel alone.」が続き、さらにその後に「They often travel in groups or with families」に、非制限関係代名詞節が続く構成。",
+            "keyExpressions": "for example (例えば), make A accessible (Aを利用しやすくする), percent more customers (～パーセント多くの顧客), world population (世界人口), be disabled (障害がある), tend not to do (～しない傾向がある), travel alone (一人で旅行する), in groups or with families (グループまたは家族と), many more customers (さらに多くの顧客)"
+          },
+          {
+            "english": "Also, I've been working with tour companies, setting up training sessions for tour guides which help them learn how to support people in wheelchairs. If tourism supports more tourists with disabilities and provides better services, more people will come to Japan, and that will support Japan's economy.",
+            "japanese": "また、私は旅行会社と協力して、車椅子利用者の方々をサポートする方法を学ぶためのツアーガイド向け研修セッションを立ち上げてきました。もし観光業が障害を持つ観光客をより多くサポートし、より良いサービスを提供すれば、より多くの人々が日本を訪れるようになり、それが日本の経済を支えるでしょう。",
+            "grammarExplanation": "\"Also\"は追加情報を提示します。「I've been working」は現在完了進行形。過去から現在まで継続している行為を表します。「setting up...」は分詞構文で、主節の動作に付随する動作（～しながら）を示します。「help O do」は「Oが～するのを助ける」という意味。最後の文は「If S V, S V」の条件文で、条件節「If tourism supports... and provides...」と帰結節「more people will come to Japan」があり、さらに「and that will support Japan's economy」が追加されています。「that」は直前の節全体（より多くの人々が日本を訪れること）を指します。",
+            "sentenceStructure": "最初の文は「I」が主語、動詞「have been working」、分詞構文「setting up...」、関係代名詞節「which help them learn...」が続く。2番目の文は、条件節、帰結節、そして接続詞 \"and\" で繋がれた別の節から成る。",
+            "keyExpressions": "work with tour companies (旅行会社と協力する), set up training sessions (研修セッションを立ち上げる), tour guides (ツアーガイド), help O learn how to do (Oが～する方法を学ぶのを助ける), support people in wheelchairs (車椅子の人々をサポートする), tourism supports (観光業がサポートする), tourists with disabilities (障害を持つ観光客), provide better services (より良いサービスを提供する), support Japan's economy (日本の経済を支える)"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "Japan has been making progress in creating a friendly environment for people with disabilities",
+            "japanese": "日本は障害を持つ人々にとって友好的な環境を作る上で進歩を遂げてきました。",
+            "translationPoint": "「has been making progress in creating」は現在完了進行形で「～することにおいて進歩を遂げてきた」と訳します。「friendly environment for people with disabilities」は「障害を持つ人々にとって友好的な環境」と自然な日本語にします。",
+            "commonMistake": "「making progress」を「進歩を作っている」と直訳せず、「進歩を遂げている」とする。「for people with disabilities」を「～のために」と訳すと不自然になる場合があるので注意。"
+          },
+          {
+            "num": "②",
+            "english": "They often travel in groups or with families, which would mean many more customers.",
+            "japanese": "彼らはしばしばグループや家族と一緒に旅行するため、それはより多くの顧客を意味するでしょう。",
+            "translationPoint": "「in groups or with families」は「グループで、または家族と一緒に」。「which would mean...」は非制限用法で、先行詞は前の文全体（グループや家族と旅行すること）を指します。文脈に応じて「そのため、それは～を意味するだろう」と訳すと自然です。",
+            "commonMistake": "「which」の先行詞を直前の名詞のみと捉えがちだが、文全体の内容を指す場合があることに注意。「would mean」を直訳せず、文脈に合わせた自然な表現にする。"
+          },
+          {
+            "num": "③",
+            "english": "I've been working with tour companies, setting up training sessions for tour guides which help them learn how to support people in wheelchairs.",
+            "japanese": "私は旅行会社と協力して、車椅子利用者の方々をサポートする方法を学ぶためのツアーガイド向け研修セッションを立ち上げてきました。",
+            "translationPoint": "「I've been working」は現在完了進行形で「～し続けてきた」という継続を表します。「setting up training sessions」は分詞構文で、主節の動作に付帯する状況や結果を表すため、「～を立ち上げながら/立ち上げてきた」と訳すと良いでしょう。「which help them learn how to support」は「training sessions」を修飾し、研修内容を具体的に説明しています。",
+            "commonMistake": "分詞構文「setting up」の意味を把握し、主節の動詞「working」との関連性を意識して訳す。「help O learn how to do」の構文を正確に訳す。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "challenge",
+            "meaning": "課題、困難、挑戦",
+            "usage": "We need to overcome many challenges to achieve our goals. (目標達成のためには多くの課題を克服する必要があります。)",
+            "synonymsAntonyms": "Synonyms: difficulty, problem, obstacle. Antonyms: ease, simplicity.",
+            "derivatives": "challenging (形容詞：やりがいのある、困難な)",
+            "pronunciation": "/ˈtʃælɪndʒ/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "overcome",
+            "meaning": "克服する、乗り越える",
+            "usage": "She managed to overcome her fear of heights. (彼女は高所恐怖症をなんとか克服した。)",
+            "synonymsAntonyms": "Synonyms: conquer, surmount, get over.",
+            "derivatives": "",
+            "pronunciation": "/ˌoʊvərˈkʌm/",
+            "examFrequency": "中～高"
+          },
+          {
+            "word": "divide",
+            "meaning": "分ける、分割する、隔てる",
+            "usage": "The river divides the city into two parts. (その川は市を二つの部分に分けている。)",
+            "synonymsAntonyms": "Synonyms: separate, split, partition. Antonyms: unite, combine.",
+            "derivatives": "division (名詞：分割、部門), dividend (名詞：配当、被除数)",
+            "pronunciation": "/dɪˈvaɪd/",
+            "examFrequency": "中～高"
+          },
+          {
+            "word": "barrier",
+            "meaning": "障壁、壁、障害物",
+            "usage": "Language can sometimes be a barrier to communication. (言語は時にコミュニケーションの障壁となることがある。)",
+            "synonymsAntonyms": "Synonyms: obstacle, hurdle, impediment.",
+            "derivatives": "",
+            "pronunciation": "/ˈbæriər/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "less than ~",
+            "meaning": "～未満",
+            "usage": "The project was completed in less than a week. (そのプロジェクトは1週間未満で完了した。)",
+            "synonymsAntonyms": "Antonyms: more than ~ (～より多い), at least ~ (少なくとも～)",
+            "derivatives": "",
+            "pronunciation": "/ˈlɛs ðæn/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "disabled",
+            "meaning": "身体障害のある、機能不全の",
+            "usage": "The building has facilities for disabled people. (その建物には障害者向けの設備がある。)",
+            "synonymsAntonyms": "Synonyms: handicapped, impaired.",
+            "derivatives": "disability (名詞：障害)",
+            "pronunciation": "/dɪsˈeɪbəld/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "tend to ~",
+            "meaning": "～する傾向がある",
+            "usage": "Children tend to ask a lot of questions. (子供たちは多くの質問をする傾向がある。)",
+            "synonymsAntonyms": "Synonyms: be inclined to, be prone to.",
+            "derivatives": "tendency (名詞：傾向)",
+            "pronunciation": "/tɛnd tuː/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "tourism",
+            "meaning": "観光事業、観光",
+            "usage": "The city's economy heavily relies on tourism. (その都市の経済は観光業に大きく依存している。)",
+            "synonymsAntonyms": "Related words: travel, sightseeing.",
+            "derivatives": "tourist (名詞：観光客)",
+            "pronunciation": "/ˈtʊərɪzəm/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "economy",
+            "meaning": "経済、節約",
+            "usage": "The government is trying to boost the national economy. (政府は国民経済を活性化させようとしている。)",
+            "synonymsAntonyms": "Synonyms: finances, commerce (経済の意味で).",
+            "derivatives": "economic (形容詞：経済の), economical (形容詞：節約的な、経済的な), economist (名詞：経済学者)",
+            "pronunciation": "/ɪˈkɒnəmi/",
+            "examFrequency": "高"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Grisdale talks about two challenges that people with disabilities face. What are they?",
+            "questionJapanese": "グリスデールは、障害を持つ人々が直面する2つの課題について話しています。それらは何ですか？",
+            "answer": "The first challenge is that entrances to restaurants often have steps, which could be a barrier. The second challenge is the accessibility of hotel rooms, with less than one percent being accessible for people in wheelchairs.",
+            "answerJapanese": "一つ目の課題は、レストランの入り口にはしばしば段差があり、それが障壁となりうることです。二つ目の課題はホテルの部屋のアクセシビリティで、車椅子利用者にとって利用可能な部屋が1パーセント未満であることです。",
+            "explanation": "本文第一段落に「克服すべき多くの課題が依然として残っている」とあり、具体的な例として「レストランの入り口にある段差」と「ホテルの部屋のアクセシビリティの低さ」が挙げられています。",
+            "similarQuestion": "Describe the main difficulties mentioned in the text regarding accessibility for people with disabilities."
+          },
+          {
+            "question": "What does Grisdale do for tour companies?",
+            "questionJapanese": "グリスデールは旅行会社のために何をしていますか？",
+            "answer": "He has been working with tour companies, setting up training sessions for tour guides to help them learn how to support people in wheelchairs.",
+            "answerJapanese": "彼は旅行会社と協力して、ツアーガイドが車椅子利用者の方々をサポートする方法を学ぶための研修セッションを立ち上げてきました。",
+            "explanation": "本文第三段落に「I've been working with tour companies, setting up training sessions for tour guides which help them learn how to support people in wheelchairs.」と明確に記載されています。",
+            "similarQuestion": "How does Grisdale contribute to improving tourism for people with disabilities?"
+          },
+          {
+            "question": "Grisdale thinks that tourism for people with disabilities will create new business opportunities. Why does he think so?",
+            "questionJapanese": "グリスデールは、障害を持つ人々のための観光が新たなビジネスチャンスを生み出すと考えています。なぜ彼はそう考えるのですか？",
+            "answer": "b. Because better accessibility leads to many more customers coming.",
+            "answerJapanese": "b. より良いアクセシビリティが、より多くの顧客の来訪につながるからです。",
+            "explanation": "本文第二段落で、「レストランをもっと利用しやすくすれば、世界の人口の10〜15パーセントが障害を持つ人々であるため、10パーセント多く顧客を得る」と述べられています。また、障害を持つ人々はグループや家族で旅行する傾向があり、これも顧客増につながると説明されており、アクセシビリティの向上が顧客増、ひいてはビジネスチャンスにつながるという考えを示しています。",
+            "similarQuestion": "According to Grisdale, what are the economic benefits of improving accessibility in tourism?"
+          }
+        ],
+        "lessonTitle": "Lesson 3 Accessible Japan Section 3"
+      }
+    },
+    {
+      "id": "L3S4",
+      "lessonLabel": "Lesson3",
+      "sectionLabel": "Section4",
+      "name": "Lesson3  Lesson 3 Accessible Japan Section 4  Section4",
+      "data": {
+        "transcription": "Lesson 3 Accessible Japan Section 4 Going back to the topic of Accessible Japan, I firmly believe in two principles. The first principle is to get first-hand information by personally visiting the sites. In fact, I've visited 95 percent of the tourist locations listed on my website. To make my website more reliable, I make it a rule to take pictures, talk to local people, and take notes. The second principle is to be honest and objective. I've been trying to upload detailed information as much as possible, such as information about steps at tourist attractions. I try not to say, \"This place is accessible, so you can go there,\" because accessibility varies from person to person. I may find the place accessible, while someone else may not. What I try to do is to help people make their own decisions based on objective facts. In 2016, I became a Japanese citizen because I wanted to be involved in all levels of Japanese society. Now, I want Japan to become the leader in accessibility. I'd like to do my part to make that happen through my Accessible Japan project. I will keep working on my website in the spirit of omotenashi, which I have learned in this country.",
+        "transcriptionAnalysis": [
+          {
+            "english": "Going back to the topic of Accessible Japan, I firmly believe in two principles.",
+            "japanese": "アクセシブル・ジャパンの話題に戻ると、私は二つの原則を固く信じています。",
+            "grammarExplanation": "\"Going back to...\"は分詞構文で、「～に戻ると」という付帯状況や条件を表します。I firmly believe in...は「～を固く信じる」という意味です。",
+            "sentenceStructure": "「Going back to the topic of Accessible Japan」は分詞構文で、主節「I firmly believe in two principles」を修飾しています。S: I, V: believe, O: in two principles。\"firmly\"は副詞でbelieveを修飾。",
+            "keyExpressions": "Going back to the topic of ~: ～の話題に戻ると。firmly believe in ~: ～を固く信じる。"
+          },
+          {
+            "english": "The first principle is to get first-hand information by personally visiting the sites.",
+            "japanese": "最初の原則は、実際にその場所を訪れることで直接の情報を得ることです。",
+            "grammarExplanation": "S is to V...の形は、「Sは～することである」と目的や内容を表します。by V-ingは「～することによって」手段を示します。",
+            "sentenceStructure": "S: The first principle, V: is, C: to get first-hand information (to不定詞の名詞的用法)。by personally visiting the sitesは「～することによって」という手段を表す副詞句で、get informationを修飾しています。",
+            "keyExpressions": "first-hand information: 直接の情報。personally visiting: 自分で訪れること。"
+          },
+          {
+            "english": "In fact, I've visited 95 percent of the tourist locations listed on my website.",
+            "japanese": "実際、私は自分のウェブサイトに掲載されている観光地の95パーセントを訪れました。",
+            "grammarExplanation": "In factは「実際は、実のところ」という接続副詞です。I've visitedは現在完了形(have + 過去分詞)で、「～したことがある」という経験を表します。listed on my websiteは過去分詞句で、the tourist locationsを修飾しています。",
+            "sentenceStructure": "In fact (接続副詞)。S: I, V: 've visited, O: 95 percent of the tourist locations。listed on my websiteは過去分詞句で、the tourist locationsを後置修飾しています。",
+            "keyExpressions": "In fact: 実際は、実のところ。listed on ~: ～に掲載されている。"
+          },
+          {
+            "english": "To make my website more reliable, I make it a rule to take pictures, talk to local people, and take notes.",
+            "japanese": "ウェブサイトをより信頼できるものにするために、私は写真を撮り、地元の人々と話し、メモを取ることにしています。",
+            "grammarExplanation": "To make...は不定詞の副詞的用法で「～するために」目的を表します。make O Cの第5文型。「OをCにする」。make it a rule to V...は「～することにしている」という慣習や習慣を表す重要表現です。itは形式目的語で、to take pictures...が真の目的語。",
+            "sentenceStructure": "To make my website more reliableは不定詞の副詞的用法で、目的を示します。S: I, V: make, O: it (形式目的語), C: a rule。真の目的語はto take pictures, talk to local people, and take notes。",
+            "keyExpressions": "To make O C: OをCにするために。make it a rule to V: Vすることにしている。"
+          },
+          {
+            "english": "The second principle is to be honest and objective.",
+            "japanese": "第二の原則は、正直かつ客観的であることです。",
+            "grammarExplanation": "S is to V...の形は、ここでも「Sは～することである」と内容を表します。be honest and objectiveは補語として機能しています。",
+            "sentenceStructure": "S: The second principle, V: is, C: to be honest and objective (to不定詞の名詞的用法)。",
+            "keyExpressions": ""
+          },
+          {
+            "english": "I've been trying to upload detailed information as much as possible, such as information about steps at tourist attractions.",
+            "japanese": "私は観光地にある段差に関する情報など、できるだけ詳細な情報をアップロードしようと努めてきました。",
+            "grammarExplanation": "I've been tryingは現在完了進行形(have been V-ing)で、「ずっと～しようと努めてきた」という継続的な行為を表します。as much as possibleは「できるだけ多く」という意味です。such as ~は「～のような」と例を挙げるときに使います。",
+            "sentenceStructure": "S: I, V: 've been trying, O: to upload detailed information。as much as possibleは副詞句。such as information about steps at tourist attractionsはdetailed informationの具体例を示す。",
+            "keyExpressions": "as much as possible: できるだけ多く。such as ~: ～のような。"
+          },
+          {
+            "english": "I try not to say, \"This place is accessible, so you can go there,\" because accessibility varies from person to person.",
+            "japanese": "「この場所はバリアフリーだから、そこに行けるよ」とは言わないようにしています。なぜなら、アクセシビリティは人によって異なるからです。",
+            "grammarExplanation": "try not to Vは「～しないように努める」という意味です。because S V...は理由を表す接続詞句。varies from person to personは「人によって異なる」という慣用表現です。",
+            "sentenceStructure": "S: I, V: try, O: not to say \"...\" (to不定詞の名詞的用法)。because accessibility varies from person to personは理由を示す副詞節。",
+            "keyExpressions": "try not to V: Vしないように努める。vary from person to person: 人によって異なる。"
+          },
+          {
+            "english": "I may find the place accessible, while someone else may not.",
+            "japanese": "私はその場所をバリアフリーだと感じるかもしれませんが、他の人はそうではないかもしれません。",
+            "grammarExplanation": "may find O Cは「OをCだと感じるかもしれない」という可能性を表す表現です。whileは「～する一方で」という対比を示す接続詞です。may not (find it accessible)と後半は省略されています。",
+            "sentenceStructure": "S: I, V: may find, O: the place, C: accessible。while (接続詞) S: someone else, V: may not (find it accessible)。",
+            "keyExpressions": "may find O C: OをCだと感じるかもしれない。while ~: ～する一方で。"
+          },
+          {
+            "english": "What I try to do is to help people make their own decisions based on objective facts.",
+            "japanese": "私がしようと努めているのは、客観的な事実に基づいて人々が自分で判断できるよう手助けすることです。",
+            "grammarExplanation": "What I try to doは関係代名詞whatを使った名詞節で、「私がしようと努めていること」が主語です。help O (to) Vは「OがVするのを手助けする」という意味で、toは省略されることが多いです。based on ~は「～に基づいて」という表現です。",
+            "sentenceStructure": "S: What I try to do (関係代名詞 what を含む名詞節), V: is, C: to help people make their own decisions。based on objective factsはpeople make their own decisionsを修飾する句。",
+            "keyExpressions": "What I try to do: 私がしようと努めていること。help O (to) V: OがVするのを手助けする。based on ~: ～に基づいて。"
+          },
+          {
+            "english": "In 2016, I became a Japanese citizen because I wanted to be involved in all levels of Japanese society.",
+            "japanese": "2016年に、私は日本の社会のあらゆるレベルに関わりたいと思ったので、日本国籍を取得しました。",
+            "grammarExplanation": "because S V...は理由を表します。be involved in ~は「～に関わる、～に従事する」という意味の受動態のイディオムです。",
+            "sentenceStructure": "In 2016 (時を表す副詞句), S: I, V: became, C: a Japanese citizen。because I wanted to be involved in all levels of Japanese societyは理由を示す副詞節。",
+            "keyExpressions": "be involved in ~: ～に関わる、～に従事する。all levels of ~: ～のあらゆるレベル。"
+          },
+          {
+            "english": "Now, I want Japan to become the leader in accessibility.",
+            "japanese": "今、私は日本がアクセシビリティにおいてリーダーになることを望んでいます。",
+            "grammarExplanation": "want O to Vは「OにVしてほしい」という使役動詞の構文です。in accessibilityは「アクセシビリティの点で」という意味を表します。",
+            "sentenceStructure": "Now (時を表す副詞)。S: I, V: want, O: Japan, C: to become the leader in accessibility (to不定詞)。",
+            "keyExpressions": "the leader in ~: ～におけるリーダー。"
+          },
+          {
+            "english": "I'd like to do my part to make that happen through my Accessible Japan project.",
+            "japanese": "私のアクセシブル・ジャパン・プロジェクトを通じて、それが実現するよう自分の役割を果たしたいと思っています。",
+            "grammarExplanation": "I'd like to VはI would like to Vの短縮形で「～したい」という丁寧な願望を表します。do my partは「自分の役割を果たす」というイディオムです。make that happenはmake O V (原形不定詞)の形で「OがVするのを引き起こす、Vさせる」という意味です。thatは「日本がアクセシビリティのリーダーになること」を指します。through ~は「～を通じて」手段を表します。",
+            "sentenceStructure": "S: I, V: 'd like, O: to do my part (to不定詞の名詞的用法)。to make that happenはto do my partを修飾する副詞句（目的）。through my Accessible Japan projectは手段を表す副詞句。",
+            "keyExpressions": "do my part: 自分の役割を果たす。make O happen: Oを実現させる。through ~: ～を通じて。"
+          },
+          {
+            "english": "I will keep working on my website in the spirit of omotenashi, which I have learned in this country.",
+            "japanese": "私は、この国で学んだ「おもてなし」の精神に則って、ウェブサイトでの活動を続けていきます。",
+            "grammarExplanation": "keep V-ingは「～し続ける」という意味です。in the spirit of ~は「～の精神に則って」という表現です。which I have learned in this countryは関係代名詞whichによる非制限用法の関係節で、omotenashiを補足説明しています。現在完了形(have learned)は経験や継続を表します。",
+            "sentenceStructure": "S: I, V: will keep working。on my websiteはworkingの補足。in the spirit of omotenashiは副詞句。which (関係代名詞) I (S) have learned (V) in this country (副詞句)はomotenashiを修飾。",
+            "keyExpressions": "keep V-ing: ～し続ける。in the spirit of ~: ～の精神に則って。"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "1",
+            "english": "Going back to the topic of Accessible Japan, I firmly believe in two principles.",
+            "japanese": "アクセシブル・ジャパンの話題に戻ると、私は二つの原則を固く信じています。",
+            "translationPoint": "「Going back to the topic of ~」は分詞構文で、話の転換を示す表現として自然な日本語にする。「firmly believe in ~」は「～を固く信じる」と強調して訳す。",
+            "commonMistake": "「戻っている間」などと直訳してしまうと不自然。話の導入部分なので、「～に戻ると」や「～について言えば」のように訳すのが良い。"
+          },
+          {
+            "num": "2",
+            "english": "I may find the place accessible, while someone else may not.",
+            "japanese": "私はその場所をバリアフリーだと感じるかもしれませんが、他の人はそうではないかもしれません。",
+            "translationPoint": "「may find O C」の構文と、「while」の対比のニュアンスをしっかり出す。「may not」の後ろに省略されている部分を補って理解すると訳しやすい。",
+            "commonMistake": "「見つけるかもしれない」と直訳したり、「while」を単なる「～の間」と捉えてしまうと意味が通じにくい。対比を表す接続詞であることを意識する。"
+          },
+          {
+            "num": "3",
+            "english": "I'd like to do my part to make that happen through my Accessible Japan project.",
+            "japanese": "私のアクセシブル・ジャパン・プロジェクトを通じて、それが実現するよう自分の役割を果たしたいと思っています。",
+            "translationPoint": "「I'd like to V」は「～したい」という丁寧な願望。「do my part」は「自分の役割を果たす」という慣用表現。「make that happen」は「それが起こるようにする、実現させる」と目的語と原形不定詞の関係を明確にする。",
+            "commonMistake": "「私の部分をする」などと直訳すると意味が伝わらない。「do my part」は慣用表現として覚える必要がある。また、「make that happen」を「それを作る、起こす」とバラバラに訳すと不自然になる。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "firmly",
+            "meaning": "ゆるぎなく、しっかりと",
+            "usage": "She firmly believes in the power of education.",
+            "synonymsAntonyms": "Synonyms: strongly, resolutely, steadfastly / Antonyms: weakly, loosely",
+            "derivatives": "firm (形: 堅い、確固たる; 動: 固める)",
+            "pronunciation": "アクセントは第一音節 /fə́ːrmli/",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "first-hand",
+            "meaning": "直接の、実地の",
+            "usage": "He gained first-hand experience working on the farm.",
+            "synonymsAntonyms": "Synonyms: direct, personal, immediate / Antonyms: indirect, secondary",
+            "derivatives": "",
+            "pronunciation": "ハイフンで繋がれた複合形容詞。それぞれの単語を明確に発音。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "reliable",
+            "meaning": "信頼できる、当てになる",
+            "usage": "We need a reliable car for long trips.",
+            "synonymsAntonyms": "Synonyms: trustworthy, dependable / Antonyms: unreliable, untrustworthy",
+            "derivatives": "rely (動: 頼る、信頼する), reliance (名: 依存、信頼)",
+            "pronunciation": "アクセントは第二音節 /rɪˈlaɪəbl/",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "take notes",
+            "meaning": "メモを取る",
+            "usage": "The students were instructed to take notes during the lecture.",
+            "synonymsAntonyms": "Synonyms: jot down, make a note / Antonyms: ",
+            "derivatives": "note (名: メモ、注意; 動: 気付く、メモする)",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "objective",
+            "meaning": "客観的な",
+            "usage": "It's important to remain objective when evaluating different opinions.",
+            "synonymsAntonyms": "Synonyms: impartial, unbiased / Antonyms: subjective, biased",
+            "derivatives": "object (名: 物体、目的; 動: 反対する), objectivity (名: 客観性)",
+            "pronunciation": "アクセントは第二音節 /əbdʒéktɪv/",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "vary",
+            "meaning": "異なる、変化する",
+            "usage": "Prices for flights vary depending on the season.",
+            "synonymsAntonyms": "Synonyms: differ, fluctuate, change / Antonyms: remain constant, stay the same",
+            "derivatives": "various (形: 様々な), variety (名: 多様性), variable (形: 変わりやすい; 名: 変数)",
+            "pronunciation": "アクセントは第一音節 /vɛ́əri/",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "from person to person",
+            "meaning": "人によって異なる",
+            "usage": "Opinions on the new policy vary from person to person.",
+            "synonymsAntonyms": "Synonyms: individually, depending on the person / Antonyms: universally, uniformly",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "citizen",
+            "meaning": "市民、国民",
+            "usage": "Every citizen has the right to vote.",
+            "synonymsAntonyms": "Synonyms: national, subject, resident / Antonyms: foreigner, alien",
+            "derivatives": "citizenship (名: 市民権)",
+            "pronunciation": "アクセントは第一音節 /ˈsɪtɪzn/",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "involve",
+            "meaning": "関わる、巻き込む、含む",
+            "usage": "The project will involve many departments.",
+            "synonymsAntonyms": "Synonyms: include, entail, engage / Antonyms: exclude, omit",
+            "derivatives": "involvement (名: 関与), involved (形: 複雑な、関係している)",
+            "pronunciation": "アクセントは第二音節 /ɪnˈvɑːlv/",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "do one's part",
+            "meaning": "自分の役割を果たす",
+            "usage": "We all need to do our part to protect the environment.",
+            "synonymsAntonyms": "Synonyms: contribute, do one's share / Antonyms: shirk one's duty, neglect one's responsibility",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "spirit",
+            "meaning": "精神、心",
+            "usage": "The team showed great spirit despite the loss.",
+            "synonymsAntonyms": "Synonyms: soul, mind, essence / Antonyms: body, flesh",
+            "derivatives": "spiritual (形: 精神的な)",
+            "pronunciation": "アクセントは第一音節 /ˈspɪrɪt/",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "in the spirit of ~",
+            "meaning": "～の精神に則って",
+            "usage": "We tried to solve the problem in the spirit of cooperation.",
+            "synonymsAntonyms": "Synonyms: in accordance with the principles of ~, with the ethos of ~ / Antonyms: in defiance of ~, contrary to the spirit of ~",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Q-1 What does Grisdale do to make his website more reliable?",
+            "questionJapanese": "グリスデールは自分のウェブサイトをより信頼できるようにするために何をしていますか？",
+            "answer": "To make his website more reliable, Grisdale makes it a rule to take pictures, talk to local people, and take notes when he personally visits the sites.",
+            "answerJapanese": "ウェブサイトをより信頼できるものにするために、グリスデールは実際にその場所を訪れた際に、写真を撮り、地元の人々と話し、メモを取ることにしています。",
+            "explanation": "本文2段落目に「To make my website more reliable, I make it a rule to take pictures, talk to local people, and take notes.」とあります。筆者は自分のウェブサイトの信頼性を高めるために、これらの活動を実践していると述べています。",
+            "similarQuestion": "Q. What are the two principles Grisdale believes in for his Accessible Japan project?A. The two principles are to get first-hand information by personally visiting the sites, and to be honest and objective."
+          },
+          {
+            "question": "Q-2 Why has Grisdale been trying to upload objective and detailed information?",
+            "questionJapanese": "なぜグリスデールは客観的で詳細な情報をアップロードしようと努めてきたのですか？",
+            "answer": "Grisdale has been trying to upload objective and detailed information because he understands that accessibility varies from person to person, and he wants to help people make their own decisions based on objective facts rather than simply stating if a place is accessible.",
+            "answerJapanese": "グリスデールは、アクセシビリティは人によって異なることを理解しているため、そして、ある場所がバリアフリーであると単に述べるのではなく、客観的な事実に基づいて人々が自分で判断できるように手助けしたいと考えているため、客観的で詳細な情報をアップロードしようと努めてきました。",
+            "explanation": "本文3段落目に「I try not to say, \"This place is accessible, so you can go there,\" because accessibility varies from person to person. What I try to do is to help people make their own decisions based on objective facts.」と書かれています。アクセシビリティが人によって異なるため、客観的な事実に基づいた情報を提供し、訪問者自身が判断できるようにするためです。",
+            "similarQuestion": "Q. What is the difference between \"objective\" and \"subjective\"?A. \"Objective\" means based on facts and not influenced by personal feelings, while \"subjective\" means based on or influenced by personal feelings, tastes, or opinions."
+          },
+          {
+            "question": "Q-3 Grisdale is working in the spirit of omotenashi. What does that mean?",
+            "questionJapanese": "グリスデールは「おもてなし」の精神に則って活動しています。それは何を意味しますか？",
+            "answer": "a. He wants to welcome visitors from abroad in a warm and friendly way.",
+            "answerJapanese": "a. 彼は海外からの訪問者を温かく友好的な方法で歓迎したいと思っています。",
+            "explanation": "本文最終段落に「I will keep working on my website in the spirit of omotenashi, which I have learned in this country.」とあります。「おもてなし」は、日本で学んだ、訪問者を心からもてなす精神を指します。選択肢aがその意味に最も近いです。bは障害者との出会いを目的とし、cはウェブサイトに掲載する場所の決定を世界中の人々に委ねることを意味しており、これらは「おもてなし」の精神の直接的な意味とは異なります。",
+            "similarQuestion": "Q. Which of the following best describes the core idea of \"omotenashi\"?a) Providing basic services efficiently.b) Anticipating and fulfilling guests' needs with wholehearted devotion.c) Promoting Japanese culture to international visitors.A. b) Anticipating and fulfilling guests' needs with wholehearted devotion."
+          }
+        ],
+        "lessonTitle": "Lesson 3 Accessible Japan Section 4"
+      }
     }
   ]
 }
