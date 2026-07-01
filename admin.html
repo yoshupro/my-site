@@ -225,22 +225,29 @@
 </div>
 
 <div id="announcement-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
-  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:420px;">
-    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">お知らせを編集</h3>
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:420px;max-height:88vh;overflow:auto;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">お知らせを編集</h3>
+    <p class="desc" style="margin-bottom:14px;">すべての項目は任意です。空欄のまま保存できます。</p>
     <div class="row2">
       <div class="field">
-        <label>バッジ</label>
-        <select id="ann-badge">
-          <option value="INFO">INFO</option>
-          <option value="UPDATE">UPDATE</option>
-          <option value="WARNING">WARNING</option>
-          <option value="IMPORTANT">IMPORTANT</option>
-        </select>
+        <label>バッジ文言（任意・自由入力）</label>
+        <input type="text" id="ann-badge" list="ann-badge-list" placeholder="例：INFO／新機能 など自由に">
+        <datalist id="ann-badge-list">
+          <option value="INFO">
+          <option value="UPDATE">
+          <option value="WARNING">
+          <option value="IMPORTANT">
+        </datalist>
       </div>
-      <div class="field"><label>バージョン</label><input type="text" id="ann-version" placeholder="例：1.2.0"></div>
+      <div class="field">
+        <label>バッジ色（任意）</label>
+        <input type="color" id="ann-badge-color" value="#06b6d4" style="height:38px;padding:4px;cursor:pointer;">
+      </div>
     </div>
-    <div class="field"><label>タイトル</label><input type="text" id="ann-title" placeholder="例：新機能を追加しました"></div>
-    <div class="field"><label>本文</label><textarea id="ann-body" placeholder="お知らせの詳細"></textarea></div>
+    <div class="field"><label>バージョン（任意・空欄なら自動採番）</label><input type="text" id="ann-version" placeholder="例：1.2.0（空欄可）"></div>
+    <div class="field"><label>タイトル（任意）</label><input type="text" id="ann-title" placeholder="例：新機能を追加しました"></div>
+    <div class="field"><label>本文（任意）</label><textarea id="ann-body" placeholder="お知らせの詳細"></textarea></div>
+    <div class="field"><label>リンクURL（任意・入力すると本文がタップで開けます）</label><input type="url" id="ann-link" placeholder="https://..."></div>
     <div class="row2" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="closeAnnouncementModal()">キャンセル</button>
       <button class="btn btn-primary" onclick="confirmAnnouncement()">反映する</button>
@@ -447,9 +454,10 @@ function renderAnnouncements() {
     <div class="item-card">
       <div class="item-head">
         <div>
-          <span style="font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:999px;color:#0b0f17;background:${BADGE_COLOR[a.badge]||'#06b6d4'}">${esc(a.badge||'INFO')}</span>
+          ${a.badge ? `<span style="font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:999px;color:#0b0f17;background:${esc(a.badgeColor || BADGE_COLOR[a.badge] || '#06b6d4')}">${esc(a.badge)}</span>` : ''}
           <span class="item-title" style="margin-left:6px;">${esc(a.title||'(無題)')}</span>
-          <p class="item-sub">Ver ${esc(a.version||'-')} ・ ${esc((a.body||'').slice(0,60))}${(a.body||'').length>60?'…':''}</p>
+          ${a.link ? `<span title="${esc(a.link)}" style="margin-left:6px;color:var(--blue);font-size:10px;">🔗リンクあり</span>` : ''}
+          <p class="item-sub">${a.version ? 'Ver ' + esc(a.version) + ' ・ ' : ''}${esc((a.body||'').slice(0,60))}${(a.body||'').length>60?'…':''}</p>
         </div>
         <div class="item-actions">
           <button class="icon-btn" onclick="editAnnouncement(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
@@ -525,24 +533,30 @@ function addAnnouncement() { openAnnouncementModal(null); }
 function editAnnouncement(idx) { openAnnouncementModal(idx); }
 function openAnnouncementModal(idx) {
   annEditIdx = idx;
-  const a = idx != null ? configData.announcements[idx] : { badge: 'INFO', version: '', title: '', body: '' };
-  document.getElementById('ann-badge').value = a.badge || 'INFO';
+  const a = idx != null ? configData.announcements[idx] : { badge: '', badgeColor: '#06b6d4', version: '', title: '', body: '', link: '' };
+  document.getElementById('ann-badge').value = a.badge || '';
+  document.getElementById('ann-badge-color').value = a.badgeColor || BADGE_COLOR[a.badge] || '#06b6d4';
   document.getElementById('ann-version').value = a.version || '';
   document.getElementById('ann-title').value = a.title || '';
   document.getElementById('ann-body').value = a.body || '';
+  document.getElementById('ann-link').value = a.link || '';
   document.getElementById('announcement-modal').classList.remove('hidden');
 }
 function closeAnnouncementModal() {
   document.getElementById('announcement-modal').classList.add('hidden');
 }
 function confirmAnnouncement() {
+  // 全項目任意：何も入力されていなくても保存できる。
+  // バージョンだけは「既読/未読の判定」に使うため、空欄なら自動で採番する。
+  const versionInput = document.getElementById('ann-version').value.trim();
   const entry = {
-    badge: document.getElementById('ann-badge').value,
-    version: document.getElementById('ann-version').value.trim(),
+    badge: document.getElementById('ann-badge').value.trim(),
+    badgeColor: document.getElementById('ann-badge-color').value || '#06b6d4',
+    version: versionInput || ('auto-' + Date.now()),
     title: document.getElementById('ann-title').value.trim(),
     body: document.getElementById('ann-body').value.trim(),
+    link: document.getElementById('ann-link').value.trim(),
   };
-  if (!entry.title || !entry.version) { showToast('バージョンとタイトルは必須です'); return; }
   if (annEditIdx != null) configData.announcements[annEditIdx] = entry;
   else configData.announcements.unshift(entry);
   closeAnnouncementModal();
