@@ -517,15 +517,15 @@ function renderSchedules() {
   empty.classList.add('hidden');
   const typeLabel = { test: 'テスト', submission: '提出物' };
   wrap.innerHTML = list.map((s, idx) => `
-    <div class="item-card">
+    <div class="item-card" onclick="editSchedule(${idx})" style="cursor:pointer;">
       <div class="item-head">
         <div>
           <span class="item-title">${esc(s.title||'(無題)')}</span>
           <p class="item-sub">${typeLabel[s.type]||s.type} ・ ${esc(s.subject||'-')} ・ ${esc(s.date||'-')}</p>
         </div>
         <div class="item-actions">
-          <button class="icon-btn" onclick="editSchedule(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
-          <button class="icon-btn danger" onclick="removeSchedule(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn" onclick="event.stopPropagation(); editSchedule(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="event.stopPropagation(); removeSchedule(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
         </div>
       </div>
     </div>
