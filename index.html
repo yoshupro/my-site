@@ -2240,6 +2240,7 @@
                 }
                 renderAnalysisResult(section.data);
                 updateSectionNavBtnVisibility();
+                saveSectionToHistory(section);
                 showToast(section.sectionLabel + ' の解析結果を表示しています');
                 if (typeof lucide !== 'undefined') lucide.createIcons();
                 updateAnalysisStatusBar();
@@ -3715,6 +3716,37 @@
             safeStorage.set('pm_last_history_id', newHistoryItem.id);
         }
 
+        // セクション選択で見たセクションも履歴に残す。
+        // 同じセクションを何度も見るたびに履歴が増殖しないよう、
+        // 既に履歴にある場合は新規追加せず先頭に移動するだけにする。
+        function saveSectionToHistory(section) {
+            if (!section || !section.id) return;
+            const existing = scanHistory.find(item => item.sectionId === section.id);
+            if (existing) {
+                // 既存の項目を先頭へ移動し、閲覧時刻だけ更新
+                scanHistory = scanHistory.filter(item => item !== existing);
+                existing.timestamp = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+                existing.date = new Date().toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' });
+                scanHistory.unshift(existing);
+            } else {
+                const dateStr = new Date().toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' });
+                const timeStr = new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' });
+                const defaultName = section.name || (section.data && section.data.lessonTitle) || `${dateStr} ${timeStr}`;
+                scanHistory.unshift({
+                    id: Date.now(),
+                    sectionId: section.id,
+                    name: defaultName,
+                    timestamp: timeStr,
+                    date: dateStr,
+                    data: section.data,
+                    image: null,
+                });
+            }
+            persistHistory();
+            renderHistoryList();
+            safeStorage.set('pm_last_history_id', scanHistory[0].id);
+        }
+
         // ⚡【修正④】履歴の名前変更機能を追加したバグなしレンダリングロジック
         function renameHistoryItem(e, id) {
             e.stopPropagation(); // アコーディオンのロード発火を遮断
@@ -4028,6 +4060,8 @@
             }
         }
 
+        // スキャン履歴データ
+        let scanHistory = [];
         // ゴミ箱データ
         let trashedHistory = [];
 

@@ -546,7 +546,11 @@ function renderSections() {
   wrap.innerHTML = list.map((s, idx) => `
     <div class="item-card">
       <div class="item-head">
-        <div>
+        <div style="display:flex;flex-direction:column;gap:2px;margin-right:2px;">
+          <button class="icon-btn" onclick="moveSectionUp(${idx})" title="上へ" ${idx === 0 ? 'disabled style="opacity:.3;cursor:not-allowed;"' : ''}><i data-lucide="chevron-up" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn" onclick="moveSectionDown(${idx})" title="下へ" ${idx === list.length - 1 ? 'disabled style="opacity:.3;cursor:not-allowed;"' : ''}><i data-lucide="chevron-down" style="width:14px;height:14px;"></i></button>
+        </div>
+        <div style="flex:1;min-width:0;">
           <span class="item-title">${esc(s.name || (s.lessonLabel+' '+s.sectionLabel))}</span>
           <p class="item-sub">ID: ${esc(s.id||'-')}</p>
         </div>
@@ -558,6 +562,21 @@ function renderSections() {
     </div>
   `).join('');
   if (typeof lucide !== "undefined") lucide.createIcons();
+}
+
+function moveSectionUp(idx) {
+  if (idx <= 0) return;
+  const arr = configData.extraSections;
+  [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+  renderSections();
+  markDirty();
+}
+function moveSectionDown(idx) {
+  const arr = configData.extraSections;
+  if (idx >= arr.length - 1) return;
+  [arr[idx + 1], arr[idx]] = [arr[idx], arr[idx + 1]];
+  renderSections();
+  markDirty();
 }
 
 function esc(s) {
