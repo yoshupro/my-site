@@ -544,11 +544,17 @@ function renderSections() {
   }
   empty.classList.add('hidden');
   wrap.innerHTML = list.map((s, idx) => `
-    <div class="item-card">
+    <div class="item-card" draggable="true"
+         data-idx="${idx}"
+         ondragstart="onSectionDragStart(event, ${idx})"
+         ondragover="onSectionDragOver(event, ${idx})"
+         ondragleave="onSectionDragLeave(event)"
+         ondrop="onSectionDrop(event, ${idx})"
+         ondragend="onSectionDragEnd(event)"
+         style="transition:transform .15s ease, opacity .15s ease;">
       <div class="item-head">
-        <div style="display:flex;flex-direction:column;gap:2px;margin-right:2px;">
-          <button class="icon-btn" onclick="moveSectionUp(${idx})" title="上へ" ${idx === 0 ? 'disabled style="opacity:.3;cursor:not-allowed;"' : ''}><i data-lucide="chevron-up" style="width:14px;height:14px;"></i></button>
-          <button class="icon-btn" onclick="moveSectionDown(${idx})" title="下へ" ${idx === list.length - 1 ? 'disabled style="opacity:.3;cursor:not-allowed;"' : ''}><i data-lucide="chevron-down" style="width:14px;height:14px;"></i></button>
+        <div title="ドラッグして並べ替え" style="cursor:grab;display:flex;align-items:center;color:var(--sub);margin-right:2px;touch-action:none;">
+          <i data-lucide="grip-vertical" style="width:16px;height:16px;pointer-events:none;"></i>
         </div>
         <div style="flex:1;min-width:0;">
           <span class="item-title">${esc(s.name || (s.lessonLabel+' '+s.sectionLabel))}</span>
@@ -564,19 +570,39 @@ function renderSections() {
   if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
-function moveSectionUp(idx) {
-  if (idx <= 0) return;
+// ===== セクションのドラッグ&ドロップ並べ替え =====
+let sectionDragIdx = null;
+
+function onSectionDragStart(e, idx) {
+  sectionDragIdx = idx;
+  e.dataTransfer.effectAllowed = 'move';
+  try { e.dataTransfer.setData('text/plain', String(idx)); } catch (err) {}
+  e.currentTarget.style.opacity = '0.4';
+}
+function onSectionDragOver(e, idx) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  if (sectionDragIdx === null || sectionDragIdx === idx) return;
+  e.currentTarget.style.borderTop = '2px solid var(--blue)';
+}
+function onSectionDragLeave(e) {
+  e.currentTarget.style.borderTop = '';
+}
+function onSectionDrop(e, idx) {
+  e.preventDefault();
+  e.currentTarget.style.borderTop = '';
+  if (sectionDragIdx === null || sectionDragIdx === idx) return;
   const arr = configData.extraSections;
-  [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+  const [moved] = arr.splice(sectionDragIdx, 1);
+  arr.splice(idx, 0, moved);
+  sectionDragIdx = null;
   renderSections();
   markDirty();
 }
-function moveSectionDown(idx) {
-  const arr = configData.extraSections;
-  if (idx >= arr.length - 1) return;
-  [arr[idx + 1], arr[idx]] = [arr[idx], arr[idx + 1]];
-  renderSections();
-  markDirty();
+function onSectionDragEnd(e) {
+  e.currentTarget.style.opacity = '';
+  document.querySelectorAll('#section-list .item-card').forEach(el => el.style.borderTop = '');
+  sectionDragIdx = null;
 }
 
 function esc(s) {
