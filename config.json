@@ -39,19 +39,11 @@
   ],
   "globalSchedules": [
     {
-      "id": 1782854251737,
+      "id": 1782952493773,
       "type": "test",
       "title": "全統模試",
       "subject": null,
       "date": "2026-08-19",
-      "memo": null
-    },
-    {
-      "id": 1782854282701,
-      "type": "test",
-      "title": "前期期末考査",
-      "subject": null,
-      "date": "2026-09-03",
       "memo": null
     }
   ],
