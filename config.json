@@ -313,6 +313,663 @@
       }
     },
     {
+      "id": "L1S2",
+      "lessonLabel": "Lesson1",
+      "sectionLabel": "Section2",
+      "name": "Lesson1  Lost in Translation Section 2  Section2",
+      "data": {
+        "transcription": "",
+        "transcriptionAnalysis": [
+          {
+            "english": "Now, let me tell you about a personal experience. When I was a student in Kyoto,",
+            "japanese": "さて、私の個人的な経験についてお話しさせてください。私が京都の学生だった頃のことです。",
+            "grammarExplanation": "'let me tell you about ～'は「～について話させてください」という、話者が聞き手に許可を求めたり提案したりする表現です。",
+            "sentenceStructure": "導入文として、話の主題（個人的な経験）と背景（京都での学生時代）が提示されています。When節が主節を修飾しています。",
+            "keyExpressions": "let me tell you about ~ (〜について話させてください), personal experience (個人的な経験), student in Kyoto (京都の学生)"
+          },
+          {
+            "english": "I often visited temples and shrines. I was wondering what makes Japanese gardens attractive.",
+            "japanese": "私は頻繁に寺や神社を訪れました。何が日本庭園を魅力的にしているのか、ずっと不思議に思っていました。",
+            "grammarExplanation": "'was wondering'は過去進行形で、過去のある時点での継続的な思考や疑問を表します。'what makes Japanese gardens attractive'は間接疑問文で、疑問詞'what'が主語の役割を果たしています。",
+            "sentenceStructure": "筆者の過去の行動と、その行動の中で抱いていた疑問が並列に述べられています。",
+            "keyExpressions": "visited temples and shrines (寺社を訪れる), was wondering (疑問に思っていた), what makes ~ attractive (何が〜を魅力的にしているのか)"
+          },
+          {
+            "english": "I remembered being told that the essence of Japanese gardens is wabi-sabi.",
+            "japanese": "日本庭園の本質はわびさびであると、以前教えられたことを思い出しました。",
+            "grammarExplanation": "'remembered being told'は「〜されたことを覚えている」という意味で、動名詞の受動態（being + 過去分詞）が使われています。",
+            "sentenceStructure": "主語（I）+ 動詞（remembered）+ 動名詞句（being told that節）の形です。",
+            "keyExpressions": "remembered being told (〜と言われたのを覚えている), essence of ~ (〜の本質), wabi-sabi (わびさび)"
+          },
+          {
+            "english": "I didn't know what exactly this expression meant, so I consulted my dictionary.",
+            "japanese": "この表現が具体的に何を意味するのか分からなかったので、辞書を引きました。",
+            "grammarExplanation": "'what exactly this expression meant'は間接疑問文です。'consulted my dictionary'は「辞書を引いた」という意味です。",
+            "sentenceStructure": "原因と結果を接続詞'so'で繋いだ複文です。",
+            "keyExpressions": "exactly meant (具体的に意味する), consulted my dictionary (辞書を引く)"
+          },
+          {
+            "english": "Wabi-sabi was defined as 'elegant simplicity.'",
+            "japanese": "わびさびは「優雅な簡素さ」と定義されていました。",
+            "grammarExplanation": "'was defined as'は受動態で、「〜として定義された」という意味です。",
+            "sentenceStructure": "主語（Wabi-sabi）+ 受動態動詞（was defined）+ 補語句（as 'elegant simplicity.'）の形です。",
+            "keyExpressions": "defined as ~ (〜として定義される), elegant simplicity (優雅な簡素さ)"
+          },
+          {
+            "english": "And a more detailed explanation followed: 'Wabi and sabi are the highest aesthetic values in traditional Japanese arts.'",
+            "japanese": "そして、さらに詳しい説明が続きました。「わびとさびは、日本の伝統芸術における最高の美的価値である。」",
+            "grammarExplanation": "'followed'は動詞で「後に続く」という意味です。引用符で具体的な説明が示されています。",
+            "sentenceStructure": "主語（a more detailed explanation）+ 動詞（followed）+ 引用句の形です。",
+            "keyExpressions": "detailed explanation (詳しい説明), highest aesthetic values (最高の美的価値), traditional Japanese arts (日本の伝統芸術)"
+          },
+          {
+            "english": "They refer to a sense of quiet sadness, and the encouragement of simplicity.",
+            "japanese": "それら（わびとさび）は、静かな悲しみの感覚と、簡素さの奨励を指します。",
+            "grammarExplanation": "'refer to ~'は「〜を指す、〜を意味する」という意味です。'a sense of quiet sadness'と'the encouragement of simplicity'が'and'で並列に接続されています。",
+            "sentenceStructure": "主語（They）+ 動詞（refer to）+ 目的語句（a sense of ~ and the encouragement of ~）の形です。",
+            "keyExpressions": "refer to ~ (〜を指す), a sense of quiet sadness (静かな悲しみの感覚), encouragement of simplicity (簡素さの奨励)"
+          },
+          {
+            "english": "I was lost in a deep cloud. The concept was too complex for me to understand.",
+            "japanese": "私はすっかり途方に暮れていました。その概念は私には複雑すぎて理解できませんでした。",
+            "grammarExplanation": "'lost in a deep cloud'は「途方に暮れる」「深く迷い込む」という比喩表現です。'too complex for me to understand'は'too ~ for A to do'の構文で、「Aが〜するにはあまりに〜すぎる」という意味です。",
+            "sentenceStructure": "筆者の感情（途方に暮れている）と、その原因（概念が複雑すぎること）が述べられています。",
+            "keyExpressions": "lost in a deep cloud (途方に暮れる), too complex for me to understand (理解するにはあまりに複雑すぎる)"
+          },
+          {
+            "english": "But years later, as I sat on the wooden veranda of a temple, looking out at the garden, I thought I finally had a sense of wabi-sabi.",
+            "japanese": "しかし何年か後、私は寺の木の縁側に座って庭を眺めているうちに、ついにわびさびの感覚を理解できたと思いました。",
+            "grammarExplanation": "'as I sat ~ looking out ~'は接続詞'as'が同時進行の動作を表す副詞節です。'looking out at the garden'は分詞構文で、主節の主語'I'の付帯状況を説明しています。",
+            "sentenceStructure": "時間の経過と、ある具体的な状況下で筆者がわびさびを理解したという心の変化が記述されています。",
+            "keyExpressions": "years later (何年か後), sat on the wooden veranda (木の縁側に座る), looking out at the garden (庭を眺める), had a sense of wabi-sabi (わびさびを理解した)"
+          },
+          {
+            "english": "This episode shows that it is often very difficult, if not impossible, to translate some concepts from one language into another.",
+            "japanese": "このエピソードは、ある言語の概念を別の言語に翻訳することが、不可能ではないにしても、しばしば非常に難しいということを示しています。",
+            "grammarExplanation": "'if not impossible'は「不可能ではないにしても」という条件を表す挿入句です。'it is difficult to translate ~'の'it'は形式主語です。",
+            "sentenceStructure": "主語（This episode）+ 動詞（shows）+ that節（that it is often ~ another）の形です。",
+            "keyExpressions": "if not impossible (不可能ではないにしても), translate ~ from one language into another (ある言語から別の言語へ〜を翻訳する)"
+          },
+          {
+            "english": "This is true not only for an abstract concept, but also for commonly used expressions in Japanese.",
+            "japanese": "このことは、抽象的な概念だけでなく、日本語で一般的に使われる表現にも当てはまります。",
+            "grammarExplanation": "'not only A but also B'の構文で、「AだけでなくBも」という意味です。",
+            "sentenceStructure": "前文で述べられた翻訳の難しさが、どのような対象に当てはまるかを具体的に説明しています。",
+            "keyExpressions": "not only ~ but also ~ (〜だけでなく〜も), abstract concept (抽象的な概念), commonly used expressions (一般的に使われる表現)"
+          },
+          {
+            "english": "How about mottainai, shikataganai, otsukaresama, itadakimasu, and itsumo osewa ni natteimasu?",
+            "japanese": "「もったいない」「仕方がない」「お疲れ様」「いただきます」「いつもお世話になっています」といった表現はどうでしょうか？",
+            "grammarExplanation": "'How about ~?'は「〜はどうですか？」と提案や問いかけをする表現です。",
+            "sentenceStructure": "具体的な例を挙げることで、読者への問いかけを行っています。",
+            "keyExpressions": "How about ~? (〜はどうですか？)"
+          },
+          {
+            "english": "See if you can find equivalent expressions in English, or ask your bilingual friends if they are around.",
+            "japanese": "これらの表現に相当する英語表現を見つけられるか試してみてください。あるいは、もし周りにバイリンガルの友人がいれば、彼らに尋ねてみてください。",
+            "grammarExplanation": "'See if ~'は「〜できるか試してみる」という意味です。'if they are around'は「もし彼らが近くにいるなら」という条件節です。",
+            "sentenceStructure": "読者への提案や、課題の提示を行っています。",
+            "keyExpressions": "See if ~ (〜できるか試す), equivalent expressions (相当する表現), bilingual friends (バイリンガルの友人), if they are around (もし近くにいるなら)"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "1",
+            "english": "I remember being told that the true essence of Japanese gardens is wabi-sabi.",
+            "japanese": "日本庭園の真骨頂はわびさびだと言われた覚えがあります。",
+            "translationPoint": "「真骨頂」は'true essence'や'heart and soul'と訳すのが適切です。「言われた覚えがあります」は'I remember being told'が自然な英語表現です。",
+            "commonMistake": "「覚えがあります」を直訳して'I have a memory of being told'とすると不自然になりがちです。"
+          },
+          {
+            "num": "2",
+            "english": "The concept was too complex for me to understand.",
+            "japanese": "そのコンセプトが複雑すぎて私には理解できませんでした。",
+            "translationPoint": "「〜すぎて〜できない」という日本語の構文は、英語の'too ~ for A to do'（Aが〜するにはあまりに〜すぎる）で表現できます。「私には」は'for me'で示されます。",
+            "commonMistake": "'complex so I couldn't understand'のように原因と結果を分けて訳すことも可能ですが、'too ~ to'構文を使うとより簡潔です。"
+          },
+          {
+            "num": "3",
+            "english": "This episode shows that it is often very difficult, if not impossible, to translate some concepts from one language into another.",
+            "japanese": "このエピソードは、ある言語の概念を別の言語に翻訳するのが、不可能ではないにしても、しばしば非常に難しいことを示しています。",
+            "translationPoint": "「不可能ではないにしても」は'if not impossible'と表現します。「〜することを示しています」は'shows that ~'を用います。",
+            "commonMistake": "'if not impossible'の慣用的な意味を理解していないと、直訳で不自然な表現になることがあります。"
+          },
+          {
+            "num": "4",
+            "english": "This is true not only for an abstract concept, but also for commonly used expressions in Japanese.",
+            "japanese": "これは抽象的な概念だけでなく、日本語で一般的に使われる表現にも当てはまります。",
+            "translationPoint": "「〜だけでなく〜も」は'not only A but also B'という強調構文で表現されます。「当てはまります」は'is true for'や'applies to'などが使えます。",
+            "commonMistake": "'not only'と'but also'のペアを見落とし、別々に訳してしまうことがあります。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "attractive",
+            "meaning": "魅力的",
+            "usage": "(形容詞) The garden was very attractive. (その庭はとても魅力的だった)",
+            "synonymsAntonyms": "Synonyms: appealing, charming",
+            "derivatives": "attract (動詞), attraction (名詞)",
+            "pronunciation": "[əˈtræktɪv]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "essence",
+            "meaning": "本質、真髄",
+            "usage": "(名詞) The essence of the problem. (問題の本質)",
+            "synonymsAntonyms": "Synonyms: core, heart",
+            "derivatives": "",
+            "pronunciation": "[ˈɛsns]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "consult",
+            "meaning": "〜を参照する、相談する",
+            "usage": "(動詞) I consulted a dictionary. (私は辞書を引いた)",
+            "synonymsAntonyms": "Synonyms: refer to, look up",
+            "derivatives": "consultation (名詞)",
+            "pronunciation": "[kənˈsʌlt]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "define ~ as...",
+            "meaning": "〜を…と定義する",
+            "usage": "(熟語) We defined democracy as government by the people. (私たちは民主主義を人民による政府と定義した)",
+            "synonymsAntonyms": "",
+            "derivatives": "definition (名詞)",
+            "pronunciation": "[dɪˈfaɪn]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "elegant",
+            "meaning": "上品な、優雅な",
+            "usage": "(形容詞) An elegant dress. (上品なドレス)",
+            "synonymsAntonyms": "Synonyms: graceful, refined",
+            "derivatives": "elegance (名詞)",
+            "pronunciation": "[ˈɛlɪɡənt]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "simplicity",
+            "meaning": "簡潔、簡素",
+            "usage": "(名詞) The beauty of simplicity. (簡素さの美しさ)",
+            "synonymsAntonyms": "Synonyms: plainness, straightforwardness",
+            "derivatives": "simple (形容詞)",
+            "pronunciation": "[sɪmˈplɪsɪti]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "detailed",
+            "meaning": "綿密な、詳細な",
+            "usage": "(形容詞) A detailed explanation. (詳細な説明)",
+            "synonymsAntonyms": "Synonyms: comprehensive, elaborate",
+            "derivatives": "detail (名詞、動詞)",
+            "pronunciation": "[ˈdiːteɪld]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "explanation",
+            "meaning": "説明",
+            "usage": "(名詞) Give an explanation. (説明をする)",
+            "synonymsAntonyms": "Synonyms: clarification, interpretation",
+            "derivatives": "explain (動詞)",
+            "pronunciation": "[ˌɛkspləˈneɪʃn]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "aesthetic",
+            "meaning": "美の、審美的な",
+            "usage": "(形容詞) Aesthetic values. (美的価値)",
+            "synonymsAntonyms": "Synonyms: artistic, beautiful",
+            "derivatives": "aesthetics (名詞)",
+            "pronunciation": "[ɛsˈθɛtɪk]",
+            "examFrequency": "高"
+          },
+          {
+            "word": "a sense of ~",
+            "meaning": "〜という感覚",
+            "usage": "(熟語) A sense of humor. (ユーモアのセンス)",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "[ə sɛns əv]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "concept",
+            "meaning": "概念",
+            "usage": "(名詞) An abstract concept. (抽象的な概念)",
+            "synonymsAntonyms": "Synonyms: idea, notion",
+            "derivatives": "conceptual (形容詞)",
+            "pronunciation": "[ˈkɒnsɛpt]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "complex",
+            "meaning": "複雑な",
+            "usage": "(形容詞) A complex problem. (複雑な問題)",
+            "synonymsAntonyms": "Synonyms: intricate, complicated Antonyms: simple",
+            "derivatives": "complexity (名詞)",
+            "pronunciation": "[ˈkɒmplɛks]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "veranda",
+            "meaning": "ベランダ、縁側",
+            "usage": "(名詞) Sit on the veranda. (ベランダに座る)",
+            "synonymsAntonyms": "Synonyms: balcony, porch",
+            "derivatives": "",
+            "pronunciation": "[vəˈrændə]",
+            "examFrequency": "低"
+          },
+          {
+            "word": "look out at ~",
+            "meaning": "外の〜を見る",
+            "usage": "(熟語) Look out at the garden. (庭を眺める)",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "[lʊk aʊt æt]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "impossible",
+            "meaning": "不可能な",
+            "usage": "(形容詞) It's impossible to do. (それは不可能だ)",
+            "synonymsAntonyms": "Synonyms: unachievable Antonyms: possible",
+            "derivatives": "impossibility (名詞)",
+            "pronunciation": "[ɪmˈpɒsəbl]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "if not impossible",
+            "meaning": "不可能ではないにしても",
+            "usage": "(熟語) It is difficult, if not impossible. (それは不可能ではないにしても難しい)",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "[ɪf nɒt ɪmˈpɒsəbl]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "abstract",
+            "meaning": "抽象的な",
+            "usage": "(形容詞) An abstract idea. (抽象的な考え)",
+            "synonymsAntonyms": "Synonyms: theoretical Antonyms: concrete",
+            "derivatives": "abstraction (名詞)",
+            "pronunciation": "[ˈæbstrækt]",
+            "examFrequency": "中"
+          },
+          {
+            "word": "equivalent",
+            "meaning": "同等の、相当する",
+            "usage": "(形容詞) An equivalent amount. (同等の量)",
+            "synonymsAntonyms": "Synonyms: comparable, equal",
+            "derivatives": "equivalence (名詞)",
+            "pronunciation": "[ɪˈkwɪvələnt]",
+            "examFrequency": "高"
+          }
+        ],
+        "questions": [
+          {
+            "question": "When the speaker consulted his dictionary to find out the meaning of wabi-sabi, how did he feel?",
+            "questionJapanese": "筆者はわびさびの意味を辞書で調べたとき、どのように感じましたか？",
+            "answer": "He felt like he was lost in a deep cloud. The concept was too complex for him to understand.",
+            "answerJapanese": "彼は全く理解できず、途方に暮れていると感じました。その概念は彼には複雑すぎて理解できませんでした。",
+            "explanation": "本文中で筆者は辞書を引いた後、「I was lost in a deep cloud. The concept was too complex for me to understand.（私はすっかり途方に暮れていました。その概念は私には複雑すぎて理解できませんでした）」と述べています。",
+            "similarQuestion": "筆者は辞書でわびさびについて調べた際、どのような困難に直面しましたか？"
+          },
+          {
+            "question": "When did the speaker think he had a sense of wabi-sabi?",
+            "questionJapanese": "筆者はいつわびさびを理解できたと感じましたか？",
+            "answer": "He thought he had a sense of wabi-sabi when he sat on the wooden veranda of a temple, looking out at the garden, years later.",
+            "answerJapanese": "何年か後、寺の木の縁側に座って庭を眺めている時に、わびさびを理解できたと感じました。",
+            "explanation": "本文の「But years later, as I sat on the wooden veranda of a temple, looking out at the garden, I thought I finally had a sense of wabi-sabi.（しかし何年か後、私は寺の木の縁側に座って庭を眺めているうちに、ついにわびさびの感覚を理解できたと思いました）」という記述に基づいています。",
+            "similarQuestion": "筆者がわびさびの真髄を理解するに至った具体的な状況を説明してください。"
+          },
+          {
+            "question": "Examples such as mottainai and otsukaresama are given in order to show that",
+            "questionJapanese": "「もったいない」や「お疲れ様」のような例は、何を示すために挙げられていますか？",
+            "answer": "each language has unique expressions that cannot be easily translated.",
+            "answerJapanese": "それぞれの言語には、簡単に翻訳できない独自の表現があることを示すため。",
+            "explanation": "本文の最後の部分で、わびさびのような抽象概念だけでなく、日常的に使われる日本語の表現（もったいない、お疲れ様など）も翻訳が難しいことを示すために、これらの例が挙げられています。",
+            "similarQuestion": "筆者はなぜ「もったいない」や「お疲れ様」といった表現を例として持ち出したのでしょうか？"
+          }
+        ],
+        "lessonTitle": "Lost in Translation Section 2"
+      }
+    },
+    {
+      "id": "L1S3",
+      "lessonLabel": "Lesson1",
+      "sectionLabel": "Section3",
+      "name": "Lesson1  Lesson 1 Lost in Translation Section 3  Section3",
+      "data": {
+        "transcription": "",
+        "transcriptionAnalysis": [
+          {
+            "english": "Now, let us go beyond English and Japanese, and look at some of the world's other languages.",
+            "japanese": "さあ、英語と日本語の枠を超えて、世界の他の言語の一部を見てみましょう。",
+            "grammarExplanation": "「let us + 動詞の原形」は「～しましょう」という提案の表現です。この文では、「go beyond...」と「look at...」が「let us」に続く形で並列に使われています。",
+            "sentenceStructure": "命令文の構造で、「let us (S) [動詞の原形] (V1) and [動詞の原形] (V2)」という形式です。目的語はそれぞれ「English and Japanese」と「some of the world's other languages」です。",
+            "keyExpressions": "go beyond (～の範囲を超える), look at (～を見る), other languages (他の言語)"
+          },
+          {
+            "english": "According to some linguists, there are over 7,000 languages in the world, so what I'm going to show is just a tiny sample of words we can't translate easily into English or Japanese.",
+            "japanese": "一部の言語学者によると、世界には7,000以上の言語が存在し、私がこれからお見せするのは、英語や日本語に簡単に翻訳できない単語のごく一部の例に過ぎません。",
+            "grammarExplanation": "「According to...」は「～によると」という情報源を示す前置詞句です。「there are...」は「～がある」という存在を示す構文。「what I'm going to show」は関係代名詞 'what' を使った名詞節で、この文の主語になっています。「we can't translate easily」は、関係代名詞（that/which）が省略され、「words」を修飾する形容詞節です。",
+            "sentenceStructure": "「According to A, B, so C is D」という構造で、特にCの部分は「what節」が主語となっています。Dの部分は「just a tiny sample of N」という形で、Nは「関係代名詞節が修飾する言葉」です。",
+            "keyExpressions": "according to (～によると), linguist (言語学者), over (～以上), tiny sample (ごく一部の例), translate (翻訳する), easily (簡単に)"
+          },
+          {
+            "english": "Swedish offers an interesting example, as shown on Slide 1.",
+            "japanese": "スウェーデン語は興味深い例を提示しています。それはスライド1に示されている通りです。",
+            "grammarExplanation": "「offers」は「提供する、提示する」という意味の動詞です。「as shown on Slide 1」は「as it is shown on Slide 1」の省略形で、「スライド1に示されているように」という意味を表す慣用表現です。",
+            "sentenceStructure": "「S + V + O, as + 過去分詞」という形式で、主語が「Swedish」、動詞が「offers」、目的語が「an interesting example」です。",
+            "keyExpressions": "offer (提供する), interesting (興味深い), example (例), as shown (～で示されているように)"
+          },
+          {
+            "english": "This word (resfeber) means 'the restless beat of a traveler's heart before the journey begins; feelings of being nervous and excited.'",
+            "japanese": "この単語（resfeber）は、「旅が始まる前の旅行者の落ち着きのない心の鼓動、神経質で興奮している感覚」を意味します。",
+            "grammarExplanation": "「means」は「～を意味する」という動詞です。引用符内のフレーズがその意味を示しています。「restless beat」は「落ち着きのない鼓動」という名詞句。「before the journey begins」は時を表す副詞節です。「feelings of being nervous and excited」では、「of」の後に動名詞「being」が続いています。",
+            "sentenceStructure": "「S + V + O」の基本的な構造で、目的語は引用符で囲まれたフレーズです。",
+            "keyExpressions": "resfeber (旅先熱), restless (落ち着きのない), beat (鼓動), journey (旅), nervous (神経質な), excited (興奮した)"
+          },
+          {
+            "english": "Here is an example from the Dutch language.",
+            "japanese": "こちらはオランダ語の例です。",
+            "grammarExplanation": "「Here is...」は「ここに～があります」という存在を示す構文で、主語と動詞が倒置されています。",
+            "sentenceStructure": "「Here is + 名詞句」という形式です。",
+            "keyExpressions": "Dutch language (オランダ語)"
+          },
+          {
+            "english": "Look at Slide 2.",
+            "japanese": "スライド2を見てください。",
+            "grammarExplanation": "動詞の原形から始まる命令文です。",
+            "sentenceStructure": "「動詞 + 前置詞 + 名詞」という形式の命令文です。",
+            "keyExpressions": "look at (～を見る), slide (スライド)"
+          },
+          {
+            "english": "This word (gezellig) means 'cozy; a positive warm feeling you have when you are with loved ones.'",
+            "japanese": "この単語（gezellig）は、「居心地の良い、愛する人たちと一緒にいるときに感じる前向きで温かい気持ち」を意味します。",
+            "grammarExplanation": "「means」は「～を意味する」という動詞です。「cozy」は形容詞。「a positive warm feeling」という名詞句の後に、「you have when you are with loved ones」という関係代名詞（that/which）が省略された節が続き、「feeling」を修飾しています。",
+            "sentenceStructure": "「S + V + O」の構造で、目的語は引用符で囲まれたフレーズです。",
+            "keyExpressions": "gezellig (楽しい、居心地の良い), cozy (居心地の良い), positive (前向きな), warm feeling (温かい気持ち), loved ones (愛する人たち)"
+          },
+          {
+            "english": "It's amazing that one word can describe this kind of feeling!",
+            "japanese": "たった一つの単語でこのような感情を表現できるのは驚くべきことです！",
+            "grammarExplanation": "「It's amazing that...」は「～ということが驚くべきだ」という構文です。仮主語「It」が使われ、真主語は「that one word can describe this kind of feeling」という節です。",
+            "sentenceStructure": "「It is + 形容詞 + that節」という構文です。",
+            "keyExpressions": "amazing (驚くべき), describe (表現する), kind of (～のような), feeling (感情)"
+          },
+          {
+            "english": "Slide 3 shows an example from Finnish.",
+            "japanese": "スライド3ではフィンランド語の例が示されています。",
+            "grammarExplanation": "「shows」は「示す、見せる」という意味の動詞です。",
+            "sentenceStructure": "「S + V + O + from N」という基本的な構造です。",
+            "keyExpressions": "Finnish (フィンランド語)"
+          },
+          {
+            "english": "This word (poronkusema) means 'the distance a reindeer can comfortably travel before taking a break.'",
+            "japanese": "この単語（poronkusema）は、「トナカイが休憩を取る前に快適に移動できる距離」を意味します。",
+            "grammarExplanation": "「means」は「～を意味する」という動詞です。「the distance」という名詞句の後に、「a reindeer can comfortably travel」という関係代名詞（that/which）が省略された節が続き、「distance」を修飾しています。「before taking a break」は「～する前に」という時を表す句で、「taking」は動名詞です。",
+            "sentenceStructure": "「S + V + O」の構造で、目的語は引用符で囲まれたフレーズです。",
+            "keyExpressions": "poronkusema (トナカイが休憩なしで移動できる距離), distance (距離), reindeer (トナカイ), comfortably (快適に), travel (移動する), take a break (休憩を取る)"
+          },
+          {
+            "english": "Slide 4 shows an example from Arabic.",
+            "japanese": "スライド4ではアラビア語の例が示されています。",
+            "grammarExplanation": "「shows」は「示す、見せる」という意味の動詞です。",
+            "sentenceStructure": "「S + V + O + from N」という基本的な構造です。",
+            "keyExpressions": "Arabic (アラビア語)"
+          },
+          {
+            "english": "This word (gurfa) means 'the amount of water that can be held in one hand.'",
+            "japanese": "この単語（gurfa）は、「片手で持てる水の量」を意味します。",
+            "grammarExplanation": "「means」は「～を意味する」という動詞です。「the amount of water」という名詞句の後に、「that can be held in one hand」という関係代名詞節が続き、「amount of water」を修飾しています。動詞は受動態「can be held」が使われています。",
+            "sentenceStructure": "「S + V + O」の構造で、目的語は引用符で囲まれたフレーズです。",
+            "keyExpressions": "gurfa (片手で汲んだ水), amount (量), hold (持つ)"
+          },
+          {
+            "english": "You may find it fascinating how different languages conceptualize the world in different ways.",
+            "japanese": "異なる言語がどれほど異なる方法で世界を概念化しているかを知って、あなたはそれを魅力的に感じるかもしれません。",
+            "grammarExplanation": "「may find」は「～であるとわかるかもしれない、～だと感じるかもしれない」という推量を表します。「find it fascinating how S V」は「SがVする方法を魅力的に感じる」という構文で、仮目的語「it」が使われ、真目的語は「how different languages conceptualize the world in different ways」という間接疑問文です。",
+            "sentenceStructure": "「S + may + V + it + C + how節」という構造です。",
+            "keyExpressions": "fascinating (魅力的な), conceptualize (概念化する), in different ways (異なる方法で)"
+          },
+          {
+            "english": "It seems there is no limit to what you can say in simple words.",
+            "japanese": "シンプルな言葉で言えることには限界がないようです。",
+            "grammarExplanation": "「It seems that...」は「～のようだ」という構文です。真主語は「that there is no limit to what you can say in simple words」という節です。「there is no limit to...」は「～に限界がない」という意味。「what you can say」は関係代名詞 'what' を使った名詞節で、「to」の目的語となっています。",
+            "sentenceStructure": "「It seems that + there is + N + to + what節」という構造です。",
+            "keyExpressions": "seem (～のように思える), limit (限界), simple words (簡単な言葉)"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "1",
+            "english": "You may find it fascinating how different languages conceptualize the world in different ways.",
+            "japanese": "異なる言語が、どれほど異なる方法で世界をどのような概念化しているか。",
+            "translationPoint": "「find it fascinating how S V」の構文を理解し、「fascinating」を「魅力的な」と捉えること、そして「conceptualize the world in different ways」を自然な日本語にすること。",
+            "commonMistake": "直訳しすぎて「それを見つけるのは魅力的だ」のように不自然な表現になること。また、「どのような概念化しているか」という疑問形にする点で、元の文のニュアンスを完全に伝えきれていない可能性。"
+          },
+          {
+            "num": "2",
+            "english": "It seems there is no limit to what you can say in simple words.",
+            "japanese": "シンプルな言葉で言えることには、限界がないように思えます。",
+            "translationPoint": "「It seems there is no limit to...」という構文を「～に限界がないようだ」と自然に訳すこと。また、「what you can say」を「言えること」と表現すること。",
+            "commonMistake": "「It seems there is no limit」を「限界がないように見える」と直訳しすぎ、やや堅い印象を与えること。また、「what you can say」を「あなたが言えるもの」とすると不自然になる。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "go beyond",
+            "meaning": "～の範囲を超える、～を越える",
+            "usage": "We need to go beyond our current capabilities to solve this problem.",
+            "synonymsAntonyms": "surpass, exceed / fall short of",
+            "derivatives": "N/A",
+            "pronunciation": "/ɡoʊ bɪˈjɒnd/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "linguist",
+            "meaning": "言語学者",
+            "usage": "A linguist studies the structure and development of language.",
+            "synonymsAntonyms": "philologist, etymologist / N/A",
+            "derivatives": "linguistic (形), linguistics (名)",
+            "pronunciation": "/ˈlɪŋɡwɪst/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "sample",
+            "meaning": "サンプル、例、見本",
+            "usage": "This is a sample of their new product.",
+            "synonymsAntonyms": "specimen, example / whole",
+            "derivatives": "sampling (名)",
+            "pronunciation": "/ˈsæmpəl/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "Swedish",
+            "meaning": "スウェーデン語、スウェーデン人（の）",
+            "usage": "She is learning Swedish.",
+            "synonymsAntonyms": "N/A",
+            "derivatives": "Sweden (名)",
+            "pronunciation": "/ˈswiːdɪʃ/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "as shown",
+            "meaning": "～で示されているように",
+            "usage": "As shown in the diagram, the process has three steps.",
+            "synonymsAntonyms": "as indicated, as illustrated / N/A",
+            "derivatives": "show (動)",
+            "pronunciation": "/æz ʃoʊn/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "slide",
+            "meaning": "スライド（プレゼンテーションの）",
+            "usage": "Please refer to slide number five for details.",
+            "synonymsAntonyms": "presentation graphic, visual aid / N/A",
+            "derivatives": "slider (名), sliding (形)",
+            "pronunciation": "/slaɪd/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "restless",
+            "meaning": "落ち着きのない、そわそわした",
+            "usage": "The restless crowd waited for the concert to begin.",
+            "synonymsAntonyms": "impatient, fidgety / calm, tranquil",
+            "derivatives": "restlessness (名)",
+            "pronunciation": "/ˈrɛstlɪs/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "beat",
+            "meaning": "鼓動、拍動",
+            "usage": "I could feel my heart beat rapidly.",
+            "synonymsAntonyms": "pulse, throb / N/A",
+            "derivatives": "beating (名)",
+            "pronunciation": "/biːt/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "Dutch",
+            "meaning": "オランダ語、オランダ人（の）",
+            "usage": "He speaks fluent Dutch.",
+            "synonymsAntonyms": "N/A",
+            "derivatives": "Netherlands (名)",
+            "pronunciation": "/dʌtʃ/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "cozy",
+            "meaning": "居心地の良い、こじんまりとした",
+            "usage": "The small cafe had a very cozy atmosphere.",
+            "synonymsAntonyms": "comfortable, snug / uncomfortable, unwelcoming",
+            "derivatives": "coziness (名), cozily (副)",
+            "pronunciation": "/ˈkoʊzi/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "amazing",
+            "meaning": "すばらしい、驚くべき",
+            "usage": "The view from the top of the mountain was amazing.",
+            "synonymsAntonyms": "astonishing, wonderful / ordinary, uninteresting",
+            "derivatives": "amaze (動), amazement (名)",
+            "pronunciation": "/əˈmeɪzɪŋ/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "Finnish",
+            "meaning": "フィンランド語、フィンランド人（の）",
+            "usage": "The Finnish sauna is very popular.",
+            "synonymsAntonyms": "N/A",
+            "derivatives": "Finland (名)",
+            "pronunciation": "/ˈfɪnɪʃ/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "distance",
+            "meaning": "距離",
+            "usage": "What's the distance between Tokyo and Osaka?",
+            "synonymsAntonyms": "gap, space / proximity, closeness",
+            "derivatives": "distant (形)",
+            "pronunciation": "/ˈdɪstəns/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "reindeer",
+            "meaning": "トナカイ",
+            "usage": "Reindeer are native to Arctic regions.",
+            "synonymsAntonyms": "caribou / N/A",
+            "derivatives": "N/A",
+            "pronunciation": "/ˈreɪndɪər/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "comfortably",
+            "meaning": "快適に、楽に",
+            "usage": "She slept comfortably on the soft bed.",
+            "synonymsAntonyms": "cozily, easily / uncomfortably",
+            "derivatives": "comfort (名, 動), comfortable (形)",
+            "pronunciation": "/ˈkʌmfərtəbli/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "take a break",
+            "meaning": "休憩をとる",
+            "usage": "Let's take a break and grab some coffee.",
+            "synonymsAntonyms": "rest, pause / work continuously",
+            "derivatives": "N/A",
+            "pronunciation": "/teɪk ə breɪk/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "Arabic",
+            "meaning": "アラビア語、アラビア人（の）",
+            "usage": "Arabic is spoken by millions of people.",
+            "synonymsAntonyms": "N/A",
+            "derivatives": "Arab (名)",
+            "pronunciation": "/ˈærəbɪk/",
+            "examFrequency": "低"
+          },
+          {
+            "word": "amount",
+            "meaning": "量",
+            "usage": "A large amount of money was donated.",
+            "synonymsAntonyms": "quantity, volume / N/A",
+            "derivatives": "N/A",
+            "pronunciation": "/əˈmaʊnt/",
+            "examFrequency": "高"
+          },
+          {
+            "word": "conceptualize",
+            "meaning": "～の概念を形成する、概念化する",
+            "usage": "It's difficult to conceptualize such abstract ideas.",
+            "synonymsAntonyms": "formulate, imagine / N/A",
+            "derivatives": "concept (名), conceptual (形), conceptualization (名)",
+            "pronunciation": "/kənˈsɛptʃuəlaɪz/",
+            "examFrequency": "中"
+          },
+          {
+            "word": "in a ~ way",
+            "meaning": "～な方法で",
+            "usage": "They solved the problem in a unique way.",
+            "synonymsAntonyms": "in a ~ manner / N/A",
+            "derivatives": "way (名)",
+            "pronunciation": "/ɪn ə weɪ/",
+            "examFrequency": "高"
+          }
+        ],
+        "questions": [
+          {
+            "question": "According to some linguists, how many languages are there in the world?",
+            "questionJapanese": "一部の言語学者によると、世界にはいくつの言語がありますか？",
+            "answer": "There are over 7,000 languages in the world.",
+            "answerJapanese": "世界には7,000以上の言語があります。",
+            "explanation": "本文中の「According to some linguists, there are over 7,000 languages in the world」に明確に記述されています。",
+            "similarQuestion": "How many languages are estimated to be spoken globally by linguists?"
+          },
+          {
+            "question": "What is amazing about the Dutch word on Slide 2?",
+            "questionJapanese": "スライド2のオランダ語の単語について何が驚くべきことですか？",
+            "answer": "It is amazing that one word ('gezellig') can describe a positive warm feeling you have when you are with loved ones.",
+            "answerJapanese": "「gezellig」という一つの単語で、愛する人たちと一緒にいるときに感じる前向きで温かい気持ちを表現できることが驚くべき点です。",
+            "explanation": "本文中の「This word (gezellig) means 'cozy; a positive warm feeling you have when you are with loved ones.' It's amazing that one word can describe this kind of feeling!」という記述に基づいています。",
+            "similarQuestion": "What unique characteristic does the word 'poronkusema' possess, as discussed in the lesson?"
+          },
+          {
+            "question": "What does the speaker mean when he says, \"There is no limit to what you can say in simple words?\"",
+            "questionJapanese": "話者が「シンプルな言葉で言えることには限界がない」と言うとき、何を意味していますか？",
+            "answer": "c. You can put together simple words to express complex ideas.",
+            "answerJapanese": "c. シンプルな言葉を組み合わせることで複雑なアイデアを表現できる。",
+            "explanation": "このフレーズは、ある一つの単語では表現しにくい複雑な概念も、既存のシンプルな単語を組み合わせたり工夫したりすることで、伝えることが可能であるという可能性を示唆しています。提示された「resfeber」や「gezellig」のような単語の意味も、複数のシンプルな言葉を使って説明されています。選択肢cが最もこの意図を正確に捉えています。aは「シンプルな単語がそれ自体で複雑なアイデアを表現できる」と解釈されがちで、文脈と少しずれます。bは単語の多義性についてであり、このレッスンの焦点とは異なります。",
+            "similarQuestion": "What is the implied message about language flexibility when specific untranslatable words are discussed?"
+          }
+        ],
+        "lessonTitle": "Lesson 1 Lost in Translation Section 3"
+      }
+    },
+    {
       "id": "L3S1",
       "lessonLabel": "Lesson3",
       "sectionLabel": "Section1",
