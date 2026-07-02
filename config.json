@@ -1037,6 +1037,262 @@
         ],
         "lessonTitle": "Lesson 3 Accessible Japan Section 4"
       }
+    },
+    {
+      "id": "L1S1",
+      "lessonLabel": "Lesson1",
+      "sectionLabel": "Section1",
+      "name": "Lesson1  Lesson 1 Lost in Translation Section 1  Section1",
+      "data": {
+        "transcription": "When you study English, you may be tempted to translate English into Japanese. A professor of translation studies from Canada gives a warning. You find yourself wanting to say something in English. However, the words just don't come into your mind. You want to say 'Mata ashita' in English, but you don't know how. You want to be understood completely. What do you do? Well, you may simply ask your bilingual friend, 'How do you say 'Mata ashita' in English?' She will answer, 'See you tomorrow.' The problem is solved. The expression 'How do you say ... in English?' is so useful that you may want to use it every time you are at a loss for words. There's nothing wrong with that, but the assumption behind this question could be wrong. Japanese expressions may not always have exactly corresponding expressions in English. And the same is true for English. English expressions may not have exactly corresponding expressions in Japanese. As you will see, translation sometimes fails.",
+        "transcriptionAnalysis": [
+          {
+            "english": "When you study English, you may be tempted to translate English into Japanese.",
+            "japanese": "英語を学ぶとき、あなたは英語を日本語に翻訳したくなるかもしれません。",
+            "grammarExplanation": "「When S+V...」は時を表す副詞節で、「SがVするとき」という意味です。「may be tempted to V」は「Vしたいという誘惑に駆られるかもしれない」「Vしたくなるかもしれない」という意味で、受動態と不定詞が組み合わさった形です。",
+            "sentenceStructure": "「When you study English」は主節「you may be tempted to translate English into Japanese」を修飾する副詞節です。主節は「You (S) may be tempted (V) to translate English into Japanese (V補語句/目的語の一部)」と捉えられ、実質的に「～したい誘惑に駆られる」という動詞句として機能します。",
+            "keyExpressions": "be tempted to V: ～する誘惑に駆られる、～したくなる"
+          },
+          {
+            "english": "A professor of translation studies from Canada gives a warning.",
+            "japanese": "カナダ出身の翻訳研究の教授が警告を発しています。",
+            "grammarExplanation": "「from Canada」は直前の名詞「professor」を修飾する前置詞句です。「translation studies」は「翻訳学」という複合名詞です。",
+            "sentenceStructure": "「A professor (S) of translation studies from Canada (M: 形容詞句) gives (V) a warning (O).」SVOの基本的な文型です。",
+            "keyExpressions": "give a warning: 警告を発する"
+          },
+          {
+            "english": "You find yourself wanting to say something in English.",
+            "japanese": "あなたは英語で何かを言いたいと思っている自分に気づくでしょう。",
+            "grammarExplanation": "「find oneself doing」は「自分が～していることに気づく」という意味の慣用表現です。「wanting」は現在分詞で、目的語「yourself」が～している状態を表す目的語補語（C）の役割を果たしています。",
+            "sentenceStructure": "「You (S) find (V) yourself (O) wanting to say something in English (C).」SVOC（第5文型）の構文です。",
+            "keyExpressions": "find oneself doing: 自分が～していることに気づく"
+          },
+          {
+            "english": "However, the words just don't come into your mind.",
+            "japanese": "しかし、言葉がただ頭に浮かんでこないのです。",
+            "grammarExplanation": "「However」は接続副詞で、前の文の内容と逆接の関係を示します。「just」は副詞で「ただ、単に」という意味を強調しています。",
+            "sentenceStructure": "「However (接続副詞), the words (S) just (M) don't come (V) into your mind (M).」",
+            "keyExpressions": "come into one's mind: （人の）頭に浮かぶ"
+          },
+          {
+            "english": "You want to say 'Mata ashita' in English, but you don't know how.",
+            "japanese": "あなたは英語で「また明日」と言いたいのですが、その方法が分かりません。",
+            "grammarExplanation": "「know how」は「方法を知っている」という意味です。ここでは「how to say it (in English)」が省略されていると考えられます。",
+            "sentenceStructure": "「You (S) want (V) to say 'Mata ashita' in English (O), but (接続詞) you (S) don't know (V) how (O).」",
+            "keyExpressions": ""
+          },
+          {
+            "english": "You want to be understood completely.",
+            "japanese": "あなたは完全に理解されたいと思っています。",
+            "grammarExplanation": "「want to be V-ed」は「Vされたい」という意味で、不定詞の受動態（to be + 過去分詞）を使っています。「completely」は「理解される」という動詞を修飾する副詞です。",
+            "sentenceStructure": "「You (S) want (V) to be understood completely (O).」",
+            "keyExpressions": ""
+          },
+          {
+            "english": "What do you do?",
+            "japanese": "どうしますか？",
+            "grammarExplanation": "疑問詞「What」を使った現在形の疑問文です。",
+            "sentenceStructure": "「What (O) do (助動詞) you (S) do (V)?」",
+            "keyExpressions": ""
+          },
+          {
+            "english": "Well, you may simply ask your bilingual friend, 'How do you say 'Mata ashita' in English?'",
+            "japanese": "その時、あなたは単に二言語を話す友人に「『また明日』は英語で何と言いますか？」と尋ねるかもしれません。",
+            "grammarExplanation": "「may simply ask」は「単に尋ねるかもしれない」という意味で、助動詞mayが可能性を示しています。「bilingual」は「二言語を話す」という意味の形容詞です。引用符内の部分は直接話法です。",
+            "sentenceStructure": "「Well (間投詞), you (S) may ask (V) your bilingual friend (O1), 'How do you say 'Mata ashita' in English?' (O2).」SVOO（第4文型）と捉えることができます。",
+            "keyExpressions": "bilingual: 二言語を話す"
+          },
+          {
+            "english": "She will answer, 'See you tomorrow.'",
+            "japanese": "彼女は「See you tomorrow.」と答えるでしょう。",
+            "grammarExplanation": "未来を表す助動詞「will」が使われています。引用符内は直接話法です。",
+            "sentenceStructure": "「She (S) will answer (V), 'See you tomorrow.' (O).」",
+            "keyExpressions": ""
+          },
+          {
+            "english": "The problem is solved.",
+            "japanese": "問題は解決です。",
+            "grammarExplanation": "「is solved」は「～は解決される」という受動態の形です。",
+            "sentenceStructure": "「The problem (S) is solved (V).」",
+            "keyExpressions": ""
+          },
+          {
+            "english": "The expression 'How do you say ... in English?' is so useful that you may want to use it every time you are at a loss for words.",
+            "japanese": "「～は英語で何と言いますか？」という表現は非常に便利なので、言葉に詰まるたびにそれを使いたくなるかもしれません。",
+            "grammarExplanation": "「so...that...」構文で「非常に～なので…」という結果を表します。「every time S+V」は「SがVするたびに」という意味の接続詞句です。「at a loss for words」は「言葉に詰まる」「何を言っていいか分からない」という意味のイディオムです。",
+            "sentenceStructure": "「The expression 'How do you say ... in English?' (S) is (V) so useful (C) that you may want to use it every time you are at a loss for words (結果を表す副詞節).」",
+            "keyExpressions": "so...that...: 非常に～なので…。at a loss for words: 言葉に詰まる、何を言っていいか分からない"
+          },
+          {
+            "english": "There's nothing wrong with that, but the assumption behind this question could be wrong.",
+            "japanese": "それは間違いではありませんが、この質問の背後にある前提は間違っているかもしれません。",
+            "grammarExplanation": "「There's nothing wrong with A」は「Aには何の欠点もない、Aは間違っていない」という慣用表現です。「behind this question」は「assumption」を修飾する前置詞句で、「この質問の背後にある」という意味です。「could be wrong」は可能性を示しています。",
+            "sentenceStructure": "「There is nothing wrong with that (慣用句), but (接続詞) the assumption (S) behind this question (M) could be (V) wrong (C).」",
+            "keyExpressions": "There's nothing wrong with A: Aには何の欠点もない、Aは間違っていない。assumption: 前提、仮定"
+          },
+          {
+            "english": "Japanese expressions may not always have exactly corresponding expressions in English.",
+            "japanese": "日本語の表現が、英語に常に正確に対応する表現を持つとは限りません。",
+            "grammarExplanation": "「may not always」は「常に～とは限らない」という部分否定の表現です。「corresponding expressions」は「対応する表現」という意味です。",
+            "sentenceStructure": "「Japanese expressions (S) may not always have (V) exactly corresponding expressions (O) in English (M).」",
+            "keyExpressions": "not always: 常に～とは限らない（部分否定）。corresponding: 対応する、一致する"
+          },
+          {
+            "english": "And the same is true for English.",
+            "japanese": "そして、同じことが英語にも当てはまります。",
+            "grammarExplanation": "「the same is true for A」は「Aにも同じことが当てはまる」という慣用表現です。",
+            "sentenceStructure": "「And (接続詞) the same (S) is (V) true (C) for English (M).」",
+            "keyExpressions": "be true for A: Aに当てはまる、該当する"
+          },
+          {
+            "english": "English expressions may not have exactly corresponding expressions in Japanese.",
+            "japanese": "英語の表現が、日本語に正確に対応する表現を持たないこともあります。",
+            "grammarExplanation": "前の文（文13）と同様に「may not」と「exactly corresponding expressions」が使われています。",
+            "sentenceStructure": "「English expressions (S) may not have (V) exactly corresponding expressions (O) in Japanese (M).」",
+            "keyExpressions": ""
+          },
+          {
+            "english": "As you will see, translation sometimes fails.",
+            "japanese": "ご覧のように、翻訳は時に失敗します。",
+            "grammarExplanation": "「As S+V」は「SがVするように」「SがVのとおりに」という意味の接続詞句です。「sometimes fails」は「時々失敗する」という意味です。",
+            "sentenceStructure": "「As you will see (副詞節), translation (S) sometimes (M) fails (V).」",
+            "keyExpressions": "As you will see: ご覧のように、お分かりのように"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "You want to be understood completely.",
+            "japanese": "あなたは完全に理解されたいと思っています。",
+            "translationPoint": "「want to be understood」という不定詞の受動態を「理解されることを望む」と直訳せず、日本語として自然な「理解されたい」と訳出することがポイントです。",
+            "commonMistake": "「完全に理解されることを望む」という直訳だと、やや不自然に聞こえることがあります。動詞と結びつけて「～されたい」と意訳することで、より自然な表現になります。"
+          },
+          {
+            "num": "②",
+            "english": "The expression \"How do you say ... in English?\" is so useful that you may want to use it every time you are at a loss for words.",
+            "japanese": "「～は英語で何と言いますか？」という表現は非常に便利なので、言葉に詰まるたびにそれを使いたくなるかもしれません。",
+            "translationPoint": "「so...that...」構文を「非常に～なので…」と訳し、結果を明確に伝えることが重要です。「every time you are at a loss for words」は「あなたが言葉に詰まるたびに」と、意味を汲み取って訳します。",
+            "commonMistake": "「at a loss for words」を直訳して「言葉を失う」とすると、感情的に言葉が出ない状況に限定されてしまう場合があります。ここでは「何を言っていいか分からない」「表現が見つからない」という広義の意味で「言葉に詰まる」と訳すのが適切です。"
+          },
+          {
+            "num": "③",
+            "english": "Japanese expressions may not always have exactly corresponding expressions in English.",
+            "japanese": "日本語の表現が、英語に常に正確に対応する表現を持つとは限りません。",
+            "translationPoint": "「may not always」という「部分否定」を正確に訳すことが重要です。「常に～とは限らない」または「いつも～するわけではない」となります。「exactly corresponding expressions」は「正確に対応する表現」と訳します。",
+            "commonMistake": "「not always」を「決して～ない」という「完全否定」と誤訳すると、意味が大きく変わってしまいます。また、「corresponding」を「返信する」などと誤解しないよう注意が必要です。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "translation",
+            "meaning": "翻訳、訳すこと",
+            "usage": "Good translation requires not only linguistic skill but also cultural understanding. (良い翻訳には言語スキルだけでなく、文化理解も必要とされる。)",
+            "synonymsAntonyms": "同義語: interpretation",
+            "derivatives": "translate (動): ～を翻訳する, translator (名): 翻訳家",
+            "pronunciation": "/trænsˈleɪʃən/ アクセントは「la」の部分です。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "tempt",
+            "meaning": "～を誘惑する、引きつける、～したい気持ちにさせる",
+            "usage": "The delicious smell of the cake tempted me to eat it all. (ケーキの美味しそうな匂いが、私に全部食べてしまいたい誘惑を与えた。)",
+            "synonymsAntonyms": "同義語: entice, allure, lure",
+            "derivatives": "temptation (名): 誘惑, tempting (形): 魅力的な",
+            "pronunciation": "/tempt/ 短い「e」の音に注意しましょう。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "bilingual",
+            "meaning": "二言語を話す、二か国語の",
+            "usage": "She grew up in a bilingual household, speaking both English and French fluently. (彼女は英語とフランス語の両方を流暢に話す、バイリンガルの家庭で育った。)",
+            "synonymsAntonyms": "同義語: multilingual",
+            "derivatives": "bilingually (副): 二言語で",
+            "pronunciation": "/baɪˈlɪŋɡwəl/ アクセントは「lin」の部分です。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "expression",
+            "meaning": "表現、語句、言い回し、表情",
+            "usage": "The phrase \"break a leg\" is a common expression for wishing good luck. (「break a leg」というフレーズは、幸運を祈る一般的な表現です。)",
+            "synonymsAntonyms": "同義語: phrase, idiom, saying",
+            "derivatives": "express (動): ～を表現する, expressive (形): 表現豊かな",
+            "pronunciation": "/ɪkˈspreʃən/ アクセントは「pre」の部分です。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "professor",
+            "meaning": "教授",
+            "usage": "Professor Davis teaches ancient history at the university. (デイビス教授は大学で古代史を教えている。)",
+            "synonymsAntonyms": "",
+            "derivatives": "profess (動): ～を公言する",
+            "pronunciation": "/prəˈfesər/ アクセントは「fe」の部分です。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "warning",
+            "meaning": "警告、警報",
+            "usage": "The weather forecast issued a warning about heavy rain. (天気予報は大雨に関する警報を発令した。)",
+            "synonymsAntonyms": "同義語: caution, alert",
+            "derivatives": "warn (動): ～に警告する",
+            "pronunciation": "/ˈwɔːrnɪŋ/ 「war」の部分にアクセントがあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "completely",
+            "meaning": "完全に、全く",
+            "usage": "I completely forgot about our meeting today. (今日の会議のことを完全に忘れていた。)",
+            "synonymsAntonyms": "同義語: entirely, totally, fully / 反意語: partially, incompletely",
+            "derivatives": "complete (形): 完全な, complete (動): ～を完成させる",
+            "pronunciation": "/kəmˈpliːtli/ アクセントは「ple」の部分です。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "assumption",
+            "meaning": "仮定、思い込み、前提",
+            "usage": "Your assumption that I would agree with you was incorrect. (私があなたに賛成するというあなたの仮定は間違っていました。)",
+            "synonymsAntonyms": "同義語: presumption, hypothesis",
+            "derivatives": "assume (動): ～を仮定する、～と思い込む",
+            "pronunciation": "/əˈsʌmpʃən/ アクセントは「sump」の部分です。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "corresponding",
+            "meaning": "対応する、一致する、相当する",
+            "usage": "Please match each item with its corresponding number. (各項目を対応する番号と一致させてください。)",
+            "synonymsAntonyms": "同義語: equivalent, matching, parallel",
+            "derivatives": "correspond (動): 対応する、一致する, correspondence (名): 一致、文通",
+            "pronunciation": "/ˌkɒrɪˈspɒndɪŋ/ アクセントは「spon」の部分です。",
+            "examFrequency": "やや難"
+          }
+        ],
+        "questions": [
+          {
+            "question": "When do you ask, \"How do you say ... in English?\"",
+            "questionJapanese": "あなたはいつ「～は英語で何と言いますか？」と尋ねますか？",
+            "answer": "We ask, \"How do you say ... in English?\" when we are at a loss for words.",
+            "answerJapanese": "私たちは言葉に詰まったときに「～は英語で何と言いますか？」と尋ねます。",
+            "explanation": "本文の「The expression 'How do you say ... in English?' is so useful that you may want to use it every time you are at a loss for words.」に基づいています。つまり、表現したい言葉が見つからない（at a loss for words）時にこの質問をします。",
+            "similarQuestion": "What does it mean to \"be at a loss for words\"? (Answer: It means you don't know what to say or how to express something.)"
+          },
+          {
+            "question": "The assumption behind the question \"How do you say ... in English?\" could be wrong. Why?",
+            "questionJapanese": "「～は英語で何と言いますか？」という質問の背後にある前提は間違っているかもしれません。なぜですか？",
+            "answer": "The assumption behind the question \"How do you say ... in English?\" could be wrong because Japanese expressions may not always have exactly corresponding expressions in English, and the same is true for English expressions in Japanese.",
+            "answerJapanese": "「～は英語で何と言いますか？」という質問の背後にある前提が間違っているかもしれないのは、日本語の表現が英語に常に正確に対応する表現を持つとは限らず、英語の表現についても日本語に正確に対応する表現がないことがあるためです。",
+            "explanation": "本文の「the assumption behind this question could be wrong. Japanese expressions may not always have exactly corresponding expressions in English. And the same is true for English. English expressions may not have exactly corresponding expressions in Japanese.」に示されています。言語間で表現が完全に一致するとは限らないため、この質問の前提（常に正確な対応表現があるという思い込み）は間違いである可能性があるということです。",
+            "similarQuestion": "Is it always possible to find a one-to-one translation between two languages? (Answer: No, it is not always possible because expressions in one language may not have exactly corresponding expressions in another.)"
+          },
+          {
+            "question": "When the speaker says, \"translation sometimes fails,\" he means",
+            "questionJapanese": "話し手が「翻訳は時に失敗する」と言うとき、彼が意味するのは次のうちどれですか？",
+            "answer": "a. translation is not always successful.",
+            "answerJapanese": "a. 翻訳が常に成功するとは限らない。",
+            "explanation": "「translation sometimes fails」は「翻訳は時々失敗する」という意味です。これは「翻訳が常に成功するわけではない」という部分否定の考え方と一致します。選択肢aがその意味を最も適切に表しています。",
+            "similarQuestion": "Which of the following best describes the difficulty of translation according to the text? a. Translation is impossible for most people. b. Translating word for word often works well. c. Finding exact equivalents between languages can be challenging. (Answer: c. Finding exact equivalents between languages can be challenging.)"
+          }
+        ],
+        "lessonTitle": "Lesson 1 Lost in Translation Section 1"
+      }
     }
   ]
 }
