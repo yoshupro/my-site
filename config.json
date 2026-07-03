@@ -2,23 +2,13 @@
   "announcements": [
     {
       "badge": "UPDATE",
-      "badgeColor": "#1fe04f",
-      "version": "auto-1782943521616",
+      "badgeColor": "#3ce284",
+      "version": "1.0.3",
       "title": "軽微な修正を行いました。",
       "body": "",
       "link": "",
-      "createdAt": "2026-07-01T22:05:21.616Z",
-      "updatedAt": "2026-07-01T22:05:21.616Z"
-    },
-    {
-      "badge": "英コミュセクション追加",
-      "badgeColor": "#f462a8",
-      "version": "auto-1782950054716",
-      "title": "Lesson3 Section1,2,3,4を追加しました",
-      "body": "",
-      "link": "",
-      "createdAt": "2026-07-01T22:03:09.889Z",
-      "updatedAt": "2026-07-01T23:54:14.716Z"
+      "createdAt": "2026-07-03T01:09:08.119Z",
+      "updatedAt": "2026-07-03T01:09:08.119Z"
     },
     {
       "badge": "INFO",
@@ -991,6 +981,1348 @@
           }
         ],
         "lessonTitle": "Lesson 1 Lost in Translation Section 3"
+      }
+    },
+    {
+      "id": "L1S4",
+      "lessonLabel": "Lesson1",
+      "sectionLabel": "Section4",
+      "name": "Lesson1  Lesson 1 Lost in Translation Section 4  Section4",
+      "data": {
+        "lessonTitle": "Lesson 1 Lost in Translation Section 4",
+        "transcriptionAnalysis": [
+          {
+            "english": "Before concluding my talk, let me share with you a couple of Japanese words which I find really interesting.",
+            "japanese": "私の話を終える前に、私が本当に面白いと思ういくつかの日本語の単語を皆さんと共有させてください。",
+            "grammarExplanation": "「Before + 動名詞 (-ing)」で「〜する前に」を意味します。「let me + 動詞の原形」は「〜させてください」という許可を求める丁寧な表現です。「a couple of」は「いくつかの、2、3の」という意味です。「which I find really interesting」は関係代名詞節で、前の名詞「Japanese words」を修飾しています。",
+            "sentenceStructure": "「Before concluding my talk」は時を表す副詞句、「let me share」は「S + V + O + O (間接目的語 + 直接目的語)」の構文（私にあなたと共有させてください）です。その後に「a couple of Japanese words」が続き、関係代名詞節「which I find really interesting」がそれを説明しています。",
+            "keyExpressions": "concluding my talk (話を終える), share with you (〜と共有する/紹介する), a couple of (いくつか), find interesting (面白いと思う)"
+          },
+          {
+            "english": "Imagine that you are strolling in a park on a bright summer day. You breathe in the fresh air; you are looking up at the trees; you see the sunlight filtering through the leaves.",
+            "japanese": "晴れた夏の日に公園を散歩しているところを想像してください。新鮮な空気を吸い込み、木々を見上げ、葉の間から差し込む木漏れ日を見ます。",
+            "grammarExplanation": "「Imagine that節」で「〜だと想像する」という意味です。各文で現在進行形（are strolling, are looking up, are filtering）が使われており、その瞬間の状況を描写しています。「filtering through the leaves」は分詞構文で、sunlightが葉を通り抜ける様子を表しています。",
+            "sentenceStructure": "「Imagine that」で始まる命令文と、それに続く3つの独立した文が状況を説明しています。それぞれの文は主語（You）と動詞（breathe, are looking, see）を持ち、具体的な行動や知覚を描写しています。",
+            "keyExpressions": "strolling in a park (公園を散歩する), bright summer day (明るい夏の日), breathe in the fresh air (新鮮な空気を吸い込む), look up at the trees (木々を見上げる), sunlight filtering through the leaves (葉を通して差し込む木漏れ日)"
+          },
+          {
+            "english": "How do you describe this kind of sunlight? Komorebi. I find this fascinating.",
+            "japanese": "この種の太陽の光をどう表現しますか？「木漏れ日」です。私はこれを魅力的だと感じます。",
+            "grammarExplanation": "「How do you describe...?」は表現方法を尋ねる疑問文です。「I find this fascinating」は「S + V + O + C」の構文で、「this（これ）をfascinating（魅力的）だと感じる」という意味になります。",
+            "sentenceStructure": "疑問文の後に、その答えとなる名詞句「Komorebi」が続き、さらに話し手の感想を述べる文「I find this fascinating」が続いています。",
+            "keyExpressions": "describe (表現する), kind of sunlight (この種の太陽の光), fascinating (魅力的な)"
+          },
+          {
+            "english": "I buy lots of books. People ask, 'Have you read all those books?' Of course not! I often leave books unread. I just pile them up without reading them. Japanese has a word to describe this kind of 'reading': tsundoku! I love it.",
+            "japanese": "私はたくさんの本を買います。人々は「それらの本を全部読みましたか？」と尋ねます。「もちろん、違います！」私はしばしば本を読まずに放置します。私はそれらをただ積み重ねるだけで、読みません。日本語には、この種の「読書」を表現する言葉があります。それが「積読」です！私はそれが大好きです。",
+            "grammarExplanation": "「lots of」は「たくさんの」という意味で、数えられる名詞にも数えられない名詞にも使えます。「Have you read...?」は現在完了形の疑問文で、経験や結果を尋ねています。「leave + 目的語 + 補語（過去分詞）」で「目的語を〜の状態にしておく」という意味です。「without + 動名詞 (-ing)」は「〜することなく」という意味です。「a word to describe」は不定詞の形容詞的用法で「説明するための言葉」となります。",
+            "sentenceStructure": "いくつかの独立した文で構成されています。最初と最後の文はSVO、途中に疑問文とその答え、さらに「S + V + O + C」や「S + V + O + 前置詞句」の形が使われています。",
+            "keyExpressions": "lots of books (たくさんの本), read all those books (それらの本を全部読む), leave books unread (本を読まずに放置する), pile them up (それらを積み重ねる), without reading them (それらを読まずに), a word to describe (〜を表現する言葉), tsundoku (積読)"
+          },
+          {
+            "english": "As speakers of Japanese, you may not find these words unique. Yet, non-native speakers of Japanese often find them unique to Japan.",
+            "japanese": "日本語話者としては、これらの言葉をユニークだとは思わないかもしれません。しかし、日本語の非ネイティブスピーカーは、それらを日本独特のものだと感じることがよくあります。",
+            "grammarExplanation": "「As + 名詞」は「〜として」という意味です。「may not 動詞の原形」は「〜しないかもしれない」という推量を表します。「find + 目的語 + 補語（形容詞）」の構文が繰り返されており、「目的語を〜だと感じる」という意味です。「unique to Japan」は「日本独特の」という意味です。",
+            "sentenceStructure": "「As speakers of Japanese」は状況を示す副詞句です。前半は「You may not find these words unique」というSVOOCの構文、後半は接続詞「Yet」で始まり、「non-native speakers of Japanese often find them unique to Japan」というSVOOCの構文が続いています。",
+            "keyExpressions": "as speakers of Japanese (日本語話者として), may not find (〜だとは思わないかもしれない), unique (ユニークな), non-native speakers (非ネイティブスピーカー), unique to Japan (日本独特の)"
+          },
+          {
+            "english": "Learning English is not just about words and rules. It can allow us to see the world in different ways.",
+            "japanese": "英語学習は単に単語や文法規則だけではありません。それは私たちが世界を異なる方法で見ることを可能にします。",
+            "grammarExplanation": "「not just A but also B」の構文で、「AだけでなくBも」という意味です（ここでは「but also B」が省略されているが意味は同じ）。「allow + 目的語 + to 不定詞」は「目的語が〜することを許す/可能にする」という意味です。",
+            "sentenceStructure": "最初の文は「Learning English」が主語のSVC構文です。次の文は「It」が主語で、「can allow us to see the world」というSVO + to不定詞の構文になっています。",
+            "keyExpressions": "not just about (〜だけではない), words and rules (単語と規則), allow us to see (私たちが〜を見ることを可能にする), in different ways (異なる方法で)"
+          },
+          {
+            "english": "Lastly, may I give you a small piece of advice?",
+            "japanese": "最後に、あなたにちょっとしたアドバイスをしてもよろしいでしょうか？",
+            "grammarExplanation": "「Lastly」は「最後に」を意味する副詞です。「May I + 動詞の原形...?」は許可を求める丁寧な表現です。「a piece of advice」は「一片のアドバイス」という意味で、adviceは不可算名詞なので「a piece of」を使って数を表します。",
+            "sentenceStructure": "副詞「Lastly」の後に、「May I give you a small piece of advice?」という疑問文が続いています。これは「S + V + O + O (間接目的語 + 直接目的語)」の倒置された疑問文の形です。",
+            "keyExpressions": "lastly (最後に), a piece of advice (アドバイス)"
+          },
+          {
+            "english": "Translation is sometimes used to make sure you have understood the English text you are reading, but remember that there might be something lost in translation.",
+            "japanese": "翻訳は、あなたが読んでいる英文を理解したか確認するために使われることがありますが、翻訳では何か失われるものがあるかもしれないことを覚えておいてください。",
+            "grammarExplanation": "「is sometimes used」は受動態です。「to make sure」は目的を表す不定詞句で「〜を確認するために」という意味です。「you are reading」は関係代名詞が省略された形で「the English text」を修飾しています。「remember that節」で「〜ということを覚えておく」という意味です。「there might be」は「〜があるかもしれない」という可能性を示します。「lost in translation」は「翻訳で失われる、翻訳の際に失われるものがある」という慣用表現です。",
+            "sentenceStructure": "最初の文は「Translation is sometimes used to make sure...」という受動態の文です。接続詞「but」に続いて「remember that...」という命令文が来ており、その「that」節の中には「there might be something lost in translation」という文が入っています。",
+            "keyExpressions": "make sure (確認する), understood the English text (英文を理解する), lost in translation (翻訳で失われる)"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "As speakers of Japanese, you may not find these words unique.",
+            "japanese": "日本語の話し方としては、皆さんはこれらの言葉をユニークだとは思わないかもしれません。",
+            "translationPoint": "「As speakers of Japanese」を「日本語の話し方としては」と自然な日本語表現に意訳している点がポイントです。直訳の「日本語話者として」でも間違いではありませんが、よりこなれた表現になっています。",
+            "commonMistake": "「as」を「〜として」と直訳しすぎると、文脈によっては不自然に聞こえることがあります。"
+          },
+          {
+            "num": "②",
+            "english": "It can allow us to see the world in different ways.",
+            "japanese": "それらは私たちが異なるやり方で世界を見ることを可能にします。",
+            "translationPoint": "「allow us to see」を「私たちが見ることを可能にする」と、使役動詞allowの意味を正確に捉えて訳しています。「in different ways」は「異なるやり方で」と自然に訳されています。",
+            "commonMistake": "「allow」を「許す」とだけ訳すと、この文脈では少し不自然に聞こえることがあります。"
+          },
+          {
+            "num": "③",
+            "english": "Translation is sometimes used to make sure you have understood the English text you are reading.",
+            "japanese": "本翻訳は、自分が読んでいる英語の本を理解できたかを確認するために使われることもあります。",
+            "translationPoint": "「to make sure」を「〜を確認するために」と適切に訳し、「you have understood the English text you are reading」の部分を「自分が読んでいる英語の本を理解できたか」と簡潔にまとめています。",
+            "commonMistake": "「make sure」の主語を間違えたり、文全体を不自然に長くしてしまったりする場合があります。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "conclude",
+            "meaning": "終結する、結論を下す",
+            "usage": "Before concluding my talk (私の話を終える前に)",
+            "synonymsAntonyms": "",
+            "derivatives": "conclusion (名詞)",
+            "pronunciation": "/kənˈkluːd/",
+            "examFrequency": ""
+          },
+          {
+            "word": "stroll",
+            "meaning": "ぶらぶら歩く",
+            "usage": "strolling in a park (公園を散歩する)",
+            "synonymsAntonyms": "walk, wander",
+            "derivatives": "",
+            "pronunciation": "/stroʊl/",
+            "examFrequency": ""
+          },
+          {
+            "word": "breathe",
+            "meaning": "息をする",
+            "usage": "You breathe in the fresh air. (新鮮な空気を吸い込む)",
+            "synonymsAntonyms": "",
+            "derivatives": "breath (名詞)",
+            "pronunciation": "/briːð/",
+            "examFrequency": ""
+          },
+          {
+            "word": "breathe in",
+            "meaning": "〜を吸い込む",
+            "usage": "breathe in the fresh air (新鮮な空気を吸い込む)",
+            "synonymsAntonyms": "inhale",
+            "derivatives": "",
+            "pronunciation": "/briːð ɪn/",
+            "examFrequency": ""
+          },
+          {
+            "word": "look up",
+            "meaning": "見上げる",
+            "usage": "looking up at the trees (木々を見上げる)",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/lʊk ʌp/",
+            "examFrequency": ""
+          },
+          {
+            "word": "filter",
+            "meaning": "(光・音などが)漏れる、濾過する",
+            "usage": "sunlight filtering through the leaves (葉を通して差し込む木漏れ日)",
+            "synonymsAntonyms": "",
+            "derivatives": "filter (名詞)",
+            "pronunciation": "/ˈfɪltər/",
+            "examFrequency": ""
+          },
+          {
+            "word": "filter through",
+            "meaning": "〜を通り抜ける",
+            "usage": "filter through the leaves (葉を通り抜ける)",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/ˈfɪltər θruː/",
+            "examFrequency": ""
+          },
+          {
+            "word": "pile ~ up",
+            "meaning": "〜を積み上げる",
+            "usage": "I just pile them up. (私はそれらをただ積み重ねる)",
+            "synonymsAntonyms": "stack",
+            "derivatives": "pile (名詞)",
+            "pronunciation": "/paɪl ʌp/",
+            "examFrequency": ""
+          },
+          {
+            "word": "non-native",
+            "meaning": "非ネイティブの",
+            "usage": "non-native speakers (非ネイティブスピーカー)",
+            "synonymsAntonyms": "native (対義語)",
+            "derivatives": "",
+            "pronunciation": "/ˌnɒn ˈneɪtɪv/",
+            "examFrequency": ""
+          },
+          {
+            "word": "allow",
+            "meaning": "許す、可能にする",
+            "usage": "allow us to see (私たちが見ることを可能にする)",
+            "synonymsAntonyms": "permit, enable",
+            "derivatives": "allowance (名詞)",
+            "pronunciation": "/əˈlaʊ/",
+            "examFrequency": ""
+          },
+          {
+            "word": "lastly",
+            "meaning": "最後に",
+            "usage": "Lastly, may I give you a small piece of advice? (最後に、アドバイスをしてもよろしいですか？)",
+            "synonymsAntonyms": "finally, in conclusion",
+            "derivatives": "last (形容詞/副詞)",
+            "pronunciation": "/ˈlɑːstli/",
+            "examFrequency": ""
+          },
+          {
+            "word": "a piece of ~",
+            "meaning": "〜を一つ",
+            "usage": "a small piece of advice (ちょっとしたアドバイス)",
+            "synonymsAntonyms": "a unit of",
+            "derivatives": "",
+            "pronunciation": "/ə piːs ɒv/",
+            "examFrequency": ""
+          },
+          {
+            "word": "make sure",
+            "meaning": "確認する",
+            "usage": "to make sure you have understood (あなたが理解したか確認するために)",
+            "synonymsAntonyms": "ensure, confirm",
+            "derivatives": "",
+            "pronunciation": "/meɪk ʃʊər/",
+            "examFrequency": ""
+          }
+        ],
+        "questions": [
+          {
+            "question": "What does tsundoku mean?",
+            "questionJapanese": "「積読」とはどういう意味ですか？",
+            "answer": "It means just piling up books without reading them.",
+            "answerJapanese": "それは、本を読まずにただ積み重ねていくことです。",
+            "explanation": "本文中で「I just pile them up without reading them. Japanese has a word to describe this kind of 'reading': tsundoku!」と説明されています。",
+            "similarQuestion": "What is the meaning of 'Komorebi'?"
+          },
+          {
+            "question": "What kind of advice does the speaker give you?",
+            "questionJapanese": "話し手はあなたにどのようなアドバイスをしていますか？",
+            "answer": "You should remember that there might be something lost in translation.",
+            "answerJapanese": "翻訳では何か失われるものがあるかもしれないことを覚えておくべきです。",
+            "explanation": "本文の最後の文で「...remember that there might be something lost in translation.」と書かれています。",
+            "similarQuestion": "Why is it important not to rely solely on translation?"
+          },
+          {
+            "question": "Which of the following disagrees with the speaker's opinion?",
+            "questionJapanese": "次の選択肢のうち、話し手の意見と異なるものはどれですか？",
+            "answer": "b. Translation is the first step in learning a foreign language.",
+            "answerJapanese": "b. 翻訳は外国語学習の最初のステップです。",
+            "explanation": "話し手は「翻訳では何か失われるものがあるかもしれない」と述べており、翻訳が学習の最初で最も重要なステップであるとは考えていません。選択肢aとcは、話し手の意見（言語は単語や文法以上のものであり、翻訳にのみ頼るべきではない）と一致します。",
+            "similarQuestion": "What is the speaker's main point about language learning beyond words and rules?"
+          }
+        ]
+      }
+    },
+    {
+      "id": "L2S1",
+      "lessonLabel": "Lesson2",
+      "sectionLabel": "Section1",
+      "name": "Lesson2  Lesson 2 One Book Can Empower a Child Section 1  Section1",
+      "data": {
+        "transcription": "In many places in the world, children cannot go to school. This is the story of those children and of Shanti Volunteer Association (SVA), a Japanese NGO which is trying to help them. Phea is a thirteen-year-old girl living in a village in Cambodia. Every morning she goes to the river and into the forest to get fish and fruit, which she sells in town. She used to go to school. But when she was in the fourth grade, her family could no longer pay the daily 30-yen fee. She had to quit school. Phea says shyly, “I can write my name, but I've forgotten many things. I wonder if I can get a decent job.” Hak is fourteen. When he was in the second grade, he left school to go to work. He collects plastic bottles and metal fragments in a dump in the slums of Phnom Penh for about 100 yen a day. “I envy my friends who attend school,” he says. “I wish I could study, too.” It is reported that more than 70 million children around the world cannot go to school. To help children like Phea and Hak, SVA has been working to give every child an opportunity to learn.",
+        "transcriptionAnalysis": [
+          {
+            "english": "In many places in the world, children cannot go to school.",
+            "japanese": "世界の多くの場所で、子どもたちは学校に通うことができません。",
+            "grammarExplanation": "\"in many places in the world\"は場所を表す副詞句で、文頭に置かれて文全体を修飾しています。\"cannot\"は助動詞canの否定形で「～できない」という意味です。",
+            "sentenceStructure": "(副詞句: In many places in the world), S (children) V (cannot go) (副詞句: to school).",
+            "keyExpressions": "go to school: 学校に通う"
+          },
+          {
+            "english": "This is the story of those children and of Shanti Volunteer Association (SVA), a Japanese NGO which is trying to help them.",
+            "japanese": "これは、学校に通えない子どもたちと、彼らを助けようと努めている日本のNGOであるシャンティ国際ボランティア会（SVA）の物語です。",
+            "grammarExplanation": "\"which is trying to help them\"は関係代名詞whichが導く非制限用法の形容詞節で、先行詞は\"a Japanese NGO\"です。非制限用法なので、先行詞を補足説明する形で「そしてそれは～」と訳すと自然です。\"try to do\"は「～しようと努める」という意味です。",
+            "sentenceStructure": "S (This) V (is) C (the story) (前置詞句: of those children and of Shanti Volunteer Association (SVA)), (同格: a Japanese NGO) (関係代名詞節: which is trying to help them).",
+            "keyExpressions": "try to do: ～しようと努める, NGO: 非政府組織"
+          },
+          {
+            "english": "Phea is a thirteen-year-old girl living in a village in Cambodia.",
+            "japanese": "ピアは、カンボジアの村に住む13歳の少女です。",
+            "grammarExplanation": "\"a thirteen-year-old girl\"は「数字-単位-形容詞」の形で、ハイフンで繋がれた複合形容詞が名詞を修飾しています。単位（year）は単数形になります。\"living in a village in Cambodia\"は現在分詞句で、直前の名詞\"girl\"を修飾しています。",
+            "sentenceStructure": "S (Phea) V (is) C (a thirteen-year-old girl) (分詞句: living in a village in Cambodia).",
+            "keyExpressions": "thirteen-year-old: 13歳の"
+          },
+          {
+            "english": "Every morning she goes to the river and into the forest to get fish and fruit, which she sells in town.",
+            "japanese": "毎朝、彼女は魚と果物を手に入れるために川や森へ行き、それらを町で売っています。",
+            "grammarExplanation": "\"Every morning\"は時間を表す副詞句です。\"to get fish and fruit\"は目的を表す不定詞の副詞的用法で、「～するために」と訳します。\"which she sells in town\"は関係代名詞whichが導く非制限用法で、先行詞は\"fish and fruit\"全体を指し、「そしてそれを」と訳すと自然です。",
+            "sentenceStructure": "(副詞句: Every morning) S (she) V (goes) (副詞句: to the river and into the forest) (不定詞句: to get fish and fruit), (関係代名詞節: which she sells in town).",
+            "keyExpressions": "go to the river/into the forest: 川へ/森へ行く, sell in town: 町で売る"
+          },
+          {
+            "english": "She used to go to school.",
+            "japanese": "彼女は以前は学校に通っていました。",
+            "grammarExplanation": "\"used to do\"は「以前は～したものだ」「以前は～であった」という過去の習慣や状態を表す表現です。現在はそうではない、というニュアンスを含みます。",
+            "sentenceStructure": "S (She) V (used to go) (副詞句: to school).",
+            "keyExpressions": "used to do: 以前は～したものだ"
+          },
+          {
+            "english": "But when she was in the fourth grade, her family could no longer pay the daily 30-yen fee.",
+            "japanese": "しかし、彼女が小学校4年生の時、家族はもう毎日30円の授業料を払えなくなりました。",
+            "grammarExplanation": "\"when she was in the fourth grade\"は時を表す副詞節です。\"no longer\"は「もはや～ない」という意味で、否定の強調表現です。\"could no longer pay\"で「もはや払えなかった」となります。",
+            "sentenceStructure": "(接続詞: But) (副詞節: when she was in the fourth grade), S (her family) V (could pay) (副詞: no longer) O (the daily 30-yen fee).",
+            "keyExpressions": "in the fourth grade: 4年生で, no longer: もはや～ない, pay a fee: 料金を払う"
+          },
+          {
+            "english": "She had to quit school.",
+            "japanese": "彼女は学校を辞めなければなりませんでした。",
+            "grammarExplanation": "\"had to do\"は\"have to do\"（～しなければならない）の過去形で、「～しなければならなかった」という意味です。\"quit\"は動詞で「～を辞める」という意味です。",
+            "sentenceStructure": "S (She) V (had to quit) O (school).",
+            "keyExpressions": "have to do: ～しなければならない, quit school: 学校を辞める"
+          },
+          {
+            "english": "Phea says shyly, “I can write my name, but I've forgotten many things. I wonder if I can get a decent job.”",
+            "japanese": "ピアは恥ずかしそうに言います。「自分の名前は書けますが、多くのことを忘れてしまいました。きちんとした仕事に就けるのかしら。」",
+            "grammarExplanation": "\"shyly\"は動詞\"says\"を修飾する副詞です。\"I've forgotten\"は現在完了形（結果・継続）で「忘れてしまった」という意味です。\"I wonder if S V\"は「SがVかどうかと思う/かしら」という、疑問や不確実な気持ちを表す表現です。",
+            "sentenceStructure": "S (Phea) V (says) (副詞: shyly), O (直接話法の内容: “I can write my name, but I've forgotten many things. I wonder if I can get a decent job.”).",
+            "keyExpressions": "write one's name: 名前を書く, forget things: 物事を忘れる, wonder if: ～かどうかと思う/かしら, get a decent job: まともな仕事に就く"
+          },
+          {
+            "english": "Hak is fourteen.",
+            "japanese": "ハクは14歳です。",
+            "grammarExplanation": "年齢を表すシンプルな文です。名詞として年齢を表現しています。",
+            "sentenceStructure": "S (Hak) V (is) C (fourteen).",
+            "keyExpressions": ""
+          },
+          {
+            "english": "When he was in the second grade, he left school to go to work.",
+            "japanese": "彼が小学校2年生の時、彼は仕事に行くために学校を辞めました。",
+            "grammarExplanation": "\"When he was in the second grade\"は時を表す副詞節です。\"to go to work\"は目的を表す不定詞の副詞的用法で、「仕事に行くために」という意味です。\"left school\"は\"quit school\"と同様に「学校を辞める」という意味です。",
+            "sentenceStructure": "(副詞節: When he was in the second grade), S (he) V (left) O (school) (不定詞句: to go to work).",
+            "keyExpressions": "in the second grade: 2年生で, leave school: 学校を辞める, go to work: 仕事に行く"
+          },
+          {
+            "english": "He collects plastic bottles and metal fragments in a dump in the slums of Phnom Penh for about 100 yen a day.",
+            "japanese": "彼はプノンペンのスラム街のごみ捨て場で、1日に約100円のためにプラスチックボトルや金属の破片を集めています。",
+            "grammarExplanation": "\"plastic bottles and metal fragments\"は動詞\"collects\"の目的語です。\"in a dump in the slums of Phnom Penh\"は場所を示す複数の前置詞句が連なっている形です。\"for about 100 yen a day\"は収入の目的と頻度を表し、\"a day\"は「1日あたり」という意味です。",
+            "sentenceStructure": "S (He) V (collects) O (plastic bottles and metal fragments) (副詞句: in a dump in the slums of Phnom Penh) (副詞句: for about 100 yen a day).",
+            "keyExpressions": "collect bottles/fragments: ボトル/破片を集める, in a dump: ごみ捨て場で, in the slums: スラム街で, for about ~ a day: 1日あたり約～のために"
+          },
+          {
+            "english": "“I envy my friends who attend school,” he says. “I wish I could study, too.”",
+            "japanese": "「学校に通う友達が羨ましい」と彼は言います。「僕も勉強できたらいいのに。」",
+            "grammarExplanation": "\"who attend school\"は関係代名詞whoが導く形容詞節で、先行詞\"my friends\"を修飾しています。\"I wish I could study, too.\"は「I wish + 仮定法過去」の形で、「～だったらいいのに」という現在の事実と異なる願望や後悔を表します。",
+            "sentenceStructure": "O (直接話法の内容: “I envy my friends who attend school,”) S (he) V (says). O (直接話法の内容: “I wish I could study, too.”).",
+            "keyExpressions": "envy my friends: 友達を羨む, attend school: 学校に通う, I wish + 仮定法過去: ～だったらいいのに"
+          },
+          {
+            "english": "It is reported that more than 70 million children around the world cannot go to school.",
+            "japanese": "世界中で7000万人以上の子どもたちが学校に通うことができないと報告されています。",
+            "grammarExplanation": "\"It is reported that S V\"は「SがVだと報告されている」という形式主語Itの構文です。受動態の\"is reported\"に続くthat節が真の主語となります。\"more than ~\"は「～以上」という意味です。",
+            "sentenceStructure": "形式主語構文 (It is reported that S' V'). S' (more than 70 million children around the world) V' (cannot go) (副詞句: to school).",
+            "keyExpressions": "It is reported that ~: ～と報告されている, more than ~: ～以上, around the world: 世界中で"
+          },
+          {
+            "english": "To help children like Phea and Hak, SVA has been working to give every child an opportunity to learn.",
+            "japanese": "ピアやハクのような子どもたちを助けるために、SVAはすべての子どもたちに学ぶ機会を与える活動を続けています。",
+            "grammarExplanation": "文頭の\"To help children like Phea and Hak\"は目的を表す不定詞の副詞的用法で、「～するために」と訳します。\"like\"は「～のような」という意味の前置詞です。\"has been working\"は現在完了進行形で、過去から現在まで継続している動作を表します。\"give O1 O2\"は第四文型（SVOO）で「O1にO2を与える」という意味です。",
+            "sentenceStructure": "(不定詞句: To help children like Phea and Hak), S (SVA) V (has been working) (不定詞句: to give every child an opportunity to learn). 'to learn'は'opportunity'を修飾する不定詞の形容詞的用法です。",
+            "keyExpressions": "like Phea and Hak: ピアやハクのような, has been working: 活動し続けている, give an opportunity to learn: 学ぶ機会を与える"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "1",
+            "english": "Every morning she goes to the river and into the forest to get fish and fruit, which she sells in town.",
+            "japanese": "毎朝、彼女は川や森へ魚と果物を取りに行き、それらを町で売っています。",
+            "translationPoint": "「to get fish and fruit」は目的を表す不定詞句で、「～するために」と訳します。「which she sells in town」は非制限用法の関係代名詞で、先行詞である「fish and fruit」全体を補足説明しているので、「そしてそれらを」と続けると自然な日本語になります。",
+            "commonMistake": "非制限用法の関係代名詞「which」を直訳的に「～という魚と果物」と訳してしまうと、文の流れが不自然になります。文脈に応じて「そしてそれを」のように意訳することが重要です。"
+          },
+          {
+            "num": "2",
+            "english": "I wish I could study, too.",
+            "japanese": "僕も勉強できたらいいのに。",
+            "translationPoint": "「I wish + 仮定法過去」の構文で、「～だったらいいのに」という現在の事実と異なる願望を表します。couldは過去形ですが、ここでの意味は「～できたら」という現在の願望です。",
+            "commonMistake": "「could」を過去の助動詞として「勉強できた」と直訳してしまうと、願望の意味が失われます。「できたらいいのに」と、現在の実現不可能な願望を表すニュアンスを出すことが重要です。"
+          },
+          {
+            "num": "3",
+            "english": "It is reported that more than 70 million children around the world cannot go to school.",
+            "japanese": "世界中で7000万人以上の子どもたちが学校に通うことができないと報告されています。",
+            "translationPoint": "「It is reported that S V」は「SがVだと報告されている」という形式主語構文です。that節の内容を主語として捉え、「～ということが報告されている」と訳すと自然です。「more than ～」は「～以上」という意味です。",
+            "commonMistake": "「It is reported」を「それは報告されている」と直訳してからthat節の内容を続けると、不自然な日本語になりやすいです。that節の内容を先に持ってくる「SがVだと報告されている」という構文に慣れましょう。"
+          },
+          {
+            "num": "4",
+            "english": "To help children like Phea and Hak, SVA has been working to give every child an opportunity to learn.",
+            "japanese": "ピアやハクのような子どもたちを助けるために、SVAはすべての子どもに学ぶ機会を与える活動を続けています。",
+            "translationPoint": "文頭の「To help ～」は目的を表す不定詞の副詞的用法で、「～を助けるために」と訳します。「has been working」は現在完了進行形で、過去から現在まで継続している動作を表します。「give every child an opportunity to learn」は第四文型（SVOO）で「すべての子どもに学ぶ機会を与える」と訳します。",
+            "commonMistake": "「has been working」を単に「働いた」や「働き終えた」と過去形や現在完了の結果用法と誤解しないようにしましょう。継続を表す「～し続けている」が正しいです。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "empower",
+            "meaning": "（人や組織に）力を与える、自信を与える、権限を与える",
+            "usage": "Education can empower people to change their lives for the better.",
+            "synonymsAntonyms": "Synonyms: enable, authorize, strengthen. Antonyms: disempower, weaken.",
+            "derivatives": "empowerment (名)",
+            "pronunciation": "/ɪmˈpaʊər/, アクセントは\"pow\"の部分にあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "Shanti Volunteer Association",
+            "meaning": "シャンティ国際ボランティア会",
+            "usage": "Shanti Volunteer Association supports education for children in developing countries.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "NGO",
+            "meaning": "非政府組織 (Non-Governmental Organizationの略)",
+            "usage": "Many NGOs are working to protect the environment and provide humanitarian aid.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/ˌen.dʒiːˈoʊ/, 各アルファベットを個別に発音します。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "Phea",
+            "meaning": "ピア (人名)",
+            "usage": "Phea is a young girl who used to go to school but had to quit.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "Cambodia",
+            "meaning": "カンボジア (国名)",
+            "usage": "Angkor Wat is a famous temple complex located in Cambodia.",
+            "synonymsAntonyms": "",
+            "derivatives": "Cambodian (形/名: カンボジアの/カンボジア人)",
+            "pronunciation": "/kæmˈboʊ.di.ə/, アクセントは\"bo\"の部分にあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "fee",
+            "meaning": "料金、謝礼、会費",
+            "usage": "You have to pay an entrance fee to get into the museum.",
+            "synonymsAntonyms": "Synonyms: charge, cost, payment.",
+            "derivatives": "",
+            "pronunciation": "/fiː/, 長母音の「イー」です。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "quit",
+            "meaning": "（仕事などを）やめる、去る",
+            "usage": "He decided to quit his job and start his own business.",
+            "synonymsAntonyms": "Synonyms: leave, stop, resign. Antonyms: start, begin, join.",
+            "derivatives": "quitter (名: 簡単に諦める人)",
+            "pronunciation": "/kwɪt/, 短母音の「イ」です。活用はquit-quit-quit。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "shyly",
+            "meaning": "恥ずかしそうに、内気そうに",
+            "usage": "She smiled shyly when he complimented her new dress.",
+            "synonymsAntonyms": "Synonyms: timidly, bashfully. Antonyms: boldly, confidently.",
+            "derivatives": "shy (形: 恥ずかしがり屋の), shyness (名: 内気さ)",
+            "pronunciation": "/ˈʃaɪ.li/, アクセントは最初の音節にあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "decent",
+            "meaning": "きちんとした、まともな、かなりの",
+            "usage": "He is looking for a decent job with a good salary and stable hours.",
+            "synonymsAntonyms": "Synonyms: respectable, proper, acceptable. Antonyms: indecent, inappropriate, poor.",
+            "derivatives": "decency (名)",
+            "pronunciation": "/ˈdiː.sənt/, アクセントは最初の音節にあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "Hak",
+            "meaning": "ハク (人名)",
+            "usage": "Hak is fourteen years old and collects plastic bottles to earn money.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "metal",
+            "meaning": "金属",
+            "usage": "Iron is a strong and widely used metal in construction.",
+            "synonymsAntonyms": "",
+            "derivatives": "metallic (形: 金属の、金属質の)",
+            "pronunciation": "/ˈmet.əl/, アクセントは最初の音節にあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "fragment",
+            "meaning": "破片、断片",
+            "usage": "Archaeologists found small fragments of ancient pottery at the site.",
+            "synonymsAntonyms": "Synonyms: piece, bit, shard.",
+            "derivatives": "fragment (動: 砕ける、ばらばらになる)",
+            "pronunciation": "/ˈfræɡ.mənt/, アクセントは最初の音節にあります。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "dump",
+            "meaning": "ごみ捨て場、投棄場",
+            "usage": "All the household waste is taken to the local dump once a week.",
+            "synonymsAntonyms": "Synonyms: landfill, rubbish heap.",
+            "derivatives": "dump (動: 捨てる)",
+            "pronunciation": "/dʌmp/, 短母音の「ア」です。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "slum",
+            "meaning": "スラム街、貧民街",
+            "usage": "Many people living in the slums face challenges accessing clean water and sanitation.",
+            "synonymsAntonyms": "Synonyms: ghetto, shantytown.",
+            "derivatives": "",
+            "pronunciation": "/slʌm/, 短母音の「ア」です。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "Phnom Penh",
+            "meaning": "プノンペン (カンボジアの首都)",
+            "usage": "Phnom Penh is the most populous city in Cambodia and its economic center.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "/ˌpnoʊm ˈpen/, 「Pnom」の「P」は発音せず、「noam」のように発音します。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "envy",
+            "meaning": "うらやむ、ねたむ",
+            "usage": "I envy her natural talent for playing the piano.",
+            "synonymsAntonyms": "Synonyms: covet, begrudge. Antonyms: admire (羨むことなく尊敬する場合).",
+            "derivatives": "envy (名: 羨望), envious (形: 羨ましい)",
+            "pronunciation": "/ˈen.vi/, アクセントは最初の音節にあります。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "It is reported that ~",
+            "meaning": "～と報道されている、～と報告されている",
+            "usage": "It is reported that the new policy will be implemented next month.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "頻出"
+          }
+        ],
+        "questions": [
+          {
+            "question": "What does Phea do in town every morning?",
+            "questionJapanese": "ピアは毎朝、町で何をしますか？",
+            "answer": "She sells fish and fruit.",
+            "answerJapanese": "彼女は魚と果物を売っています。",
+            "explanation": "本文の「Every morning she goes to the river and into the forest to get fish and fruit, which she sells in town.」とあるように、ピアは毎朝、川や森で手に入れた魚や果物を町で売っています。",
+            "similarQuestion": "What does Phea collect before selling them in town? (Answer: She collects fish and fruit.)"
+          },
+          {
+            "question": "What kind of work does Hak do?",
+            "questionJapanese": "ハクはどのような仕事をしていますか？",
+            "answer": "He collects plastic bottles and metal fragments in a dump in the slums of Phnom Penh.",
+            "answerJapanese": "彼はプノンペンのスラム街のごみ捨て場で、プラスチックボトルや金属の破片を集めています。",
+            "explanation": "本文の「He collects plastic bottles and metal fragments in a dump in the slums of Phnom Penh for about 100 yen a day.」から、ハクがプラスチックボトルや金属の破片を集める仕事をしていることが分かります。",
+            "similarQuestion": "Where does Hak collect plastic bottles and metal fragments? (Answer: In a dump in the slums of Phnom Penh.)"
+          },
+          {
+            "question": "Based on what you read in this section, why do you think there are so many children who cannot go to school?",
+            "questionJapanese": "このセクションで読んだことに基づいて、なぜこんなに多くの子どもたちが学校に通えないのだと思いますか？",
+            "answer": "b. Because they are too poor to go to school.",
+            "answerJapanese": "b. 貧しすぎて学校に通えないからです。",
+            "explanation": "本文では、ピアの家族が「could no longer pay the daily 30-yen fee (もはや毎日30円の授業料を払えなくなった)」ために彼女が学校を辞めたと述べられています。また、ハクも「left school to go to work (仕事に行くために学校を辞めた)」とあり、どちらも経済的な理由で学校に通えなくなったことが示唆されています。したがって、貧困が原因であると考えられます。",
+            "similarQuestion": "What specific reason is given for Phea's inability to continue school? (Answer: Her family could no longer pay the daily 30-yen fee.)"
+          }
+        ],
+        "lessonTitle": "Lesson 2 One Book Can Empower a Child Section 1"
+      }
+    },
+    {
+      "id": "L2S2",
+      "lessonLabel": "Lesson2",
+      "sectionLabel": "Section2",
+      "name": "Lesson2  Lesson 2 One Book Can Empower a Child Section 2  Section2",
+      "data": {
+        "transcription": "SVA works not only in Cambodia but also in Afghanistan, Thailand, Myanmar, Laos, and Nepal. It cooperates with local governments and communities to build schools and libraries, and also to send books to children. One of those children is Nool, who lives in Afghanistan. He used to live with his father in his home village. His father raised cows, and Nool helped him take the cows out to the field. Then one day, their village was bombed. Nool and his father just managed to escape with their lives. They had to move to a nearby town. Their lives were extremely difficult. Their house had a leaky roof patched up with pieces of plastic. They didn't even have blankets to keep themselves warm. They lacked food, so they only had tea for breakfast. Nool was still afraid of bombing. His daily life was not happy. Then, one day, Nool had an opportunity to visit an SVA library. Now he has a purpose in life. He says, “I really enjoy going to the library. I have lots of fun there. I will study hard. I promise.” He dreams of being able to read books and study at a school.",
+        "transcriptionAnalysis": [
+          {
+            "english": "SVA works not only in Cambodia but also in Afghanistan, Thailand, Myanmar, Laos, and Nepal.",
+            "japanese": "SVAはカンボジアだけでなく、アフガニスタン、タイ、ミャンマー、ラオス、ネパールでも活動しています。",
+            "grammarExplanation": "「not only A but also B」は「AだけでなくBも」という意味の相関接続詞です。AとBには文法的に同じ形式の語句が入ります。ここでは「in Cambodia」と「in Afghanistan, Thailand, Myanmar, Laos, and Nepal」という前置詞句が並列されています。",
+            "sentenceStructure": "SVA (S) works (V) not only in Cambodia but also in Afghanistan, Thailand, Myanmar, Laos, and Nepal (M:場所を示す副詞句).",
+            "keyExpressions": "not only A but also B: AだけでなくBも"
+          },
+          {
+            "english": "It cooperates with local governments and communities to build schools and libraries, and also to send books to children.",
+            "japanese": "SVAは地方政府や地域社会と協力して学校や図書館を建設し、また子どもたちに本を送っています。",
+            "grammarExplanation": "「cooperates with ~」は「～と協力する」という意味です。「to build ~」と「to send ~」は不定詞の副詞的用法で、目的（～するために）を表し、「cooperates」にかかっています。「and also to send」の「to」は省略可能です。",
+            "sentenceStructure": "It (S) cooperates (V) with local governments and communities (M:協力の相手を示す副詞句) to build schools and libraries, and also (to) send books to children (M:目的を示す不定詞句).",
+            "keyExpressions": "cooperate with ~: ～と協力する"
+          },
+          {
+            "english": "One of those children is Nool, who lives in Afghanistan.",
+            "japanese": "その子どもたちの一人にヌールがいます。彼はアフガニスタンに住んでいます。",
+            "grammarExplanation": "「who lives in Afghanistan」は関係代名詞whoによる非制限用法で、Noolに追加情報を与えています。コンマで区切られるのが特徴です。",
+            "sentenceStructure": "One of those children (S) is (V) Nool (C), who lives in Afghanistan (Noolを修飾する関係代名詞節).",
+            "keyExpressions": ""
+          },
+          {
+            "english": "He used to live with his father in his home village.",
+            "japanese": "彼は以前、故郷の村で父親と暮らしていました。",
+            "grammarExplanation": "「used to 動詞の原形」は「以前は～したものだった」「以前は～であった」という過去の習慣や状態を表します。今はもうそうではないというニュアンスを含みます。",
+            "sentenceStructure": "He (S) used to live (V) with his father (M:付帯状況を示す副詞句) in his home village (M:場所を示す副詞句).",
+            "keyExpressions": "used to do: 以前は～したものだった、以前は～であった"
+          },
+          {
+            "english": "His father raised cows, and Nool helped him take the cows out to the field.",
+            "japanese": "彼の父親は牛を飼っており、ヌールは父親が牛を野原へ連れて行くのを手伝いました。",
+            "grammarExplanation": "「raise」は「～を育てる、飼う」という意味です。「help O do」は「Oが～するのを手伝う」という構文で、doの部分は不定詞のtoを付けて「help O to do」ともできますが、toは省略されることが多いです。",
+            "sentenceStructure": "His father (S) raised (V) cows (O), and Nool (S) helped (V) him (O) take the cows out to the field (C:原形不定詞).",
+            "keyExpressions": "raise cows: 牛を飼う, help O do: Oが～するのを手伝う, take ~ out to...: ～を…へ連れて行く"
+          },
+          {
+            "english": "Then one day, their village was bombed.",
+            "japanese": "しかしある日、彼らの村は爆撃されました。",
+            "grammarExplanation": "「was bombed」は受動態で、「爆撃された」という意味です。",
+            "sentenceStructure": "Then one day (M:時を示す副詞句), their village (S) was bombed (V).",
+            "keyExpressions": ""
+          },
+          {
+            "english": "Nool and his father just managed to escape with their lives.",
+            "japanese": "ヌールと彼の父親はかろうじて命からがら逃げ出すことができました。",
+            "grammarExplanation": "「manage to do」は「どうにか～する」「なんとか～する」という意味で、困難な状況で成功したことを示します。ここでは「just」が加わり「かろうじて」というニュアンスが強まっています。「escape with one's life」は「命からがら逃げる」という熟語です。",
+            "sentenceStructure": "Nool and his father (S) just managed to escape with their lives (V).",
+            "keyExpressions": "manage to do: なんとか～する, escape with one's life: 命からがら逃げる"
+          },
+          {
+            "english": "They had to move to a nearby town.",
+            "japanese": "彼らは近くの町へ引っ越さなければなりませんでした。",
+            "grammarExplanation": "「had to do」は「have to do」の過去形で、「～しなければならなかった」という意味です。義務を表します。",
+            "sentenceStructure": "They (S) had to move (V) to a nearby town (M:場所を示す副詞句).",
+            "keyExpressions": "have to do: ～しなければならない"
+          },
+          {
+            "english": "Their lives were extremely difficult.",
+            "japanese": "彼らの生活は非常に困難でした。",
+            "grammarExplanation": "「extremely」は「極めて、非常に」という意味の副詞で、形容詞「difficult」を修飾しています。",
+            "sentenceStructure": "Their lives (S) were (V) extremely difficult (C).",
+            "keyExpressions": "extremely difficult: 非常に困難な"
+          },
+          {
+            "english": "Their house had a leaky roof patched up with pieces of plastic.",
+            "japanese": "彼らの家には、ビニール片で継ぎ当てされた雨漏りのする屋根がありました。",
+            "grammarExplanation": "「leaky roof」は「雨漏りのする屋根」という意味です。「patched up with pieces of plastic」は過去分詞句で、直前の「a leaky roof」を修飾しています。「ビニール片で継ぎ当てされた」という意味になります。",
+            "sentenceStructure": "Their house (S) had (V) a leaky roof patched up with pieces of plastic (O).",
+            "keyExpressions": "leaky roof: 雨漏りのする屋根, patch up with ~: ～で継ぎ当てする/補修する"
+          },
+          {
+            "english": "They didn't even have blankets to keep themselves warm.",
+            "japanese": "彼らは体を温めるための毛布さえ持っていませんでした。",
+            "grammarExplanation": "「didn't even have」は「～さえ持っていなかった」と、否定を強調する表現です。「to keep themselves warm」は不定詞の副詞的用法で、目的（～するために）を表します。",
+            "sentenceStructure": "They (S) didn't even have (V) blankets (O) to keep themselves warm (M:目的を示す不定詞句).",
+            "keyExpressions": "keep oneself warm: 体を温める"
+          },
+          {
+            "english": "They lacked food, so they only had tea for breakfast.",
+            "japanese": "彼らは食べ物が不足していたため、朝食にはお茶しかありませんでした。",
+            "grammarExplanation": "「lack」は「～が不足している」という意味の他動詞です。「so」は等位接続詞で、「したがって、そのため」という意味で結果を表します。",
+            "sentenceStructure": "They (S) lacked (V) food (O), so (接続詞) they (S) only had (V) tea (O) for breakfast (M:目的を示す副詞句).",
+            "keyExpressions": "lack food: 食料が不足する, only have ~ for breakfast: 朝食に～しか食べない/飲まない"
+          },
+          {
+            "english": "Nool was still afraid of bombing.",
+            "japanese": "ヌールはまだ爆撃を恐れていました。",
+            "grammarExplanation": "「be afraid of ~」は「～を恐れる」という意味です。",
+            "sentenceStructure": "Nool (S) was (V) still afraid of bombing (C).",
+            "keyExpressions": "be afraid of ~: ～を恐れる"
+          },
+          {
+            "english": "His daily life was not happy.",
+            "japanese": "彼の日々の生活は幸せではありませんでした。",
+            "grammarExplanation": "特になし。",
+            "sentenceStructure": "His daily life (S) was (V) not happy (C).",
+            "keyExpressions": ""
+          },
+          {
+            "english": "Then, one day, Nool had an opportunity to visit an SVA library.",
+            "japanese": "その後、ある日、ヌールはSVAの図書館を訪れる機会を得ました。",
+            "grammarExplanation": "「an opportunity to do」は「～する機会」という表現です。不定詞「to visit」が「opportunity」を修飾する形容詞的用法です。",
+            "sentenceStructure": "Then, one day (M:時を示す副詞句), Nool (S) had (V) an opportunity to visit an SVA library (O).",
+            "keyExpressions": "an opportunity to do: ～する機会"
+          },
+          {
+            "english": "Now he has a purpose in life.",
+            "japanese": "今や彼には人生の目的があります。",
+            "grammarExplanation": "「a purpose in life」は「人生の目的」という表現です。",
+            "sentenceStructure": "Now (M:時を示す副詞句) he (S) has (V) a purpose in life (O).",
+            "keyExpressions": "a purpose in life: 人生の目的"
+          },
+          {
+            "english": "He says, “I really enjoy going to the library. I have lots of fun there. I will study hard. I promise.”",
+            "japanese": "彼は「図書館に行くのが本当に楽しい。そこでたくさん楽しんでいる。一生懸命勉強する。約束するよ」と言います。",
+            "grammarExplanation": "「enjoy doing」は「～することを楽しむ」という動名詞を目的語にとる動詞です。「lots of fun」は「たくさんの楽しみ」という意味です。",
+            "sentenceStructure": "He (S) says (V), “I (S) really enjoy (V) going to the library (O:動名詞句). I (S) have (V) lots of fun (O) there (M:場所を示す副詞). I (S) will study (V) hard (M:様態を示す副詞). I (S) promise (V).”",
+            "keyExpressions": "enjoy doing: ～することを楽しむ, lots of fun: たくさんの楽しみ"
+          },
+          {
+            "english": "He dreams of being able to read books and study at a school.",
+            "japanese": "彼は本を読んだり、学校で勉強したりできることを夢見ています。",
+            "grammarExplanation": "「dream of doing」は「～することを夢見る」という表現で、「of」の後に動名詞が来ます。「being able to read」は「be able to do」の動名詞形です。",
+            "sentenceStructure": "He (S) dreams (V) of being able to read books and study at a school (M:ofの目的語).",
+            "keyExpressions": "dream of doing: ～することを夢見る, be able to do: ～できる"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "His father raised cows, and Nool helped him take the cows out to the field.",
+            "japanese": "彼の父親は牛を飼っており、ヌールは父親が牛を野原へ連れて行くのを手伝いました。",
+            "translationPoint": "「raise cows」で「牛を飼う」という意味を自然に訳出すること。「helped him take」は「彼が連れて行くのを手伝った」と、help O doの構文を明確に訳すのがポイントです。",
+            "commonMistake": "「raise」を「持ち上げた」と誤解したり、「牛を育てた」と直訳しすぎると、日本語として不自然になることがあります。また、「take out to the field」を「野原へ出す」とせず、「野原へ連れて行く」と具体的に訳す方が自然です。"
+          },
+          {
+            "num": "②",
+            "english": "Nool and his father just managed to escape with their lives.",
+            "japanese": "ヌールと彼の父親はかろうじて命からがら逃げ出すことができました。",
+            "translationPoint": "「just managed to do」で「かろうじて～できた」「なんとか～できた」というニュアンスを出すこと。「escape with their lives」は「命からがら逃げる」という慣用的な表現として訳すのが適切です。",
+            "commonMistake": "「just」を「ただ」と直訳したり、「managed to escape」を「逃げることができた」とだけ訳すと、困難を乗り越えた「かろうじて」のニュアンスが失われます。「escape with their lives」を「彼らの命を持って逃げた」のように直訳すると不自然になります。"
+          },
+          {
+            "num": "③",
+            "english": "Their house had a leaky roof patched up with pieces of plastic.",
+            "japanese": "彼らの家には、ビニール片で継ぎ当てされた雨漏りのする屋根がありました。",
+            "translationPoint": "「a leaky roof」を「雨漏りのする屋根」と訳すこと。そして、「patched up with pieces of plastic」は過去分詞句で、直前の「roof」を修飾しているため、「ビニール片で継ぎ当てされた」と、屋根の状態を説明するように訳します。",
+            "commonMistake": "「leaky」を「漏れている」と直訳し、「雨漏りのする」という形容詞句として捉えられないケース。また、「patched up with」を受動態のまま「継ぎ当てされた」と訳すのは良いが、その「誰が継ぎ当てしたか」を想像せず、屋根の状態として自然に繋げるのが難しい場合があります。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "Afghanistan",
+            "meaning": "アフガニスタン（名）",
+            "usage": "Afghanistan is a country in Central Asia.",
+            "synonymsAntonyms": "",
+            "derivatives": "Afghan (形:アフガニスタンの/名:アフガン人)",
+            "pronunciation": "アクセントは第2音節の「-ghan-」に置かれます。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "Myanmar",
+            "meaning": "ミャンマー（名）",
+            "usage": "Myanmar is known for its beautiful temples.",
+            "synonymsAntonyms": "",
+            "derivatives": "Myanmarese (形:ミャンマーの/名:ミャンマー人)",
+            "pronunciation": "アクセントは第1音節の「Myan-」に置かれます。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "Laos",
+            "meaning": "ラオス（名）",
+            "usage": "We enjoyed exploring the ancient temples in Laos.",
+            "synonymsAntonyms": "",
+            "derivatives": "Laotian (形:ラオスの/名:ラオス人)",
+            "pronunciation": "アクセントは第1音節の「La-」に置かれます。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "Nepal",
+            "meaning": "ネパール（名）",
+            "usage": "Mount Everest is located in Nepal.",
+            "synonymsAntonyms": "",
+            "derivatives": "Nepali (形:ネパールの/名:ネパール人)",
+            "pronunciation": "アクセントは第2音節の「-pal-」に置かれます。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "cooperate",
+            "meaning": "協力する（動）",
+            "usage": "The two companies decided to cooperate on the new project.",
+            "synonymsAntonyms": "Synonyms: collaborate, work together / Antonyms: hinder, obstruct",
+            "derivatives": "cooperation (名:協力), cooperative (形:協力的な)",
+            "pronunciation": "アクセントは第2音節の「-op-」に置かれます。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "Nool",
+            "meaning": "ヌール（名）",
+            "usage": "Nool is a bright and determined young boy.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "なし"
+          },
+          {
+            "word": "take ~ out to...",
+            "meaning": "～を…へ連れて行く/持ち出す（句動詞）",
+            "usage": "Please take the dog out to the park for a walk.",
+            "synonymsAntonyms": "Synonyms: bring ~ to..., lead ~ to...",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "escape",
+            "meaning": "逃げる、免れる（動）",
+            "usage": "The prisoners managed to escape from the jail.",
+            "synonymsAntonyms": "Synonyms: flee, get away / Antonyms: capture, confront",
+            "derivatives": "escape (名:脱出)",
+            "pronunciation": "アクセントは第2音節の「-scape」に置かれます。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "escape with one's life",
+            "meaning": "命からがら逃げる（イディオム）",
+            "usage": "After the accident, he was lucky to escape with his life.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "extremely",
+            "meaning": "非常に、極めて（副）",
+            "usage": "The weather today is extremely hot.",
+            "synonymsAntonyms": "Synonyms: very, incredibly, highly / Antonyms: slightly, hardly",
+            "derivatives": "extreme (形:極端な), extremity (名:極度)",
+            "pronunciation": "アクセントは第2音節の「-treme-」に置かれます。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "leaky",
+            "meaning": "雨漏りのする、水漏れのする（形）",
+            "usage": "We need to fix the leaky faucet in the bathroom.",
+            "synonymsAntonyms": "Synonyms: dripping, seeping / Antonyms: watertight, sealed",
+            "derivatives": "leak (動:漏れる/名:漏れ)",
+            "pronunciation": "アクセントは第1音節の「lea-」に置かれます。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "patch",
+            "meaning": "～に継ぎを当てる、～を修繕する（動）",
+            "usage": "My grandmother used to patch up old clothes to make them last longer.",
+            "synonymsAntonyms": "Synonyms: mend, repair",
+            "derivatives": "patch (名:継ぎ当て)",
+            "pronunciation": "アクセントは「patch」に置かれます。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "patch ~ up",
+            "meaning": "～を継ぎ当てして補修する（句動詞）",
+            "usage": "We had to patch up the hole in the wall with plaster.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "lack",
+            "meaning": "～が不足している、～を欠いている（動）",
+            "usage": "Many developing countries lack access to clean water.",
+            "synonymsAntonyms": "Synonyms: be short of, be without / Antonyms: have, possess, abound in",
+            "derivatives": "lack (名:不足、欠乏)",
+            "pronunciation": "アクセントは「lack」に置かれます。",
+            "examFrequency": "頻出"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Q-1 What does SVA do in Asian countries?",
+            "questionJapanese": "SVAはアジアの国々で何をしていますか？",
+            "answer": "SVA cooperates with local governments and communities to build schools and libraries, and also to send books to children.",
+            "answerJapanese": "SVAは地方政府や地域社会と協力して学校や図書館を建設し、子どもたちに本を送っています。",
+            "explanation": "本文の2文目「It cooperates with local governments and communities to build schools and libraries, and also to send books to children.」に記載されています。 「It」はSVAを指します。",
+            "similarQuestion": "Q: In which Asian countries does SVA operate? A: SVA operates in Cambodia, Afghanistan, Thailand, Myanmar, Laos, and Nepal."
+          },
+          {
+            "question": "Q-2 Why did Nool and his father have to move to a nearby town?",
+            "questionJapanese": "ヌールと彼の父親はなぜ近くの町へ引っ越さなければならなかったのですか？",
+            "answer": "Because their village was bombed.",
+            "answerJapanese": "彼らの村が爆撃されたからです。",
+            "explanation": "本文の6文目「Then one day, their village was bombed.」と、その後の「Nool and his father just managed to escape with their lives. They had to move to a nearby town.」から、村が爆撃されたため命からがら逃げ出し、近くの町へ移住せざるを得なかったことがわかります。",
+            "similarQuestion": "Q: What difficulties did Nool and his father face after moving to the nearby town? A: Their house had a leaky roof, they lacked blankets, and they lacked food."
+          },
+          {
+            "question": "Q-3 Now Nool has a purpose in life. What do you think that purpose is? a. Working in the library. b. Living happily with his father. c. Reading books and studying hard for the future.",
+            "questionJapanese": "今、ヌールには人生の目的があります。その目的は何だと思いますか？ a. 図書館で働くこと。 b. 父親と幸せに暮らすこと。 c. 本を読み、将来のために一生懸命勉強すること。",
+            "answer": "c. Reading books and studying hard for the future.",
+            "answerJapanese": "c. 本を読み、将来のために一生懸命勉強すること。",
+            "explanation": "本文の最後の部分「He says, “I really enjoy going to the library. I have lots of fun there. I will study hard. I promise.” He dreams of being able to read books and study at a school.」から、ヌールが図書館で勉強し、将来のために努力することを夢見ていることが明確に示されています。",
+            "similarQuestion": "Q: What is Nool's favorite activity at the SVA library? A: He really enjoys going to the library and having lots of fun there."
+          }
+        ],
+        "lessonTitle": "Lesson 2 One Book Can Empower a Child Section 2"
+      }
+    },
+    {
+      "id": "L2S3",
+      "lessonLabel": "Lesson2",
+      "sectionLabel": "Section3",
+      "name": "Lesson2  Lesson 2 One Book Can Empower a Child Section 3  Section3",
+      "data": {
+        "transcription": "Orathai is another child whose life changed for the better thanks to SVA. She lives in Thailand. As a child, she lived in a slum area in Bangkok. Both parents were illiterate. When Orathai was four, an SVA library truck pulled up in her slum. Kids gathered around, and a volunteer read them a picture book, The Giant Turnip. It is a story about an old couple who grow a turnip so big that they need their granddaughter, a dog, a cat, and a mouse to pull it out of the ground. Orathai never forgot that moment. She says, 'The story taught me that if people want to achieve something big, they have to work together.' When Orathai was eight, SVA built a library near her house. It became a second home for her. She read books and took part in activities like singing and dancing. She still remembers SVA's helping her expand her world. Orathai is now a successful Thai diplomat.",
+        "transcriptionAnalysis": [
+          {
+            "english": "Orathai is another child whose life changed for the better thanks to SVA.",
+            "japanese": "オラタイは、SVAのおかげで人生がより良い方向へ変わった、もう一人の子供です。",
+            "grammarExplanation": "関係代名詞'whose'は先行詞'child'の所有を表し、「その子の〜」という意味で'life'を修飾しています。'for the better'は「より良い方向へ」という慣用表現です。'thanks to ~'は「〜のおかげで」と、原因や理由を表す重要表現です。",
+            "sentenceStructure": "Orathai(S) is(V) another child(C) の構造で、その後に関係代名詞'whose'が導く形容詞節「whose life(S) changed(V) for the better(M) thanks to SVA(M)」が'child'を修飾しています。",
+            "keyExpressions": "whose: 所有格の関係代名詞。for the better: より良い方向へ。thanks to ~: 〜のおかげで。"
+          },
+          {
+            "english": "She lives in Thailand. As a child, she lived in a slum area in Bangkok. Both parents were illiterate.",
+            "japanese": "彼女はタイに住んでいます。子供の頃、バンコクのスラム街に住んでいました。両親は共に読み書きができませんでした。",
+            "grammarExplanation": "'As a child'は「子供として」という意味の付帯状況を表す句で、「子供の頃」と意訳すると自然です。'illiterate'は形容詞で「読み書きができない」という意味です。",
+            "sentenceStructure": "最初の文はShe(S) lives(V) in Thailand(M)。二つ目の文はAs a child(M), she(S) lived(V) in a slum area(M) in Bangkok(M)。三つ目の文はBoth parents(S) were(V) illiterate(C)。",
+            "keyExpressions": "as a child: 子供の頃。slum area: スラム街。illiterate: 読み書きができない。"
+          },
+          {
+            "english": "When Orathai was four, an SVA library truck pulled up in her slum. Kids gathered around, and a volunteer read them a picture book, The Giant Turnip.",
+            "japanese": "オラタイが4歳の時、SVAの図書館トラックが彼女の住むスラムにやって来ました。子供たちは周りに集まり、ボランティアが彼らに絵本『おおきなかぶ』を読み聞かせました。",
+            "grammarExplanation": "'When ~'は時を表す副詞節を導きます。句動詞'pull up'は「（車などが）止まる」という意味です。'read A B'は「AにBを読み聞かせる」というSVOO（第四文型）の形です。",
+            "sentenceStructure": "When Orathai was four(M), an SVA library truck(S) pulled up(V) in her slum(M)。Kids(S) gathered around(V), and a volunteer(S) read(V) them(IO) a picture book, The Giant Turnip(DO)。",
+            "keyExpressions": "pull up: （車などが）止まる。gather around: 周りに集まる。read A B: AにBを読み聞かせる。"
+          },
+          {
+            "english": "It is a story about an old couple who grow a turnip so big that they need their granddaughter, a dog, a cat, and a mouse to pull it out of the ground.",
+            "japanese": "それは、カブをとても大きく育てた老夫婦が、孫娘、犬、猫、そしてネズミの助けを借りなければそれを地面から引き抜けない、という話です。",
+            "grammarExplanation": "'who grow a turnip so big'は'an old couple'を修飾する関係代名詞節です。この節の中には「とても〜なので…」という結果を表す'so ~ that ...'構文が含まれています。'need A to do'は「Aが〜するのを必要とする」という意味です。",
+            "sentenceStructure": "It(S) is(V) a story(C) about an old couple(M)。関係代名詞'who'が導く節「who grow a turnip so big that they need their granddaughter, a dog, a cat, and a mouse to pull it out of the ground」が'an old couple'を修飾しています。",
+            "keyExpressions": "so ~ that ...: とても〜なので…（結果）。pull it out of the ground: それを地面から引き抜く。"
+          },
+          {
+            "english": "Orathai never forgot that moment. She says, 'The story taught me that if people want to achieve something big, they have to work together.'",
+            "japanese": "オラタイはその瞬間を決して忘れませんでした。彼女は言います、「もし人々が何か大きなことを達成したいのなら、協力しなければならないと、その物語は私に教えてくれました。」",
+            "grammarExplanation": "'teach A that ~'は「Aに〜を教える」という意味です。'if節'は条件を表す副詞節で、「もし〜ならば」と訳します。'have to ~'は「〜しなければならない」という義務を表します。",
+            "sentenceStructure": "Orathai(S) never forgot(V) that moment(O)。She(S) says(V) の後に引用符内の文が続きます。「The story(S) taught(V) me(IO) that if people want to achieve something big(M), they(S) have to work(V) together(M)」はSVOO（第四文型）で、'that節'が直接目的語となっています。",
+            "keyExpressions": "achieve something big: 何か大きなことを達成する。work together: 協力する。have to ~: 〜しなければならない。"
+          },
+          {
+            "english": "When Orathai was eight, SVA built a library near her house. It became a second home for her. She read books and took part in activities like singing and dancing.",
+            "japanese": "オラタイが8歳の時、SVAは彼女の家の近くに図書館を建てました。それは彼女にとって第二の家となりました。彼女は本を読み、歌ったり踊ったりするような活動に参加しました。",
+            "grammarExplanation": "'become A'は「Aになる」というSVC（第二文型）の動詞です。'take part in ~'は「〜に参加する」という重要表現です。'like ~ing and ~ing'で「〜したり〜したりするような」と具体例を挙げています。",
+            "sentenceStructure": "When Orathai was eight(M), SVA(S) built(V) a library(O) near her house(M)。It(S) became(V) a second home(C) for her(M)。She(S) read(V) books(O) and took part(V) in activities(M) like singing and dancing(M)。",
+            "keyExpressions": "second home: 第二の家。take part in ~: 〜に参加する。"
+          },
+          {
+            "english": "She still remembers SVA's helping her expand her world. Orathai is now a successful Thai diplomat.",
+            "japanese": "彼女は今でも、SVAが自分の世界を広げるのを助けてくれたことを覚えています。オラタイは今、成功したタイの外交官です。",
+            "grammarExplanation": "'remember + 動名詞'は「〜したことを覚えている」と過去の行為を指します。'SVA's'は動名詞'helping'の意味上の主語で、「SVAが助けたこと」と訳します。'help A (to) do'は「Aが〜するのを手伝う」という形です。",
+            "sentenceStructure": "She(S) still remembers(V) SVA's helping her expand her world(O)。'SVA's helping her expand her world'は動名詞句で、'remembers'の目的語です。Orathai(S) is(V) now(M) a successful Thai diplomat(C)。",
+            "keyExpressions": "remember + 動名詞: 〜したことを覚えている。expand one's world: （自分の）世界を広げる。"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "Orathai is another child whose life changed for the better thanks to SVA.",
+            "japanese": "オラタイは、SVAのおかげで人生がより良い方向へ変わったもう一人の子供です。",
+            "translationPoint": "'whose life'は「その子の人生」と、直前の'child'の人生であることを明確に示します。'for the better'は「良い方向へ」と一塊で捉え、'thanks to SVA'は「SVAのおかげで」と原因を表します。",
+            "commonMistake": "'whose'を単に「誰の」と疑問詞のように訳したり、文全体を直訳しすぎて不自然な日本語になることがあります。「SVAに感謝して人生がより良く変わったもう一人の子供」といった不自然な直訳は避けましょう。"
+          },
+          {
+            "num": "②",
+            "english": "It is a story about an old couple who grow a turnip so big that they need their granddaughter, a dog, a cat, and a mouse to pull it out of the ground.",
+            "japanese": "それは、カブをとても大きく育てた老夫婦が、孫娘、犬、猫、そしてネズミの助けを借りなければそれを地面から引き抜けないという話です。",
+            "translationPoint": "'who grow a turnip so big'が'an old couple'を修飾し、さらにその中に「とても〜なので…」という結果を表す'so big that they need ~'の構文が含まれています。この因果関係を明確に訳すことが重要です。",
+            "commonMistake": "'so big that'の「その結果〜」という部分を訳し忘れたり、意味が不明瞭になったりすることがあります。また、登場人物を列挙する部分で読点が多いため、読みにくい訳にならないよう注意が必要です。"
+          },
+          {
+            "num": "③",
+            "english": "She still remembers SVA's helping her expand her world.",
+            "japanese": "彼女は今でも、SVAが自分の世界を広げるのを助けてくれたことを覚えています。",
+            "translationPoint": "'remember + 動名詞(helping)'で「〜したことを覚えている」と、過去の出来事を指します。'SVA's'は動名詞'helping'の意味上の主語であり、「SVAが助けたこと」と自然に訳出することがポイントです。'help A do B'の構造にも注目しましょう。",
+            "commonMistake": "'SVA's helping'を「SVAの助け」と名詞的な訳し方をしてしまい、動名詞の持つ「動作」のニュアンスが失われることがあります。また、'remember to help'（これから助けることを覚えている）と混同して誤訳しないように注意しましょう。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "Orathai",
+            "meaning": "オラタイ（人名）",
+            "usage": "Orathai is a common name for girls in Thailand, often associated with kindness and grace.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "「オラタイ」と発音し、「ラ」にアクセントが置かれることが多いです。",
+            "examFrequency": "やや難（固有名詞のため、一般単語としての出題は稀）"
+          },
+          {
+            "word": "thanks to ~",
+            "meaning": "〜のおかげで、〜のせいで",
+            "usage": "Thanks to your support, we were able to complete the project on time.",
+            "synonymsAntonyms": "because of, due to, on account of / owing to (主に悪い原因の場合)",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "Bangkok",
+            "meaning": "バンコク（タイの首都）",
+            "usage": "Many tourists visit Bangkok to explore its vibrant markets and beautiful temples.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "「バンコック」と発音し、「バン」にアクセントが置かれます。",
+            "examFrequency": "標準（地名として）"
+          },
+          {
+            "word": "illiterate",
+            "meaning": "読み書きができない、非識字の",
+            "usage": "The government launched a program to educate illiterate adults.",
+            "synonymsAntonyms": "synonyms: unlettered, uneducated / antonyms: literate, educated",
+            "derivatives": "illiteracy (名詞: 非識字)",
+            "pronunciation": "「イリタラット」と発音し、「リ」にアクセントが置かれます。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "pull up",
+            "meaning": "（車などが）止まる、停車する；引き抜く",
+            "usage": "A police car pulled up beside us. (停車する) / It took great effort to pull up the stubborn weeds from the garden. (引き抜く)",
+            "synonymsAntonyms": "(停車) stop, halt / (引き抜く) extract, uproot",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "標準（句動詞として）"
+          },
+          {
+            "word": "turnip",
+            "meaning": "カブ",
+            "usage": "My grandmother often makes a delicious stew with carrots and turnips.",
+            "synonymsAntonyms": "",
+            "derivatives": "",
+            "pronunciation": "「ターニップ」と発音し、「ター」にアクセントが置かれます。",
+            "examFrequency": "やや難（日常語だが、入試頻度は高くない）"
+          },
+          {
+            "word": "granddaughter",
+            "meaning": "孫娘",
+            "usage": "My parents adore their granddaughter and spoil her with toys.",
+            "synonymsAntonyms": "synonyms: grandkid (性別問わず) / antonyms: grandson (孫息子), grandparent (祖父母)",
+            "derivatives": "",
+            "pronunciation": "「グランドーラー」と発音し、「グラン」と「ドー」にアクセントが置かれます。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "take part in ~",
+            "meaning": "〜に参加する",
+            "usage": "All students are encouraged to take part in extracurricular activities.",
+            "synonymsAntonyms": "synonyms: participate in, join, engage in / antonyms: abstain from, withdraw from",
+            "derivatives": "",
+            "pronunciation": "",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "expand",
+            "meaning": "広げる、拡大する、発展させる",
+            "usage": "The company plans to expand its operations into new international markets.",
+            "synonymsAntonyms": "synonyms: enlarge, broaden, develop, extend / antonyms: contract, shrink, reduce",
+            "derivatives": "expansion (名詞: 拡大、拡張), expansive (形容詞: 広大な)",
+            "pronunciation": "「イクスプアンド」と発音し、「パンド」にアクセントが置かれます。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "Thai",
+            "meaning": "タイの、タイ人（の）、タイ語（の）",
+            "usage": "We enjoyed spicy Thai curry for dinner last night.",
+            "synonymsAntonyms": "",
+            "derivatives": "Thailand (名詞: タイ国)",
+            "pronunciation": "「タイ」と発音します。",
+            "examFrequency": "標準（国籍や言語として）"
+          },
+          {
+            "word": "diplomat",
+            "meaning": "外交官",
+            "usage": "The seasoned diplomat skillfully negotiated a peace treaty between the two nations.",
+            "synonymsAntonyms": "synonyms: ambassador, envoy, representative",
+            "derivatives": "diplomacy (名詞: 外交), diplomatic (形容詞: 外交的な)",
+            "pronunciation": "「ディプロマット」と発音し、「ディ」にアクセントが置かれることが多いです。",
+            "examFrequency": "やや難"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Q-1 What happened when Orathai was four?",
+            "questionJapanese": "オラタイが4歳の時、何が起こりましたか？",
+            "answer": "When Orathai was four, an SVA library truck pulled up in her slum.",
+            "answerJapanese": "オラタイが4歳の時、SVAの図書館トラックが彼女の住むスラムにやって来ました。",
+            "explanation": "本文の「When Orathai was four, an SVA library truck pulled up in her slum.」に明確に記述されています。",
+            "similarQuestion": "What was the first significant event involving SVA in Orathai's life? (Answer: An SVA library truck visited her slum when she was four.)"
+          },
+          {
+            "question": "Q-2 What did Orathai learn from a picture book, The Giant Turnip?",
+            "questionJapanese": "オラタイは絵本『おおきなかぶ』から何を学びましたか？",
+            "answer": "She learned that if people want to achieve something big, they have to work together.",
+            "answerJapanese": "彼女は、もし人々が何か大きなことを達成したいのなら、協力しなければならない、ということを学びました。",
+            "explanation": "本文の「She says, 'The story taught me that if people want to achieve something big, they have to work together.'」に書かれている通りです。絵本の教訓が彼女の心に強く残りました。",
+            "similarQuestion": "According to Orathai, what is the key lesson from 'The Giant Turnip' regarding achieving goals? (Answer: The importance of working together.)"
+          },
+          {
+            "question": "Q-3 The SVA library was \"a second home\" for Orathai. What do you think that means?",
+            "questionJapanese": "SVA図書館はオラタイにとって「第二の家」でした。それはどういう意味だと思いますか？",
+            "answer": "b. She was able to forget her problems and relax.",
+            "answerJapanese": "彼女はそこで問題を忘れ、リラックスすることができました。",
+            "explanation": "「第二の家」という表現は、物理的な住居だけでなく、精神的な安らぎや居場所としての役割を指します。本文では図書館で本を読むだけでなく、歌やダンスなどの活動に参加したとあり、安心して過ごせる場所であったことが伺えます。選択肢aは本文の事実と異なり、cも「家を思い出させた」というよりは「家のように心地よかった」と解釈するのが適切です。",
+            "similarQuestion": "In what way did the SVA library serve as more than just a place to read for Orathai? (Answer: It provided her with a sense of belonging and opportunities for personal growth beyond just reading books.)"
+          }
+        ],
+        "lessonTitle": "Lesson 2 One Book Can Empower a Child Section 3"
+      }
+    },
+    {
+      "id": "L2S4",
+      "lessonLabel": "Lesson2",
+      "sectionLabel": "Section4",
+      "name": "Lesson2  Lesson 2 One Book Can Empower a Child Section 4  Section4",
+      "data": {
+        "transcription": "An SVA staff member in Myanmar says, \"Children seem to have learned thinking skills through reading.\" Kids love storytelling sessions and are absorbed in the world of picture books. Her dream is to put a picture book in every child's hand. SVA tries to make that dream come true. It takes a lot of books. SVA collects about 18,000 books a year in Japan. The SVA staff translate the books into other Asian languages and print the translated passages on stickers. Then, volunteers paste the stickers over the Japanese words. It takes a volunteer about one hour to finish one book. A lot of helping hands are needed. One volunteer says, \"I was interested in doing some volunteer work, and it was an easy first step forward to make a small change in my life.\" Another says, \"I used to enjoy reading picture books to my kids. Now that they have grown up, it gives me joy to imagine kids all over Asia enjoying picture books I help to make.\" One picture book can change a life and empower a child. Just ask Orathai, the Thai diplomat who has never forgotten The Giant Turnip.",
+        "transcriptionAnalysis": [
+          {
+            "english": "An SVA staff member in Myanmar says, \"Children seem to have learned thinking skills through reading.\"",
+            "japanese": "ミャンマーにいるSVAの職員は、「子どもたちは読書を通じて思考力を身につけたようだ」と言います。",
+            "grammarExplanation": "「seem to have + 過去分詞」は「～したようだ」という完了不定詞の形を取り、過去の出来事について推測する際に使われます。「through reading」は「読書を通じて」と、手段を表します。",
+            "sentenceStructure": "S (An SVA staff member) V (says) O (that節「Children seem to have learned thinking skills through reading.」)。引用符の中は、S (Children) V (seem) C (to have learned thinking skills) 副詞句 (through reading)。",
+            "keyExpressions": "seem to have + 過去分詞 (～したようだ), thinking skills (思考力), through reading (読書を通じて)"
+          },
+          {
+            "english": "Kids love storytelling sessions and are absorbed in the world of picture books.",
+            "japanese": "子どもたちは物語を聞く時間（お話会）が大好きで、絵本の世界に夢中になっています。",
+            "grammarExplanation": "「be absorbed in ~」は「～に夢中になる」「～に没頭する」という意味の熟語です。",
+            "sentenceStructure": "S (Kids) V (love) O (storytelling sessions) and V (are absorbed) 前置詞句 (in the world of picture books)。",
+            "keyExpressions": "storytelling sessions (お話会), be absorbed in ~ (～に夢中になる)"
+          },
+          {
+            "english": "Her dream is to put a picture book in every child's hand.",
+            "japanese": "彼女の夢は、すべての子どもの手に絵本を届けることです。",
+            "grammarExplanation": "「to put a picture book in every child's hand」は不定詞の名詞的用法で、be動詞の補語として「～すること」という意味で使われています。",
+            "sentenceStructure": "S (Her dream) V (is) C (to put a picture book in every child's hand)。",
+            "keyExpressions": "in every child's hand (すべての子どもの手に)"
+          },
+          {
+            "english": "SVA tries to make that dream come true.",
+            "japanese": "SVAはその夢を実現しようと努めています。",
+            "grammarExplanation": "「try to + 動詞の原形」で「～しようと努める」という意味です。「make O C」の構文（OをCの状態にする）で、「make that dream come true」は「その夢を実現させる」という意味になります。「come true」は「実現する」という熟語です。",
+            "sentenceStructure": "S (SVA) V (tries) O (to make that dream come true)。不定詞句 (to make...) が tries の目的語。不定詞句内はV (make) O (that dream) C (come true)。",
+            "keyExpressions": "try to ~ (～しようと努める), make O come true (Oを実現させる), come true (実現する)"
+          },
+          {
+            "english": "It takes a lot of books.",
+            "japanese": "それには多くの本が必要です。",
+            "grammarExplanation": "「It takes ~」は「～が必要だ」「～がかかる」という一般的な表現で、ここでは「多くの本が必要である」という状況を表しています。",
+            "sentenceStructure": "S (It) V (takes) O (a lot of books)。",
+            "keyExpressions": "It takes ~ (～が必要だ/～がかかる), a lot of ~ (多くの～)"
+          },
+          {
+            "english": "SVA collects about 18,000 books a year in Japan.",
+            "japanese": "SVAは日本で年間約18,000冊の本を集めています。",
+            "grammarExplanation": "「about」は「約」という意味で、数詞の前に置かれます。「a year」は「1年あたり」と、頻度を表します。",
+            "sentenceStructure": "S (SVA) V (collects) O (about 18,000 books) 副詞句 (a year) 副詞句 (in Japan)。",
+            "keyExpressions": "about ~ (約～), a year (年間)"
+          },
+          {
+            "english": "The SVA staff translate the books into other Asian languages and print the translated passages on stickers.",
+            "japanese": "SVAのスタッフはそれらの本を他のアジア言語に翻訳し、翻訳された文章をシールに印刷します。",
+            "grammarExplanation": "「translate A into B」で「AをBに翻訳する」という意味です。「translated passages」は過去分詞「translated」が名詞「passages」を修飾しています。",
+            "sentenceStructure": "S (The SVA staff) V (translate) O (the books) 前置詞句 (into other Asian languages) and V (print) O (the translated passages) 前置詞句 (on stickers)。",
+            "keyExpressions": "translate A into B (AをBに翻訳する), translated passages (翻訳された文章)"
+          },
+          {
+            "english": "Then, volunteers paste the stickers over the Japanese words.",
+            "japanese": "その後、ボランティアが日本の言葉の上にそのシールを貼り付けます。",
+            "grammarExplanation": "「paste A over B」で「AをBの上に貼り付ける」という意味です。",
+            "sentenceStructure": "副詞 (Then), S (volunteers) V (paste) O (the stickers) 前置詞句 (over the Japanese words)。",
+            "keyExpressions": "paste A over B (AをBの上に貼り付ける)"
+          },
+          {
+            "english": "It takes a volunteer about one hour to finish one book.",
+            "japanese": "1冊の本を仕上げるのに、一人のボランティアがおよそ1時間かかります。",
+            "grammarExplanation": "「It takes (人) (時間) to do ~」の構文で、「(人)が～するのに(時間)がかかる」という意味を表します。",
+            "sentenceStructure": "S (It) V (takes) O (a volunteer) C (about one hour) 副詞句 (to finish one book)。不定詞「to finish one book」は時間を説明する副詞的用法です。",
+            "keyExpressions": "It takes (人) (時間) to do ~ (人が～するのに時間がかかる), about one hour (およそ1時間)"
+          },
+          {
+            "english": "A lot of helping hands are needed.",
+            "japanese": "多くの助けが必要とされています。（直訳：多くの援助の手が必要とされています。）",
+            "grammarExplanation": "「A lot of ~」は「多くの～」という意味で、ここでは複数形の名詞を修飾しています。「are needed」は受動態の形です。",
+            "sentenceStructure": "S (A lot of helping hands) V (are needed)。",
+            "keyExpressions": "helping hands (援助の手), be needed (必要とされる)"
+          },
+          {
+            "english": "One volunteer says, \"I was interested in doing some volunteer work, and it was an easy first step forward to make a small change in my life.\"",
+            "japanese": "あるボランティアは、「私はボランティア活動をすることに興味があり、それは私の人生に小さな変化をもたらすための簡単で最初のステップでした」と言います。",
+            "grammarExplanation": "「be interested in ~ing」で「～することに興味がある」という意味です。「It was an easy first step forward to make ~」は、Itが形式主語で、to make ~が真主語の構文です。",
+            "sentenceStructure": "S (One volunteer) V (says) O (that節「I was interested in doing some volunteer work, and it was an easy first step forward to make a small change in my life.」)。引用符内は S (I) V (was interested) 副詞句 (in doing some volunteer work), and S (it) V (was) C (an easy first step forward) to不定詞 (to make a small change in my life)。",
+            "keyExpressions": "be interested in ~ing (～することに興味がある), take a step forward (一歩前進する), make a change (変化をもたらす)"
+          },
+          {
+            "english": "Another says, \"I used to enjoy reading picture books to my kids. Now that they have grown up, it gives me joy to imagine kids all over Asia enjoying picture books I help to make.\"",
+            "japanese": "別のボランティアは、「私は以前、子どもたちに絵本を読んであげるのを楽しんでいました。今では彼らが成長したので、私が作る手助けをしている絵本をアジア中の子どもたちが楽しんでいるのを想像すると、喜びを感じます」と言います。",
+            "grammarExplanation": "「used to + 動詞の原形」で「以前は～したものだった」という過去の習慣や状態を表します。「Now that ~」は「今や～なので」という理由を表す接続詞句です。「give (人) joy to (不定詞/that節)」で「(人)に～して喜びを与える」という意味になります。「imagine O ~ing」で「Oが～しているのを想像する」という構文です。「picture books I help to make」は関係代名詞が省略された形で、「I help to make」が「picture books」を修飾しています。",
+            "sentenceStructure": "S (Another) V (says) O (that節「I used to enjoy reading picture books to my kids. Now that they have grown up, it gives me joy to imagine kids all over Asia enjoying picture books I help to make.」)。引用符内は S (I) V (used to enjoy) O (reading picture books) 前置詞句 (to my kids). 接続詞句 (Now that they have grown up), S (it) V (gives) IO (me) DO (joy) to不定詞 (to imagine kids all over Asia enjoying picture books I help to make)。",
+            "keyExpressions": "used to ~ (以前は～したものだった), Now that ~ (今や～なので), give (人) joy (人に喜びを与える), imagine O ~ing (Oが～しているのを想像する), all over Asia (アジア中)"
+          },
+          {
+            "english": "One picture book can change a life and empower a child.",
+            "japanese": "一冊の絵本が人生を変え、子どもに力を与えることができます。",
+            "grammarExplanation": "「empower A」は「Aに力を与える」「Aの可能性を引き出す」という意味です。",
+            "sentenceStructure": "S (One picture book) V (can change) O (a life) and V (empower) O (a child)。",
+            "keyExpressions": "change a life (人生を変える), empower a child (子どもに力を与える)"
+          },
+          {
+            "english": "Just ask Orathai, the Thai diplomat who has never forgotten The Giant Turnip.",
+            "japanese": "「おおきなかぶ」を忘れずにいるタイの外交官、オラタイさんに尋ねてみてください。",
+            "grammarExplanation": "「who has never forgotten The Giant Turnip」は関係代名詞節で、「Orathai, the Thai diplomat」を修飾しています。継続用法です。",
+            "sentenceStructure": "V (Just ask) O (Orathai, the Thai diplomat) 関係代名詞節 (who has never forgotten The Giant Turnip)。",
+            "keyExpressions": "diplomat (外交官), The Giant Turnip (おおきなかぶ)"
+          }
+        ],
+        "putIntoJapaneseAnswers": [
+          {
+            "num": "①",
+            "english": "Children seem to have learned thinking skills through reading.",
+            "japanese": "子どもたちは読書を通じて思考力を身につけたようだ。",
+            "translationPoint": "「seem to have learned」は「～したようだ」という完了不定詞の形を正確に訳す点が重要です。過去の行為に対する推測を表します。「thinking skills」は「思考力」と訳すのが自然です。",
+            "commonMistake": "「子どもたちは思考のスキルを読書を通して学ぶように見える」と直訳してしまうと不自然です。日本語では「思考力」という言葉を使うことで、より自然な訳になります。また、「seem to have + 過去分詞」のニュアンス（～したようだ、～したらしい）が失われやすいので注意が必要です。"
+          },
+          {
+            "num": "②",
+            "english": "It takes a volunteer about one hour to finish one book.",
+            "japanese": "1冊の本を仕上げるのに、一人のボランティアがおよそ1時間かかります。",
+            "translationPoint": "「It takes (人) (時間) to do ~」の構文を理解し、主語の\"It\"を日本語で明確に訳さないことがポイントです。「～するのに〇〇がかかる」という日本語の構文に合わせることで自然な訳になります。",
+            "commonMistake": "「それは一人のボランティアに約1時間かかる、一冊の本を終えるために」のように直訳すると、英語の語順に引きずられ不自然になります。日本語では「～するのに〇〇がかかる」という形で表現する方が自然です。"
+          },
+          {
+            "num": "③",
+            "english": "Now that they have grown up, it gives me joy to imagine kids all over Asia enjoying picture books I help to make.",
+            "japanese": "今では彼らが成長したので、私が作る手助けをしている絵本をアジア中の子どもたちが楽しんでいるのを想像すると、喜びを感じます。",
+            "translationPoint": "「Now that ~」は「今や～なので」という理由を表す接続詞句です。「it gives me joy to imagine ~ing」の構文は「～を想像すると私に喜びを与える」となり、自然な日本語では「～を想像すると喜びを感じる」と表現します。「I help to make」は「picture books」を修飾する関係代名詞の省略で、「作る手助けをしている」と訳します。",
+            "commonMistake": "「Now that」を「今、～する」と単に時を表す副詞のように解釈してしまうと、理由のニュアンスが失われます。「it gives me joy」を「それは私に喜びを与える」と直訳すると不自然です。「喜びを感じる」と意訳するのが適切です。「imagine O ~ing」の「Oが～しているのを想像する」という形を崩し、「子どもたちが楽しんでいる絵本を想像する」のようにすると意味が変わってしまう可能性があります。"
+          }
+        ],
+        "vocabulary": [
+          {
+            "word": "staff",
+            "meaning": "職員、従業員",
+            "usage": "The hospital staff are very kind and helpful.",
+            "synonymsAntonyms": "Synonyms: personnel, employees, workforce.",
+            "derivatives": "",
+            "pronunciation": "/stæf/。発音は「スタッフ」で、強勢は最初。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "storytelling",
+            "meaning": "物語を語ること、お話",
+            "usage": "Storytelling is an ancient art form that connects people.",
+            "synonymsAntonyms": "Synonyms: narration, recounting.",
+            "derivatives": "story (名詞), tell (動詞)",
+            "pronunciation": "/ˈstɔːritɛlɪŋ/。強勢は「ストー」の部分。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "session",
+            "meaning": "（活動中の）時間、会合、会議、学期",
+            "usage": "We had a productive study session last night.",
+            "synonymsAntonyms": "Synonyms: meeting, period, gathering.",
+            "derivatives": "",
+            "pronunciation": "/ˈsɛʃən/。発音は「セッション」。強勢は「セ」の部分。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "absorb",
+            "meaning": "吸収する、夢中にさせる、没頭させる",
+            "usage": "The sponge can absorb a lot of water. The book completely absorbed her attention.",
+            "synonymsAntonyms": "Synonyms: soak up, take in, engross, captivate. Antonyms: emit, exude, bore.",
+            "derivatives": "absorption (名詞), absorbed (形容詞)",
+            "pronunciation": "/əbˈzɔːrb/。強勢は「ゾーブ」の部分。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "be absorbed in ~",
+            "meaning": "～に夢中になる、～に没頭する",
+            "usage": "He was so absorbed in his work that he didn't notice the time.",
+            "synonymsAntonyms": "Synonyms: be engrossed in, be lost in, be fascinated by.",
+            "derivatives": "absorb (動詞), absorption (名詞), absorbed (形容詞)",
+            "pronunciation": "absorbedは/əbˈzɔːrbd/。強勢は「ゾーブ」の部分。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "it takes ~",
+            "meaning": "（時間・労力などが）～かかる、～を必要とする",
+            "usage": "It takes courage to stand up for what you believe in. It takes about 30 minutes to get to the station.",
+            "synonymsAntonyms": "Synonyms: require, demand.",
+            "derivatives": "take (動詞)",
+            "pronunciation": "takesは/teɪks/。",
+            "examFrequency": "頻出"
+          },
+          {
+            "word": "passage",
+            "meaning": "一節、通路、通過",
+            "usage": "Please read the passage carefully and answer the questions.",
+            "synonymsAntonyms": "Synonyms: section, excerpt, corridor.",
+            "derivatives": "pass (動詞)",
+            "pronunciation": "/ˈpæsɪdʒ/。強勢は「パ」の部分。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "paste",
+            "meaning": "貼り付ける",
+            "usage": "Please paste your photo onto the application form.",
+            "synonymsAntonyms": "Synonyms: glue, stick, affix.",
+            "derivatives": "paste (名詞: のり)",
+            "pronunciation": "/peɪst/。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "helping hand",
+            "meaning": "援助の手、助け",
+            "usage": "Many volunteers offered a helping hand after the disaster.",
+            "synonymsAntonyms": "Synonyms: assistance, aid, support.",
+            "derivatives": "help (動詞/名詞)",
+            "pronunciation": "/ˈhɛlpɪŋ hænd/。",
+            "examFrequency": "標準"
+          },
+          {
+            "word": "empower",
+            "meaning": "（人に）力を与える、自信を与える、権限を与える",
+            "usage": "Education can empower individuals to achieve their full potential.",
+            "synonymsAntonyms": "Synonyms: enable, authorize, strengthen, encourage. Antonyms: disempower, discourage.",
+            "derivatives": "power (名詞), powerful (形容詞)",
+            "pronunciation": "/ɪmˈpaʊər/。強勢は「パウ」の部分。",
+            "examFrequency": "やや難"
+          },
+          {
+            "word": "diplomat",
+            "meaning": "外交官",
+            "usage": "She is a skilled diplomat who can resolve international conflicts.",
+            "synonymsAntonyms": "Synonyms: envoy, ambassador.",
+            "derivatives": "diplomacy (名詞: 外交), diplomatic (形容詞: 外交的な)",
+            "pronunciation": "/ˈdɪpləmæt/。強勢は「ディプ」の部分。",
+            "examFrequency": "やや難"
+          }
+        ],
+        "questions": [
+          {
+            "question": "Q-1 What do children seem to have learned through reading?",
+            "questionJapanese": "子どもたちは読書を通じて何を学んだように見えますか？",
+            "answer": "Children seem to have learned thinking skills through reading.",
+            "answerJapanese": "子どもたちは読書を通じて思考力を身につけたようだ。",
+            "explanation": "本文の最初の文「An SVA staff member in Myanmar says, \"Children seem to have learned thinking skills through reading.\"」に記載されています。子どもたちが読書によって「思考力 (thinking skills)」を身につけたと述べられています。",
+            "similarQuestion": "What kind of activities do kids enjoy that help them to be absorbed in the world of picture books? Answer: Kids love storytelling sessions and are absorbed in the world of picture books."
+          },
+          {
+            "question": "Q-2 What power does a picture book have?",
+            "questionJapanese": "絵本はどのような力を持っていますか？",
+            "answer": "One picture book can change a life and empower a child.",
+            "answerJapanese": "一冊の絵本が人生を変え、子どもに力を与えることができます。",
+            "explanation": "本文の最後の段落「One picture book can change a life and empower a child.」に明確に書かれています。絵本が人生を変え、子どもに力を与える力を持つことが強調されています。",
+            "similarQuestion": "According to the text, what is the dream of the SVA staff member regarding picture books? Answer: Her dream is to put a picture book in every child's hand."
+          },
+          {
+            "question": "Q-3 Which of the following is the most appropriate message of this section? a. We should do more volunteer work for people in Asia. b. Not only kids but also adults should enjoy reading picture books. c. Doing volunteer work can introduce a change not only in others but also in yourself.",
+            "questionJapanese": "この節の最も適切なメッセージは次のうちどれですか？ a. アジアの人々のために、もっとボランティア活動をすべきである。 b. 子どもだけでなく大人も絵本を読むべきである。 c. ボランティア活動は、他者だけでなく自分自身にも変化をもたらすことができる。",
+            "answer": "c. Doing volunteer work can introduce a change not only in others but also in yourself.",
+            "answerJapanese": "c. ボランティア活動は、他者だけでなく自分自身にも変化をもたらすことができる。",
+            "explanation": "本文では、ボランティアの言葉として「I was interested in doing some volunteer work, and it was an easy first step forward to make a small change in my life. (ボランティア活動に興味があり、それは私の人生に小さな変化をもたらす最初の簡単な一歩だった)」や、「it gives me joy to imagine kids all over Asia enjoying picture books I help to make. (私が作る手助けをしている絵本をアジア中の子どもたちが楽しんでいるのを想像すると、喜びを感じる)」とあります。これらは、ボランティア活動が他者（子どもたち）だけでなく、自分自身の人生にも良い変化や喜びをもたらすことを示唆しています。したがって、cが最も適切なメッセージです。",
+            "similarQuestion": "What is one reason why a volunteer might feel joy after their work? Answer: A volunteer might feel joy to imagine kids all over Asia enjoying the picture books they helped to make."
+          }
+        ],
+        "lessonTitle": "Lesson 2 One Book Can Empower a Child Section 4"
       }
     },
     {
