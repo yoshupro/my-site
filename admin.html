@@ -173,10 +173,19 @@
 
     <section class="panel">
       <h2><i data-lucide="calendar-clock"></i>テスト・提出物の予定（全体配信）</h2>
-      <p class="desc">ここで追加した予定は、全ユーザーのHOME画面に「学校全体」予定として自動表示され、カウントダウンにも反映されます。</p>
+      <p class="desc">ここで追加した予定は、全ユーザーのHOME画面・カレンダーに「学校全体」予定として自動表示されます。</p>
       <div id="schedule-list"></div>
       <p id="schedule-empty" class="empty-msg hidden">予定はまだありません</p>
       <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addSchedule()">＋ 予定を追加</button>
+    </section>
+
+    <section class="panel">
+      <h2><i data-lucide="tent"></i>週末課題ブース</h2>
+      <p class="desc">金・土・日・月の間だけ、全ユーザーのHOME画面上部に表示される特別なお知らせ枠です。すべて任意項目で、空欄のまま保存すると「まだ入力されていません」とユーザー側に表示されます。</p>
+      <div class="field"><label>タイトル（任意）</label><input type="text" id="wb-title" oninput="onWeekendBoothInput()" placeholder="例：週末課題のお知らせ"></div>
+      <div class="field"><label>本文（任意）</label><textarea id="wb-body" oninput="onWeekendBoothInput()" placeholder="例：英語ワークP.20-25を月曜提出"></textarea></div>
+      <p class="desc" id="wb-updated" style="margin-top:-4px;"></p>
+      <button class="btn btn-secondary btn-sm" onclick="clearWeekendBooth()">クリア</button>
     </section>
 
     <section class="panel">
@@ -223,6 +232,7 @@
     </div>
   </div>
 </div>
+
 
 <div id="announcement-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:420px;max-height:88vh;overflow:auto;">
@@ -307,7 +317,7 @@
 
 <script>
 let session = null;
-let configData = { announcements: [], globalSchedules: [], extraSections: [] };
+let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBooth: { title: '', body: '', updatedAt: '' } };
 let currentSha = null;
 let dirty = false;
 const LS_KEY = 'pm_admin_session_v1';
@@ -378,7 +388,7 @@ async function reloadFromGitHub() {
   });
   if (res.status === 404) {
     currentSha = null;
-    configData = { announcements: [], globalSchedules: [], extraSections: [] };
+    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBooth: { title: '', body: '', updatedAt: '' } };
     renderAll();
     setSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
     return;
@@ -394,6 +404,7 @@ async function reloadFromGitHub() {
   configData.announcements = configData.announcements || [];
   configData.globalSchedules = configData.globalSchedules || [];
   configData.extraSections = configData.extraSections || [];
+  configData.weekendBooth = configData.weekendBooth || { title: '', body: '', updatedAt: '' };
   dirty = false;
   renderAll();
   setSaveStatus('GitHubの最新内容を読み込みました', 'ok');
@@ -463,6 +474,7 @@ function renderAll() {
   renderAnnouncements();
   renderSchedules();
   renderSections();
+  renderWeekendBooth();
   updatePreview();
 }
 
@@ -707,6 +719,34 @@ function removeSchedule(idx) {
   if (!confirm('この予定を削除しますか？')) return;
   configData.globalSchedules.splice(idx, 1);
   renderSchedules();
+  markDirty();
+}
+
+function renderWeekendBooth() {
+  const wb = configData.weekendBooth || { title: '', body: '', updatedAt: '' };
+  const titleEl = document.getElementById('wb-title');
+  const bodyEl = document.getElementById('wb-body');
+  const updatedEl = document.getElementById('wb-updated');
+  if (titleEl) titleEl.value = wb.title || '';
+  if (bodyEl) bodyEl.value = wb.body || '';
+  if (updatedEl) updatedEl.textContent = wb.updatedAt ? `最終更新：${formatDateTime(wb.updatedAt)}` : '';
+}
+
+function onWeekendBoothInput() {
+  configData.weekendBooth = {
+    title: document.getElementById('wb-title').value,
+    body: document.getElementById('wb-body').value,
+    updatedAt: new Date().toISOString(),
+  };
+  const updatedEl = document.getElementById('wb-updated');
+  if (updatedEl) updatedEl.textContent = `最終更新：${formatDateTime(configData.weekendBooth.updatedAt)}`;
+  markDirty();
+}
+
+function clearWeekendBooth() {
+  if (!confirm('週末課題ブースの内容をクリアしますか？')) return;
+  configData.weekendBooth = { title: '', body: '', updatedAt: '' };
+  renderWeekendBooth();
   markDirty();
 }
 
