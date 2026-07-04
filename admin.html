@@ -181,11 +181,10 @@
 
     <section class="panel">
       <h2><i data-lucide="tent"></i>週末課題ブース</h2>
-      <p class="desc">金・土・日・月の間だけ、全ユーザーのHOME画面上部に表示される特別なお知らせ枠です。すべて任意項目で、空欄のまま保存すると「まだ入力されていません」とユーザー側に表示されます。</p>
-      <div class="field"><label>タイトル（任意）</label><input type="text" id="wb-title" oninput="onWeekendBoothInput()" placeholder="例：週末課題のお知らせ"></div>
-      <div class="field"><label>本文（任意）</label><textarea id="wb-body" oninput="onWeekendBoothInput()" placeholder="例：英語ワークP.20-25を月曜提出"></textarea></div>
-      <p class="desc" id="wb-updated" style="margin-top:-4px;"></p>
-      <button class="btn btn-secondary btn-sm" onclick="clearWeekendBooth()">クリア</button>
+      <p class="desc">金・土・日・月の間だけ、全ユーザーのHOME画面上部に表示される特別なお知らせ枠です。一番新しく追加した1件が表示されます。何も追加されていない場合は「まだ入力されていません」とユーザー側に表示されます。</p>
+      <div id="weekendbooth-list"></div>
+      <p id="weekendbooth-empty" class="empty-msg hidden">週末課題はまだ追加されていません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addWeekendBooth()">＋ 週末課題を追加</button>
     </section>
 
     <section class="panel">
@@ -229,6 +228,19 @@
     <div class="row2" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="closeScheduleModal()">キャンセル</button>
       <button class="btn btn-primary" onclick="confirmSchedule()">反映する</button>
+    </div>
+  </div>
+</div>
+
+<div id="weekendbooth-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:380px;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">週末課題を編集</h3>
+    <p class="desc" style="margin-bottom:14px;">タイトル・本文はどちらも任意です。</p>
+    <div class="field"><label>タイトル（任意）</label><input type="text" id="wb-title" placeholder="例：週末課題のお知らせ"></div>
+    <div class="field"><label>本文（任意）</label><textarea id="wb-body" placeholder="例：英語ワークP.20-25を月曜提出"></textarea></div>
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeWeekendBoothModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmWeekendBooth()">反映する</button>
     </div>
   </div>
 </div>
@@ -317,7 +329,7 @@
 
 <script>
 let session = null;
-let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBooth: { title: '', body: '', updatedAt: '' } };
+let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [] };
 let currentSha = null;
 let dirty = false;
 const LS_KEY = 'pm_admin_session_v1';
@@ -388,7 +400,7 @@ async function reloadFromGitHub() {
   });
   if (res.status === 404) {
     currentSha = null;
-    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBooth: { title: '', body: '', updatedAt: '' } };
+    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [] };
     renderAll();
     setSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
     return;
@@ -404,7 +416,7 @@ async function reloadFromGitHub() {
   configData.announcements = configData.announcements || [];
   configData.globalSchedules = configData.globalSchedules || [];
   configData.extraSections = configData.extraSections || [];
-  configData.weekendBooth = configData.weekendBooth || { title: '', body: '', updatedAt: '' };
+  configData.weekendBoothItems = configData.weekendBoothItems || [];
   dirty = false;
   renderAll();
   setSaveStatus('GitHubの最新内容を読み込みました', 'ok');
@@ -722,32 +734,70 @@ function removeSchedule(idx) {
   markDirty();
 }
 
-function renderWeekendBooth() {
-  const wb = configData.weekendBooth || { title: '', body: '', updatedAt: '' };
-  const titleEl = document.getElementById('wb-title');
-  const bodyEl = document.getElementById('wb-body');
-  const updatedEl = document.getElementById('wb-updated');
-  if (titleEl) titleEl.value = wb.title || '';
-  if (bodyEl) bodyEl.value = wb.body || '';
-  if (updatedEl) updatedEl.textContent = wb.updatedAt ? `最終更新：${formatDateTime(wb.updatedAt)}` : '';
+let wbEditIdx = null;
+function addWeekendBooth() { openWeekendBoothModal(null); }
+function editWeekendBooth(idx) { openWeekendBoothModal(idx); }
+function openWeekendBoothModal(idx) {
+  wbEditIdx = idx;
+  const item = idx != null ? configData.weekendBoothItems[idx] : { title: '', body: '' };
+  document.getElementById('wb-title').value = item.title || '';
+  document.getElementById('wb-body').value = item.body || '';
+  document.getElementById('weekendbooth-modal').classList.remove('hidden');
 }
-
-function onWeekendBoothInput() {
-  configData.weekendBooth = {
-    title: document.getElementById('wb-title').value,
-    body: document.getElementById('wb-body').value,
+function closeWeekendBoothModal() {
+  document.getElementById('weekendbooth-modal').classList.add('hidden');
+}
+function confirmWeekendBooth() {
+  const entry = {
+    title: document.getElementById('wb-title').value.trim(),
+    body: document.getElementById('wb-body').value.trim(),
+    createdAt: (wbEditIdx != null && configData.weekendBoothItems[wbEditIdx].createdAt) || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
-  const updatedEl = document.getElementById('wb-updated');
-  if (updatedEl) updatedEl.textContent = `最終更新：${formatDateTime(configData.weekendBooth.updatedAt)}`;
+  if (wbEditIdx != null) configData.weekendBoothItems[wbEditIdx] = entry;
+  else configData.weekendBoothItems.unshift(entry);
+  closeWeekendBoothModal();
+  renderWeekendBooth();
+  markDirty();
+}
+function removeWeekendBooth(idx) {
+  if (!confirm('この週末課題を削除しますか？')) return;
+  configData.weekendBoothItems.splice(idx, 1);
+  renderWeekendBooth();
   markDirty();
 }
 
-function clearWeekendBooth() {
-  if (!confirm('週末課題ブースの内容をクリアしますか？')) return;
-  configData.weekendBooth = { title: '', body: '', updatedAt: '' };
-  renderWeekendBooth();
-  markDirty();
+function renderWeekendBooth() {
+  const wrap = document.getElementById('weekendbooth-list');
+  const empty = document.getElementById('weekendbooth-empty');
+  const list = configData.weekendBoothItems || [];
+  if (list.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  // 「表示中」＝最終更新日時が最も新しい項目（並び順ではなく更新日時で判定する）
+  let latestIdx = 0;
+  list.forEach((item, i) => {
+    if ((item.updatedAt || '') > (list[latestIdx].updatedAt || '')) latestIdx = i;
+  });
+  wrap.innerHTML = list.map((item, idx) => `
+    <div class="item-card">
+      <div class="item-head">
+        <div>
+          ${idx === latestIdx ? `<span style="font-size:9px;font-weight:900;padding:2px 7px;border-radius:999px;color:#fff;background:#a855f7;">表示中</span>` : ''}
+          <span class="item-title" style="margin-left:${idx===latestIdx?'6px':'0'};">${esc(item.title||'(無題)')}</span>
+          <p class="item-sub">${formatDateTime(item.createdAt) ? formatDateTime(item.createdAt) + ' 追加 ・ ' : ''}${esc((item.body||'').slice(0,60))}${(item.body||'').length>60?'…':''}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="editWeekendBooth(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="removeWeekendBooth(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 let secEditIdx = null;

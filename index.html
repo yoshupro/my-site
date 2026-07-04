@@ -907,10 +907,15 @@
 
                 <!-- 選択した日の予定一覧 -->
                 <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm">
-                    <h3 class="text-xs font-black text-slate-700 dark:text-slate-300 mb-3 flex items-center space-x-2">
-                        <i data-lucide="list" class="w-4 h-4 text-slate-400"></i>
-                        <span id="cal-day-title">日付を選択してください</span>
-                    </h3>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-xs font-black text-slate-700 dark:text-slate-300 flex items-center space-x-2">
+                            <i data-lucide="list" class="w-4 h-4 text-slate-400"></i>
+                            <span id="cal-day-title">日付を選択してください</span>
+                        </h3>
+                        <button id="cal-day-add-btn" onclick="calAddOnSelectedDate()" class="hidden flex items-center space-x-1 px-2.5 py-1.5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-700 rounded-lg text-[11px] font-black transition-all hover:bg-rose-100">
+                            <i data-lucide="plus" class="w-3 h-3"></i><span>この日に追加</span>
+                        </button>
+                    </div>
                     <div id="cal-day-list" class="space-y-2"></div>
                     <p id="cal-day-empty" class="hidden text-xs text-slate-400 dark:text-slate-600 text-center py-6">この日の予定はありません</p>
                 </div>
@@ -2783,8 +2788,13 @@
                     });
                 }
                 // ④ 週末課題ブース（金・土・日・月だけ表示する運営からのお知らせ枠）
-                if (cfg.weekendBooth && typeof cfg.weekendBooth === 'object') {
-                    window._remoteWeekendBooth = cfg.weekendBooth;
+                // 複数登録されている場合は、最終更新日時が最も新しいものだけを表示に使う
+                if (Array.isArray(cfg.weekendBoothItems) && cfg.weekendBoothItems.length > 0) {
+                    window._remoteWeekendBooth = cfg.weekendBoothItems.reduce((latest, item) => {
+                        return (!latest || (item.updatedAt || '') > (latest.updatedAt || '')) ? item : latest;
+                    }, null);
+                } else {
+                    window._remoteWeekendBooth = null;
                 }
             } catch (e) {
                 console.warn('config.json の取得に失敗しました（オフラインまたは未配置）:', e);
@@ -4082,20 +4092,21 @@
             if (grid) {
                 grid.innerHTML = cells.map(c => {
                     if (!c.inMonth) {
-                        return `<div class="aspect-square rounded-lg p-1 text-[10px] text-slate-300 dark:text-slate-700">${c.day}</div>`;
+                        return `<div class="rounded-lg p-1 text-[10px] text-slate-300 dark:text-slate-700" style="min-height:64px;">${c.day}</div>`;
                     }
                     const dayItems = all.filter(s => s.date === c.dateStr);
                     const isToday = c.dateStr === todayStr;
                     const isSelected = c.dateStr === calSelectedDate;
-                    const dots = dayItems.slice(0, 3).map(s => {
+                    const maxChips = 2;
+                    const chips = dayItems.slice(0, maxChips).map(s => {
                         const color = s.isRemote ? '#94a3b8' : (SCHEDULE_TYPE_INFO[s.type] || SCHEDULE_TYPE_INFO.test).color;
-                        return `<span class="w-1.5 h-1.5 rounded-full" style="background:${color}"></span>`;
+                        return `<span class="block w-full truncate text-left text-[8px] sm:text-[9px] font-bold text-white rounded px-1 py-0.5 mt-0.5" style="background:${color}">${escapeHtml(s.title)}</span>`;
                     }).join('');
-                    return `<button data-date="${c.dateStr}" onclick="calSelectDate('${c.dateStr}')"
-                        class="aspect-square rounded-lg p-1 flex flex-col items-center justify-start border transition-all hover:border-rose-300 dark:hover:border-rose-700 ${isSelected ? 'ring-2 ring-rose-400' : ''} ${isToday ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-300 dark:border-rose-700' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-800'}">
+                    return `<button data-date="${c.dateStr}" onclick="calSelectDate('${c.dateStr}')" style="min-height:64px;"
+                        class="rounded-lg p-1 flex flex-col items-center justify-start border transition-all hover:border-rose-300 dark:hover:border-rose-700 ${isSelected ? 'ring-2 ring-rose-400' : ''} ${isToday ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-300 dark:border-rose-700' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-800'}">
                         <span class="text-[11px] font-black ${isToday ? 'text-rose-500' : 'text-slate-600 dark:text-slate-300'}">${c.day}</span>
-                        <div class="flex items-center space-x-0.5 mt-1">${dots}</div>
-                        ${dayItems.length > 3 ? `<span class="text-[8px] text-slate-400 mt-0.5">+${dayItems.length - 3}</span>` : ''}
+                        <div class="w-full">${chips}</div>
+                        ${dayItems.length > maxChips ? `<span class="text-[8px] text-slate-400 mt-0.5">+${dayItems.length - maxChips}件</span>` : ''}
                     </button>`;
                 }).join('');
             }
@@ -4103,17 +4114,25 @@
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
+        function calAddOnSelectedDate() {
+            if (!calSelectedDate) return;
+            openScheduleInputModal(null, calSelectedDate);
+        }
+
         function renderCalendarDayList() {
             const titleEl = document.getElementById('cal-day-title');
             const listEl = document.getElementById('cal-day-list');
             const emptyEl = document.getElementById('cal-day-empty');
+            const addBtn = document.getElementById('cal-day-add-btn');
             if (!listEl) return;
             if (!calSelectedDate) {
                 if (titleEl) titleEl.textContent = '日付を選択してください';
                 listEl.innerHTML = '';
                 if (emptyEl) emptyEl.classList.add('hidden');
+                if (addBtn) addBtn.classList.add('hidden');
                 return;
             }
+            if (addBtn) addBtn.classList.remove('hidden');
             const d = new Date(calSelectedDate + 'T00:00:00Z');
             const wdNames = ['日','月','火','水','木','金','土'];
             if (titleEl) titleEl.textContent = `${calSelectedDate.replace(/-/g,'/')}（${wdNames[d.getUTCDay()]}）の予定`;
@@ -4206,7 +4225,7 @@
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
-        function openScheduleInputModal(editId) {
+        function openScheduleInputModal(editId, presetDate) {
             const modal = document.getElementById('schedule-input-modal');
             const card = document.getElementById('schedule-input-modal-card');
             if (!modal || !card) return;
@@ -4240,11 +4259,17 @@
                 document.getElementById('schedule-edit-id').value = '';
                 document.getElementById('schedule-input-title').value = '';
                 document.getElementById('schedule-input-subject').value = '';
-                const today = new Date();
-                const yyyy = today.getFullYear();
-                const mm = String(today.getMonth() + 1).padStart(2, '0');
-                const dd = String(today.getDate()).padStart(2, '0');
-                document.getElementById('schedule-input-date').value = `${yyyy}-${mm}-${dd}`;
+                let dateValue;
+                if (presetDate) {
+                    dateValue = presetDate;
+                } else {
+                    const today = new Date();
+                    const yyyy = today.getFullYear();
+                    const mm = String(today.getMonth() + 1).padStart(2, '0');
+                    const dd = String(today.getDate()).padStart(2, '0');
+                    dateValue = `${yyyy}-${mm}-${dd}`;
+                }
+                document.getElementById('schedule-input-date').value = dateValue;
                 document.getElementById('schedule-input-memo').value = '';
                 scheduleSelectedType = 'test';
                 if (deleteBtn) deleteBtn.classList.add('hidden');
