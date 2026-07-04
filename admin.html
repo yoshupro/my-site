@@ -225,6 +225,9 @@
     <div class="field"><label>教科（任意）</label><input type="text" id="sch-subject" placeholder="例：英語"></div>
     <div class="field"><label>日付</label><input type="date" id="sch-date"></div>
     <div class="field"><label>メモ（任意）</label><textarea id="sch-memo" placeholder="範囲・持ち物など"></textarea></div>
+    <button type="button" class="btn btn-secondary btn-sm" style="width:100%;margin-top:4px;" onclick="addCurrentScheduleToWeekendBooth()">
+      <i data-lucide="tent" style="width:13px;height:13px;"></i> 週末課題ブースにも追加
+    </button>
     <div class="row2" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="closeScheduleModal()">キャンセル</button>
       <button class="btn btn-primary" onclick="confirmSchedule()">反映する</button>
@@ -707,6 +710,31 @@ function setSchType(type) {
 function closeScheduleModal() {
   document.getElementById('schedule-modal').classList.add('hidden');
 }
+// 予定編集モーダルに入力中の内容を、そのまま週末課題ブースにも1件追加する
+function addCurrentScheduleToWeekendBooth() {
+  const title = document.getElementById('sch-title').value.trim();
+  const subject = document.getElementById('sch-subject').value.trim();
+  const date = document.getElementById('sch-date').value;
+  const memo = document.getElementById('sch-memo').value.trim();
+  if (!title) { showToast('タイトルを入力してください'); return; }
+
+  const bodyParts = [];
+  if (subject) bodyParts.push(`教科：${subject}`);
+  if (date) bodyParts.push(`日付：${date}`);
+  if (memo) bodyParts.push(memo);
+
+  const entry = {
+    title,
+    body: bodyParts.join('\n'),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+  configData.weekendBoothItems.unshift(entry);
+  renderWeekendBooth();
+  markDirty();
+  showToast('週末課題ブースに追加しました');
+}
+
 function confirmSchedule() {
   const entry = {
     id: Date.now(),
