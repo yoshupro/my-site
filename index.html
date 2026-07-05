@@ -1915,57 +1915,98 @@
     <!-- 予定入力モーダル -->
     <div id="schedule-input-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
         <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl w-full max-w-sm max-h-[90vh] overflow-y-auto scrollbar-none transform scale-95 transition-all duration-300" id="schedule-input-modal-card">
-            <div class="flex items-center justify-between px-6 pt-5 pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div class="flex items-center space-x-2">
-                    <i data-lucide="calendar-clock" class="w-4 h-4 text-rose-500"></i>
-                    <h3 class="text-sm font-black text-slate-900 dark:text-white" id="schedule-input-modal-title">予定を追加</h3>
-                </div>
-                <button onclick="closeScheduleInputModal()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
+            <!-- Googleカレンダー風：選択中の種類の色を上部バーで表示 -->
+            <div id="schedule-input-color-bar" class="h-2 rounded-t-3xl transition-colors duration-300" style="background:#f43f5e;"></div>
+            <div class="flex items-center justify-between px-6 pt-4 pb-3">
+                <h3 class="text-sm font-black text-slate-900 dark:text-white" id="schedule-input-modal-title">予定を追加</h3>
+                <button onclick="closeScheduleInputModal()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all">
                     <i data-lucide="x" class="w-4 h-4 text-slate-500"></i>
                 </button>
             </div>
             <input type="hidden" id="schedule-edit-id" value="">
-            <div class="px-6 py-4 space-y-3.5">
+            <div class="px-6 pb-5 space-y-3.5">
                 <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">予定の種類</label>
-                    <div class="grid grid-cols-3 gap-2">
+                    <div class="flex items-center space-x-2.5">
                         <button type="button" onclick="selectScheduleType('test')" id="schedule-type-btn-test"
-                            class="py-2.5 rounded-xl text-xs font-black transition-all border-2 flex items-center justify-center space-x-1.5">
+                            class="flex-1 py-2.5 rounded-xl text-xs font-black transition-all border-2 flex items-center justify-center space-x-1.5">
                             <i data-lucide="file-edit" class="w-3.5 h-3.5"></i><span>テスト</span>
                         </button>
                         <button type="button" onclick="selectScheduleType('submission')" id="schedule-type-btn-submission"
-                            class="py-2.5 rounded-xl text-xs font-black transition-all border-2 flex items-center justify-center space-x-1.5">
+                            class="flex-1 py-2.5 rounded-xl text-xs font-black transition-all border-2 flex items-center justify-center space-x-1.5">
                             <i data-lucide="package-check" class="w-3.5 h-3.5"></i><span>提出物</span>
                         </button>
                         <button type="button" onclick="selectScheduleType('task')" id="schedule-type-btn-task"
-                            class="py-2.5 rounded-xl text-xs font-black transition-all border-2 flex items-center justify-center space-x-1.5">
+                            class="flex-1 py-2.5 rounded-xl text-xs font-black transition-all border-2 flex items-center justify-center space-x-1.5">
                             <i data-lucide="check-square" class="w-3.5 h-3.5"></i><span>タスク</span>
                         </button>
                     </div>
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">タイトル</label>
-                    <input type="text" id="schedule-input-title" placeholder="例：1学期期末考査、英語ワークP.10-15" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal">
+                <div class="flex items-start space-x-3">
+                    <i data-lucide="text-cursor-input" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
+                    <input type="text" id="schedule-input-title" placeholder="タイトルを入力（例：1学期期末考査）" class="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal">
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">教科（任意）</label>
-                    <input type="text" id="schedule-input-subject" placeholder="例：英語、数学" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal">
+                <div class="flex items-start space-x-3">
+                    <i data-lucide="calendar" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
+                    <input type="date" id="schedule-input-date" class="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400">
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">日付</label>
-                    <input type="date" id="schedule-input-date" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400">
+                <div class="flex items-start space-x-3">
+                    <i data-lucide="book" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
+                    <input type="text" id="schedule-input-subject" placeholder="教科（任意）" class="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal">
                 </div>
-                <div>
-                    <label class="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-1.5">メモ（任意）</label>
-                    <textarea id="schedule-input-memo" placeholder="範囲・持ち物など" rows="2" class="w-full px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal resize-none"></textarea>
+                <div class="flex items-start space-x-3">
+                    <i data-lucide="align-left" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
+                    <textarea id="schedule-input-memo" placeholder="メモ（範囲・持ち物など、任意）" rows="2" class="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal resize-none"></textarea>
                 </div>
                 <p id="schedule-input-error" class="hidden text-xs text-rose-500 font-bold"></p>
-                <button onclick="saveScheduleEntry()" id="schedule-save-btn" class="w-full py-3 bg-gradient-to-r from-rose-500 to-orange-500 hover:opacity-90 text-white rounded-xl text-sm font-black transition-all shadow-md">
-                    記録する
-                </button>
-                <button onclick="deleteScheduleEntry()" id="schedule-delete-btn" class="hidden w-full py-2.5 bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/30 dark:hover:bg-rose-900/40 text-rose-600 dark:text-rose-300 rounded-xl text-xs font-black transition-all">
-                    この予定を削除
-                </button>
+                <!-- Googleカレンダー風：削除は控えめに左、保存はアクセントカラーで右 -->
+                <div class="flex items-center justify-between pt-2">
+                    <button onclick="deleteScheduleEntry()" id="schedule-delete-btn" class="hidden items-center space-x-1.5 px-3 py-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl text-xs font-black transition-all">
+                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>削除</span>
+                    </button>
+                    <button onclick="saveScheduleEntry()" id="schedule-save-btn" class="ml-auto px-6 py-2.5 hover:opacity-90 text-white rounded-full text-sm font-black transition-all shadow-md" style="background:#f43f5e;">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 学校全体の予定を見るための閲覧専用モーダル（入力モーダルとは完全に分離） -->
+    <div id="schedule-detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div id="schedule-detail-modal-card" class="bg-white dark:bg-[#0c1220] rounded-3xl w-full max-w-sm shadow-2xl transform scale-95 transition-all duration-300 overflow-hidden">
+            <!-- Googleカレンダー風：この予定の種類の色を上部バーで表示 -->
+            <div id="schedule-detail-color-bar" class="h-2" style="background:#f43f5e;"></div>
+            <div class="p-6 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div id="schedule-detail-icon" class="w-9 h-9 rounded-xl flex items-center justify-center text-white shrink-0">
+                            <i data-lucide="file-edit" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider" id="schedule-detail-source-label">学校からのお知らせ予定</p>
+                            <p class="text-[11px] font-bold" id="schedule-detail-type-label"></p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <button id="schedule-detail-edit-btn" onclick="editFromScheduleDetail()" class="hidden p-1.5 rounded-full text-slate-400 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            <i data-lucide="pencil" class="w-4 h-4"></i>
+                        </button>
+                        <button id="schedule-detail-delete-btn" onclick="deleteFromScheduleDetail()" class="hidden p-1.5 rounded-full text-slate-400 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="closeScheduleDetailModal()" class="p-1.5 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <p class="text-base font-black text-slate-900 dark:text-white" id="schedule-detail-title"></p>
+                    <div class="flex items-center space-x-3 text-xs font-bold text-slate-500 dark:text-slate-400">
+                        <span class="flex items-center space-x-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i><span id="schedule-detail-date"></span></span>
+                        <span id="schedule-detail-subject-wrap" class="flex items-center space-x-1"><i data-lucide="book" class="w-3.5 h-3.5"></i><span id="schedule-detail-subject"></span></span>
+                    </div>
+                    <p id="schedule-detail-memo-wrap" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 whitespace-pre-wrap"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -4016,9 +4057,7 @@
             titleEl.textContent = item.title;
             dateEl.textContent = `${item.date}${dLabel ? ' ・ ' + dLabel : ''}`;
             wrap.style.cursor = 'pointer';
-            wrap.onclick = item.isRemote
-                ? () => openScheduleViewModal(item.id)
-                : () => openScheduleInputModal(item.id);
+            wrap.onclick = () => openScheduleViewModal(item.id);
         }
 
         // ===== カレンダー画面（Googleカレンダー風の月表示） =====
@@ -4047,6 +4086,13 @@
                 el.classList.toggle('ring-2', el.getAttribute('data-date') === dateStr);
                 el.classList.toggle('ring-rose-400', el.getAttribute('data-date') === dateStr);
             });
+        }
+
+        // マス目の余白部分（予定のタイトル以外）をタップした時の動作。
+        // Googleカレンダーのように、その日付を指定した予定追加モーダルをすぐ開く。
+        function calCellClick(dateStr) {
+            calSelectDate(dateStr);
+            openScheduleInputModal(null, dateStr);
         }
 
         function renderCalendarPanel() {
@@ -4105,10 +4151,10 @@
                         const textColor = s.isRemote ? typeInfo.color : '#ffffff';
                         const openAttr = s.isRemote
                             ? `openScheduleViewModal('${s.id}')`
-                            : `openScheduleInputModal(${s.id})`;
-                        return `<button type="button" onclick="event.stopPropagation(); ${openAttr}" class="block w-full truncate text-left text-[8px] sm:text-[9px] font-bold rounded px-1 py-0.5 mt-0.5" style="background:${bg};color:${textColor};">${escapeHtml(s.title)}</button>`;
+                            : `openScheduleViewModal(${s.id})`;
+                        return `<button type="button" onclick="event.stopPropagation(); ${openAttr}" class="block w-full truncate text-left text-[8px] sm:text-[9px] font-bold rounded px-1 py-0.5 mt-0.5 transition-all duration-150 hover:brightness-110 hover:scale-[1.04] hover:shadow-md hover:z-10 relative cursor-pointer" style="background:${bg};color:${textColor};">${escapeHtml(s.title)}</button>`;
                     }).join('');
-                    return `<div data-date="${c.dateStr}" onclick="calSelectDate('${c.dateStr}')" style="min-height:64px;cursor:pointer;"
+                    return `<div data-date="${c.dateStr}" onclick="calCellClick('${c.dateStr}')" style="min-height:64px;cursor:pointer;"
                         class="rounded-lg p-1 flex flex-col items-center justify-start border transition-all hover:border-rose-300 dark:hover:border-rose-700 ${isSelected ? 'ring-2 ring-rose-400' : ''} ${isToday ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-300 dark:border-rose-700' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-800'}">
                         <span class="text-[11px] font-black ${isToday ? 'text-rose-500' : 'text-slate-600 dark:text-slate-300'}">${c.day}</span>
                         <div class="w-full">${chips}</div>
@@ -4155,7 +4201,7 @@
                 const typeInfo = SCHEDULE_TYPE_INFO[s.type] || SCHEDULE_TYPE_INFO.test;
                 const clickAttr = s.isRemote
                     ? `onclick="openScheduleViewModal('${s.id}')"`
-                    : `onclick="openScheduleInputModal(${s.id})"`;
+                    : `onclick="openScheduleViewModal(${s.id})"`;
                 const actionBtns = s.isRemote
                     ? `<span class="text-[9px] font-bold text-slate-400 px-2 py-1" title="運営からのお知らせ予定">学校全体</span>`
                     : `<button onclick="event.stopPropagation(); quickDeleteSchedule(${s.id}); renderCalendarPanel();" class="p-1.5 rounded-lg text-slate-300 dark:text-slate-600 hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors" title="削除">
@@ -4191,44 +4237,91 @@
                 btn.style.borderColor = active ? info.color : info.color + '55';
                 btn.style.color = active ? '#fff' : info.color;
             });
+            // Googleカレンダー風：上部バーと保存ボタンの色も選択中の種類に合わせる
+            const color = SCHEDULE_TYPE_INFO[type].color;
+            const colorBar = document.getElementById('schedule-input-color-bar');
+            if (colorBar) colorBar.style.background = color;
+            const saveBtn = document.getElementById('schedule-save-btn');
+            if (saveBtn) saveBtn.style.background = color;
         }
 
         // 学校全体（admin.htmlから追加された）予定を閲覧専用で表示する。
         // 入力欄は同じモーダルを流用しつつ、編集・削除はできないようにする。
-        function openScheduleViewModal(remoteId) {
-            const modal = document.getElementById('schedule-input-modal');
-            const card = document.getElementById('schedule-input-modal-card');
+        // 学校全体の予定の詳細を見る（閲覧専用・入力モーダルとは別画面）
+        // 現在、詳細モーダルで表示中の予定ID（編集・削除ボタンから参照する）
+        let _scheduleDetailCurrentId = null;
+
+        // 予定の詳細を見る（閲覧専用）。ローカルの予定・学校全体の予定のどちらも
+        // まずはこの画面で内容だけを確認し、編集はここにある「編集」ボタンを
+        // 押した時だけできるようにする（誤って直接編集画面が開かないようにするため）。
+        function openScheduleViewModal(id) {
+            const modal = document.getElementById('schedule-detail-modal');
+            const card = document.getElementById('schedule-detail-modal-card');
             if (!modal || !card) return;
-            const s = getUpcomingSchedules().find(x => x.id === remoteId);
+            const s = getAllSchedules().find(x => x.id === id);
             if (!s) return;
-            const titleEl = document.getElementById('schedule-input-modal-title');
-            const errorEl = document.getElementById('schedule-input-error');
-            const deleteBtn = document.getElementById('schedule-delete-btn');
-            const saveBtn = document.getElementById('schedule-save-btn');
-            if (errorEl) errorEl.classList.add('hidden');
+            _scheduleDetailCurrentId = id;
+            const typeInfo = SCHEDULE_TYPE_INFO[s.type] || SCHEDULE_TYPE_INFO.test;
 
-            titleEl.textContent = '学校からのお知らせ予定';
-            document.getElementById('schedule-edit-id').value = '';
-            document.getElementById('schedule-input-title').value = s.title || '';
-            document.getElementById('schedule-input-subject').value = s.subject || '';
-            document.getElementById('schedule-input-date').value = s.date || '';
-            document.getElementById('schedule-input-memo').value = s.memo || '';
-            scheduleSelectedType = s.type || 'test';
-            selectScheduleType(scheduleSelectedType);
-
-            // 閲覧専用：入力欄を編集不可にし、保存・削除ボタンを隠す
-            ['schedule-input-title', 'schedule-input-subject', 'schedule-input-date', 'schedule-input-memo'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.disabled = true;
-            });
-            document.querySelectorAll('#schedule-type-btn-test, #schedule-type-btn-submission, #schedule-type-btn-task').forEach(btn => btn.disabled = true);
-            if (saveBtn) saveBtn.classList.add('hidden');
-            if (deleteBtn) deleteBtn.classList.add('hidden');
+            const colorBar = document.getElementById('schedule-detail-color-bar');
+            if (colorBar) colorBar.style.background = typeInfo.color;
+            const iconEl = document.getElementById('schedule-detail-icon');
+            if (iconEl) {
+                iconEl.style.background = typeInfo.color;
+                iconEl.innerHTML = `<i data-lucide="${typeInfo.icon}" class="w-4 h-4"></i>`;
+            }
+            const sourceLabelEl = document.getElementById('schedule-detail-source-label');
+            if (sourceLabelEl) sourceLabelEl.textContent = s.isRemote ? '学校からのお知らせ予定' : '自分で追加した予定';
+            const typeLabelEl = document.getElementById('schedule-detail-type-label');
+            if (typeLabelEl) { typeLabelEl.textContent = typeInfo.label; typeLabelEl.style.color = typeInfo.color; }
+            document.getElementById('schedule-detail-title').textContent = s.title || '';
+            document.getElementById('schedule-detail-date').textContent = s.date || '';
+            const subjectWrap = document.getElementById('schedule-detail-subject-wrap');
+            if (s.subject) {
+                document.getElementById('schedule-detail-subject').textContent = s.subject;
+                if (subjectWrap) subjectWrap.classList.remove('hidden');
+            } else if (subjectWrap) {
+                subjectWrap.classList.add('hidden');
+            }
+            const memoWrap = document.getElementById('schedule-detail-memo-wrap');
+            if (memoWrap) {
+                if (s.memo) { memoWrap.textContent = s.memo; memoWrap.classList.remove('hidden'); }
+                else { memoWrap.textContent = ''; memoWrap.classList.add('hidden'); }
+            }
+            // ローカルの予定（自分で追加したもの）だけ、編集・削除ボタンを表示する
+            const editBtn = document.getElementById('schedule-detail-edit-btn');
+            const deleteBtn = document.getElementById('schedule-detail-delete-btn');
+            if (editBtn) editBtn.classList.toggle('hidden', !!s.isRemote);
+            if (deleteBtn) deleteBtn.classList.toggle('hidden', !!s.isRemote);
 
             modal.classList.remove('opacity-0', 'pointer-events-none');
             card.classList.remove('scale-95'); card.classList.add('scale-100');
             lockScroll();
             if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeScheduleDetailModal() {
+            const modal = document.getElementById('schedule-detail-modal');
+            const card = document.getElementById('schedule-detail-modal-card');
+            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+            if (card) { card.classList.remove('scale-100'); card.classList.add('scale-95'); }
+            unlockScroll();
+        }
+
+        // 詳細モーダルの「編集」ボタン：ここを押した時だけ編集画面に進む
+        function editFromScheduleDetail() {
+            if (_scheduleDetailCurrentId == null) return;
+            const id = _scheduleDetailCurrentId;
+            closeScheduleDetailModal();
+            openScheduleInputModal(id);
+        }
+
+        // 詳細モーダルの「削除」ボタン
+        function deleteFromScheduleDetail() {
+            if (_scheduleDetailCurrentId == null) return;
+            const id = _scheduleDetailCurrentId;
+            closeScheduleDetailModal();
+            quickDeleteSchedule(id);
         }
 
         function openScheduleInputModal(editId, presetDate) {
@@ -4238,16 +4331,7 @@
             const titleEl = document.getElementById('schedule-input-modal-title');
             const errorEl = document.getElementById('schedule-input-error');
             const deleteBtn = document.getElementById('schedule-delete-btn');
-            const saveBtn = document.getElementById('schedule-save-btn');
             if (errorEl) errorEl.classList.add('hidden');
-
-            // 閲覧専用モードの解除（入力欄を編集可能に戻す）
-            ['schedule-input-title', 'schedule-input-subject', 'schedule-input-date', 'schedule-input-memo'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.disabled = false;
-            });
-            document.querySelectorAll('#schedule-type-btn-test, #schedule-type-btn-submission, #schedule-type-btn-task').forEach(btn => btn.disabled = false);
-            if (saveBtn) saveBtn.classList.remove('hidden');
 
             if (editId) {
                 const s = scheduleItems.find(x => x.id === editId);
