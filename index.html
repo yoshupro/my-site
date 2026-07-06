@@ -417,12 +417,12 @@
 
                         <!-- 週末課題ブース（金・土・日・月のみ表示） -->
                         <div id="weekend-booth-card" class="hidden mb-3 p-4 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white shadow-md">
-                            <div class="flex items-center space-x-1.5 mb-1.5">
+                            <div class="flex items-center space-x-1.5 mb-2">
                                 <i data-lucide="tent" class="w-4 h-4"></i>
                                 <p class="text-[10px] font-black uppercase tracking-widest opacity-90">週末課題ブース</p>
                             </div>
-                            <p class="text-sm font-black" id="weekend-booth-title">-</p>
-                            <p class="text-xs font-semibold opacity-90 mt-1 leading-relaxed" id="weekend-booth-body"></p>
+                            <div id="weekend-booth-list" class="space-y-2"></div>
+                            <p id="weekend-booth-empty-msg" class="hidden text-sm font-black opacity-90">まだ入力されていません</p>
                         </div>
 
                         <!-- 直近の提出物 / 直近のテスト（左右2列） -->
@@ -1951,7 +1951,12 @@
                 </div>
                 <div class="flex items-start space-x-3">
                     <i data-lucide="book" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
-                    <input type="text" id="schedule-input-subject" placeholder="教科（任意）" class="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal">
+                    <div class="w-full flex items-center border-b-2 border-slate-200 dark:border-slate-700 focus-within:border-rose-400">
+                        <input type="text" id="schedule-input-subject" placeholder="教科（任意・手入力もできます）" class="w-full py-2 bg-transparent border-0 text-sm font-bold text-slate-900 dark:text-white focus:outline-none placeholder:text-slate-400 placeholder:font-normal">
+                        <button type="button" onclick="openScheduleSubjectPicker()" title="リストから選ぶ" class="shrink-0 p-1.5 -mr-1.5 text-slate-400 hover:text-rose-500 transition-colors">
+                            <i data-lucide="list" class="w-4 h-4"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="flex items-start space-x-3">
                     <i data-lucide="align-left" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
@@ -2008,6 +2013,19 @@
                     <p id="schedule-detail-memo-wrap" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 whitespace-pre-wrap"></p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- 予定編集モーダル用の教科ピッカー（成績推移と同じ教科リストを使い回す） -->
+    <div id="schedule-subject-picker" class="fixed inset-0 z-[60] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-t-3xl w-full max-w-md max-h-[80vh] flex flex-col shadow-2xl transform translate-y-4 transition-all duration-300" id="schedule-subject-picker-card">
+            <div class="flex items-center justify-between px-5 pt-4 pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                <h4 class="text-sm font-black text-slate-900 dark:text-white">教科を選択</h4>
+                <button onclick="closeScheduleSubjectPicker()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all">
+                    <i data-lucide="x" class="w-4 h-4 text-slate-500"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto scrollbar-none p-4 space-y-4" id="schedule-subject-picker-body"></div>
         </div>
     </div>
     <div id="undo-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 dark:bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl max-w-sm flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans border border-slate-700">
@@ -2829,13 +2847,11 @@
                     });
                 }
                 // ④ 週末課題ブース（金・土・日・月だけ表示する運営からのお知らせ枠）
-                // 複数登録されている場合は、最終更新日時が最も新しいものだけを表示に使う
+                // 全件を新しい順（更新日時が新しいものが先頭）に並べて保持しておく
                 if (Array.isArray(cfg.weekendBoothItems) && cfg.weekendBoothItems.length > 0) {
-                    window._remoteWeekendBooth = cfg.weekendBoothItems.reduce((latest, item) => {
-                        return (!latest || (item.updatedAt || '') > (latest.updatedAt || '')) ? item : latest;
-                    }, null);
+                    window._remoteWeekendBoothItems = [...cfg.weekendBoothItems].sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
                 } else {
-                    window._remoteWeekendBooth = null;
+                    window._remoteWeekendBoothItems = [];
                 }
             } catch (e) {
                 console.warn('config.json の取得に失敗しました（オフラインまたは未配置）:', e);
@@ -4015,15 +4031,22 @@
             if (boothCard) {
                 if (isWeekendZone) {
                     boothCard.classList.remove('hidden');
-                    const booth = window._remoteWeekendBooth;
-                    const titleEl = document.getElementById('weekend-booth-title');
-                    const bodyEl = document.getElementById('weekend-booth-body');
-                    if (booth && (booth.title || booth.body)) {
-                        if (titleEl) titleEl.textContent = booth.title || '週末課題';
-                        if (bodyEl) bodyEl.textContent = booth.body || '';
+                    const items = window._remoteWeekendBoothItems || [];
+                    const listEl = document.getElementById('weekend-booth-list');
+                    const emptyEl = document.getElementById('weekend-booth-empty-msg');
+                    if (items.length === 0) {
+                        if (listEl) listEl.innerHTML = '';
+                        if (emptyEl) emptyEl.classList.remove('hidden');
                     } else {
-                        if (titleEl) titleEl.textContent = 'まだ入力されていません';
-                        if (bodyEl) bodyEl.textContent = '';
+                        if (emptyEl) emptyEl.classList.add('hidden');
+                        if (listEl) {
+                            listEl.innerHTML = items.map(item => `
+                                <div class="bg-white/15 rounded-xl p-2.5">
+                                    ${item.title ? `<p class="text-sm font-black">${escapeHtml(item.title)}</p>` : ''}
+                                    ${item.body ? `<p class="text-xs font-semibold opacity-90 mt-0.5 leading-relaxed whitespace-pre-wrap">${escapeHtml(item.body)}</p>` : ''}
+                                </div>
+                            `).join('');
+                        }
                     }
                 } else {
                     boothCard.classList.add('hidden');
@@ -4095,6 +4118,16 @@
             openScheduleInputModal(null, dateStr);
         }
 
+        // 「+◯件」をタップした時の動作：予定を追加するのではなく、
+        // その日付を選択して下の一覧を見やすく表示する（一覧までスクロールする）。
+        function calSelectDateAndScroll(dateStr) {
+            calSelectDate(dateStr);
+            const listSection = document.getElementById('cal-day-title');
+            if (listSection && listSection.scrollIntoView) {
+                listSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
         function renderCalendarPanel() {
             const label = document.getElementById('cal-month-label');
             if (label) label.textContent = `${calViewYear}年${calViewMonth + 1}月`;
@@ -4152,13 +4185,13 @@
                         const openAttr = s.isRemote
                             ? `openScheduleViewModal('${s.id}')`
                             : `openScheduleViewModal(${s.id})`;
-                        return `<button type="button" onclick="event.stopPropagation(); ${openAttr}" class="block w-full truncate text-left text-[8px] sm:text-[9px] font-bold rounded px-1 py-0.5 mt-0.5 transition-all duration-150 hover:brightness-110 hover:scale-[1.04] hover:shadow-md hover:z-10 relative cursor-pointer" style="background:${bg};color:${textColor};">${escapeHtml(s.title)}</button>`;
+                        return `<button type="button" onclick="event.stopPropagation(); calSelectDate('${c.dateStr}'); ${openAttr}" class="block w-full truncate text-left text-[8px] sm:text-[9px] font-bold rounded px-1 py-0.5 mt-0.5 transition-all duration-150 hover:brightness-110 hover:scale-[1.04] hover:shadow-md hover:z-10 relative cursor-pointer" style="background:${bg};color:${textColor};">${escapeHtml(s.title)}</button>`;
                     }).join('');
                     return `<div data-date="${c.dateStr}" onclick="calCellClick('${c.dateStr}')" style="min-height:64px;cursor:pointer;"
                         class="rounded-lg p-1 flex flex-col items-center justify-start border transition-all hover:border-rose-300 dark:hover:border-rose-700 ${isSelected ? 'ring-2 ring-rose-400' : ''} ${isToday ? 'bg-rose-50 dark:bg-rose-900/20 border-rose-300 dark:border-rose-700' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-800'}">
                         <span class="text-[11px] font-black ${isToday ? 'text-rose-500' : 'text-slate-600 dark:text-slate-300'}">${c.day}</span>
                         <div class="w-full">${chips}</div>
-                        ${dayItems.length > maxChips ? `<span class="text-[8px] text-slate-400 mt-0.5">+${dayItems.length - maxChips}件</span>` : ''}
+                        ${dayItems.length > maxChips ? `<button type="button" onclick="event.stopPropagation(); calSelectDateAndScroll('${c.dateStr}')" class="text-[8px] font-bold text-slate-400 hover:text-rose-500 mt-0.5 underline decoration-dotted transition-colors">+${dayItems.length - maxChips}件</button>` : ''}
                     </div>`;
                 }).join('');
             }
@@ -4339,7 +4372,7 @@
                 titleEl.textContent = '予定を編集';
                 document.getElementById('schedule-edit-id').value = s.id;
                 document.getElementById('schedule-input-title').value = s.title || '';
-                document.getElementById('schedule-input-subject').value = s.subject || '';
+                setScheduleSubjectValue(s.subject || '');
                 document.getElementById('schedule-input-date').value = s.date || '';
                 document.getElementById('schedule-input-memo').value = s.memo || '';
                 scheduleSelectedType = s.type || 'test';
@@ -4348,7 +4381,7 @@
                 titleEl.textContent = '予定を追加';
                 document.getElementById('schedule-edit-id').value = '';
                 document.getElementById('schedule-input-title').value = '';
-                document.getElementById('schedule-input-subject').value = '';
+                setScheduleSubjectValue('');
                 let dateValue;
                 if (presetDate) {
                     dateValue = presetDate;
@@ -10997,6 +11030,62 @@ const TARGET1200 = [
             gradeEntrySheetEditIdx = null;
             const existingIdx = gradeSubjectEntries.findIndex(e => e.key === key);
             gradeOpenEntrySheet(key, existingIdx >= 0 ? existingIdx : null);
+        }
+
+        // ===== 予定モーダル用の教科ピッカー（成績推移と同じ教科リストを使い回す） =====
+        function openScheduleSubjectPicker() {
+            const picker = document.getElementById('schedule-subject-picker');
+            const card = document.getElementById('schedule-subject-picker-card');
+            const body = document.getElementById('schedule-subject-picker-body');
+            if (!picker || !body) return;
+            const currentLabel = document.getElementById('schedule-input-subject').value;
+            body.innerHTML = `
+                <button type="button" onclick="selectScheduleSubjectFromPicker('')"
+                    class="w-full py-2.5 px-3 rounded-xl text-xs font-black transition-all border text-left mb-1"
+                    style="background:${!currentLabel ? '#94a3b822' : 'transparent'};border-color:#94a3b855;color:#64748b;">
+                    指定しない
+                </button>
+            ` + GRADE_SUBJECT_CATEGORIES.map(cat => `
+                <div>
+                    <p class="text-[10px] font-black uppercase tracking-widest mb-1.5" style="color:${cat.color}">${cat.label}</p>
+                    <div class="grid grid-cols-2 gap-2">
+                        ${cat.subjects.map(s => {
+                            const active = s.label === currentLabel;
+                            return `<button type="button" onclick="selectScheduleSubjectFromPicker('${s.label}')"
+                                class="py-2 px-2.5 rounded-xl text-[11px] font-bold transition-all border text-left flex items-center justify-between"
+                                style="background:${active ? cat.color + '22' : 'transparent'};border-color:${cat.color}55;color:${cat.color};">
+                                <span class="truncate">${s.label}</span>
+                                ${active ? '<i data-lucide="check" class="w-3 h-3 shrink-0 ml-1"></i>' : ''}
+                            </button>`;
+                        }).join('')}
+                    </div>
+                </div>
+            `).join('');
+            picker.classList.remove('opacity-0', 'pointer-events-none');
+            if (card) card.classList.remove('translate-y-4');
+            lockScroll();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeScheduleSubjectPicker() {
+            const picker = document.getElementById('schedule-subject-picker');
+            const card = document.getElementById('schedule-subject-picker-card');
+            if (picker) picker.classList.add('opacity-0', 'pointer-events-none');
+            if (card) card.classList.add('translate-y-4');
+            unlockScroll();
+        }
+
+        function selectScheduleSubjectFromPicker(label) {
+            setScheduleSubjectValue(label);
+            closeScheduleSubjectPicker();
+        }
+
+        // 教科の値を設定する（ピッカーの開閉状態には触れない）。
+        // openScheduleInputModal からの初期値設定など、ピッカーを開いていない
+        // 場面でも安全に呼べるようにするため、closeScheduleSubjectPicker（＝unlockScroll）
+        // とは切り離してある。
+        function setScheduleSubjectValue(label) {
+            document.getElementById('schedule-input-subject').value = label;
         }
 
         function gradeEditSubjectEntry(idx) {
