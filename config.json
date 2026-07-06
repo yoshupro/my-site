@@ -2,13 +2,13 @@
   "announcements": [
     {
       "badge": "UPDATE",
-      "badgeColor": "#41e154",
-      "version": "1.1.2",
-      "title": "ターゲット1200を追加しました",
+      "badgeColor": "#3fde94",
+      "version": "1.2.2",
+      "title": "カレンダー機能を追加しました",
       "body": "",
       "link": "",
-      "createdAt": "2026-07-03T10:09:45.616Z",
-      "updatedAt": "2026-07-03T10:09:45.616Z"
+      "createdAt": "2026-07-06T02:14:52.794Z",
+      "updatedAt": "2026-07-06T02:14:52.794Z"
     },
     {
       "badge": "INFO",
