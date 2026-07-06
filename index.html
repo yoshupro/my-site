@@ -433,7 +433,10 @@
                                     <p class="text-[10px] font-black text-indigo-500 uppercase tracking-wider">直近の提出物</p>
                                 </div>
                                 <p class="text-xs font-black text-slate-800 dark:text-slate-100 truncate" id="home-next-submission-title">予定なし</p>
-                                <p class="text-[10px] font-bold text-slate-400 mt-1" id="home-next-submission-date"></p>
+                                <div class="flex items-center justify-between mt-1">
+                                    <p class="text-[10px] font-bold text-slate-400" id="home-next-submission-date"></p>
+                                    <button id="home-next-submission-more" onclick="event.stopPropagation(); openUpcomingTypeListModal('submission')" class="hidden text-[10px] font-bold text-indigo-500 underline decoration-dotted"></button>
+                                </div>
                             </div>
                             <div id="home-next-test" class="p-3.5 rounded-2xl border cursor-pointer transition-all bg-rose-50 dark:bg-rose-900/10 border-rose-200 dark:border-rose-800/50 hover:border-rose-400">
                                 <div class="flex items-center space-x-1.5 mb-1.5">
@@ -441,7 +444,10 @@
                                     <p class="text-[10px] font-black text-rose-500 uppercase tracking-wider">直近のテスト</p>
                                 </div>
                                 <p class="text-xs font-black text-slate-800 dark:text-slate-100 truncate" id="home-next-test-title">予定なし</p>
-                                <p class="text-[10px] font-bold text-slate-400 mt-1" id="home-next-test-date"></p>
+                                <div class="flex items-center justify-between mt-1">
+                                    <p class="text-[10px] font-bold text-slate-400" id="home-next-test-date"></p>
+                                    <button id="home-next-test-more" onclick="event.stopPropagation(); openUpcomingTypeListModal('test')" class="hidden text-[10px] font-bold text-rose-500 underline decoration-dotted"></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2026,6 +2032,19 @@
                 </button>
             </div>
             <div class="overflow-y-auto scrollbar-none p-4 space-y-4" id="schedule-subject-picker-body"></div>
+        </div>
+    </div>
+
+    <!-- ホーム画面「直近の提出物/テスト」で+N件を押した時の一覧モーダル -->
+    <div id="upcoming-type-list-modal" class="fixed inset-0 z-[60] flex items-end justify-center bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-t-3xl w-full max-w-md max-h-[80vh] flex flex-col shadow-2xl transform translate-y-4 transition-all duration-300" id="upcoming-type-list-modal-card">
+            <div class="flex items-center justify-between px-5 pt-4 pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                <h4 class="text-sm font-black text-slate-900 dark:text-white" id="upcoming-type-list-title">一覧</h4>
+                <button onclick="closeUpcomingTypeListModal()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-all">
+                    <i data-lucide="x" class="w-4 h-4 text-slate-500"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto scrollbar-none p-4 space-y-2" id="upcoming-type-list-body"></div>
         </div>
     </div>
     <div id="undo-toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 dark:bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl max-w-sm flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans border border-slate-700">
@@ -4056,23 +4075,27 @@
             // ----- 直近の提出物 / 直近のテスト（左右2列） -----
             const nextSubmission = upcoming.find(s => s.type === 'submission');
             const nextTest = upcoming.find(s => s.type === 'test');
-            renderHomeNextCard('submission', nextSubmission);
-            renderHomeNextCard('test', nextTest);
+            const submissionCount = upcoming.filter(s => s.type === 'submission').length;
+            const testCount = upcoming.filter(s => s.type === 'test').length;
+            renderHomeNextCard('submission', nextSubmission, submissionCount);
+            renderHomeNextCard('test', nextTest, testCount);
 
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         // 「直近の提出物」「直近のテスト」カード1枠分の中身とクリック動作を設定する
-        function renderHomeNextCard(type, item) {
+        function renderHomeNextCard(type, item, totalCount) {
             const wrap = document.getElementById('home-next-' + type);
             const titleEl = document.getElementById('home-next-' + type + '-title');
             const dateEl = document.getElementById('home-next-' + type + '-date');
+            const moreBtn = document.getElementById('home-next-' + type + '-more');
             if (!wrap || !titleEl || !dateEl) return;
             if (!item) {
                 titleEl.textContent = '予定なし';
                 dateEl.textContent = '';
                 wrap.onclick = null;
                 wrap.style.cursor = 'default';
+                if (moreBtn) moreBtn.classList.add('hidden');
                 return;
             }
             const d = daysUntil(item.date);
@@ -4081,6 +4104,52 @@
             dateEl.textContent = `${item.date}${dLabel ? ' ・ ' + dLabel : ''}`;
             wrap.style.cursor = 'pointer';
             wrap.onclick = () => openScheduleViewModal(item.id);
+            // 他にも同じ種類の予定がある場合は「+◯件」を表示し、押すと一覧が見られるようにする
+            if (moreBtn) {
+                const restCount = (totalCount || 1) - 1;
+                if (restCount > 0) {
+                    moreBtn.textContent = `+${restCount}件`;
+                    moreBtn.classList.remove('hidden');
+                } else {
+                    moreBtn.classList.add('hidden');
+                }
+            }
+        }
+
+        // ホーム画面の「+◯件」を押した時に、その種類の予定を全件一覧で見せる
+        function openUpcomingTypeListModal(type) {
+            const modal = document.getElementById('upcoming-type-list-modal');
+            const card = document.getElementById('upcoming-type-list-modal-card');
+            const titleEl = document.getElementById('upcoming-type-list-title');
+            const bodyEl = document.getElementById('upcoming-type-list-body');
+            if (!modal || !card || !bodyEl) return;
+            const typeInfo = SCHEDULE_TYPE_INFO[type] || SCHEDULE_TYPE_INFO.test;
+            const items = getUpcomingSchedules().filter(s => s.type === type);
+            if (titleEl) titleEl.textContent = `今後の${typeInfo.label}一覧`;
+            bodyEl.innerHTML = items.map(s => {
+                const d = daysUntil(s.date);
+                const dLabel = d === 0 ? '今日' : (d === 1 ? '明日' : (d > 0 ? `${d}日後` : ''));
+                const openCall = s.isRemote ? `openScheduleViewModal('${s.id}')` : `openScheduleViewModal(${s.id})`;
+                return `<div onclick="closeUpcomingTypeListModal(); ${openCall}" class="flex items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 transition-all cursor-pointer">
+                    <div class="min-w-0">
+                        <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate">${escapeHtml(s.title)}</p>
+                        <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${escapeHtml(s.subject || typeInfo.label)} ・ ${escapeHtml(s.date)}</p>
+                    </div>
+                    <span class="text-[11px] font-black px-2 py-1 rounded-full shrink-0" style="background:${typeInfo.color}18;color:${typeInfo.color}">${dLabel}</span>
+                </div>`;
+            }).join('');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('translate-y-4');
+            lockScroll();
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function closeUpcomingTypeListModal() {
+            const modal = document.getElementById('upcoming-type-list-modal');
+            const card = document.getElementById('upcoming-type-list-modal-card');
+            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
+            if (card) card.classList.add('translate-y-4');
+            unlockScroll();
         }
 
         // ===== カレンダー画面（Googleカレンダー風の月表示） =====
