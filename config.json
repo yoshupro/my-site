@@ -99,6 +99,22 @@
       "subject": "国語",
       "date": "2026-07-06",
       "memo": "【範囲】16・17"
+    },
+    {
+      "id": 1783385041600,
+      "type": "submission",
+      "title": "NEWSBREAKS",
+      "subject": "英語",
+      "date": "2026-09-14",
+      "memo": "Chapter７"
+    },
+    {
+      "id": 1783385069101,
+      "type": "test",
+      "title": "NEWSBREAKS",
+      "subject": "英語",
+      "date": "2026-09-24",
+      "memo": "Chapter８,９"
     }
   ],
   "extraSections": [
