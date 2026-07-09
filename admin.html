@@ -98,6 +98,9 @@
     padding:7px 14px;border-radius:999px;border:1.5px solid var(--border);
     font-size:11px;font-weight:800;cursor:pointer;color:var(--sub);background:none;
   }
+  .pill.pill-active{
+    border-color:#a855f7;background:#a855f722;color:#a855f7;
+  }
 
   #save-bar{
     position:fixed;bottom:0;left:0;right:0;background:var(--panel);border-top:1px solid var(--border);
@@ -173,18 +176,30 @@
 
     <section class="panel">
       <h2><i data-lucide="calendar-clock"></i>テスト・提出物の予定（全体配信）</h2>
-      <p class="desc">ここで追加した予定は、全ユーザーのHOME画面・カレンダーに「学校全体」予定として自動表示されます。</p>
+      <p class="desc">ここで追加した予定は、全ユーザーのHOME画面・カレンダーに「学校全体」予定として自動表示されます。日付をクリックしても予定を追加できます。</p>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button class="icon-btn" onclick="adminCalShiftMonth(-1)" title="前の月"><i data-lucide="chevron-left" style="width:14px;height:14px;"></i></button>
+          <span id="admin-cal-month-label" style="font-size:12px;font-weight:900;min-width:80px;text-align:center;"></span>
+          <button class="icon-btn" onclick="adminCalShiftMonth(1)" title="次の月"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i></button>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="adminCalGoToday()">今月</button>
+      </div>
+      <div id="admin-cal-weekday-header" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;"></div>
+      <div id="admin-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;"></div>
+
       <div id="schedule-list"></div>
       <p id="schedule-empty" class="empty-msg hidden">予定はまだありません</p>
       <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addSchedule()">＋ 予定を追加</button>
     </section>
 
     <section class="panel">
-      <h2><i data-lucide="tent"></i>週末課題ブース</h2>
-      <p class="desc">金・土・日・月の間だけ、全ユーザーのHOME画面上部に表示される特別なお知らせ枠です。一番新しく追加した1件が表示されます。何も追加されていない場合は「まだ入力されていません」とユーザー側に表示されます。</p>
+      <h2><i data-lucide="tent"></i>カスタムブース</h2>
+      <p class="desc">指定した曜日の間だけ、全ユーザーのHOME画面上部に表示される特別なお知らせ枠です（週末課題ブースなど、曜日を自由に設定できます）。同じ曜日に該当するものが複数ある場合、一番新しいものが表示され、残りは「他を見る」から展開できます。何も追加されていない場合は「まだ入力されていません」とユーザー側に表示されます。</p>
       <div id="weekendbooth-list"></div>
-      <p id="weekendbooth-empty" class="empty-msg hidden">週末課題はまだ追加されていません</p>
-      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addWeekendBooth()">＋ 週末課題を追加</button>
+      <p id="weekendbooth-empty" class="empty-msg hidden">カスタムブースはまだ追加されていません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addWeekendBooth()">＋ カスタムブースを追加</button>
     </section>
 
     <section class="panel">
@@ -237,8 +252,21 @@
 
 <div id="weekendbooth-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:380px;">
-    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">週末課題を編集</h3>
-    <p class="desc" style="margin-bottom:14px;">タイトル・本文はどちらも任意です。</p>
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">カスタムブースを編集</h3>
+    <p class="desc" style="margin-bottom:14px;">タイトル・本文はどちらも任意です。表示する曜日を選んでください（複数選択可）。</p>
+    <div class="field">
+      <label>表示する曜日</label>
+      <div class="pill-select" style="flex-wrap:wrap;">
+        <button type="button" class="pill wb-day-pill" data-day="0" onclick="toggleWeekendBoothDay(0)">日</button>
+        <button type="button" class="pill wb-day-pill" data-day="1" onclick="toggleWeekendBoothDay(1)">月</button>
+        <button type="button" class="pill wb-day-pill" data-day="2" onclick="toggleWeekendBoothDay(2)">火</button>
+        <button type="button" class="pill wb-day-pill" data-day="3" onclick="toggleWeekendBoothDay(3)">水</button>
+        <button type="button" class="pill wb-day-pill" data-day="4" onclick="toggleWeekendBoothDay(4)">木</button>
+        <button type="button" class="pill wb-day-pill" data-day="5" onclick="toggleWeekendBoothDay(5)">金</button>
+        <button type="button" class="pill wb-day-pill" data-day="6" onclick="toggleWeekendBoothDay(6)">土</button>
+      </div>
+      <button type="button" class="btn btn-secondary btn-sm" style="margin-top:6px;" onclick="setWeekendBoothWeekendPreset()">「週末（金土日月）」を選択</button>
+    </div>
     <div class="field"><label>タイトル（任意）</label><input type="text" id="wb-title" placeholder="例：週末課題のお知らせ"></div>
     <div class="field"><label>本文（任意）</label><textarea id="wb-body" placeholder="例：英語ワークP.20-25を月曜提出"></textarea></div>
     <div class="row2" style="margin-top:16px;">
@@ -488,6 +516,7 @@ function updatePreview() {
 function renderAll() {
   renderAnnouncements();
   renderSchedules();
+  renderAdminCalendar();
   renderSections();
   renderWeekendBooth();
   updatePreview();
@@ -683,13 +712,86 @@ function removeAnnouncement(idx) {
   markDirty();
 }
 
+// ===== 予定セクション用のミニカレンダー =====
+let adminCalYear = new Date().getFullYear();
+let adminCalMonth = new Date().getMonth(); // 0-11
+const SCH_TYPE_COLOR = { test: '#f43f5e', submission: '#6366f1' };
+
+function adminCalShiftMonth(delta) {
+  adminCalMonth += delta;
+  if (adminCalMonth < 0) { adminCalMonth = 11; adminCalYear--; }
+  if (adminCalMonth > 11) { adminCalMonth = 0; adminCalYear++; }
+  renderAdminCalendar();
+}
+function adminCalGoToday() {
+  const t = new Date();
+  adminCalYear = t.getFullYear();
+  adminCalMonth = t.getMonth();
+  renderAdminCalendar();
+}
+function adminCalCellClick(dateStr) {
+  addSchedule(dateStr);
+}
+
+function renderAdminCalendar() {
+  const label = document.getElementById('admin-cal-month-label');
+  if (label) label.textContent = `${adminCalYear}年${adminCalMonth + 1}月`;
+
+  const wdHeader = document.getElementById('admin-cal-weekday-header');
+  if (wdHeader) {
+    const wdNames = ['日','月','火','水','木','金','土'];
+    wdHeader.innerHTML = wdNames.map((w, i) =>
+      `<div style="text-align:center;font-size:10px;font-weight:900;padding:2px 0;color:${i===0?'#f43f5e':i===6?'#6366f1':'var(--sub)'};">${w}</div>`
+    ).join('');
+  }
+
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const firstDay = new Date(Date.UTC(adminCalYear, adminCalMonth, 1));
+  const startWeekday = firstDay.getUTCDay();
+  const daysInMonth = new Date(Date.UTC(adminCalYear, adminCalMonth + 1, 0)).getUTCDate();
+  const daysInPrevMonth = new Date(Date.UTC(adminCalYear, adminCalMonth, 0)).getUTCDate();
+
+  const cells = [];
+  for (let i = 0; i < startWeekday; i++) {
+    cells.push({ day: daysInPrevMonth - startWeekday + i + 1, inMonth: false, dateStr: null });
+  }
+  for (let d = 1; d <= daysInMonth; d++) {
+    const mm = String(adminCalMonth + 1).padStart(2, '0');
+    const dd = String(d).padStart(2, '0');
+    cells.push({ day: d, inMonth: true, dateStr: `${adminCalYear}-${mm}-${dd}` });
+  }
+  let nextDay = 1;
+  while (cells.length % 7 !== 0) cells.push({ day: nextDay++, inMonth: false, dateStr: null });
+
+  const grid = document.getElementById('admin-cal-grid');
+  if (!grid) return;
+  const schedules = configData.globalSchedules || [];
+  grid.innerHTML = cells.map(c => {
+    if (!c.inMonth) {
+      return `<div style="min-height:52px;padding:4px;font-size:10px;color:var(--border);">${c.day}</div>`;
+    }
+    const dayItems = schedules.filter(s => s.date === c.dateStr);
+    const isToday = c.dateStr === todayStr;
+    const chips = dayItems.slice(0, 2).map(s => {
+      const color = SCH_TYPE_COLOR[s.type] || SCH_TYPE_COLOR.test;
+      return `<span onclick="event.stopPropagation(); editSchedule(${schedules.indexOf(s)})" style="display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:8px;font-weight:700;color:#fff;background:${color};border-radius:4px;padding:1px 3px;margin-top:2px;cursor:pointer;">${esc(s.title)}</span>`;
+    }).join('');
+    const moreLabel = dayItems.length > 2 ? `<span style="font-size:8px;color:var(--sub);">+${dayItems.length - 2}件</span>` : '';
+    return `<div onclick="adminCalCellClick('${c.dateStr}')" style="min-height:52px;padding:4px;border-radius:8px;border:1px solid ${isToday ? '#f43f5e' : 'var(--border)'};background:${isToday ? '#f43f5e11' : 'transparent'};cursor:pointer;">
+      <span style="font-size:10px;font-weight:900;color:${isToday ? '#f43f5e' : 'var(--fg)'};">${c.day}</span>
+      ${chips}
+      ${moreLabel}
+    </div>`;
+  }).join('');
+}
+
 let schEditIdx = null;
 let schSelectedType = 'test';
-function addSchedule() { openScheduleModal(null); }
+function addSchedule(presetDate) { openScheduleModal(null, presetDate); }
 function editSchedule(idx) { openScheduleModal(idx); }
-function openScheduleModal(idx) {
+function openScheduleModal(idx, presetDate) {
   schEditIdx = idx;
-  const s = idx != null ? configData.globalSchedules[idx] : { type: 'test', title: '', subject: '', date: '', memo: '' };
+  const s = idx != null ? configData.globalSchedules[idx] : { type: 'test', title: '', subject: '', date: presetDate || '', memo: '' };
   document.getElementById('sch-title').value = s.title || '';
   document.getElementById('sch-subject').value = s.subject || '';
   document.getElementById('sch-date').value = s.date || '';
@@ -753,32 +855,59 @@ function confirmSchedule() {
   }
   closeScheduleModal();
   renderSchedules();
+  renderAdminCalendar();
   markDirty();
 }
 function removeSchedule(idx) {
   if (!confirm('この予定を削除しますか？')) return;
   configData.globalSchedules.splice(idx, 1);
   renderSchedules();
+  renderAdminCalendar();
   markDirty();
 }
 
 let wbEditIdx = null;
+let wbSelectedDays = [];
+const WB_DAY_LABELS = ['日','月','火','水','木','金','土'];
+
+function toggleWeekendBoothDay(day) {
+  const idx = wbSelectedDays.indexOf(day);
+  if (idx >= 0) wbSelectedDays.splice(idx, 1);
+  else wbSelectedDays.push(day);
+  renderWeekendBoothDayPills();
+}
+function setWeekendBoothWeekendPreset() {
+  wbSelectedDays = [5, 6, 0, 1]; // 金・土・日・月
+  renderWeekendBoothDayPills();
+}
+function renderWeekendBoothDayPills() {
+  document.querySelectorAll('.wb-day-pill').forEach(btn => {
+    const day = parseInt(btn.dataset.day, 10);
+    const active = wbSelectedDays.includes(day);
+    btn.classList.toggle('pill-active', active);
+  });
+}
+
 function addWeekendBooth() { openWeekendBoothModal(null); }
 function editWeekendBooth(idx) { openWeekendBoothModal(idx); }
 function openWeekendBoothModal(idx) {
   wbEditIdx = idx;
-  const item = idx != null ? configData.weekendBoothItems[idx] : { title: '', body: '' };
+  const item = idx != null ? configData.weekendBoothItems[idx] : { title: '', body: '', days: [] };
   document.getElementById('wb-title').value = item.title || '';
   document.getElementById('wb-body').value = item.body || '';
+  wbSelectedDays = Array.isArray(item.days) ? [...item.days] : [];
+  renderWeekendBoothDayPills();
   document.getElementById('weekendbooth-modal').classList.remove('hidden');
 }
 function closeWeekendBoothModal() {
   document.getElementById('weekendbooth-modal').classList.add('hidden');
 }
 function confirmWeekendBooth() {
+  if (wbSelectedDays.length === 0) { showToast('表示する曜日を1つ以上選んでください'); return; }
   const entry = {
     title: document.getElementById('wb-title').value.trim(),
     body: document.getElementById('wb-body').value.trim(),
+    days: [...wbSelectedDays].sort((a, b) => a - b),
     createdAt: (wbEditIdx != null && configData.weekendBoothItems[wbEditIdx].createdAt) || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -789,7 +918,7 @@ function confirmWeekendBooth() {
   markDirty();
 }
 function removeWeekendBooth(idx) {
-  if (!confirm('この週末課題を削除しますか？')) return;
+  if (!confirm('このカスタムブースを削除しますか？')) return;
   configData.weekendBoothItems.splice(idx, 1);
   renderWeekendBooth();
   markDirty();
@@ -810,12 +939,17 @@ function renderWeekendBooth() {
   list.forEach((item, i) => {
     if ((item.updatedAt || '') > (list[latestIdx].updatedAt || '')) latestIdx = i;
   });
-  wrap.innerHTML = list.map((item, idx) => `
+  wrap.innerHTML = list.map((item, idx) => {
+    const days = Array.isArray(item.days) ? item.days : [5, 6, 0, 1];
+    const isWeekendPreset = days.length === 4 && [0,1,5,6].every(d => days.includes(d));
+    const daysLabel = isWeekendPreset ? '週末（金土日月）' : days.slice().sort((a,b)=>a-b).map(d => WB_DAY_LABELS[d]).join('・');
+    return `
     <div class="item-card">
       <div class="item-head">
         <div>
           ${idx === latestIdx ? `<span style="font-size:9px;font-weight:900;padding:2px 7px;border-radius:999px;color:#fff;background:#a855f7;">表示中</span>` : ''}
           <span class="item-title" style="margin-left:${idx===latestIdx?'6px':'0'};">${esc(item.title||'(無題)')}</span>
+          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;color:#7c3aed;background:#7c3aed18;margin-left:6px;">${esc(daysLabel)}</span>
           <p class="item-sub">${formatDateTime(item.createdAt) ? formatDateTime(item.createdAt) + ' 追加 ・ ' : ''}${esc((item.body||'').slice(0,60))}${(item.body||'').length>60?'…':''}</p>
         </div>
         <div class="item-actions">
@@ -824,7 +958,8 @@ function renderWeekendBooth() {
         </div>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
   if (typeof lucide !== "undefined") lucide.createIcons();
 }
 

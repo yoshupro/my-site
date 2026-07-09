@@ -421,8 +421,13 @@
                                 <i data-lucide="tent" class="w-4 h-4"></i>
                                 <p class="text-[10px] font-black uppercase tracking-widest opacity-90">週末課題ブース</p>
                             </div>
-                            <div id="weekend-booth-list" class="space-y-2"></div>
+                            <div id="weekend-booth-latest" class="bg-white/15 rounded-xl p-2.5"></div>
                             <p id="weekend-booth-empty-msg" class="hidden text-sm font-black opacity-90">まだ入力されていません</p>
+                            <button id="weekend-booth-toggle-btn" onclick="toggleWeekendBoothExpand()" class="hidden w-full flex items-center justify-center space-x-1 mt-2 py-1.5 text-[11px] font-bold opacity-90 hover:opacity-100 transition-opacity">
+                                <span id="weekend-booth-toggle-label">他の週末課題を見る</span>
+                                <i data-lucide="chevron-down" id="weekend-booth-toggle-icon" class="w-3.5 h-3.5 transition-transform"></i>
+                            </button>
+                            <div id="weekend-booth-rest" class="hidden space-y-2 mt-2"></div>
                         </div>
 
                         <!-- 直近の提出物 / 直近のテスト（左右2列） -->
@@ -4040,32 +4045,57 @@
             return getAllSchedules().filter(s => s.date >= todayStr);
         }
 
+        // 週末課題ブースの「他の週末課題を見る」展開/折りたたみ
+        function toggleWeekendBoothExpand() {
+            const restEl = document.getElementById('weekend-booth-rest');
+            const icon = document.getElementById('weekend-booth-toggle-icon');
+            if (!restEl) return;
+            const willExpand = restEl.classList.contains('hidden');
+            restEl.classList.toggle('hidden', !willExpand);
+            if (icon) icon.style.transform = willExpand ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+
         function renderScheduleSection() {
             const upcoming = getUpcomingSchedules();
 
-            // ----- 週末課題ブース（金・土・日・月のみ表示） -----
+            // ----- カスタムブース（各アイテムに設定された曜日にだけ表示） -----
             const boothCard = document.getElementById('weekend-booth-card');
             const dow = getJSTDayOfWeek(); // 0=日,1=月,...,6=土
-            const isWeekendZone = (dow === 5 || dow === 6 || dow === 0 || dow === 1); // 金土日月
+            // 今日の曜日が対象に含まれているものだけを抽出（daysが無い古いデータは金土日月扱いにする）
+            const allBoothItems = window._remoteWeekendBoothItems || [];
+            const items = allBoothItems.filter(item => {
+                const days = Array.isArray(item.days) ? item.days : [5, 6, 0, 1];
+                return days.includes(dow);
+            });
             if (boothCard) {
-                if (isWeekendZone) {
+                if (items.length > 0) {
                     boothCard.classList.remove('hidden');
-                    const items = window._remoteWeekendBoothItems || [];
-                    const listEl = document.getElementById('weekend-booth-list');
+                    const latestEl = document.getElementById('weekend-booth-latest');
                     const emptyEl = document.getElementById('weekend-booth-empty-msg');
-                    if (items.length === 0) {
-                        if (listEl) listEl.innerHTML = '';
-                        if (emptyEl) emptyEl.classList.remove('hidden');
-                    } else {
-                        if (emptyEl) emptyEl.classList.add('hidden');
-                        if (listEl) {
-                            listEl.innerHTML = items.map(item => `
-                                <div class="bg-white/15 rounded-xl p-2.5">
-                                    ${item.title ? `<p class="text-sm font-black">${escapeHtml(item.title)}</p>` : ''}
-                                    ${item.body ? `<p class="text-xs font-semibold opacity-90 mt-0.5 leading-relaxed whitespace-pre-wrap">${escapeHtml(item.body)}</p>` : ''}
-                                </div>
-                            `).join('');
+                    const toggleBtn = document.getElementById('weekend-booth-toggle-btn');
+                    const restEl = document.getElementById('weekend-booth-rest');
+                    const toggleLabel = document.getElementById('weekend-booth-toggle-label');
+                    const toggleIcon = document.getElementById('weekend-booth-toggle-icon');
+                    const boothItemHtml = item => `
+                        ${item.title ? `<p class="text-sm font-black">${escapeHtml(item.title)}</p>` : ''}
+                        ${item.body ? `<p class="text-xs font-semibold opacity-90 mt-0.5 leading-relaxed whitespace-pre-wrap">${escapeHtml(item.body)}</p>` : ''}
+                    `;
+                    if (emptyEl) emptyEl.classList.add('hidden');
+                    if (latestEl) { latestEl.classList.remove('hidden'); latestEl.innerHTML = boothItemHtml(items[0]); }
+                    const restItems = items.slice(1);
+                    if (restItems.length > 0) {
+                        if (toggleBtn) {
+                            toggleBtn.classList.remove('hidden');
+                            if (toggleLabel) toggleLabel.textContent = `他のブースを見る（${restItems.length}件）`;
                         }
+                        if (restEl) {
+                            restEl.innerHTML = restItems.map(item => `<div class="bg-white/15 rounded-xl p-2.5">${boothItemHtml(item)}</div>`).join('');
+                            restEl.classList.add('hidden'); // 展開ボタンを押すまでは閉じておく
+                        }
+                        if (toggleIcon) toggleIcon.style.transform = 'rotate(0deg)';
+                    } else {
+                        if (toggleBtn) toggleBtn.classList.add('hidden');
+                        if (restEl) { restEl.classList.add('hidden'); restEl.innerHTML = ''; }
                     }
                 } else {
                     boothCard.classList.add('hidden');
@@ -4075,16 +4105,14 @@
             // ----- 直近の提出物 / 直近のテスト（左右2列） -----
             const nextSubmission = upcoming.find(s => s.type === 'submission');
             const nextTest = upcoming.find(s => s.type === 'test');
-            const submissionCount = upcoming.filter(s => s.type === 'submission').length;
-            const testCount = upcoming.filter(s => s.type === 'test').length;
-            renderHomeNextCard('submission', nextSubmission, submissionCount);
-            renderHomeNextCard('test', nextTest, testCount);
+            renderHomeNextCard('submission', nextSubmission, upcoming);
+            renderHomeNextCard('test', nextTest, upcoming);
 
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         // 「直近の提出物」「直近のテスト」カード1枠分の中身とクリック動作を設定する
-        function renderHomeNextCard(type, item, totalCount) {
+        function renderHomeNextCard(type, item, allUpcoming) {
             const wrap = document.getElementById('home-next-' + type);
             const titleEl = document.getElementById('home-next-' + type + '-title');
             const dateEl = document.getElementById('home-next-' + type + '-date');
@@ -4104,11 +4132,15 @@
             dateEl.textContent = `${item.date}${dLabel ? ' ・ ' + dLabel : ''}`;
             wrap.style.cursor = 'pointer';
             wrap.onclick = () => openScheduleViewModal(item.id);
-            // 他にも同じ種類の予定がある場合は「+◯件」を表示し、押すと一覧が見られるようにする
+            // 同じ日に他の予定（種類を問わず）もある場合だけ「+◯件」を表示し、
+            // 押すとその日の予定が全件一覧で見られるようにする
             if (moreBtn) {
-                const restCount = (totalCount || 1) - 1;
+                const sameDayCount = (allUpcoming || []).filter(s => s.date === item.date).length;
+                const restCount = sameDayCount - 1;
                 if (restCount > 0) {
                     moreBtn.textContent = `+${restCount}件`;
+                    moreBtn.dataset.date = item.date;
+                    moreBtn.setAttribute('onclick', `event.stopPropagation(); openDayScheduleListModal('${item.date}')`);
                     moreBtn.classList.remove('hidden');
                 } else {
                     moreBtn.classList.add('hidden');
@@ -4116,26 +4148,28 @@
             }
         }
 
-        // ホーム画面の「+◯件」を押した時に、その種類の予定を全件一覧で見せる
-        function openUpcomingTypeListModal(type) {
+        // 「+◯件」を押した時に、指定した日付の予定を種類問わず全件一覧で見せる
+        function openDayScheduleListModal(dateStr) {
             const modal = document.getElementById('upcoming-type-list-modal');
             const card = document.getElementById('upcoming-type-list-modal-card');
             const titleEl = document.getElementById('upcoming-type-list-title');
             const bodyEl = document.getElementById('upcoming-type-list-body');
             if (!modal || !card || !bodyEl) return;
-            const typeInfo = SCHEDULE_TYPE_INFO[type] || SCHEDULE_TYPE_INFO.test;
-            const items = getUpcomingSchedules().filter(s => s.type === type);
-            if (titleEl) titleEl.textContent = `今後の${typeInfo.label}一覧`;
+            const items = getAllSchedules().filter(s => s.date === dateStr);
+            if (titleEl) titleEl.textContent = `${dateStr.replace(/-/g, '/')} の予定`;
             bodyEl.innerHTML = items.map(s => {
-                const d = daysUntil(s.date);
-                const dLabel = d === 0 ? '今日' : (d === 1 ? '明日' : (d > 0 ? `${d}日後` : ''));
+                const typeInfo = SCHEDULE_TYPE_INFO[s.type] || SCHEDULE_TYPE_INFO.test;
                 const openCall = s.isRemote ? `openScheduleViewModal('${s.id}')` : `openScheduleViewModal(${s.id})`;
                 return `<div onclick="closeUpcomingTypeListModal(); ${openCall}" class="flex items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 transition-all cursor-pointer">
-                    <div class="min-w-0">
-                        <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate">${escapeHtml(s.title)}</p>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${escapeHtml(s.subject || typeInfo.label)} ・ ${escapeHtml(s.date)}</p>
+                    <div class="flex items-center space-x-2.5 min-w-0">
+                        <div class="w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0" style="background:${typeInfo.color}">
+                            <i data-lucide="${typeInfo.icon}" class="w-3.5 h-3.5"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate">${escapeHtml(s.title)}</p>
+                            <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${escapeHtml(s.subject || typeInfo.label)}</p>
+                        </div>
                     </div>
-                    <span class="text-[11px] font-black px-2 py-1 rounded-full shrink-0" style="background:${typeInfo.color}18;color:${typeInfo.color}">${dLabel}</span>
                 </div>`;
             }).join('');
             modal.classList.remove('opacity-0', 'pointer-events-none');
