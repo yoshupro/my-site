@@ -306,7 +306,26 @@
                         </div>
                     </div>
 
-                    <!-- 手動テーマ切り替えボタン -->
+                    <!-- アカウント表示・ログアウトメニュー -->
+                    <div class="relative">
+                        <button onclick="toggleAccountMenu()" id="account-menu-btn" class="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group transition-colors" title="アカウント">
+                            <i data-lucide="user" class="w-5 h-5 text-blue-500 dark:text-cyan-400"></i>
+                        </button>
+                        <div id="account-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl py-1.5 z-40">
+                            <div class="px-3.5 py-2.5 border-b border-slate-100 dark:border-slate-800">
+                                <p id="account-menu-name" class="text-xs font-black text-slate-800 dark:text-slate-100 truncate">ゲスト</p>
+                                <p id="account-menu-type" class="text-[10px] font-bold text-slate-400 mt-0.5">ログインせずに利用中</p>
+                            </div>
+                            <button id="account-menu-link-google" onclick="closeAccountMenu(); AppAuthUI.loginWith('google')" class="hidden w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                                <i data-lucide="link" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
+                                <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Googleアカウントと連携する</span>
+                            </button>
+                            <button onclick="closeAccountMenu(); AppAuthUI.logout()" class="w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                                <i data-lucide="log-out" class="w-4 h-4 text-rose-500 shrink-0"></i>
+                                <span class="text-xs font-bold text-slate-700 dark:text-slate-200">ログアウト</span>
+                            </button>
+                        </div>
+                    </div>
                     <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex items-center justify-center group transition-colors" title="テーマを切り替える">
                         <span id="theme-toggle-icon-container" class="flex items-center justify-center">
                             <i data-lucide="sun" class="w-5 h-5 text-cyan-400 hidden dark:block"></i>
@@ -2274,6 +2293,13 @@
                         errEl.classList.remove('hidden');
                     }
                 }
+            },
+            async logout() {
+                try {
+                    await window.AppFirebase.logout();
+                } catch (e) {
+                    console.error('logout error', e);
+                }
             }
         };
         window.AppAuthUI = AppAuthUI;
@@ -2287,6 +2313,7 @@
         window.addEventListener('app-auth-changed', (e) => {
             const user = e.detail.user;
             window.currentAppUser = user;
+            if (typeof updateAccountMenuDisplay === 'function') { updateAccountMenuDisplay(user); }
             if (!user) {
                 // 未ログイン：ログイン/ゲスト選択を表示
                 showAuthGate(true);
@@ -3395,6 +3422,38 @@
             if (menu) menu.classList.add('hidden');
         }
 
+        // アカウントメニュー（ログイン状態表示・連携・ログアウト）の開閉
+        function toggleAccountMenu() {
+            const menu = document.getElementById('account-menu');
+            if (!menu) return;
+            menu.classList.toggle('hidden');
+        }
+        function closeAccountMenu() {
+            const menu = document.getElementById('account-menu');
+            if (menu) menu.classList.add('hidden');
+        }
+        function updateAccountMenuDisplay(user) {
+            const nameEl = document.getElementById('account-menu-name');
+            const typeEl = document.getElementById('account-menu-type');
+            const linkGoogleBtn = document.getElementById('account-menu-link-google');
+            if (!nameEl || !typeEl) return;
+            if (!user) {
+                nameEl.textContent = '未ログイン';
+                typeEl.textContent = '';
+                if (linkGoogleBtn) linkGoogleBtn.classList.add('hidden');
+                return;
+            }
+            if (user.isAnonymous) {
+                nameEl.textContent = 'ゲスト';
+                typeEl.textContent = 'ログインせずに利用中';
+                if (linkGoogleBtn) linkGoogleBtn.classList.remove('hidden');
+            } else {
+                nameEl.textContent = user.displayName || (user.email || 'ログイン中');
+                typeEl.textContent = 'ログイン中';
+                if (linkGoogleBtn) linkGoogleBtn.classList.add('hidden');
+            }
+        }
+
         // 目次メニュー（①〜⑤の各セクションへのショートカット）の開閉
         function toggleSectionNavMenu() {
             const menu = document.getElementById('section-nav-menu');
@@ -3421,6 +3480,13 @@
             if (sMenu && !sMenu.classList.contains('hidden')) {
                 if (!sMenu.contains(e.target) && !(sBtn && sBtn.contains(e.target))) {
                     sMenu.classList.add('hidden');
+                }
+            }
+            const aMenu = document.getElementById('account-menu');
+            const aBtn = document.getElementById('account-menu-btn');
+            if (aMenu && !aMenu.classList.contains('hidden')) {
+                if (!aMenu.contains(e.target) && !(aBtn && aBtn.contains(e.target))) {
+                    aMenu.classList.add('hidden');
                 }
             }
         });
