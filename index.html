@@ -4434,11 +4434,15 @@
             // ----- カスタムブース（各アイテムに設定された曜日にだけ表示） -----
             const boothCard = document.getElementById('weekend-booth-card');
             const dow = getJSTDayOfWeek(); // 0=日,1=月,...,6=土
-            // 今日の曜日が対象に含まれているものだけを抽出（daysが無い古いデータは金土日月扱いにする）
+            // 今日の曜日が対象に含まれ、かつ「対象クラス」が未設定 or 自分の参加クラスと一致するものだけを抽出
+            // （daysが無い古いデータは金土日月扱いにする）
+            const myClassId = window.currentUserClassId || null;
             const allBoothItems = window._remoteWeekendBoothItems || [];
             const items = allBoothItems.filter(item => {
                 const days = Array.isArray(item.days) ? item.days : [5, 6, 0, 1];
-                return days.includes(dow);
+                if (!days.includes(dow)) return false;
+                if (item.classId && item.classId !== myClassId) return false;
+                return true;
             });
             if (boothCard) {
                 if (items.length > 0) {

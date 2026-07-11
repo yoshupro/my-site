@@ -291,6 +291,7 @@
     </div>
     <div class="field"><label>タイトル（任意）</label><input type="text" id="wb-title" placeholder="例：週末課題のお知らせ"></div>
     <div class="field"><label>本文（任意）</label><textarea id="wb-body" placeholder="例：英語ワークP.20-25を月曜提出"></textarea></div>
+    <div class="field"><label>対象クラス（未選択なら全員に表示）</label><select id="wb-class"></select></div>
     <div class="row2" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="closeWeekendBoothModal()">キャンセル</button>
       <button class="btn btn-primary" onclick="confirmWeekendBooth()">反映する</button>
@@ -878,11 +879,13 @@ function removeClass(idx) {
   markDirty();
 }
 function populateScheduleClassOptions() {
-  const sel = document.getElementById('sch-class');
-  if (!sel) return;
   const classes = configData.classes || [];
-  sel.innerHTML = '<option value="">（未選択：全員に表示）</option>' +
+  const optionsHtml = '<option value="">（未選択：全員に表示）</option>' +
     classes.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+  const schSel = document.getElementById('sch-class');
+  if (schSel) schSel.innerHTML = optionsHtml;
+  const wbSel = document.getElementById('wb-class');
+  if (wbSel) wbSel.innerHTML = optionsHtml;
 }
 
 
@@ -995,9 +998,11 @@ function addWeekendBooth() { openWeekendBoothModal(null); }
 function editWeekendBooth(idx) { openWeekendBoothModal(idx); }
 function openWeekendBoothModal(idx) {
   wbEditIdx = idx;
-  const item = idx != null ? configData.weekendBoothItems[idx] : { title: '', body: '', days: [] };
+  const item = idx != null ? configData.weekendBoothItems[idx] : { title: '', body: '', days: [], classId: '' };
+  populateScheduleClassOptions();
   document.getElementById('wb-title').value = item.title || '';
   document.getElementById('wb-body').value = item.body || '';
+  document.getElementById('wb-class').value = item.classId || '';
   wbSelectedDays = Array.isArray(item.days) ? [...item.days] : [];
   renderWeekendBoothDayPills();
   document.getElementById('weekendbooth-modal').classList.remove('hidden');
@@ -1011,6 +1016,7 @@ function confirmWeekendBooth() {
     title: document.getElementById('wb-title').value.trim(),
     body: document.getElementById('wb-body').value.trim(),
     days: [...wbSelectedDays].sort((a, b) => a - b),
+    classId: document.getElementById('wb-class').value || null,
     createdAt: (wbEditIdx != null && configData.weekendBoothItems[wbEditIdx].createdAt) || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
@@ -1053,6 +1059,7 @@ function renderWeekendBooth() {
           ${idx === latestIdx ? `<span style="font-size:9px;font-weight:900;padding:2px 7px;border-radius:999px;color:#fff;background:#a855f7;">表示中</span>` : ''}
           <span class="item-title" style="margin-left:${idx===latestIdx?'6px':'0'};">${esc(item.title||'(無題)')}</span>
           <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;color:#7c3aed;background:#7c3aed18;margin-left:6px;">${esc(daysLabel)}</span>
+          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;color:#0ea5e9;background:#0ea5e918;margin-left:6px;">対象：${esc(item.classId ? ((configData.classes||[]).find(c=>c.id===item.classId)?.name || '（削除済みクラス）') : '全員')}</span>
           <p class="item-sub">${formatDateTime(item.createdAt) ? formatDateTime(item.createdAt) + ' 追加 ・ ' : ''}${esc((item.body||'').slice(0,60))}${(item.body||'').length>60?'…':''}</p>
         </div>
         <div class="item-actions">
