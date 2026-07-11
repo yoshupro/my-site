@@ -221,13 +221,6 @@
                     <i data-lucide="chrome" class="w-4 h-4"></i>
                     <span>Googleでログイン</span>
                 </button>
-                <button id="auth-btn-facebook" onclick="AppAuthUI.loginWith('facebook')" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-black text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all opacity-40 cursor-not-allowed" disabled>
-                    <i data-lucide="facebook" class="w-4 h-4"></i>
-                    <span>Facebookでログイン（準備中）</span>
-                </button>
-                <button id="auth-btn-yahoo" onclick="AppAuthUI.loginWith('yahoo')" class="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-200 dark:border-slate-700 font-black text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all opacity-40 cursor-not-allowed" disabled>
-                    <span>Yahoo!でログイン（準備中）</span>
-                </button>
                 <div class="flex items-center gap-2 py-1">
                     <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
                     <span class="text-[10px] font-bold text-slate-400">または</span>
@@ -2234,8 +2227,8 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import {
             getAuth, onAuthStateChanged, signInAnonymously,
-            signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,
-            OAuthProvider, linkWithPopup, signOut
+            signInWithPopup, GoogleAuthProvider,
+            linkWithPopup, signOut
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         import {
             getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp,
@@ -2303,29 +2296,6 @@
                     return result.user;
                 }
                 const { user: newUser } = await signInWithPopup(auth, new GoogleAuthProvider());
-                await ensureUserDoc(newUser);
-                return newUser;
-            },
-            async loginFacebook() {
-                const user = auth.currentUser;
-                if (user && user.isAnonymous) {
-                    const result = await linkWithPopup(user, new FacebookAuthProvider());
-                    await ensureUserDoc(result.user);
-                    return result.user;
-                }
-                const { user: newUser } = await signInWithPopup(auth, new FacebookAuthProvider());
-                await ensureUserDoc(newUser);
-                return newUser;
-            },
-            async loginYahoo() {
-                const provider = new OAuthProvider('oidc.yahoo');
-                const user = auth.currentUser;
-                if (user && user.isAnonymous) {
-                    const result = await linkWithPopup(user, provider);
-                    await ensureUserDoc(result.user);
-                    return result.user;
-                }
-                const { user: newUser } = await signInWithPopup(auth, provider);
                 await ensureUserDoc(newUser);
                 return newUser;
             },
@@ -2419,10 +2389,6 @@
                         await window.AppFirebase.loginGuest();
                     } else if (kind === 'google') {
                         await window.AppFirebase.loginGoogle();
-                    } else if (kind === 'facebook') {
-                        await window.AppFirebase.loginFacebook();
-                    } else if (kind === 'yahoo') {
-                        await window.AppFirebase.loginYahoo();
                     }
                 } catch (e) {
                     console.error('login error', e);
