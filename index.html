@@ -261,6 +261,41 @@
         </div>
     </div>
 
+    <!-- ==================================================
+         単語ランキングモーダル
+         ================================================== -->
+    <div id="leaderboard-modal" class="fixed inset-0 z-[998] bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-5 hidden">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-5 w-full max-w-sm shadow-2xl border border-slate-200 dark:border-slate-700 max-h-[85vh] flex flex-col">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-sm font-black text-slate-800 dark:text-white flex items-center gap-1.5">
+                    <i data-lucide="trophy" class="w-4 h-4 text-amber-500"></i>単語ランキング
+                </h2>
+                <button onclick="closeLeaderboardModal()" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <i data-lucide="x" class="w-4 h-4 text-slate-400"></i>
+                </button>
+            </div>
+
+            <!-- 範囲切り替え：全体 / クラス -->
+            <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl mb-2.5">
+                <button id="lb-scope-all" onclick="setLeaderboardScope('all')" class="py-1.5 rounded-lg text-[11px] font-black transition-all">全体</button>
+                <button id="lb-scope-class" onclick="setLeaderboardScope('class')" class="py-1.5 rounded-lg text-[11px] font-black transition-all">クラス内</button>
+            </div>
+
+            <!-- 指標切り替え：累計 / 週間 / 連続 -->
+            <div class="grid grid-cols-3 gap-1.5 mb-3">
+                <button id="lb-metric-total" onclick="setLeaderboardMetric('total')" class="py-1.5 rounded-lg text-[10px] font-black border transition-all">累計学習数</button>
+                <button id="lb-metric-weekly" onclick="setLeaderboardMetric('weekly')" class="py-1.5 rounded-lg text-[10px] font-black border transition-all">今週の学習</button>
+                <button id="lb-metric-streak" onclick="setLeaderboardMetric('streak')" class="py-1.5 rounded-lg text-[10px] font-black border transition-all">連続日数</button>
+            </div>
+
+            <div id="leaderboard-list" class="space-y-1.5 overflow-y-auto flex-1 min-h-[120px]"></div>
+            <p id="leaderboard-empty" class="hidden text-xs text-slate-400 text-center py-8">まだランキングデータがありません<br>単語クイズやフラッシュカードに挑戦してみましょう</p>
+            <p id="leaderboard-loading" class="text-xs text-slate-400 text-center py-8">読み込み中…</p>
+
+            <div id="leaderboard-my-rank" class="hidden mt-3 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between px-1"></div>
+        </div>
+    </div>
+
 
     <!-- 背景装飾用のグラデーションオーブ (テーマ色の変更を滑らかに反映) -->
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 transition-all duration-500">
@@ -309,6 +344,10 @@
                             <button onclick="closeSettingsMenu(); openClassPickerModal()" id="class-setting-toggle-btn" class="w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
                                 <i data-lucide="users" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
                                 <span class="text-xs font-bold text-slate-700 dark:text-slate-200">クラス設定</span>
+                            </button>
+                            <button onclick="closeSettingsMenu(); openLeaderboardModal()" id="leaderboard-toggle-btn" class="w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                                <i data-lucide="trophy" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
+                                <span class="text-xs font-bold text-slate-700 dark:text-slate-200">単語ランキング</span>
                             </button>
                             <button onclick="closeSettingsMenu(); window.open('https://forms.gle/byfhaFViuqJkjoSY7','_blank')" class="w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
                                 <i data-lucide="send" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
@@ -2199,7 +2238,8 @@
             OAuthProvider, linkWithPopup, signOut
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
         import {
-            getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp
+            getFirestore, doc, getDoc, setDoc, updateDoc, serverTimestamp,
+            collection, getDocs, increment
         } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -2214,6 +2254,20 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+
+        // その週の月曜日の日付文字列(YYYY-MM-DD)を求める
+        function mondayOfWeek(dateStr) {
+            const d = new Date(dateStr + 'T00:00:00+09:00');
+            const day = d.getDay(); // 0=日,1=月,...,6=土
+            const diff = (day === 0 ? -6 : 1 - day);
+            d.setDate(d.getDate() + diff);
+            return d.toISOString().slice(0, 10);
+        }
+        function addDaysStr(dateStr, days) {
+            const d = new Date(dateStr + 'T00:00:00+09:00');
+            d.setDate(d.getDate() + days);
+            return d.toISOString().slice(0, 10);
+        }
 
         // ユーザードキュメントが無ければ作成
         async function ensureUserDoc(user) {
@@ -2287,6 +2341,46 @@
                 await updateDoc(doc(db, 'users', user.uid), { classId: classId || null });
                 window.currentUserClassId = classId || null;
                 window.dispatchEvent(new CustomEvent('app-class-changed', { detail: { classId: window.currentUserClassId } }));
+            },
+            async submitQuizResult(correctCount, totalCount) {
+                const user = auth.currentUser;
+                if (!user) return;
+                const today = (window.getJSTDateString ? window.getJSTDateString() : new Date().toISOString().slice(0, 10));
+                const weekKey = mondayOfWeek(today);
+                const ref = doc(db, 'leaderboard', user.uid);
+                let prev = {};
+                try {
+                    const snap = await getDoc(ref);
+                    prev = snap.exists() ? snap.data() : {};
+                } catch (e) { /* 初回は存在しない */ }
+                const newWeeklyCount = (prev.weekKey === weekKey ? (prev.weeklyCount || 0) : 0) + correctCount;
+                let newStreak = prev.streakDays || 0;
+                const lastStudyDate = prev.lastStudyDate || '';
+                if (lastStudyDate === today) {
+                    // 今日は既にカウント済みなので据え置き
+                } else if (lastStudyDate === addDaysStr(today, -1)) {
+                    newStreak = newStreak + 1;
+                } else {
+                    newStreak = 1;
+                }
+                let classId = window.currentUserClassId || null;
+                const displayName = user.displayName || (user.isAnonymous ? 'ゲスト' : '名無し');
+                await setDoc(ref, {
+                    displayName,
+                    classId,
+                    totalWordsLearned: increment(correctCount),
+                    weeklyCount: newWeeklyCount,
+                    weekKey,
+                    streakDays: newStreak,
+                    lastStudyDate: today,
+                    updatedAt: serverTimestamp(),
+                }, { merge: true });
+            },
+            async getLeaderboard() {
+                const snap = await getDocs(collection(db, 'leaderboard'));
+                const list = [];
+                snap.forEach(d => list.push({ uid: d.id, ...d.data() }));
+                return list;
             }
         };
 
@@ -2419,6 +2513,145 @@
             if (typeof renderClassPickerList === 'function') { renderClassPickerList(); }
             if (typeof updateAccountMenuDisplay === 'function') { updateAccountMenuDisplay(window.currentAppUser); }
         });
+
+        // ===== 単語ランキング =====
+        let lbScope = 'all';   // 'all' | 'class'
+        let lbMetric = 'total'; // 'total' | 'weekly' | 'streak'
+        let lbCache = null; // 取得済みのランキング一覧（{uid, displayName, classId, totalWordsLearned, weeklyCount, streakDays}[]）
+
+        function openLeaderboardModal() {
+            if (!window.currentAppUser) {
+                showToast('先にログイン（またはゲスト利用開始）してください');
+                return;
+            }
+            const modal = document.getElementById('leaderboard-modal');
+            if (modal) modal.classList.remove('hidden');
+            updateLeaderboardToggleStyles();
+            loadAndRenderLeaderboard();
+            if (typeof window.lucide !== 'undefined') { window.lucide.createIcons(); }
+        }
+        function closeLeaderboardModal() {
+            const modal = document.getElementById('leaderboard-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+        function setLeaderboardScope(scope) {
+            lbScope = scope;
+            updateLeaderboardToggleStyles();
+            renderLeaderboardFromCache();
+        }
+        function setLeaderboardMetric(metric) {
+            lbMetric = metric;
+            updateLeaderboardToggleStyles();
+            renderLeaderboardFromCache();
+        }
+        function updateLeaderboardToggleStyles() {
+            const scopeIds = { all: 'lb-scope-all', class: 'lb-scope-class' };
+            Object.entries(scopeIds).forEach(([key, id]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.className = 'py-1.5 rounded-lg text-[11px] font-black transition-all ' +
+                    (lbScope === key ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-cyan-400 shadow-sm' : 'text-slate-400');
+            });
+            const metricIds = { total: 'lb-metric-total', weekly: 'lb-metric-weekly', streak: 'lb-metric-streak' };
+            Object.entries(metricIds).forEach(([key, id]) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.className = 'py-1.5 rounded-lg text-[10px] font-black border transition-all ' +
+                    (lbMetric === key
+                        ? 'bg-blue-500 dark:bg-cyan-500 text-white border-blue-500 dark:border-cyan-500'
+                        : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700');
+            });
+        }
+        async function loadAndRenderLeaderboard() {
+            const loadingEl = document.getElementById('leaderboard-loading');
+            const listEl = document.getElementById('leaderboard-list');
+            const emptyEl = document.getElementById('leaderboard-empty');
+            if (loadingEl) loadingEl.classList.remove('hidden');
+            if (listEl) listEl.innerHTML = '';
+            if (emptyEl) emptyEl.classList.add('hidden');
+            try {
+                lbCache = await window.AppFirebase.getLeaderboard();
+            } catch (e) {
+                console.error('ランキング取得失敗', e);
+                lbCache = [];
+                showToast('ランキングの取得に失敗しました');
+            }
+            if (loadingEl) loadingEl.classList.add('hidden');
+            renderLeaderboardFromCache();
+        }
+        function refreshLeaderboardIfOpen() {
+            const modal = document.getElementById('leaderboard-modal');
+            if (modal && !modal.classList.contains('hidden')) { loadAndRenderLeaderboard(); }
+        }
+        function metricValue(entry) {
+            if (lbMetric === 'total') return entry.totalWordsLearned || 0;
+            if (lbMetric === 'weekly') return entry.weeklyCount || 0;
+            if (lbMetric === 'streak') return entry.streakDays || 0;
+            return 0;
+        }
+        function metricUnit() {
+            if (lbMetric === 'streak') return '日';
+            return '語';
+        }
+        function renderLeaderboardFromCache() {
+            const listEl = document.getElementById('leaderboard-list');
+            const emptyEl = document.getElementById('leaderboard-empty');
+            const myRankEl = document.getElementById('leaderboard-my-rank');
+            if (!listEl || !lbCache) return;
+            const myClassId = window.currentUserClassId || null;
+            let entries = lbCache;
+            if (lbScope === 'class') {
+                if (!myClassId) {
+                    listEl.innerHTML = '';
+                    if (emptyEl) { emptyEl.classList.remove('hidden'); emptyEl.innerHTML = 'クラスに参加すると、クラス内ランキングが見られます'; }
+                    if (myRankEl) myRankEl.classList.add('hidden');
+                    return;
+                }
+                entries = entries.filter(e => e.classId === myClassId);
+            }
+            entries = entries
+                .filter(e => metricValue(e) > 0)
+                .slice()
+                .sort((a, b) => metricValue(b) - metricValue(a));
+
+            if (entries.length === 0) {
+                listEl.innerHTML = '';
+                if (emptyEl) { emptyEl.classList.remove('hidden'); emptyEl.innerHTML = 'まだランキングデータがありません<br>単語クイズやフラッシュカードに挑戦してみましょう'; }
+                if (myRankEl) myRankEl.classList.add('hidden');
+                return;
+            }
+            if (emptyEl) emptyEl.classList.add('hidden');
+
+            const myUid = window.currentAppUser ? window.currentAppUser.uid : null;
+            const medalFor = (rank) => rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : null;
+            const top = entries.slice(0, 20);
+            listEl.innerHTML = top.map((e, idx) => {
+                const rank = idx + 1;
+                const isMe = e.uid === myUid;
+                const medal = medalFor(rank);
+                return `
+                <div class="flex items-center gap-2.5 px-2.5 py-2 rounded-xl ${isMe ? 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800' : ''}">
+                    <span class="w-6 text-center text-xs font-black ${rank<=3 ? '' : 'text-slate-400'}">${medal || rank}</span>
+                    <span class="flex-1 min-w-0 text-xs font-bold text-slate-700 dark:text-slate-200 truncate">${escapeHtml(e.displayName || '名無し')}${isMe ? '（あなた）' : ''}</span>
+                    <span class="text-xs font-black text-blue-500 dark:text-cyan-400 shrink-0">${metricValue(e)}${metricUnit()}</span>
+                </div>`;
+            }).join('');
+
+            // 自分が上位20位に入っていない場合は、下に自分の順位も表示
+            const myIndex = entries.findIndex(e => e.uid === myUid);
+            if (myRankEl) {
+                if (myIndex >= 20) {
+                    myRankEl.classList.remove('hidden');
+                    const me = entries[myIndex];
+                    myRankEl.innerHTML = `
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400">あなたの順位：${myIndex + 1}位</span>
+                        <span class="text-xs font-black text-blue-500 dark:text-cyan-400">${metricValue(me)}${metricUnit()}</span>
+                    `;
+                } else {
+                    myRankEl.classList.add('hidden');
+                }
+            }
+        }
 
         // ===== 【セキュリティ＆例外防止ハック】 =====
         // ===== 利用制限管理（1日5回・日本時間基準） =====
@@ -5442,9 +5675,22 @@
             renderQuizQuestion();
         }
 
+        // 各学習モード（単語クイズ・フラッシュカード・TARGETモード等）共通：
+        // 「覚えた／正解した」単語数をランキング用データベースに送信する
+        function submitWordProgress(correctCount) {
+            if (!correctCount || correctCount <= 0) return;
+            if (window.AppFirebase && typeof window.AppFirebase.submitQuizResult === 'function') {
+                window.AppFirebase.submitQuizResult(correctCount, correctCount)
+                    .then(() => { if (typeof refreshLeaderboardIfOpen === 'function') refreshLeaderboardIfOpen(); })
+                    .catch(e => console.warn('ランキングの更新に失敗しました', e));
+            }
+        }
+
         function renderQuizResult() {
             const container = document.getElementById('vocab-quiz-content');
             if (!container) return;
+            // ランキング（累計・週間・連続日数）にクイズ結果を反映
+            submitWordProgress(quizScore);
             // 完了したら進捗バーは100%表示にして隠す
             const progWrap = document.getElementById('vq-progress-wrap');
             const barWrap = document.getElementById('vq-progress-bar-wrap');
@@ -6343,6 +6589,7 @@
             const scoreEl = document.getElementById('fc-final-score');
             if (comp) comp.classList.remove('hidden');
             if (scoreEl) scoreEl.textContent = `${fcScore} / ${fcWords.length} 覚えた！（${Math.round(fcScore/fcWords.length*100)}%）`;
+            submitWordProgress(fcScore);
         }
 
         function fcRestart(weakOnly) {
@@ -10678,6 +10925,7 @@ const TARGET1200 = [
             const fin = document.getElementById('t19f-final2');
             if (fin) fin.textContent = t19_flashScore + ' / ' + t19_flashWords.length + ' 覚えた！（' + Math.round(t19_flashScore / t19_flashWords.length * 100) + '%）';
             updateT19Stats();
+            submitWordProgress(t19_flashScore);
         }
 
         function t19fRestart2(weakOnly) {
@@ -10839,6 +11087,7 @@ const TARGET1200 = [
             const fin = document.getElementById('t19q-final2');
             if (fin) fin.textContent = t19_quizScore + ' / ' + t19_quizWords.length + ' 正解（' + Math.round(t19_quizScore / t19_quizWords.length * 100) + '%）';
             updateT19Stats();
+            submitWordProgress(t19_quizScore);
         }
 
         function showT19Stats() {
