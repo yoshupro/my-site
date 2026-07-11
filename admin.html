@@ -175,6 +175,14 @@
     </section>
 
     <section class="panel">
+      <h2><i data-lucide="users"></i>クラス管理</h2>
+      <p class="desc">クラスを作成すると、ユーザーは本体アプリでそのクラスに参加できます。予定を追加するときに「対象クラス」を選ぶと、そのクラスに参加しているユーザーだけに表示されます（未選択の場合は今まで通り全員に表示されます）。</p>
+      <div id="class-list"></div>
+      <p id="class-empty" class="empty-msg hidden">クラスはまだありません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addClass()">＋ クラスを追加</button>
+    </section>
+
+    <section class="panel">
       <h2><i data-lucide="calendar-clock"></i>テスト・提出物の予定（全体配信）</h2>
       <p class="desc">ここで追加した予定は、全ユーザーのHOME画面・カレンダーに「学校全体」予定として自動表示されます。日付をクリックしても予定を追加できます。</p>
 
@@ -226,6 +234,19 @@
   </div>
 </div>
 
+<div id="class-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:380px;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">クラスを編集</h3>
+    <div class="field"><label>クラス名</label><input type="text" id="class-name" placeholder="例：3年A組"></div>
+    <div class="field"><label>教科（カンマ区切り・任意）</label><input type="text" id="class-subjects" placeholder="例：英語, 数学, 理科"></div>
+    <p class="desc" id="class-code-display" style="margin-top:-4px;"></p>
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeClassModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmClass()">反映する</button>
+    </div>
+  </div>
+</div>
+
 <div id="schedule-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:380px;">
     <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">予定を編集</h3>
@@ -238,6 +259,7 @@
     </div>
     <div class="field"><label>タイトル</label><input type="text" id="sch-title" placeholder="例：1学期期末考査"></div>
     <div class="field"><label>教科（任意）</label><input type="text" id="sch-subject" placeholder="例：英語"></div>
+    <div class="field"><label>対象クラス（未選択なら全員に表示）</label><select id="sch-class"></select></div>
     <div class="field"><label>日付</label><input type="date" id="sch-date"></div>
     <div class="field"><label>メモ（任意）</label><textarea id="sch-memo" placeholder="範囲・持ち物など"></textarea></div>
     <button type="button" class="btn btn-secondary btn-sm" style="width:100%;margin-top:4px;" onclick="addCurrentScheduleToWeekendBooth()">
@@ -360,7 +382,7 @@
 
 <script>
 let session = null;
-let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [] };
+let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [] };
 let currentSha = null;
 let dirty = false;
 const LS_KEY = 'pm_admin_session_v1';
@@ -431,7 +453,7 @@ async function reloadFromGitHub() {
   });
   if (res.status === 404) {
     currentSha = null;
-    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [] };
+    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [] };
     renderAll();
     setSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
     return;
@@ -448,6 +470,7 @@ async function reloadFromGitHub() {
   configData.globalSchedules = configData.globalSchedules || [];
   configData.extraSections = configData.extraSections || [];
   configData.weekendBoothItems = configData.weekendBoothItems || [];
+  configData.classes = configData.classes || [];
   dirty = false;
   renderAll();
   setSaveStatus('GitHubの最新内容を読み込みました', 'ok');
@@ -514,6 +537,7 @@ function updatePreview() {
 }
 
 function renderAll() {
+  renderClasses();
   renderAnnouncements();
   renderSchedules();
   renderAdminCalendar();
@@ -572,12 +596,17 @@ function renderSchedules() {
   }
   empty.classList.add('hidden');
   const typeLabel = { test: 'テスト', submission: '提出物' };
+  const classNameOf = (classId) => {
+    if (!classId) return '全員';
+    const c = (configData.classes || []).find(x => x.id === classId);
+    return c ? c.name : '（削除済みクラス）';
+  };
   wrap.innerHTML = list.map((s, idx) => `
     <div class="item-card" onclick="editSchedule(${idx})" style="cursor:pointer;">
       <div class="item-head">
         <div>
           <span class="item-title">${esc(s.title||'(無題)')}</span>
-          <p class="item-sub">${typeLabel[s.type]||s.type} ・ ${esc(s.subject||'-')} ・ ${esc(s.date||'-')}</p>
+          <p class="item-sub">${typeLabel[s.type]||s.type} ・ ${esc(s.subject||'-')} ・ ${esc(s.date||'-')} ・ 対象：${esc(classNameOf(s.classId))}</p>
         </div>
         <div class="item-actions">
           <button class="icon-btn" onclick="event.stopPropagation(); editSchedule(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
@@ -785,15 +814,88 @@ function renderAdminCalendar() {
   }).join('');
 }
 
-let schEditIdx = null;
+function renderClasses() {
+  const wrap = document.getElementById('class-list');
+  const empty = document.getElementById('class-empty');
+  const list = configData.classes || [];
+  if (list.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  wrap.innerHTML = list.map((c, idx) => `
+    <div class="item-card" onclick="editClass(${idx})" style="cursor:pointer;">
+      <div class="item-head">
+        <div>
+          <span class="item-title">${esc(c.name||'(無題クラス)')}</span>
+          <p class="item-sub">クラスコード：${esc(c.id||'-')} ${c.subjects && c.subjects.length ? ' ・ ' + esc(c.subjects.join('、')) : ''}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="event.stopPropagation(); editClass(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="event.stopPropagation(); removeClass(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  if (typeof lucide !== "undefined") lucide.createIcons();
+}
+
+let classEditIdx = null;
+function addClass() { openClassModal(null); }
+function editClass(idx) { openClassModal(idx); }
+function openClassModal(idx) {
+  classEditIdx = idx;
+  const c = idx != null ? configData.classes[idx] : { id: 'c' + Date.now(), name: '', subjects: [] };
+  document.getElementById('class-name').value = c.name || '';
+  document.getElementById('class-subjects').value = (c.subjects || []).join(', ');
+  document.getElementById('class-code-display').textContent = idx != null ? `クラスコード：${c.id}（ユーザーはこのコードでクラスに参加します）` : '保存するとクラスコードが自動発行されます';
+  document.getElementById('class-modal').classList.remove('hidden');
+}
+function closeClassModal() {
+  document.getElementById('class-modal').classList.add('hidden');
+}
+function confirmClass() {
+  const name = document.getElementById('class-name').value.trim();
+  if (!name) { showToast('クラス名を入力してください'); return; }
+  const subjects = document.getElementById('class-subjects').value.split(',').map(s => s.trim()).filter(Boolean);
+  if (classEditIdx != null) {
+    const existing = configData.classes[classEditIdx];
+    configData.classes[classEditIdx] = { id: existing.id, name, subjects };
+  } else {
+    configData.classes.push({ id: 'c' + Date.now(), name, subjects });
+  }
+  closeClassModal();
+  renderClasses();
+  populateScheduleClassOptions();
+  markDirty();
+}
+function removeClass(idx) {
+  if (!confirm('このクラスを削除しますか？（このクラス宛の予定は「全員向け」には戻りません。予定側で設定し直してください）')) return;
+  configData.classes.splice(idx, 1);
+  renderClasses();
+  populateScheduleClassOptions();
+  markDirty();
+}
+function populateScheduleClassOptions() {
+  const sel = document.getElementById('sch-class');
+  if (!sel) return;
+  const classes = configData.classes || [];
+  sel.innerHTML = '<option value="">（未選択：全員に表示）</option>' +
+    classes.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
+}
+
+
 let schSelectedType = 'test';
 function addSchedule(presetDate) { openScheduleModal(null, presetDate); }
 function editSchedule(idx) { openScheduleModal(idx); }
 function openScheduleModal(idx, presetDate) {
   schEditIdx = idx;
-  const s = idx != null ? configData.globalSchedules[idx] : { type: 'test', title: '', subject: '', date: presetDate || '', memo: '' };
+  const s = idx != null ? configData.globalSchedules[idx] : { type: 'test', title: '', subject: '', date: presetDate || '', memo: '', classId: '' };
+  populateScheduleClassOptions();
   document.getElementById('sch-title').value = s.title || '';
   document.getElementById('sch-subject').value = s.subject || '';
+  document.getElementById('sch-class').value = s.classId || '';
   document.getElementById('sch-date').value = s.date || '';
   document.getElementById('sch-memo').value = s.memo || '';
   setSchType(s.type || 'test');
@@ -843,6 +945,7 @@ function confirmSchedule() {
     type: schSelectedType,
     title: document.getElementById('sch-title').value.trim(),
     subject: document.getElementById('sch-subject').value.trim() || null,
+    classId: document.getElementById('sch-class').value || null,
     date: document.getElementById('sch-date').value,
     memo: document.getElementById('sch-memo').value.trim() || null,
   };
