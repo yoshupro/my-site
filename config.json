@@ -47,22 +47,6 @@
       "memo": null
     },
     {
-      "id": 1782964000549,
-      "type": "submission",
-      "title": "物理課題2−2",
-      "subject": "物理",
-      "date": "2026-07-08",
-      "memo": "リードα　P66~71(145まで)"
-    },
-    {
-      "id": 1782964110165,
-      "type": "submission",
-      "title": "物理課題2−1",
-      "subject": "物理",
-      "date": "2026-07-06",
-      "memo": "リードα　P66~71(145まで)"
-    },
-    {
       "id": 1782966713431,
       "type": "test",
       "title": "古文単語テスト",
@@ -83,6 +67,7 @@
       "type": "submission",
       "title": "CROSSBEAM PS",
       "subject": "英語",
+      "classId": null,
       "date": "2026-07-13",
       "memo": "【範囲】Chapter15"
     },
@@ -117,6 +102,24 @@
       "subject": "英語",
       "date": "2026-09-24",
       "memo": "Chapter８,９"
+    },
+    {
+      "id": 1783748164581,
+      "type": "submission",
+      "title": "物理課題",
+      "subject": "物理",
+      "classId": "c1783747972349",
+      "date": "2026-07-13",
+      "memo": null
+    },
+    {
+      "id": 1783748187725,
+      "type": "test",
+      "title": "物理課題",
+      "subject": "物理",
+      "classId": "c1783747980943",
+      "date": "2026-07-15",
+      "memo": null
     }
   ],
   "extraSections": [
@@ -3365,6 +3368,24 @@
   },
   "weekendBoothItems": [
     {
+      "title": "物理課題",
+      "body": "教科：物理\n日付：2026-07-13",
+      "createdAt": "2026-07-11T05:36:03.651Z",
+      "updatedAt": "2026-07-11T05:36:03.651Z"
+    },
+    {
+      "title": "物理課題",
+      "body": "教科：物理\n日付：2026-07-13",
+      "createdAt": "2026-07-11T05:36:01.943Z",
+      "updatedAt": "2026-07-11T05:36:01.943Z"
+    },
+    {
+      "title": "CROSSBEAM PS",
+      "body": "教科：英語\n日付：2026-07-13\n【範囲】Chapter15",
+      "createdAt": "2026-07-11T05:34:02.195Z",
+      "updatedAt": "2026-07-11T05:34:02.195Z"
+    },
+    {
       "title": "夏休み課題のお知らせ",
       "body": "",
       "days": [
@@ -3378,6 +3399,43 @@
       ],
       "createdAt": "2026-07-09T05:13:10.851Z",
       "updatedAt": "2026-07-09T05:13:10.851Z"
+    }
+  ],
+  "classes": [
+    {
+      "id": "c1783747972349",
+      "name": "2年1組",
+      "subjects": []
+    },
+    {
+      "id": "c1783747980943",
+      "name": "2年2組",
+      "subjects": []
+    },
+    {
+      "id": "c1783747990115",
+      "name": "2年3組",
+      "subjects": []
+    },
+    {
+      "id": "c1783748002801",
+      "name": "2年4組",
+      "subjects": []
+    },
+    {
+      "id": "c1783748009861",
+      "name": "2年5組",
+      "subjects": []
+    },
+    {
+      "id": "c1783748019462",
+      "name": "2年6組",
+      "subjects": []
+    },
+    {
+      "id": "c1783748029288",
+      "name": "2年7組",
+      "subjects": []
     }
   ]
 }
