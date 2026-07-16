@@ -13,12 +13,12 @@
     {
       "badge": "INFO",
       "badgeColor": "#06b6d4",
-      "version": "1.2.2",
+      "version": "1.3.2",
       "title": "プレリリース期間延長のお知らせ",
       "body": "開発者側の都合によりプレリリース期間を無期限延長とさせていただきます。申し訳ございません。",
       "link": "https://docs.google.com/forms/d/e/1FAIpQLSeOqsafSKfjKV_QEub0Pa8tB8XAdjzehe_WbrDbu4oEPXQE8w/viewform?usp=dialog",
       "createdAt": "2026-07-07T05:38:15.552Z",
-      "updatedAt": "2026-07-16T00:13:02.243Z"
+      "updatedAt": "2026-07-16T00:13:21.848Z"
     }
   ],
   "globalSchedules": [
