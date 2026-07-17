@@ -219,6 +219,14 @@
     </section>
 
     <section class="panel">
+      <h2><i data-lucide="pen-line"></i>論理表現 セクション追加</h2>
+      <p class="desc">文法問題プリントのプリセットデータを追加します。生徒は本体アプリで「セクションから選ぶ」を押すだけで、写真を撮らずにこの内容を見られます。</p>
+      <div id="ronri-section-list"></div>
+      <p id="ronri-section-empty" class="empty-msg hidden">追加済みセクションはありません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addRonriSection()">＋ セクションを追加</button>
+    </section>
+
+    <section class="panel">
       <h2><i data-lucide="code"></i>config.json プレビュー</h2>
       <p class="desc">保存ボタンを押すと、この内容でGitHubリポジトリの <code>config.json</code> がコミットされます。</p>
       <pre id="json-preview">{}</pre>
@@ -379,11 +387,58 @@
   </div>
 </div>
 
+<div id="ronri-section-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:520px;max-height:88vh;overflow:auto;">
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">論理表現セクションを追加</h3>
+    <p class="desc" style="margin-bottom:14px;">文法問題プリントの写真をアップロードすると、Gemini AIが自動で解析し、本体アプリと同じ内容（解答・日本語訳・解説・文法ポイント）を問題ごとに生成します。</p>
+    <div class="row3">
+      <div class="field"><label>ID（半角英数字）</label><input type="text" id="rsec-id" placeholder="例：RH1"></div>
+      <div class="field" style="grid-column:span 2;"><label>タイトル</label><input type="text" id="rsec-title" placeholder="例：仮定法 練習プリント"></div>
+    </div>
+
+    <div class="field">
+      <label>プリント画像</label>
+      <input type="file" id="rsec-image-file" accept="image/*" onchange="handleRonriSectionImageSelect(event)">
+      <div id="rsec-image-preview-wrap" class="hidden" style="margin-top:10px;position:relative;display:inline-block;">
+        <img id="rsec-image-preview" style="max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--border);display:block;">
+        <button type="button" class="icon-btn danger" onclick="removeRonriSectionImage()" title="画像を削除" style="position:absolute;top:6px;right:6px;background:var(--panel);">
+          <i data-lucide="x" style="width:14px;height:14px;"></i>
+        </button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin:4px 0 6px;">
+      <button type="button" class="btn btn-primary btn-sm" id="rsec-analyze-btn" onclick="analyzeRonriSectionImage()" disabled style="display:flex;align-items:center;justify-content:center;gap:6px;flex:1;">
+        <i data-lucide="sparkles" style="width:14px;height:14px;"></i>
+        <span id="rsec-analyze-btn-text">Gemini AIで解析する</span>
+      </button>
+      <button type="button" class="btn btn-secondary btn-sm hidden" id="rsec-analyze-cancel-btn" onclick="cancelRonriSectionAnalysis()" style="flex:0 0 auto;">
+        キャンセル
+      </button>
+    </div>
+    <p id="rsec-analyze-status" style="font-size:11px;color:var(--sub);margin:0 0 14px;min-height:14px;"></p>
+
+    <div class="field">
+      <label style="display:flex;align-items:center;justify-content:space-between;">
+        <span>解析結果データ（JSON・自動生成／手動編集も可）</span>
+        <button type="button" class="icon-btn danger" onclick="clearRonriSectionData()" title="この解析結果を削除" style="width:24px;height:24px;">
+          <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
+        </button>
+      </label>
+      <textarea id="rsec-data-json" style="min-height:180px;font-family:'SF Mono',Consolas,monospace;font-size:11px;" placeholder="画像をアップロードして「Gemini AIで解析する」を押すと、ここに自動で入力されます"></textarea>
+    </div>
+    <p id="rsec-json-error" style="color:var(--red);font-size:11px;font-weight:700;display:none;"></p>
+    <div class="row2" style="margin-top:16px;">
+      <button class="btn btn-secondary" onclick="closeRonriSectionModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmRonriSection()">反映する</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 let session = null;
-let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [] };
+let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [], ronriSections: [] };
 let currentSha = null;
 let dirty = false;
 const LS_KEY = 'pm_admin_session_v1';
@@ -454,7 +509,7 @@ async function reloadFromGitHub() {
   });
   if (res.status === 404) {
     currentSha = null;
-    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [] };
+    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [], ronriSections: [] };
     renderAll();
     setSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
     return;
@@ -470,6 +525,7 @@ async function reloadFromGitHub() {
   configData.announcements = configData.announcements || [];
   configData.globalSchedules = configData.globalSchedules || [];
   configData.extraSections = configData.extraSections || [];
+  configData.ronriSections = configData.ronriSections || [];
   configData.weekendBoothItems = configData.weekendBoothItems || [];
   configData.classes = configData.classes || [];
   dirty = false;
@@ -543,6 +599,7 @@ function renderAll() {
   renderSchedules();
   renderAdminCalendar();
   renderSections();
+  renderRonriSections();
   renderWeekendBooth();
   updatePreview();
 }
@@ -1386,6 +1443,266 @@ function removeSection(idx) {
   if (!confirm('このセクションを削除しますか？')) return;
   configData.extraSections.splice(idx, 1);
   renderSections();
+  markDirty();
+}
+
+// ===== 論理表現 セクション管理 =====
+function renderRonriSections() {
+  const wrap = document.getElementById('ronri-section-list');
+  const empty = document.getElementById('ronri-section-empty');
+  if (!wrap || !empty) return;
+  const list = configData.ronriSections || [];
+  if (list.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  wrap.innerHTML = list.map((s, idx) => `
+    <div class="item-card" onclick="editRonriSection(${idx})" style="cursor:pointer;">
+      <div class="item-head">
+        <div style="flex:1;min-width:0;">
+          <span class="item-title">${esc(s.title || '(無題)')}</span>
+          <p class="item-sub">ID: ${esc(s.id||'-')} ・ 問題数: ${(s.problems||[]).length}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="event.stopPropagation(); editRonriSection(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="event.stopPropagation(); removeRonriSection(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  if (typeof lucide !== "undefined") lucide.createIcons();
+}
+
+let rsecEditIdx = null;
+let rsecImageBase64 = null;
+let rsecImageMimeType = null;
+let rsecAnalyzeAbortController = null;
+
+function addRonriSection() { openRonriSectionModal(null); }
+function editRonriSection(idx) { openRonriSectionModal(idx); }
+function openRonriSectionModal(idx) {
+  rsecEditIdx = idx;
+  const s = idx != null ? configData.ronriSections[idx] : { id: '', title: '', problems: [] };
+  document.getElementById('rsec-id').value = s.id || '';
+  document.getElementById('rsec-title').value = s.title || '';
+  document.getElementById('rsec-data-json').value = (s.problems && s.problems.length) ? JSON.stringify({ problems: s.problems }, null, 2) : '';
+  document.getElementById('rsec-json-error').style.display = 'none';
+  if (rsecAnalyzeAbortController) rsecAnalyzeAbortController.abort();
+  rsecImageBase64 = null;
+  rsecImageMimeType = null;
+  document.getElementById('rsec-image-file').value = '';
+  document.getElementById('rsec-image-preview-wrap').classList.add('hidden');
+  document.getElementById('rsec-analyze-btn').disabled = true;
+  document.getElementById('rsec-analyze-cancel-btn').classList.add('hidden');
+  document.getElementById('rsec-analyze-status').textContent = '';
+  document.getElementById('ronri-section-modal').classList.remove('hidden');
+  if (typeof lucide !== "undefined") lucide.createIcons();
+}
+function closeRonriSectionModal() {
+  document.getElementById('ronri-section-modal').classList.add('hidden');
+}
+
+function handleRonriSectionImageSelect(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const result = reader.result;
+    const commaIdx = result.indexOf(',');
+    rsecImageBase64 = result.slice(commaIdx + 1);
+    rsecImageMimeType = file.type || 'image/jpeg';
+    const previewImg = document.getElementById('rsec-image-preview');
+    previewImg.src = result;
+    document.getElementById('rsec-image-preview-wrap').classList.remove('hidden');
+    document.getElementById('rsec-analyze-btn').disabled = false;
+    document.getElementById('rsec-analyze-status').textContent = '';
+    if (typeof lucide !== "undefined") lucide.createIcons();
+  };
+  reader.readAsDataURL(file);
+}
+function removeRonriSectionImage() {
+  rsecImageBase64 = null;
+  rsecImageMimeType = null;
+  document.getElementById('rsec-image-file').value = '';
+  document.getElementById('rsec-image-preview').src = '';
+  document.getElementById('rsec-image-preview-wrap').classList.add('hidden');
+  document.getElementById('rsec-analyze-btn').disabled = true;
+  document.getElementById('rsec-analyze-status').textContent = '';
+}
+function clearRonriSectionData() {
+  const ta = document.getElementById('rsec-data-json');
+  if (!ta.value.trim()) return;
+  if (!confirm('この解析結果データを削除しますか？（保存済みのものも含め、反映すると空になります）')) return;
+  ta.value = '';
+  document.getElementById('rsec-json-error').style.display = 'none';
+  document.getElementById('rsec-analyze-status').style.color = 'var(--sub)';
+  document.getElementById('rsec-analyze-status').textContent = '解析結果を削除しました。新しい画像をアップロードして再解析してください。';
+}
+
+function cancelRonriSectionAnalysis() {
+  if (rsecAnalyzeAbortController) rsecAnalyzeAbortController.abort();
+}
+
+async function fetchGeminiForRonriSection(payload, retries = 5, delay = 600, timeoutMs = 90000) {
+  const url = 'https://promaster-api.kawaa1456.workers.dev';
+  for (let i = 0; i < retries; i++) {
+    const timeoutController = new AbortController();
+    const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
+    const onUserCancel = () => timeoutController.abort();
+    if (rsecAnalyzeAbortController) rsecAnalyzeAbortController.signal.addEventListener('abort', onUserCancel);
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: timeoutController.signal,
+      });
+      clearTimeout(timeoutId);
+      if (response.ok) return await response.json();
+      if (response.status === 429 || response.status >= 500) {
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2;
+        continue;
+      }
+      const errData = await response.json().catch(() => ({}));
+      throw new Error((errData.error && errData.error.message) || `HTTP error! status: ${response.status}`);
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (rsecAnalyzeAbortController && rsecAnalyzeAbortController.signal.aborted) throw new Error('ユーザーによりキャンセルされました');
+      if (error.name === 'AbortError') {
+        if (i === retries - 1) throw new Error('サーバーからの応答がタイムアウトしました（90秒）。時間をおいて再試行してください。');
+        await new Promise(res => setTimeout(res, delay));
+        delay *= 2;
+        continue;
+      }
+      if (i === retries - 1) throw error;
+      await new Promise(res => setTimeout(res, delay));
+      delay *= 2;
+    } finally {
+      if (rsecAnalyzeAbortController) rsecAnalyzeAbortController.signal.removeEventListener('abort', onUserCancel);
+    }
+  }
+}
+
+const RONRI_SECTION_PROMPT = 'あなたは高校の「論理・表現」（英文法・英作文）の学習支援AIです。添付の画像には英文法の問題（空欄補充・整序・選択問題など）が写っています。' +
+  '写っている問題ごとに、次の順序で学習ノートを作成してください。' +
+  '1) reproducedWithAnswer：その問題の元のフォーマット（空欄の位置や(1)〜(4)などの選択肢の並び）をできるだけそのまま再現しながら、正解にあたる語句の部分だけを **正解** のようにMarkdownの**で囲んで示す（本文全体を勝手に書き換えない）。' +
+  '2) fullSentenceJapanese：空欄を埋めて完成した英文全体の、自然な日本語訳。' +
+  '3) explanation：なぜその答えになるのか、消去法や文構造をふまえて論理的かつ詳しく解説する。' +
+  '4) grammarPoint：この問題に関わる文法的なポイントを、他の問題にも応用できるように指導する形で説明する。' +
+  'クラス名・氏名欄など学習に無関係な部分は無視してください。問題が複数写っている場合はすべて出力してください。';
+const RONRI_SECTION_SCHEMA = {
+  type: 'OBJECT',
+  properties: {
+    problems: {
+      type: 'ARRAY',
+      items: {
+        type: 'OBJECT',
+        properties: {
+          problemNumber: { type: 'STRING' },
+          reproducedWithAnswer: { type: 'STRING' },
+          fullSentenceJapanese: { type: 'STRING' },
+          explanation: { type: 'STRING' },
+          grammarPoint: { type: 'STRING' }
+        },
+        required: ['problemNumber', 'reproducedWithAnswer', 'fullSentenceJapanese', 'explanation', 'grammarPoint']
+      }
+    }
+  },
+  required: ['problems']
+};
+
+async function analyzeRonriSectionImage() {
+  if (!rsecImageBase64) { showToast('先に画像を選択してください'); return; }
+  const btn = document.getElementById('rsec-analyze-btn');
+  const btnText = document.getElementById('rsec-analyze-btn-text');
+  const statusEl = document.getElementById('rsec-analyze-status');
+  const cancelBtn = document.getElementById('rsec-analyze-cancel-btn');
+
+  rsecAnalyzeAbortController = new AbortController();
+  btn.disabled = true;
+  cancelBtn.classList.remove('hidden');
+  btnText.textContent = '解析中…';
+  statusEl.style.color = 'var(--sub)';
+
+  let elapsedSec = 0;
+  statusEl.textContent = `Gemini AIが画像を解析しています…（経過 ${elapsedSec}秒／目安30〜90秒、長い場合もあります）`;
+  const elapsedTimer = setInterval(() => {
+    elapsedSec += 1;
+    statusEl.textContent = `Gemini AIが画像を解析しています…（経過 ${elapsedSec}秒／目安30〜90秒、長い場合もあります）`;
+  }, 1000);
+
+  const parts = [{ text: RONRI_SECTION_PROMPT }, { inlineData: { mimeType: rsecImageMimeType, data: rsecImageBase64 } }];
+  const payload = {
+    contents: [{ role: "user", parts }],
+    generationConfig: { responseMimeType: "application/json", responseSchema: RONRI_SECTION_SCHEMA }
+  };
+
+  try {
+    const responseData = await fetchGeminiForRonriSection(payload);
+    if (responseData && responseData.error) throw new Error(responseData.error.message || 'Gemini APIエラーが発生しました。');
+    const candidate = responseData && responseData.candidates && responseData.candidates[0];
+    if (!candidate) {
+      const blocked = responseData && responseData.promptFeedback && responseData.promptFeedback.blockReason;
+      throw new Error(blocked ? `画像がブロックされました: ${blocked}` : 'APIから応答がありませんでした。');
+    }
+    if (candidate.finishReason === 'SAFETY') throw new Error('安全フィルターにより画像がブロックされました。別の画像をお試しください。');
+    if (!candidate.content || !candidate.content.parts || !candidate.content.parts[0] || !candidate.content.parts[0].text) {
+      throw new Error(`解析結果が空でした (finishReason: ${candidate.finishReason || '不明'})。画像が鮮明か確認してください。`);
+    }
+    const parsedData = JSON.parse(candidate.content.parts[0].text);
+    document.getElementById('rsec-data-json').value = JSON.stringify(parsedData, null, 2);
+    document.getElementById('rsec-json-error').style.display = 'none';
+    statusEl.style.color = 'var(--green)';
+    statusEl.textContent = `解析が完了しました（${elapsedSec}秒）。内容を確認して「反映する」を押してください。`;
+    showToast('AI解析が完了しました');
+  } catch (e) {
+    console.error(e);
+    statusEl.style.color = 'var(--red)';
+    statusEl.textContent = 'エラー：' + e.message;
+    showToast('解析に失敗しました');
+  } finally {
+    clearInterval(elapsedTimer);
+    rsecAnalyzeAbortController = null;
+    btn.disabled = false;
+    cancelBtn.classList.add('hidden');
+    btnText.textContent = 'Gemini AIで解析する';
+  }
+}
+
+function confirmRonriSection() {
+  const id = document.getElementById('rsec-id').value.trim();
+  const title = document.getElementById('rsec-title').value.trim();
+  const dataRaw = document.getElementById('rsec-data-json').value.trim();
+  const errEl = document.getElementById('rsec-json-error');
+  errEl.style.display = 'none';
+
+  if (!id || !title) { showToast('IDとタイトルは必須です'); return; }
+  let problems = [];
+  if (dataRaw) {
+    try {
+      const parsed = JSON.parse(dataRaw);
+      problems = Array.isArray(parsed.problems) ? parsed.problems : (Array.isArray(parsed) ? parsed : []);
+    } catch (e) {
+      errEl.textContent = 'JSONの形式が正しくありません：' + e.message;
+      errEl.style.display = 'block';
+      return;
+    }
+  }
+  const entry = { id, title, problems };
+  configData.ronriSections = configData.ronriSections || [];
+  if (rsecEditIdx != null) configData.ronriSections[rsecEditIdx] = entry;
+  else configData.ronriSections.push(entry);
+  closeRonriSectionModal();
+  renderRonriSections();
+  markDirty();
+}
+function removeRonriSection(idx) {
+  if (!confirm('このセクションを削除しますか？')) return;
+  configData.ronriSections.splice(idx, 1);
+  renderRonriSections();
   markDirty();
 }
 

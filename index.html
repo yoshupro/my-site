@@ -414,8 +414,8 @@
                         <i data-lucide="message-circle" class="w-4 h-4"></i>
                         <span>英語コミュニケーション</span>
                     </button>
-                    <!-- Mode 2: 論理表現（近日公開） -->
-                    <button onclick="selectTab(1)" id="tab-btn-1" class="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap opacity-50 cursor-not-allowed text-slate-400 dark:text-slate-600">
+                    <!-- Mode 2: 論理表現（利用可） -->
+                    <button onclick="selectTab(1)" id="tab-btn-1" class="flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white">
                         <i data-lucide="pen-line" class="w-4 h-4"></i>
                         <span>論理表現</span>
                     </button>
@@ -498,6 +498,22 @@
                                 <span class="text-sm font-black text-blue-500 dark:text-cyan-400 w-5">⑤</span>
                                 <span class="text-xs font-bold text-slate-700 dark:text-slate-200">Questions</span>
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 論理・表現用サブヘッダー（タブバー直下、英コと同スタイル） -->
+            <div id="ronri-sub-header" style="display:none" class="w-full bg-white/95 dark:bg-[#0c1220]/95 border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-2.5 transition-colors">
+                <div class="max-w-7xl w-full mx-auto flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="_showEnglishHome()" class="flex items-center space-x-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 hover:text-violet-500 dark:hover:text-cyan-400 transition-colors">
+                            <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                            <span>英語HOMEに戻る</span>
+                        </button>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-7 h-7 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white text-[11px] font-black shadow"><i data-lucide="pen-line" class="w-3.5 h-3.5"></i></div>
+                            <span class="text-sm font-extrabold text-slate-900 dark:text-white">論理・表現</span>
                         </div>
                     </div>
                 </div>
@@ -1202,32 +1218,23 @@
             </div>
 
             <!-- ===== 論理・表現（文法問題スキャン） ===== -->
-            <div id="ronri-hyogen-panel" class="hidden w-full max-w-4xl mx-auto animate-fade-in space-y-4">
-                <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 rounded-2xl px-5 py-4 shadow-sm flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <button onclick="showTopHome()" class="flex items-center space-x-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all">
-                            <i data-lucide="chevron-left" class="w-4 h-4"></i><span>教科選択</span>
-                        </button>
-                        <div class="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
-                        <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center text-white shadow"><i data-lucide="pen-line" class="w-4 h-4"></i></div>
-                            <h3 class="text-sm font-extrabold text-slate-900 dark:text-white">論理・表現</h3>
-                        </div>
-                    </div>
-                </div>
-
+            <div id="ronri-hyogen-panel" class="hidden w-full space-y-4">
                 <!-- ===== 英コと同じ2カラムレイアウト ===== -->
                 <div class="flex flex-col lg:flex-row gap-4 items-start">
 
                     <!-- 左：写真アップロードパネル -->
-                    <section id="rh-scan-panel" class="w-full lg:w-[360px] shrink-0 bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col space-y-4 shadow-sm dark:shadow-xl backdrop-blur-md">
-                        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                    <section id="rh-scan-panel" class="w-full lg:w-[360px] shrink-0 bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 flex flex-col space-y-4 shadow-sm dark:shadow-xl backdrop-blur-md transition-all duration-200">
+                        <div id="rh-scan-panel-header" class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                             <div class="flex items-center space-x-2 min-w-0">
                                 <i data-lucide="image" class="w-4 h-4 text-violet-500 shrink-0"></i>
                                 <h2 class="text-sm font-extrabold text-slate-800 dark:text-slate-100 tracking-tight truncate">文法問題をスキャン</h2>
                             </div>
+                            <button onclick="toggleRhPanelCollapse()" class="ml-2 shrink-0 p-1.5 rounded-lg text-white transition-all" style="background:linear-gradient(135deg,#8b5cf6,#a855f7);box-shadow:0 2px 8px rgba(139,92,246,0.4);" title="パネルを最小化">
+                                <i data-lucide="chevrons-left" class="w-3.5 h-3.5"></i>
+                            </button>
                         </div>
 
+                        <div id="rh-scan-panel-content" class="flex flex-col space-y-4">
                         <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-semibold">
                             空欄補充・選択問題などが写っているプリントの写真をアップロードしてください。
                         </p>
@@ -1263,7 +1270,13 @@
                             <i data-lucide="info" class="w-4 h-4 text-violet-500 shrink-0 mt-0.5"></i>
                             <span id="rh-info-text" class="font-medium">プリントをセットしてね！</span>
                         </div>
+                        </div>
                     </section>
+
+                    <!-- 縮小時に表示される展開タブ -->
+                    <div id="rh-panel-expand-tab-outer" onclick="toggleRhPanelCollapse()" title="クリックして展開" style="display:none;position:fixed;left:0;top:50vh;transform:translateY(-50%);z-index:9999;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;width:22px;padding:14px 0;background:linear-gradient(180deg,#8b5cf6,#a855f7);border:none;border-radius:0 8px 8px 0;box-shadow:2px 0 10px rgba(139,92,246,0.5);gap:5px;">
+                        <i data-lucide="chevrons-right" class="w-3.5 h-3.5 text-white"></i>
+                    </div>
 
                     <!-- 右：解析結果パネル -->
                     <section class="flex-1 min-w-0 bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-sm dark:shadow-xl backdrop-blur-md w-full">
@@ -1286,6 +1299,16 @@
                                 <h4 class="text-sm font-black text-slate-800 dark:text-white">文法問題をスキャンして解答・解説を作成</h4>
                                 <p class="text-xs text-slate-400 dark:text-slate-500 font-semibold mt-1.5 max-w-xs">左パネルから写真をアップロードして「この写真を読み取る」を押してください</p>
                             </div>
+                            <div class="flex items-center gap-3 w-full max-w-xs pt-1">
+                                <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+                                <span class="text-[10px] font-bold text-slate-300 dark:text-slate-600">または</span>
+                                <div class="flex-1 h-px bg-slate-200 dark:bg-slate-700"></div>
+                            </div>
+                            <button onclick="toggleRonriSectionPicker()" class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-violet-200 dark:border-violet-800 text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-950/30 hover:bg-violet-100 dark:hover:bg-violet-900/40 text-xs font-black transition-all">
+                                <i data-lucide="list" class="w-3.5 h-3.5"></i>
+                                セクションから選ぶ
+                            </button>
+                            <div id="rh-section-picker" class="hidden w-full max-w-sm text-left space-y-2"></div>
                         </div>
 
                         <!-- ローディング画面（円形プログレス＋パーセンテージ、英コと同じ演出） -->
@@ -3476,6 +3499,8 @@
             // サブヘッダー（目次ボタンあり）を表示
             const scanSubHeader = document.getElementById('scan-sub-header');
             if (scanSubHeader) scanSubHeader.style.display = 'block';
+            const ronriSubHeader1 = document.getElementById('ronri-sub-header');
+            if (ronriSubHeader1) ronriSubHeader1.style.display = 'none';
             // sticky topをCSS変数で更新
             setTimeout(function() {
                 updateStickyTop();
@@ -3834,6 +3859,12 @@
                     window._remoteClasses = cfg.classes;
                 } else {
                     window._remoteClasses = [];
+                }
+                // ⑥ 論理表現のプリセットセクション（管理サイトで追加した文法問題）
+                if (Array.isArray(cfg.ronriSections)) {
+                    window._remoteRonriSections = cfg.ronriSections;
+                } else {
+                    window._remoteRonriSections = [];
                 }
             } catch (e) {
                 console.warn('config.json の取得に失敗しました（オフラインまたは未配置）:', e);
@@ -4217,7 +4248,7 @@
         const TAB_CLS_NORMAL   = "flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white";
         const TAB_CLS_DISABLED = "flex items-center space-x-1.5 px-4 py-2.5 rounded-xl text-xs font-bold transition-all text-center whitespace-nowrap opacity-50 cursor-not-allowed text-slate-400 dark:text-slate-600";
         // 有効タブ: 0(英コ), 3(TARGET1900)  それ以外はdisabled
-        const TAB_ENABLED = new Set([0, 3]);
+        const TAB_ENABLED = new Set([0, 1, 3]);
         function setTabHighlight(activeIndex) {
             [0,1,2,3,4].forEach(i => {
                 const btn = document.getElementById('tab-btn-' + i);
@@ -4229,12 +4260,17 @@
         }
 
         function selectTab(index) {
-            if (index === 1 || index === 2 || index === 4) {
+            if (index === 2 || index === 4) {
                 showToast("このモードは現在、アップデート準備中です");
                 return;
             }
             // どのタブでも全パネルを隠してから表示（干渉防止）
             hideAllPanels();
+
+            if (index === 1) {
+                openRonriHyogen();
+                return;
+            }
 
             if (index === 3) {
                 activeTabIndex = 3;
@@ -11466,6 +11502,8 @@ const TARGET1200 = [
             // 英語コミュニケーション用サブヘッダーも隠す
             const scanSubHeader = document.getElementById('scan-sub-header');
             if (scanSubHeader) scanSubHeader.style.display = 'none';
+            const ronriSubHeader2 = document.getElementById('ronri-sub-header');
+            if (ronriSubHeader2) ronriSubHeader2.style.display = 'none';
             // 展開タブ・戻るボタンも必ず隠す
             const _et = document.getElementById('scan-panel-expand-tab-outer');
             if (_et) _et.style.display = 'none';
@@ -11521,6 +11559,9 @@ const TARGET1200 = [
                 case 'scan':
                     _navigateTo('scan', false);
                     break;
+                case 'ronri-hyogen':
+                    _navigateTo('ronri-hyogen', false);
+                    break;
                 case 'target':
                     _navigateTo('target', false);
                     break;
@@ -11566,6 +11607,10 @@ const TARGET1200 = [
                 case 'scan':
                     if (addHistory) pushState({ screen: 'scan' }, '英語コミュニケーション - 予習ProMaster');
                     _showScan();
+                    break;
+                case 'ronri-hyogen':
+                    if (addHistory) pushState({ screen: 'ronri-hyogen' }, '論理・表現 - 予習ProMaster');
+                    openRonriHyogen(false);
                     break;
                 case 'target':
                     if (addHistory) pushState({ screen: 'target' }, 'ターゲットモード - 予習ProMaster');
@@ -11618,13 +11663,68 @@ const TARGET1200 = [
         }
         // ===== 論理・表現Mode（文法問題スキャン。英コと同じ仕組みだが処理・出力形式が異なる） =====
         let ronriPhotoImage = { base64: null, mimeType: null };
-        function openRonriHyogen() {
+        // ===== 論理表現：左パネルの縮小トグル（英コと同じ見た目の簡易版） =====
+        let rhPanelCollapsed = false;
+        function toggleRhPanelCollapse() {
+            rhPanelCollapsed ? doRhExpand() : doRhCollapse();
+        }
+        function doRhCollapse() {
+            rhPanelCollapsed = true;
+            const panel = document.getElementById('rh-scan-panel');
+            const content = document.getElementById('rh-scan-panel-content');
+            const header = document.getElementById('rh-scan-panel-header');
+            const expandTab = document.getElementById('rh-panel-expand-tab-outer');
+            if (!panel) return;
+            panel.style.width = '0px';
+            panel.style.minWidth = '0px';
+            panel.style.maxWidth = '0px';
+            panel.style.padding = '0px';
+            panel.style.opacity = '0';
+            panel.style.overflow = 'hidden';
+            panel.style.border = 'none';
+            if (content) content.style.display = 'none';
+            if (header) header.style.display = 'none';
+            if (expandTab) { expandTab.style.display = 'flex'; if (typeof lucide !== 'undefined') lucide.createIcons(); }
+        }
+        function doRhExpand() {
+            rhPanelCollapsed = false;
+            const panel = document.getElementById('rh-scan-panel');
+            const content = document.getElementById('rh-scan-panel-content');
+            const header = document.getElementById('rh-scan-panel-header');
+            const expandTab = document.getElementById('rh-panel-expand-tab-outer');
+            if (!panel) return;
+            panel.style.width = '';
+            panel.style.minWidth = '';
+            panel.style.maxWidth = '';
+            panel.style.padding = '';
+            panel.style.opacity = '';
+            panel.style.overflow = '';
+            panel.style.border = '';
+            if (content) content.style.display = '';
+            if (header) header.style.display = '';
+            if (expandTab) expandTab.style.display = 'none';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function openRonriHyogen(addHistory = true) {
             hideAllPanels();
+            activeTabIndex = 1;
+            currentSubject = 'english';
             if (!modeTabBar) modeTabBar = document.getElementById('mode-tab-bar');
-            if (modeTabBar) modeTabBar.classList.add('hidden');
+            if (modeTabBar) {
+                modeTabBar.classList.remove('hidden');
+                setTabHighlight(1);
+            }
+            const ronriSubHeader = document.getElementById('ronri-sub-header');
+            if (ronriSubHeader) ronriSubHeader.style.display = 'block';
+            const scanSubHeaderEl = document.getElementById('scan-sub-header');
+            if (scanSubHeaderEl) scanSubHeaderEl.style.display = 'none';
             const mc = document.getElementById('main-container');
             if (mc) mc.className = 'flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6 items-center relative z-10 animate-fade-in';
             document.getElementById('ronri-hyogen-panel')?.classList.remove('hidden');
+            document.getElementById('rh-section-picker')?.classList.add('hidden');
+            doRhExpand();
+            if (addHistory) pushState({ screen: 'ronri-hyogen' }, '論理・表現 - 予習ProMaster');
+            setTimeout(updateStickyTop, 50);
             updateRonriPhotoRemaining();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -11788,6 +11888,39 @@ const TARGET1200 = [
             if (analyzeBtnIcon) analyzeBtnIcon.outerHTML = '<i data-lucide="sparkles" class="w-4 h-4" id="rh-analyze-btn-icon"></i>';
             if (analyzeBtnLabel) analyzeBtnLabel.textContent = 'この写真を読み取る';
             if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function toggleRonriSectionPicker() {
+            const picker = document.getElementById('rh-section-picker');
+            if (!picker) return;
+            const willShow = picker.classList.contains('hidden');
+            picker.classList.toggle('hidden', !willShow);
+            if (willShow) renderRonriSectionPicker();
+        }
+        function renderRonriSectionPicker() {
+            const picker = document.getElementById('rh-section-picker');
+            if (!picker) return;
+            const sections = window._remoteRonriSections || [];
+            if (sections.length === 0) {
+                picker.innerHTML = `<p class="text-center text-[11px] font-bold text-slate-400 py-3">まだ管理サイトから追加されたセクションがありません</p>`;
+                return;
+            }
+            picker.innerHTML = sections.map((s, idx) => `
+                <button onclick="loadRonriSection(${idx})" class="w-full text-left px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-violet-300 dark:hover:border-violet-700 hover:bg-violet-50/50 dark:hover:bg-violet-950/20 transition-all">
+                    <p class="text-xs font-black text-slate-800 dark:text-slate-100">${escapeHtml(s.title || '(無題)')}</p>
+                    <p class="text-[10px] text-slate-400 font-semibold mt-0.5">問題数：${(s.problems || []).length}問</p>
+                </button>
+            `).join('');
+        }
+        function loadRonriSection(idx) {
+            const sections = window._remoteRonriSections || [];
+            const s = sections[idx];
+            if (!s || !Array.isArray(s.problems) || s.problems.length === 0) {
+                showToast('このセクションにはまだ問題データがありません');
+                return;
+            }
+            rhProblems = s.problems;
+            renderRonriResults();
+            showToast(`「${s.title}」を読み込みました`);
         }
         function renderRonriResults() {
             document.getElementById('rh-loading-state')?.classList.add('hidden');
