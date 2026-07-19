@@ -545,19 +545,15 @@
                             </div>
                         </div>
 
-                        <!-- 週末課題ブース（金・土・日・月のみ表示） -->
-                        <div id="weekend-booth-card" class="hidden mb-3 p-4 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white shadow-md">
-                            <div class="flex items-center space-x-1.5 mb-2">
-                                <i data-lucide="tent" class="w-4 h-4"></i>
-                                <p class="text-[10px] font-black uppercase tracking-widest opacity-90">週末課題ブース</p>
+                        <!-- コーナー（予定を仕分けるファイルのような機能） -->
+                        <div id="corner-browser-card" class="hidden mb-3 p-4 rounded-2xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 shadow-sm">
+                            <div class="flex items-center space-x-1.5 mb-2.5">
+                                <i data-lucide="folder" class="w-4 h-4 text-violet-500"></i>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">コーナー</p>
                             </div>
-                            <div id="weekend-booth-latest" class="bg-white/15 rounded-xl p-2.5"></div>
-                            <p id="weekend-booth-empty-msg" class="hidden text-sm font-black opacity-90">まだ入力されていません</p>
-                            <button id="weekend-booth-toggle-btn" onclick="toggleWeekendBoothExpand()" class="hidden w-full flex items-center justify-center space-x-1 mt-2 py-1.5 text-[11px] font-bold opacity-90 hover:opacity-100 transition-opacity">
-                                <span id="weekend-booth-toggle-label">他の週末課題を見る</span>
-                                <i data-lucide="chevron-down" id="weekend-booth-toggle-icon" class="w-3.5 h-3.5 transition-transform"></i>
-                            </button>
-                            <div id="weekend-booth-rest" class="hidden space-y-2 mt-2"></div>
+                            <div id="corner-pill-list" class="flex flex-wrap gap-1.5 mb-2.5"></div>
+                            <div id="corner-item-list" class="space-y-1.5"></div>
+                            <p id="corner-empty-msg" class="hidden text-xs font-bold text-slate-400 text-center py-2">このコーナーにはまだ予定がありません</p>
                         </div>
 
                         <!-- 直近の提出物 / 直近のテスト（左右2列） -->
@@ -3907,12 +3903,11 @@
                         }
                     });
                 }
-                // ④ 週末課題ブース（金・土・日・月だけ表示する運営からのお知らせ枠）
-                // 全件を新しい順（更新日時が新しいものが先頭）に並べて保持しておく
-                if (Array.isArray(cfg.weekendBoothItems) && cfg.weekendBoothItems.length > 0) {
-                    window._remoteWeekendBoothItems = [...cfg.weekendBoothItems].sort((a, b) => (b.updatedAt || '').localeCompare(a.updatedAt || ''));
+                // ④ コーナー（予定を仕分けるファイルのような機能。管理サイトで作成）
+                if (Array.isArray(cfg.corners)) {
+                    window._remoteCorners = cfg.corners;
                 } else {
-                    window._remoteWeekendBoothItems = [];
+                    window._remoteCorners = [];
                 }
                 // ⑤ クラス一覧（クラスごとの予定・教科の元データ）
                 if (Array.isArray(cfg.classes)) {
@@ -5086,6 +5081,7 @@
                     date: s.date,
                     memo: s.memo || null,
                     classId: s.classId || null,
+                    cornerIds: Array.isArray(s.cornerIds) ? s.cornerIds : [],
                     isRemote: true,
                 }));
             return [...scheduleItems, ...remoteItems]
@@ -5098,66 +5094,67 @@
             return getAllSchedules().filter(s => s.date >= todayStr);
         }
 
-        // 週末課題ブースの「他の週末課題を見る」展開/折りたたみ
-        function toggleWeekendBoothExpand() {
-            const restEl = document.getElementById('weekend-booth-rest');
-            const icon = document.getElementById('weekend-booth-toggle-icon');
-            if (!restEl) return;
-            const willExpand = restEl.classList.contains('hidden');
-            restEl.classList.toggle('hidden', !willExpand);
-            if (icon) icon.style.transform = willExpand ? 'rotate(180deg)' : 'rotate(0deg)';
+        // コーナー選択状態（HOME画面でどのコーナーを表示中か）
+        let selectedCornerId = null;
+        function selectCornerPill(cornerId) {
+            selectedCornerId = cornerId;
+            renderCornerBrowser();
+        }
+        function renderCornerBrowser() {
+            const card = document.getElementById('corner-browser-card');
+            const pillList = document.getElementById('corner-pill-list');
+            const itemList = document.getElementById('corner-item-list');
+            const emptyMsg = document.getElementById('corner-empty-msg');
+            if (!card || !pillList || !itemList || !emptyMsg) return;
+
+            const corners = window._remoteCorners || [];
+            if (corners.length === 0) {
+                card.classList.add('hidden');
+                return;
+            }
+            card.classList.remove('hidden');
+
+            if (!selectedCornerId || !corners.find(c => c.id === selectedCornerId)) {
+                selectedCornerId = corners[0].id;
+            }
+
+            pillList.innerHTML = corners.map(c => {
+                const active = c.id === selectedCornerId;
+                return `
+                <button onclick="selectCornerPill('${c.id}')" class="px-3 py-1.5 rounded-full text-[11px] font-black transition-all flex items-center gap-1.5" style="${active ? `background:${c.color};color:#fff;` : `background:${c.color}18;color:${c.color};`}">
+                    <span style="width:6px;height:6px;border-radius:50%;background:${active ? '#fff' : c.color};display:inline-block;"></span>
+                    ${escapeHtml(c.name)}
+                </button>`;
+            }).join('');
+
+            const allItems = getAllSchedules().filter(s => Array.isArray(s.cornerIds) && s.cornerIds.includes(selectedCornerId));
+            const todayStr = getJSTDateOnly().toISOString().slice(0, 10);
+            allItems.sort((a, b) => a.date.localeCompare(b.date));
+
+            if (allItems.length === 0) {
+                itemList.innerHTML = '';
+                emptyMsg.classList.remove('hidden');
+                return;
+            }
+            emptyMsg.classList.add('hidden');
+            const typeIcon = { test: 'file-edit', submission: 'package-check' };
+            itemList.innerHTML = allItems.map(item => {
+                const isPast = item.date < todayStr;
+                return `
+                <div class="flex items-center gap-2 px-2.5 py-2 rounded-xl ${isPast ? 'opacity-50' : ''} bg-slate-50 dark:bg-slate-800/50">
+                    <i data-lucide="${typeIcon[item.type] || 'file-edit'}" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
+                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate flex-1">${escapeHtml(item.title)}</span>
+                    <span class="text-[10px] font-bold text-slate-400 shrink-0">${escapeHtml(item.date)}</span>
+                </div>`;
+            }).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function renderScheduleSection() {
             const upcoming = getUpcomingSchedules();
 
-            // ----- カスタムブース（各アイテムに設定された曜日にだけ表示） -----
-            const boothCard = document.getElementById('weekend-booth-card');
-            const dow = getJSTDayOfWeek(); // 0=日,1=月,...,6=土
-            // 今日の曜日が対象に含まれ、かつ「対象クラス」が未設定 or 自分の参加クラスと一致するものだけを抽出
-            // （daysが無い古いデータは金土日月扱いにする）
-            const myClassId = window.currentUserClassId || null;
-            const allBoothItems = window._remoteWeekendBoothItems || [];
-            const items = allBoothItems.filter(item => {
-                const days = Array.isArray(item.days) ? item.days : [5, 6, 0, 1];
-                if (!days.includes(dow)) return false;
-                if (item.classId && item.classId !== myClassId) return false;
-                return true;
-            });
-            if (boothCard) {
-                if (items.length > 0) {
-                    boothCard.classList.remove('hidden');
-                    const latestEl = document.getElementById('weekend-booth-latest');
-                    const emptyEl = document.getElementById('weekend-booth-empty-msg');
-                    const toggleBtn = document.getElementById('weekend-booth-toggle-btn');
-                    const restEl = document.getElementById('weekend-booth-rest');
-                    const toggleLabel = document.getElementById('weekend-booth-toggle-label');
-                    const toggleIcon = document.getElementById('weekend-booth-toggle-icon');
-                    const boothItemHtml = item => `
-                        ${item.title ? `<p class="text-sm font-black">${escapeHtml(item.title)}</p>` : ''}
-                        ${item.body ? `<p class="text-xs font-semibold opacity-90 mt-0.5 leading-relaxed whitespace-pre-wrap">${escapeHtml(item.body)}</p>` : ''}
-                    `;
-                    if (emptyEl) emptyEl.classList.add('hidden');
-                    if (latestEl) { latestEl.classList.remove('hidden'); latestEl.innerHTML = boothItemHtml(items[0]); }
-                    const restItems = items.slice(1);
-                    if (restItems.length > 0) {
-                        if (toggleBtn) {
-                            toggleBtn.classList.remove('hidden');
-                            if (toggleLabel) toggleLabel.textContent = `他のブースを見る（${restItems.length}件）`;
-                        }
-                        if (restEl) {
-                            restEl.innerHTML = restItems.map(item => `<div class="bg-white/15 rounded-xl p-2.5">${boothItemHtml(item)}</div>`).join('');
-                            restEl.classList.add('hidden'); // 展開ボタンを押すまでは閉じておく
-                        }
-                        if (toggleIcon) toggleIcon.style.transform = 'rotate(0deg)';
-                    } else {
-                        if (toggleBtn) toggleBtn.classList.add('hidden');
-                        if (restEl) { restEl.classList.add('hidden'); restEl.innerHTML = ''; }
-                    }
-                } else {
-                    boothCard.classList.add('hidden');
-                }
-            }
+            // ----- コーナー（予定を仕分けるファイルのような機能） -----
+            renderCornerBrowser();
 
             // ----- 直近の提出物 / 直近のテスト（左右2列） -----
             const nextSubmission = upcoming.find(s => s.type === 'submission');

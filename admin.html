@@ -203,11 +203,11 @@
     </section>
 
     <section class="panel">
-      <h2><i data-lucide="tent"></i>カスタムブース</h2>
-      <p class="desc">指定した曜日の間だけ、全ユーザーのHOME画面上部に表示される特別なお知らせ枠です（週末課題ブースなど、曜日を自由に設定できます）。同じ曜日に該当するものが複数ある場合、一番新しいものが表示され、残りは「他を見る」から展開できます。何も追加されていない場合は「まだ入力されていません」とユーザー側に表示されます。</p>
-      <div id="weekendbooth-list"></div>
-      <p id="weekendbooth-empty" class="empty-msg hidden">カスタムブースはまだ追加されていません</p>
-      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addWeekendBooth()">＋ カスタムブースを追加</button>
+      <h2><i data-lucide="folder"></i>コーナー管理</h2>
+      <p class="desc">コーナーは予定を仕分けるための「ファイル」のようなものです。作成したコーナーは、下の「テスト・提出物の予定」で各予定に割り当てられます。生徒はHOME画面でコーナーを選ぶと、そのコーナーに入っている予定だけを一覧できます。</p>
+      <div id="corner-list"></div>
+      <p id="corner-empty" class="empty-msg hidden">コーナーはまだ追加されていません</p>
+      <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addCorner()">＋ コーナーを追加</button>
     </section>
 
     <section class="panel">
@@ -270,9 +270,11 @@
     <div class="field"><label>対象クラス（未選択なら全員に表示）</label><select id="sch-class"></select></div>
     <div class="field"><label>日付</label><input type="date" id="sch-date"></div>
     <div class="field"><label>メモ（任意）</label><textarea id="sch-memo" placeholder="範囲・持ち物など"></textarea></div>
-    <button type="button" class="btn btn-secondary btn-sm" style="width:100%;margin-top:4px;" onclick="addCurrentScheduleToWeekendBooth()">
-      <i data-lucide="tent" style="width:13px;height:13px;"></i> 週末課題ブースにも追加
-    </button>
+    <div class="field">
+      <label>コーナー（任意・複数選択可）</label>
+      <div id="sch-corner-checks" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+      <p class="desc" id="sch-corner-empty-hint" style="margin-top:4px;">コーナーがまだありません。「コーナー管理」から作成してください。</p>
+    </div>
     <div class="row2" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="closeScheduleModal()">キャンセル</button>
       <button class="btn btn-primary" onclick="confirmSchedule()">反映する</button>
@@ -280,29 +282,17 @@
   </div>
 </div>
 
-<div id="weekendbooth-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
+<div id="corner-modal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:16px;">
   <div style="background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:22px;width:100%;max-width:380px;">
-    <h3 style="font-size:13px;font-weight:900;margin:0 0 4px;">カスタムブースを編集</h3>
-    <p class="desc" style="margin-bottom:14px;">タイトル・本文はどちらも任意です。表示する曜日を選んでください（複数選択可）。</p>
+    <h3 style="font-size:13px;font-weight:900;margin:0 0 14px;">コーナーを編集</h3>
+    <div class="field"><label>コーナー名</label><input type="text" id="corner-name" placeholder="例：英語コーナー"></div>
     <div class="field">
-      <label>表示する曜日</label>
-      <div class="pill-select" style="flex-wrap:wrap;">
-        <button type="button" class="pill wb-day-pill" data-day="0" onclick="toggleWeekendBoothDay(0)">日</button>
-        <button type="button" class="pill wb-day-pill" data-day="1" onclick="toggleWeekendBoothDay(1)">月</button>
-        <button type="button" class="pill wb-day-pill" data-day="2" onclick="toggleWeekendBoothDay(2)">火</button>
-        <button type="button" class="pill wb-day-pill" data-day="3" onclick="toggleWeekendBoothDay(3)">水</button>
-        <button type="button" class="pill wb-day-pill" data-day="4" onclick="toggleWeekendBoothDay(4)">木</button>
-        <button type="button" class="pill wb-day-pill" data-day="5" onclick="toggleWeekendBoothDay(5)">金</button>
-        <button type="button" class="pill wb-day-pill" data-day="6" onclick="toggleWeekendBoothDay(6)">土</button>
-      </div>
-      <button type="button" class="btn btn-secondary btn-sm" style="margin-top:6px;" onclick="setWeekendBoothWeekendPreset()">「週末（金土日月）」を選択</button>
+      <label>カラー</label>
+      <div id="corner-color-picker" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
     </div>
-    <div class="field"><label>タイトル（任意）</label><input type="text" id="wb-title" placeholder="例：週末課題のお知らせ"></div>
-    <div class="field"><label>本文（任意）</label><textarea id="wb-body" placeholder="例：英語ワークP.20-25を月曜提出"></textarea></div>
-    <div class="field"><label>対象クラス（未選択なら全員に表示）</label><select id="wb-class"></select></div>
     <div class="row2" style="margin-top:16px;">
-      <button class="btn btn-secondary" onclick="closeWeekendBoothModal()">キャンセル</button>
-      <button class="btn btn-primary" onclick="confirmWeekendBooth()">反映する</button>
+      <button class="btn btn-secondary" onclick="closeCornerModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="confirmCorner()">反映する</button>
     </div>
   </div>
 </div>
@@ -393,7 +383,8 @@
     <p class="desc" style="margin-bottom:14px;">文法問題プリントの写真をアップロードすると、Gemini AIが自動で解析し、本体アプリと同じ内容（解答・日本語訳・解説・文法ポイント）を問題ごとに生成します。</p>
     <div class="row3">
       <div class="field"><label>ID（半角英数字）</label><input type="text" id="rsec-id" placeholder="例：RH1"></div>
-      <div class="field" style="grid-column:span 2;"><label>タイトル</label><input type="text" id="rsec-title" placeholder="例：仮定法 練習プリント"></div>
+      <div class="field"><label>Lessonラベル</label><input type="text" id="rsec-lesson-label" placeholder="例：Lesson 2"></div>
+      <div class="field"><label>Sectionラベル</label><input type="text" id="rsec-section-label" placeholder="例：仮定法"></div>
     </div>
 
     <div class="field">
@@ -438,7 +429,7 @@
 
 <script>
 let session = null;
-let configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [], ronriSections: [] };
+let configData = { announcements: [], globalSchedules: [], extraSections: [], corners: [], classes: [], ronriSections: [] };
 let currentSha = null;
 let dirty = false;
 const LS_KEY = 'pm_admin_session_v1';
@@ -509,7 +500,7 @@ async function reloadFromGitHub() {
   });
   if (res.status === 404) {
     currentSha = null;
-    configData = { announcements: [], globalSchedules: [], extraSections: [], weekendBoothItems: [], classes: [], ronriSections: [] };
+    configData = { announcements: [], globalSchedules: [], extraSections: [], corners: [], classes: [], ronriSections: [] };
     renderAll();
     setSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
     return;
@@ -526,7 +517,7 @@ async function reloadFromGitHub() {
   configData.globalSchedules = configData.globalSchedules || [];
   configData.extraSections = configData.extraSections || [];
   configData.ronriSections = configData.ronriSections || [];
-  configData.weekendBoothItems = configData.weekendBoothItems || [];
+  configData.corners = configData.corners || [];
   configData.classes = configData.classes || [];
   dirty = false;
   renderAll();
@@ -595,12 +586,12 @@ function updatePreview() {
 
 function renderAll() {
   renderClasses();
+  renderCorners();
   renderAnnouncements();
   renderSchedules();
   renderAdminCalendar();
   renderSections();
   renderRonriSections();
-  renderWeekendBooth();
   updatePreview();
 }
 
@@ -659,11 +650,19 @@ function renderSchedules() {
     const c = (configData.classes || []).find(x => x.id === classId);
     return c ? c.name : '（削除済みクラス）';
   };
+  const cornerTagsOf = (cornerIds) => {
+    if (!Array.isArray(cornerIds) || cornerIds.length === 0) return '';
+    return cornerIds.map(id => {
+      const c = (configData.corners || []).find(x => x.id === id);
+      if (!c) return '';
+      return `<span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;color:#fff;background:${esc(c.color)};margin-left:4px;">${esc(c.name)}</span>`;
+    }).join('');
+  };
   wrap.innerHTML = list.map((s, idx) => `
     <div class="item-card" onclick="editSchedule(${idx})" style="cursor:pointer;">
       <div class="item-head">
         <div>
-          <span class="item-title">${esc(s.title||'(無題)')}</span>
+          <span class="item-title">${esc(s.title||'(無題)')}</span>${cornerTagsOf(s.cornerIds)}
           <p class="item-sub">${typeLabel[s.type]||s.type} ・ ${esc(s.subject||'-')} ・ ${esc(s.date||'-')} ・ 対象：${esc(classNameOf(s.classId))}</p>
         </div>
         <div class="item-actions">
@@ -941,8 +940,6 @@ function populateScheduleClassOptions() {
     classes.map(c => `<option value="${esc(c.id)}">${esc(c.name)}</option>`).join('');
   const schSel = document.getElementById('sch-class');
   if (schSel) schSel.innerHTML = optionsHtml;
-  const wbSel = document.getElementById('wb-class');
-  if (wbSel) wbSel.innerHTML = optionsHtml;
 }
 
 
@@ -959,6 +956,7 @@ function openScheduleModal(idx, presetDate) {
   document.getElementById('sch-date').value = s.date || '';
   document.getElementById('sch-memo').value = s.memo || '';
   setSchType(s.type || 'test');
+  renderScheduleCornerChecks();
   document.getElementById('schedule-modal').classList.remove('hidden');
 }
 function setSchType(type) {
@@ -975,31 +973,8 @@ function closeScheduleModal() {
   document.getElementById('schedule-modal').classList.add('hidden');
 }
 // 予定編集モーダルに入力中の内容を、そのまま週末課題ブースにも1件追加する
-function addCurrentScheduleToWeekendBooth() {
-  const title = document.getElementById('sch-title').value.trim();
-  const subject = document.getElementById('sch-subject').value.trim();
-  const date = document.getElementById('sch-date').value;
-  const memo = document.getElementById('sch-memo').value.trim();
-  if (!title) { showToast('タイトルを入力してください'); return; }
-
-  const bodyParts = [];
-  if (subject) bodyParts.push(`教科：${subject}`);
-  if (date) bodyParts.push(`日付：${date}`);
-  if (memo) bodyParts.push(memo);
-
-  const entry = {
-    title,
-    body: bodyParts.join('\n'),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-  configData.weekendBoothItems.unshift(entry);
-  renderWeekendBooth();
-  markDirty();
-  showToast('週末課題ブースに追加しました');
-}
-
 function confirmSchedule() {
+  const cornerIds = Array.from(document.querySelectorAll('.sch-corner-check:checked')).map(el => el.value);
   const entry = {
     id: Date.now(),
     type: schSelectedType,
@@ -1008,6 +983,7 @@ function confirmSchedule() {
     classId: document.getElementById('sch-class').value || null,
     date: document.getElementById('sch-date').value,
     memo: document.getElementById('sch-memo').value.trim() || null,
+    cornerIds,
   };
   if (!entry.title || !entry.date) { showToast('タイトルと日付は必須です'); return; }
   if (schEditIdx != null) {
@@ -1029,99 +1005,58 @@ function removeSchedule(idx) {
   markDirty();
 }
 
-let wbEditIdx = null;
-let wbSelectedDays = [];
-const WB_DAY_LABELS = ['日','月','火','水','木','金','土'];
+// ===== コーナー管理 =====
+const CORNER_COLORS = ['#a855f7','#8b5cf6','#6366f1','#0ea5e9','#06b6d4','#10b981','#f59e0b','#f97316','#ef4444','#ec4899'];
+let cornerEditIdx = null;
+let cornerSelectedColor = CORNER_COLORS[0];
 
-function toggleWeekendBoothDay(day) {
-  const idx = wbSelectedDays.indexOf(day);
-  if (idx >= 0) wbSelectedDays.splice(idx, 1);
-  else wbSelectedDays.push(day);
-  renderWeekendBoothDayPills();
-}
-function setWeekendBoothWeekendPreset() {
-  wbSelectedDays = [5, 6, 0, 1]; // 金・土・日・月
-  renderWeekendBoothDayPills();
-}
-function renderWeekendBoothDayPills() {
-  document.querySelectorAll('.wb-day-pill').forEach(btn => {
-    const day = parseInt(btn.dataset.day, 10);
-    const active = wbSelectedDays.includes(day);
-    btn.classList.toggle('pill-active', active);
-  });
-}
-
-function addWeekendBooth() { openWeekendBoothModal(null); }
-function editWeekendBooth(idx) { openWeekendBoothModal(idx); }
-function openWeekendBoothModal(idx) {
-  wbEditIdx = idx;
-  const item = idx != null ? configData.weekendBoothItems[idx] : { title: '', body: '', days: [], classId: '' };
-  populateScheduleClassOptions();
-  document.getElementById('wb-title').value = item.title || '';
-  document.getElementById('wb-body').value = item.body || '';
-  document.getElementById('wb-class').value = item.classId || '';
-  wbSelectedDays = Array.isArray(item.days) ? [...item.days] : [];
-  renderWeekendBoothDayPills();
-  document.getElementById('weekendbooth-modal').classList.remove('hidden');
-}
-function closeWeekendBoothModal() {
-  document.getElementById('weekendbooth-modal').classList.add('hidden');
-}
-function confirmWeekendBooth() {
-  if (wbSelectedDays.length === 0) { showToast('表示する曜日を1つ以上選んでください'); return; }
-  const entry = {
-    title: document.getElementById('wb-title').value.trim(),
-    body: document.getElementById('wb-body').value.trim(),
-    days: [...wbSelectedDays].sort((a, b) => a - b),
-    classId: document.getElementById('wb-class').value || null,
-    createdAt: (wbEditIdx != null && configData.weekendBoothItems[wbEditIdx].createdAt) || new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-  if (wbEditIdx != null) configData.weekendBoothItems[wbEditIdx] = entry;
-  else configData.weekendBoothItems.unshift(entry);
-  closeWeekendBoothModal();
-  renderWeekendBooth();
-  markDirty();
-}
-function removeWeekendBooth(idx) {
-  if (!confirm('このカスタムブースを削除しますか？')) return;
-  configData.weekendBoothItems.splice(idx, 1);
-  renderWeekendBooth();
-  markDirty();
+function renderScheduleCornerChecks() {
+  const wrap = document.getElementById('sch-corner-checks');
+  const emptyHint = document.getElementById('sch-corner-empty-hint');
+  if (!wrap) return;
+  const corners = configData.corners || [];
+  if (corners.length === 0) {
+    wrap.innerHTML = '';
+    if (emptyHint) emptyHint.style.display = 'block';
+    return;
+  }
+  if (emptyHint) emptyHint.style.display = 'none';
+  const currentIds = (schEditIdx != null && configData.globalSchedules[schEditIdx].cornerIds) || [];
+  wrap.innerHTML = corners.map(c => `
+    <label style="display:flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;border:1px solid var(--border);cursor:pointer;font-size:11px;font-weight:700;">
+      <input type="checkbox" class="sch-corner-check" value="${esc(c.id)}" ${currentIds.includes(c.id) ? 'checked' : ''} style="accent-color:${esc(c.color)};">
+      <span style="width:8px;height:8px;border-radius:50%;background:${esc(c.color)};display:inline-block;"></span>
+      ${esc(c.name)}
+    </label>
+  `).join('');
 }
 
-function renderWeekendBooth() {
-  const wrap = document.getElementById('weekendbooth-list');
-  const empty = document.getElementById('weekendbooth-empty');
-  const list = configData.weekendBoothItems || [];
+function renderCorners() {
+  const wrap = document.getElementById('corner-list');
+  const empty = document.getElementById('corner-empty');
+  if (!wrap || !empty) return;
+  const list = configData.corners || [];
   if (list.length === 0) {
     wrap.innerHTML = '';
     empty.classList.remove('hidden');
     return;
   }
   empty.classList.add('hidden');
-  // 「表示中」＝最終更新日時が最も新しい項目（並び順ではなく更新日時で判定する）
-  let latestIdx = 0;
-  list.forEach((item, i) => {
-    if ((item.updatedAt || '') > (list[latestIdx].updatedAt || '')) latestIdx = i;
-  });
-  wrap.innerHTML = list.map((item, idx) => {
-    const days = Array.isArray(item.days) ? item.days : [5, 6, 0, 1];
-    const isWeekendPreset = days.length === 4 && [0,1,5,6].every(d => days.includes(d));
-    const daysLabel = isWeekendPreset ? '週末（金土日月）' : days.slice().sort((a,b)=>a-b).map(d => WB_DAY_LABELS[d]).join('・');
+  wrap.innerHTML = list.map((c, idx) => {
+    const count = (configData.globalSchedules || []).filter(s => (s.cornerIds || []).includes(c.id)).length;
     return `
-    <div class="item-card">
+    <div class="item-card" onclick="editCorner(${idx})" style="cursor:pointer;">
       <div class="item-head">
-        <div>
-          ${idx === latestIdx ? `<span style="font-size:9px;font-weight:900;padding:2px 7px;border-radius:999px;color:#fff;background:#a855f7;">表示中</span>` : ''}
-          <span class="item-title" style="margin-left:${idx===latestIdx?'6px':'0'};">${esc(item.title||'(無題)')}</span>
-          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;color:#7c3aed;background:#7c3aed18;margin-left:6px;">${esc(daysLabel)}</span>
-          <span style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;color:#0ea5e9;background:#0ea5e918;margin-left:6px;">対象：${esc(item.classId ? ((configData.classes||[]).find(c=>c.id===item.classId)?.name || '（削除済みクラス）') : '全員')}</span>
-          <p class="item-sub">${formatDateTime(item.createdAt) ? formatDateTime(item.createdAt) + ' 追加 ・ ' : ''}${esc((item.body||'').slice(0,60))}${(item.body||'').length>60?'…':''}</p>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="width:14px;height:14px;border-radius:50%;background:${esc(c.color)};display:inline-block;flex-shrink:0;"></span>
+          <div>
+            <span class="item-title">${esc(c.name)}</span>
+            <p class="item-sub">${count}件の予定がこのコーナーに入っています</p>
+          </div>
         </div>
         <div class="item-actions">
-          <button class="icon-btn" onclick="editWeekendBooth(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
-          <button class="icon-btn danger" onclick="removeWeekendBooth(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn" onclick="event.stopPropagation(); editCorner(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="event.stopPropagation(); removeCorner(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
         </div>
       </div>
     </div>
@@ -1129,6 +1064,57 @@ function renderWeekendBooth() {
   }).join('');
   if (typeof lucide !== "undefined") lucide.createIcons();
 }
+
+function addCorner() { openCornerModal(null); }
+function editCorner(idx) { openCornerModal(idx); }
+function openCornerModal(idx) {
+  cornerEditIdx = idx;
+  const c = idx != null ? configData.corners[idx] : { name: '', color: CORNER_COLORS[(configData.corners||[]).length % CORNER_COLORS.length] };
+  document.getElementById('corner-name').value = c.name || '';
+  cornerSelectedColor = c.color || CORNER_COLORS[0];
+  renderCornerColorPicker();
+  document.getElementById('corner-modal').classList.remove('hidden');
+}
+function closeCornerModal() {
+  document.getElementById('corner-modal').classList.add('hidden');
+}
+function renderCornerColorPicker() {
+  const wrap = document.getElementById('corner-color-picker');
+  if (!wrap) return;
+  wrap.innerHTML = CORNER_COLORS.map(color => `
+    <button type="button" onclick="selectCornerColor('${color}')" style="width:26px;height:26px;border-radius:50%;background:${color};border:2px solid ${color === cornerSelectedColor ? '#fff' : 'transparent'};box-shadow:${color === cornerSelectedColor ? '0 0 0 2px ' + color : 'none'};cursor:pointer;"></button>
+  `).join('');
+}
+function selectCornerColor(color) {
+  cornerSelectedColor = color;
+  renderCornerColorPicker();
+}
+function confirmCorner() {
+  const name = document.getElementById('corner-name').value.trim();
+  if (!name) { showToast('コーナー名を入力してください'); return; }
+  const entry = {
+    id: (cornerEditIdx != null && configData.corners[cornerEditIdx].id) || ('corner_' + Date.now()),
+    name,
+    color: cornerSelectedColor,
+  };
+  if (cornerEditIdx != null) configData.corners[cornerEditIdx] = entry;
+  else configData.corners.push(entry);
+  closeCornerModal();
+  renderCorners();
+  markDirty();
+}
+function removeCorner(idx) {
+  if (!confirm('このコーナーを削除しますか？（このコーナーに割り当てられていた予定は「未分類」になります）')) return;
+  const removedId = configData.corners[idx].id;
+  configData.corners.splice(idx, 1);
+  (configData.globalSchedules || []).forEach(s => {
+    if (Array.isArray(s.cornerIds)) s.cornerIds = s.cornerIds.filter(id => id !== removedId);
+  });
+  renderCorners();
+  renderSchedules();
+  markDirty();
+}
+
 
 let secEditIdx = null;
 let secImageBase64 = null;
@@ -1458,19 +1444,27 @@ function renderRonriSections() {
     return;
   }
   empty.classList.add('hidden');
-  wrap.innerHTML = list.map((s, idx) => `
-    <div class="item-card" onclick="editRonriSection(${idx})" style="cursor:pointer;">
+  const lessons = {};
+  list.forEach((s, idx) => {
+    const key = s.lessonLabel || '(Lessonラベル未設定)';
+    if (!lessons[key]) lessons[key] = [];
+    lessons[key].push({ ...s, _idx: idx });
+  });
+  wrap.innerHTML = Object.keys(lessons).map(lk => `
+    <p style="font-size:10px;font-weight:900;color:var(--sub);text-transform:uppercase;letter-spacing:.05em;margin:14px 0 6px;">● ${esc(lk)}</p>
+    ${lessons[lk].map(s => `
+    <div class="item-card" onclick="editRonriSection(${s._idx})" style="cursor:pointer;">
       <div class="item-head">
         <div style="flex:1;min-width:0;">
-          <span class="item-title">${esc(s.title || '(無題)')}</span>
+          <span class="item-title">${esc(s.sectionLabel || '(無題)')}</span>
           <p class="item-sub">ID: ${esc(s.id||'-')} ・ 問題数: ${(s.problems||[]).length}</p>
         </div>
         <div class="item-actions">
-          <button class="icon-btn" onclick="event.stopPropagation(); editRonriSection(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
-          <button class="icon-btn danger" onclick="event.stopPropagation(); removeRonriSection(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn" onclick="event.stopPropagation(); editRonriSection(${s._idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="event.stopPropagation(); removeRonriSection(${s._idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
         </div>
       </div>
-    </div>
+    </div>`).join('')}
   `).join('');
   if (typeof lucide !== "undefined") lucide.createIcons();
 }
@@ -1484,9 +1478,10 @@ function addRonriSection() { openRonriSectionModal(null); }
 function editRonriSection(idx) { openRonriSectionModal(idx); }
 function openRonriSectionModal(idx) {
   rsecEditIdx = idx;
-  const s = idx != null ? configData.ronriSections[idx] : { id: '', title: '', problems: [] };
+  const s = idx != null ? configData.ronriSections[idx] : { id: '', lessonLabel: '', sectionLabel: '', problems: [] };
   document.getElementById('rsec-id').value = s.id || '';
-  document.getElementById('rsec-title').value = s.title || '';
+  document.getElementById('rsec-lesson-label').value = s.lessonLabel || '';
+  document.getElementById('rsec-section-label').value = s.sectionLabel || '';
   document.getElementById('rsec-data-json').value = (s.problems && s.problems.length) ? JSON.stringify({ problems: s.problems }, null, 2) : '';
   document.getElementById('rsec-json-error').style.display = 'none';
   if (rsecAnalyzeAbortController) rsecAnalyzeAbortController.abort();
@@ -1674,12 +1669,13 @@ async function analyzeRonriSectionImage() {
 
 function confirmRonriSection() {
   const id = document.getElementById('rsec-id').value.trim();
-  const title = document.getElementById('rsec-title').value.trim();
+  const lessonLabel = document.getElementById('rsec-lesson-label').value.trim();
+  const sectionLabel = document.getElementById('rsec-section-label').value.trim();
   const dataRaw = document.getElementById('rsec-data-json').value.trim();
   const errEl = document.getElementById('rsec-json-error');
   errEl.style.display = 'none';
 
-  if (!id || !title) { showToast('IDとタイトルは必須です'); return; }
+  if (!id || !lessonLabel || !sectionLabel) { showToast('ID・Lessonラベル・Sectionラベルは必須です'); return; }
   let problems = [];
   if (dataRaw) {
     try {
@@ -1691,7 +1687,7 @@ function confirmRonriSection() {
       return;
     }
   }
-  const entry = { id, title, problems };
+  const entry = { id, lessonLabel, sectionLabel, problems };
   configData.ronriSections = configData.ronriSections || [];
   if (rsecEditIdx != null) configData.ronriSections[rsecEditIdx] = entry;
   else configData.ronriSections.push(entry);
