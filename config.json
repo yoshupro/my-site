@@ -101,6 +101,78 @@
       "cornerIds": [
         "corner_1784461896715"
       ]
+    },
+    {
+      "id": 1784469380978,
+      "type": "submission",
+      "title": "NEWSBREAKS",
+      "subject": "英語",
+      "classId": null,
+      "date": "2026-08-26",
+      "memo": "Chapter1,3,4,6",
+      "cornerIds": [
+        "corner_1784461896715"
+      ]
+    },
+    {
+      "id": 1784469522091,
+      "type": "submission",
+      "title": "枕草子鑑賞レポート",
+      "subject": "古典探究",
+      "classId": "c1783747980943",
+      "date": "2026-08-20",
+      "memo": "400字以上",
+      "cornerIds": [
+        "corner_1784461896715"
+      ]
+    },
+    {
+      "id": 1784469630568,
+      "type": "submission",
+      "title": "SCRAMBLEプリント",
+      "subject": "英語",
+      "classId": "c1783747980943",
+      "date": "2026-08-25",
+      "memo": null,
+      "cornerIds": [
+        "corner_1784461896715"
+      ]
+    },
+    {
+      "id": 1784469705576,
+      "type": "submission",
+      "title": "英単語ターゲット1900ワーク",
+      "subject": "英語",
+      "classId": "c1783747980943",
+      "date": "2026-08-21",
+      "memo": "671〜871",
+      "cornerIds": [
+        "corner_1784461896715"
+      ]
+    },
+    {
+      "id": 1784469768577,
+      "type": "submission",
+      "title": "「山月記」「人虎伝」比較レポート",
+      "subject": "論理国語",
+      "classId": "c1783747980943",
+      "date": "2026-08-24",
+      "memo": null,
+      "cornerIds": [
+        "corner_1784461896715"
+      ]
+    },
+    {
+      "id": 1784469866722,
+      "type": "submission",
+      "title": "Mileage Reader",
+      "subject": "英語",
+      "classId": null,
+      "date": "2026-08-26",
+      "memo": "Lesson10〜18",
+      "cornerIds": [
+        "corner_1784461896715"
+      ]
     }
   ],
   "extraSections": [
