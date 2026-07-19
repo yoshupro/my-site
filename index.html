@@ -1217,7 +1217,67 @@
                 </div>
             </div>
 
-            <!-- ===== 論理・表現（文法問題スキャン） ===== -->
+
+            <!-- 論理表現：セクション一覧ページ -->
+            <div id="ronri-section-list-panel" class="hidden w-full bg-white/90 dark:bg-[#0c1220]/80 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm dark:shadow-xl backdrop-blur-md">
+                <div class="mb-5">
+                    <button onclick="openRonriEntrySelector()" class="flex items-center space-x-1 mb-3 text-[11px] font-bold text-slate-400 dark:text-slate-500 hover:text-violet-500 dark:hover:text-cyan-400 transition-colors">
+                        <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+                        <span>論理表現HOMEに戻る</span>
+                    </button>
+                    <h4 class="text-sm font-black text-slate-800 dark:text-white flex items-center space-x-2">
+                        <i data-lucide="layers" class="w-4 h-4 text-violet-500"></i>
+                        <span>Sectionを選んで学習する</span>
+                    </h4>
+                    <p class="text-[11px] text-slate-400 mt-1 font-semibold">解析済みのプリントからセクションを選んでください</p>
+                </div>
+                <div id="ronri-section-grid" class="grid grid-cols-2 gap-3"></div>
+                <p id="ronri-section-list-empty" class="hidden text-xs text-slate-400 dark:text-slate-500 font-bold text-center py-6">まだセクションが追加されていません。<br>「自分で画像をアップロード」から解析するか、後日追加されるのをお待ちください。</p>
+            </div>
+
+            <!-- 論理表現：入口（セクション選択 or 画像アップロード） -->
+            <div id="ronri-entry-selector" class="hidden w-full animate-fade-in">
+                <div class="w-full max-w-5xl mx-auto">
+                    <div class="text-center mb-8">
+                        <div class="inline-flex items-center space-x-2 mb-2">
+                            <i data-lucide="pen-line" class="w-5 h-5 text-violet-500"></i>
+                            <span class="text-xs font-black text-slate-400 dark:text-slate-500 tracking-widest uppercase">論理・表現</span>
+                        </div>
+                        <h2 class="text-xl font-black text-slate-800 dark:text-white">どちらで学習しますか？</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- セクションで選ぶ -->
+                        <button onclick="openRonriSectionListPage()" class="group relative p-8 bg-white dark:bg-[#0f172a] hover:bg-gradient-to-br hover:from-cyan-50 hover:to-blue-50 dark:hover:from-cyan-950/30 dark:hover:to-blue-950/30 border-2 border-slate-200 dark:border-slate-800 hover:border-cyan-400 dark:hover:border-cyan-500 rounded-3xl text-left transition-all duration-200 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col min-h-[240px]">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center shadow-lg shadow-cyan-200 dark:shadow-cyan-900/40 mb-6">
+                                <i data-lucide="layers" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-lg font-black text-slate-800 dark:text-white mb-2">セクションで選ぶ</div>
+                                <div class="text-sm text-slate-400 dark:text-slate-500 font-semibold leading-relaxed">解析済みのプリントからセクションを選んで予習を始めましょう</div>
+                            </div>
+                            <div class="mt-6 flex items-center space-x-1.5 text-cyan-500 dark:text-cyan-400 font-black text-xs group-hover:translate-x-1 transition-transform">
+                                <span>選択へ進む</span>
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </div>
+                        </button>
+                        <!-- 画像アップロード -->
+                        <button onclick="openRonriScanPage()" class="group relative p-8 bg-white dark:bg-[#0f172a] hover:bg-gradient-to-br hover:from-violet-50 hover:to-purple-50 dark:hover:from-violet-950/30 dark:hover:to-purple-950/30 border-2 border-slate-200 dark:border-slate-800 hover:border-violet-400 dark:hover:border-violet-500 rounded-3xl text-left transition-all duration-200 shadow-sm hover:shadow-xl hover:-translate-y-1 flex flex-col min-h-[240px]">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shadow-lg shadow-violet-200 dark:shadow-violet-900/40 mb-6">
+                                <i data-lucide="upload-cloud" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-lg font-black text-slate-800 dark:text-white mb-2">自分で画像をアップロード</div>
+                                <div class="text-sm text-slate-400 dark:text-slate-500 font-semibold leading-relaxed">プリントを撮影・スキャンして AIが自動解析します</div>
+                            </div>
+                            <div class="mt-6 flex items-center space-x-1.5 text-violet-500 dark:text-violet-400 font-black text-xs group-hover:translate-x-1 transition-transform">
+                                <span>スキャンへ進む</span>
+                                <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <div id="ronri-hyogen-panel" class="hidden w-full space-y-4">
                 <!-- ===== 英コと同じ2カラムレイアウト ===== -->
                 <div class="flex flex-col lg:flex-row gap-4 items-start">
@@ -11489,7 +11549,7 @@ const TARGET1200 = [
         }
 
         // ===== 全パネル管理（干渉防止）=====
-        const ALL_PANELS = ['home-container','english-home','ronri-hyogen-panel','japanese-home','kobun-home','kobun-reader-panel','kobun-vocab-panel','kobun-katsuyou-panel','math-home','science-home','social-home','social-qa-panel','geo-puzzle-panel','formula-panel','target1900-panel','scan-panel-wrapper','image-upload-panel','right-content-panel','notebook-interface','grades-panel','preset-section-selector','english-entry-selector','calendar-panel'];
+        const ALL_PANELS = ['home-container','english-home','ronri-entry-selector','ronri-section-list-panel','ronri-hyogen-panel','japanese-home','kobun-home','kobun-reader-panel','kobun-vocab-panel','kobun-katsuyou-panel','math-home','science-home','social-home','social-qa-panel','geo-puzzle-panel','formula-panel','target1900-panel','scan-panel-wrapper','image-upload-panel','right-content-panel','notebook-interface','grades-panel','preset-section-selector','english-entry-selector','calendar-panel'];
 
         function hideAllPanels() {
             ALL_PANELS.forEach(id => {
@@ -11562,6 +11622,12 @@ const TARGET1200 = [
                 case 'ronri-hyogen':
                     _navigateTo('ronri-hyogen', false);
                     break;
+                case 'ronri-section-list':
+                    _navigateTo('ronri-section-list', false);
+                    break;
+                case 'ronri-scan':
+                    _navigateTo('ronri-scan', false);
+                    break;
                 case 'target':
                     _navigateTo('target', false);
                     break;
@@ -11611,6 +11677,14 @@ const TARGET1200 = [
                 case 'ronri-hyogen':
                     if (addHistory) pushState({ screen: 'ronri-hyogen' }, '論理・表現 - 予習ProMaster');
                     openRonriHyogen(false);
+                    break;
+                case 'ronri-section-list':
+                    if (addHistory) pushState({ screen: 'ronri-section-list' }, 'Sectionを選ぶ - 論理・表現 - 予習ProMaster');
+                    openRonriSectionListPage(false);
+                    break;
+                case 'ronri-scan':
+                    if (addHistory) pushState({ screen: 'ronri-scan' }, '論理・表現 - 予習ProMaster');
+                    openRonriScanPage(false);
                     break;
                 case 'target':
                     if (addHistory) pushState({ screen: 'target' }, 'ターゲットモード - 予習ProMaster');
@@ -11705,7 +11779,8 @@ const TARGET1200 = [
             if (expandTab) expandTab.style.display = 'none';
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
-        function openRonriHyogen(addHistory = true) {
+        // 共通の下準備（タブバー・サブヘッダーの表示、hideAllPanels）
+        function _prepareRonriScreen() {
             hideAllPanels();
             activeTabIndex = 1;
             currentSubject = 'english';
@@ -11720,11 +11795,62 @@ const TARGET1200 = [
             if (scanSubHeaderEl) scanSubHeaderEl.style.display = 'none';
             const mc = document.getElementById('main-container');
             if (mc) mc.className = 'flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6 items-center relative z-10 animate-fade-in';
-            document.getElementById('ronri-hyogen-panel')?.classList.remove('hidden');
-            document.getElementById('rh-section-picker')?.classList.add('hidden');
-            doRhExpand();
-            if (addHistory) pushState({ screen: 'ronri-hyogen' }, '論理・表現 - 予習ProMaster');
             setTimeout(updateStickyTop, 50);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        // 入口：「セクションで選ぶ」「自分で画像をアップロード」の2択（英コと同じ）
+        function openRonriHyogen(addHistory = true) {
+            _prepareRonriScreen();
+            document.getElementById('ronri-entry-selector')?.classList.remove('hidden');
+            if (addHistory) pushState({ screen: 'ronri-hyogen' }, '論理・表現 - 予習ProMaster');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function openRonriEntrySelector() { openRonriHyogen(); }
+        // セクション一覧ページ
+        function openRonriSectionListPage(addHistory = true) {
+            _prepareRonriScreen();
+            document.getElementById('ronri-section-list-panel')?.classList.remove('hidden');
+            renderRonriSectionListPage();
+            if (addHistory) pushState({ screen: 'ronri-section-list' }, 'Sectionを選ぶ - 論理・表現 - 予習ProMaster');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function renderRonriSectionListPage() {
+            const grid = document.getElementById('ronri-section-grid');
+            const empty = document.getElementById('ronri-section-list-empty');
+            if (!grid || !empty) return;
+            const sections = window._remoteRonriSections || [];
+            if (sections.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+            grid.innerHTML = sections.map((s, idx) => `
+                <button onclick="selectRonriSectionFromList(${idx})" class="group text-left p-4 bg-white dark:bg-[#0f172a] hover:bg-gradient-to-br hover:from-violet-50 hover:to-purple-50 dark:hover:from-violet-950/30 dark:hover:to-purple-950/30 border border-slate-200 dark:border-slate-800 hover:border-violet-400 dark:hover:border-violet-500 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shrink-0"><i data-lucide="file-text" class="w-4 h-4 text-white"></i></div>
+                        <div class="min-w-0">
+                            <p class="text-xs font-black text-slate-800 dark:text-white truncate">${escapeHtml(s.title || '(無題)')}</p>
+                            <p class="text-[10px] text-emerald-500 font-bold mt-0.5">解析済み ✓　（${(s.problems || []).length}問）</p>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function selectRonriSectionFromList(idx) {
+            openRonriScanPage(true, true);
+            loadRonriSection(idx);
+        }
+        // 画像アップロード（スキャン）ページ
+        function openRonriScanPage(addHistory = true, skipReset = false) {
+            _prepareRonriScreen();
+            document.getElementById('ronri-hyogen-panel')?.classList.remove('hidden');
+            if (!skipReset) {
+                document.getElementById('rh-section-picker')?.classList.add('hidden');
+            }
+            doRhExpand();
+            if (addHistory) pushState({ screen: 'ronri-scan' }, '論理・表現 - 予習ProMaster');
             updateRonriPhotoRemaining();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
