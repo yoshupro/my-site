@@ -39,47 +39,6 @@
       "memo": null
     },
     {
-      "id": 1782966713431,
-      "type": "test",
-      "title": "古文単語テスト",
-      "subject": "古典",
-      "date": "2026-07-09",
-      "memo": "【範囲】118〜140（番号）"
-    },
-    {
-      "id": 1783090066027,
-      "type": "submission",
-      "title": "CROSSBEAM PS",
-      "subject": "英語",
-      "date": "2026-07-06",
-      "memo": "【範囲】Chapter14"
-    },
-    {
-      "id": 1783090113336,
-      "type": "submission",
-      "title": "CROSSBEAM PS",
-      "subject": "英語",
-      "classId": null,
-      "date": "2026-07-13",
-      "memo": "【範囲】Chapter15"
-    },
-    {
-      "id": 1783090298609,
-      "type": "submission",
-      "title": "新成古典",
-      "subject": "国語",
-      "date": "2026-07-06",
-      "memo": "【範囲】24・25・29・30"
-    },
-    {
-      "id": 1783090384685,
-      "type": "submission",
-      "title": "錬成現代文",
-      "subject": "国語",
-      "date": "2026-07-06",
-      "memo": "【範囲】16・17"
-    },
-    {
       "id": 1783385041600,
       "type": "submission",
       "title": "NEWSBREAKS",
@@ -94,24 +53,6 @@
       "subject": "英語",
       "date": "2026-09-24",
       "memo": "Chapter８,９"
-    },
-    {
-      "id": 1783748164581,
-      "type": "submission",
-      "title": "物理課題",
-      "subject": "物理",
-      "classId": "c1783747972349",
-      "date": "2026-07-13",
-      "memo": null
-    },
-    {
-      "id": 1783748187725,
-      "type": "test",
-      "title": "物理課題",
-      "subject": "物理",
-      "classId": "c1783747980943",
-      "date": "2026-07-15",
-      "memo": null
     }
   ],
   "extraSections": [
@@ -3360,24 +3301,6 @@
   },
   "weekendBoothItems": [
     {
-      "title": "物理課題",
-      "body": "教科：物理\n日付：2026-07-13",
-      "createdAt": "2026-07-11T05:36:03.651Z",
-      "updatedAt": "2026-07-11T05:36:03.651Z"
-    },
-    {
-      "title": "物理課題",
-      "body": "教科：物理\n日付：2026-07-13",
-      "createdAt": "2026-07-11T05:36:01.943Z",
-      "updatedAt": "2026-07-11T05:36:01.943Z"
-    },
-    {
-      "title": "CROSSBEAM PS",
-      "body": "教科：英語\n日付：2026-07-13\n【範囲】Chapter15",
-      "createdAt": "2026-07-11T05:34:02.195Z",
-      "updatedAt": "2026-07-11T05:34:02.195Z"
-    },
-    {
       "title": "夏休み課題のお知らせ",
       "body": "",
       "days": [
@@ -3429,5 +3352,6 @@
       "name": "2年7組",
       "subjects": []
     }
-  ]
+  ],
+  "ronriSections": []
 }
