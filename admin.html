@@ -197,6 +197,15 @@
       <div id="admin-cal-weekday-header" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px;"></div>
       <div id="admin-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;"></div>
 
+      <div style="border-top:1px solid var(--border);padding-top:12px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span id="admin-cal-selected-label" style="font-size:12px;font-weight:900;"></span>
+          <button class="btn btn-secondary btn-sm" onclick="addScheduleForSelectedDate()">＋ この日に追加</button>
+        </div>
+        <div id="admin-cal-selected-list"></div>
+        <p id="admin-cal-selected-empty" class="empty-msg hidden">この日の予定はありません</p>
+      </div>
+
       <div id="schedule-list"></div>
       <p id="schedule-empty" class="empty-msg hidden">予定はまだありません</p>
       <button class="btn btn-secondary btn-sm" style="margin-top:8px;" onclick="addSchedule()">＋ 予定を追加</button>
@@ -801,6 +810,7 @@ function removeAnnouncement(idx) {
 // ===== 予定セクション用のミニカレンダー =====
 let adminCalYear = new Date().getFullYear();
 let adminCalMonth = new Date().getMonth(); // 0-11
+let adminCalSelectedDate = new Date().toISOString().slice(0, 10);
 const SCH_TYPE_COLOR = { test: '#f43f5e', submission: '#6366f1' };
 
 function adminCalShiftMonth(delta) {
@@ -813,10 +823,16 @@ function adminCalGoToday() {
   const t = new Date();
   adminCalYear = t.getFullYear();
   adminCalMonth = t.getMonth();
+  adminCalSelectedDate = t.toISOString().slice(0, 10);
   renderAdminCalendar();
 }
 function adminCalCellClick(dateStr) {
-  addSchedule(dateStr);
+  adminCalSelectedDate = dateStr;
+  renderAdminCalendar();
+  renderAdminCalSelectedList();
+}
+function addScheduleForSelectedDate() {
+  addSchedule(adminCalSelectedDate || undefined);
 }
 
 function renderAdminCalendar() {
@@ -854,21 +870,73 @@ function renderAdminCalendar() {
   const schedules = configData.globalSchedules || [];
   grid.innerHTML = cells.map(c => {
     if (!c.inMonth) {
-      return `<div style="min-height:52px;padding:4px;font-size:10px;color:var(--border);">${c.day}</div>`;
+      return `<div style="min-height:44px;padding:4px;font-size:10px;color:var(--border);">${c.day}</div>`;
     }
     const dayItems = schedules.filter(s => s.date === c.dateStr);
     const isToday = c.dateStr === todayStr;
-    const chips = dayItems.slice(0, 2).map(s => {
+    const isSelected = c.dateStr === adminCalSelectedDate;
+    const dots = dayItems.slice(0, 4).map(s => {
       const color = SCH_TYPE_COLOR[s.type] || SCH_TYPE_COLOR.test;
-      return `<span onclick="event.stopPropagation(); editSchedule(${schedules.indexOf(s)})" style="display:block;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:8px;font-weight:700;color:#fff;background:${color};border-radius:4px;padding:1px 3px;margin-top:2px;cursor:pointer;">${esc(s.title)}</span>`;
+      return `<span style="width:5px;height:5px;border-radius:50%;background:${color};display:inline-block;"></span>`;
     }).join('');
-    const moreLabel = dayItems.length > 2 ? `<span style="font-size:8px;color:var(--sub);">+${dayItems.length - 2}件</span>` : '';
-    return `<div onclick="adminCalCellClick('${c.dateStr}')" style="min-height:52px;padding:4px;border-radius:8px;border:1px solid ${isToday ? '#f43f5e' : 'var(--border)'};background:${isToday ? '#f43f5e11' : 'transparent'};cursor:pointer;">
-      <span style="font-size:10px;font-weight:900;color:${isToday ? '#f43f5e' : 'var(--fg)'};">${c.day}</span>
-      ${chips}
-      ${moreLabel}
+    const borderColor = isSelected ? '#7c3aed' : (isToday ? '#f43f5e' : 'var(--border)');
+    const bg = isSelected ? '#7c3aed1a' : (isToday ? '#f43f5e11' : 'transparent');
+    return `<div onclick="adminCalCellClick('${c.dateStr}')" style="min-height:44px;padding:4px;border-radius:8px;border:${isSelected ? '2px' : '1px'} solid ${borderColor};background:${bg};cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;">
+      <span style="font-size:10px;font-weight:900;color:${isSelected ? '#7c3aed' : (isToday ? '#f43f5e' : 'var(--fg)')};">${c.day}</span>
+      <div style="display:flex;gap:2px;margin-top:3px;flex-wrap:wrap;">${dots}</div>
     </div>`;
   }).join('');
+
+  renderAdminCalSelectedList();
+}
+
+function renderAdminCalSelectedList() {
+  const label = document.getElementById('admin-cal-selected-label');
+  const wrap = document.getElementById('admin-cal-selected-list');
+  const empty = document.getElementById('admin-cal-selected-empty');
+  if (!label || !wrap || !empty) return;
+
+  if (!adminCalSelectedDate) {
+    label.textContent = '日付を選択してください';
+    wrap.innerHTML = '';
+    empty.classList.add('hidden');
+    return;
+  }
+  const d = new Date(adminCalSelectedDate + 'T00:00:00');
+  const wdNames = ['日','月','火','水','木','金','土'];
+  label.textContent = `${d.getMonth() + 1}月${d.getDate()}日（${wdNames[d.getDay()]}）の予定`;
+
+  const schedules = configData.globalSchedules || [];
+  const dayItems = schedules.filter(s => s.date === adminCalSelectedDate);
+  const typeLabel = { test: 'テスト', submission: '提出物' };
+  const classNameOf = (classId) => {
+    if (!classId) return '全員';
+    const c = (configData.classes || []).find(x => x.id === classId);
+    return c ? c.name : '（削除済みクラス）';
+  };
+  if (dayItems.length === 0) {
+    wrap.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+  wrap.innerHTML = dayItems.map(s => {
+    const idx = schedules.indexOf(s);
+    return `
+    <div class="item-card" onclick="editSchedule(${idx})" style="cursor:pointer;">
+      <div class="item-head">
+        <div>
+          <span class="item-title">${esc(s.title||'(無題)')}</span>
+          <p class="item-sub">${typeLabel[s.type]||s.type} ・ ${esc(s.subject||'-')} ・ 対象：${esc(classNameOf(s.classId))}</p>
+        </div>
+        <div class="item-actions">
+          <button class="icon-btn" onclick="event.stopPropagation(); editSchedule(${idx})" title="編集"><i data-lucide="pencil" style="width:14px;height:14px;"></i></button>
+          <button class="icon-btn danger" onclick="event.stopPropagation(); removeSchedule(${idx})" title="削除"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  if (typeof lucide !== "undefined") lucide.createIcons();
 }
 
 function renderClasses() {
