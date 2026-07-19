@@ -101,18 +101,6 @@
       "cornerIds": [
         "corner_1784461896715"
       ]
-    },
-    {
-      "id": 1784465673625,
-      "type": "test",
-      "title": "あ",
-      "subject": null,
-      "classId": null,
-      "date": "2026-07-18",
-      "memo": null,
-      "cornerIds": [
-        "corner_1784465655717"
-      ]
     }
   ],
   "extraSections": [
