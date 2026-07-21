@@ -345,6 +345,10 @@
                                 <i data-lucide="trophy" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
                                 <span class="text-xs font-bold text-slate-700 dark:text-slate-200">単語ランキング</span>
                             </button>
+                            <button onclick="toggleScheduleNotify()" id="schedule-notify-toggle-btn" class="w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
+                                <i data-lucide="bell" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
+                                <span id="schedule-notify-toggle-label" class="text-xs font-bold text-slate-700 dark:text-slate-200">予定の通知：オフ</span>
+                            </button>
                             <button onclick="closeSettingsMenu(); window.open('https://forms.gle/byfhaFViuqJkjoSY7','_blank')" class="w-full flex items-center space-x-3 px-3.5 py-2.5 text-left hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
                                 <i data-lucide="send" class="w-4 h-4 text-blue-500 dark:text-cyan-400 shrink-0"></i>
                                 <span class="text-xs font-bold text-slate-700 dark:text-slate-200">フィードバックを送る</span>
@@ -2272,11 +2276,345 @@
                     </div>
                 </div>
 
+                <!-- ===== CMS管理（旧admin.htmlをここに統合） ===== -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-2">
+                        <i data-lucide="github" class="w-4 h-4"></i><span>GitHub連携（config.json編集）</span>
+                    </h4>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 space-y-3">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">GitHub Personal Access Token（Fine-grained, Contents: Read &amp; write）でこのリポジトリの config.json を直接編集・公開できます。Tokenはこの端末のブラウザ内にのみ保存されます。</p>
+                        <input type="password" id="cms-gh-token" placeholder="GitHub Personal Access Token"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="cms-gh-repo" placeholder="owner/repo"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                            <input type="text" id="cms-gh-branch" placeholder="ブランチ" value="main"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="cmsConnect()" id="cms-connect-btn" class="py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 transition-all">接続して読み込み</button>
+                            <button onclick="cmsReloadFromGitHub()" class="py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-black hover:opacity-90 transition-all">再読込</button>
+                        </div>
+                        <p id="cms-gh-status" class="text-[10px] font-bold text-slate-500 dark:text-slate-400"></p>
+                    </div>
+                </div>
+
+                <div id="cms-panel" class="hidden space-y-4">
+                    <!-- タブ -->
+                    <div class="flex flex-wrap gap-1.5" id="cms-tab-buttons">
+                        <button onclick="cmsShowTab('announce')" data-cms-tab="announce" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">お知らせ</button>
+                        <button onclick="cmsShowTab('class')" data-cms-tab="class" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">クラス</button>
+                        <button onclick="cmsShowTab('schedule')" data-cms-tab="schedule" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">予定・通知</button>
+                        <button onclick="cmsShowTab('corner')" data-cms-tab="corner" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">コーナー</button>
+                        <button onclick="cmsShowTab('section')" data-cms-tab="section" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">英コミュ</button>
+                        <button onclick="cmsShowTab('ronri')" data-cms-tab="ronri" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">論理表現</button>
+                    </div>
+
+                    <!-- お知らせ -->
+                    <div id="cms-tab-content-announce" class="cms-tab-content hidden space-y-2">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">ユーザーが次回アプリを開いたときに全画面表示されます。一番上が最新として扱われます。</p>
+                        <div id="cms-announce-list" class="space-y-2"></div>
+                        <p id="cms-announce-empty" class="hidden text-[11px] text-slate-400 text-center py-3">お知らせはまだありません</p>
+                        <button onclick="cmsAddAnnouncement()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ お知らせを追加</button>
+                    </div>
+
+                    <!-- クラス -->
+                    <div id="cms-tab-content-class" class="cms-tab-content hidden space-y-2">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">クラスを作成すると、生徒は本体アプリの「クラス設定」からそのクラスに参加できます。予定に対象クラスを設定すると、そのクラスの生徒だけに表示されます。</p>
+                        <div id="cms-class-list" class="space-y-2"></div>
+                        <p id="cms-class-empty" class="hidden text-[11px] text-slate-400 text-center py-3">クラスはまだありません</p>
+                        <button onclick="cmsAddClass()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ クラスを追加</button>
+                    </div>
+
+                    <!-- 予定・通知 -->
+                    <div id="cms-tab-content-schedule" class="cms-tab-content hidden space-y-2">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">ここで追加した予定は全ユーザーのHOME・カレンダーに表示されます。「通知日時」を設定すると、その日時になった時にユーザーの端末で通知が表示されます（アプリを開いている必要があります）。</p>
+                        <div id="cms-schedule-list" class="space-y-2"></div>
+                        <p id="cms-schedule-empty" class="hidden text-[11px] text-slate-400 text-center py-3">予定はまだありません</p>
+                        <button onclick="cmsAddSchedule()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ 予定を追加</button>
+                    </div>
+
+                    <!-- コーナー -->
+                    <div id="cms-tab-content-corner" class="cms-tab-content hidden space-y-2">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">コーナーは予定を仕分ける「ファイル」です。生徒はHOME画面でコーナーを選ぶと、そのコーナーの予定だけを一覧できます。</p>
+                        <div id="cms-corner-list" class="space-y-2"></div>
+                        <p id="cms-corner-empty" class="hidden text-[11px] text-slate-400 text-center py-3">コーナーはまだありません</p>
+                        <button onclick="cmsAddCorner()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ コーナーを追加</button>
+                    </div>
+
+                    <!-- 英コミュ セクション -->
+                    <div id="cms-tab-content-section" class="cms-tab-content hidden space-y-2">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">プリント画像をアップロードしてAIで解析し、本体アプリと同じ内容のセクションを追加します。</p>
+                        <div id="cms-section-list" class="space-y-2"></div>
+                        <p id="cms-section-empty" class="hidden text-[11px] text-slate-400 text-center py-3">追加済みセクションはありません</p>
+                        <button onclick="cmsAddSection()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ セクションを追加</button>
+                    </div>
+
+                    <!-- 論理表現 セクション -->
+                    <div id="cms-tab-content-ronri" class="cms-tab-content hidden space-y-2">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">文法問題プリントの写真をAIで解析し、解答・日本語訳・解説・文法ポイントを問題ごとに生成します。</p>
+                        <div id="cms-ronri-list" class="space-y-2"></div>
+                        <p id="cms-ronri-empty" class="hidden text-[11px] text-slate-400 text-center py-3">追加済みセクションはありません</p>
+                        <button onclick="cmsAddRonriSection()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ セクションを追加</button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                        <button onclick="cmsReloadFromGitHub()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90 transition-all">再読込</button>
+                        <button onclick="cmsSaveToGitHub()" id="cms-save-btn" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 transition-all">GitHubに保存して公開</button>
+                    </div>
+                    <p id="cms-save-status" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 text-center">未保存の変更があります</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- CMS: お知らせ編集モーダル -->
+    <div id="cms-announce-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-md max-h-[85vh] overflow-y-auto transform scale-95 transition-all duration-300" id="cms-announce-card">
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-4">お知らせを編集</h3>
+            <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">バッジ文言（任意）</label>
+                        <input type="text" id="cms-ann-badge" placeholder="例：INFO"
+                            class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">バッジ色</label>
+                        <input type="color" id="cms-ann-badge-color" value="#06b6d4" class="w-full h-9 rounded-lg cursor-pointer">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">タイトル</label>
+                    <input type="text" id="cms-ann-title" placeholder="例：新機能を追加しました"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">本文</label>
+                    <textarea id="cms-ann-body" placeholder="お知らせの詳細" rows="3"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">リンクURL（任意）</label>
+                    <input type="url" id="cms-ann-link" placeholder="https://..."
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button onclick="closeCmsAnnounceModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                <button onclick="cmsConfirmAnnouncement()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CMS: クラス編集モーダル -->
+    <div id="cms-class-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-sm transform scale-95 transition-all duration-300" id="cms-class-card">
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-4">クラスを編集</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">クラス名</label>
+                    <input type="text" id="cms-class-name" placeholder="例：3年A組"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">教科（カンマ区切り・任意）</label>
+                    <input type="text" id="cms-class-subjects" placeholder="例：英語, 数学"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <p id="cms-class-code-display" class="text-[10px] text-slate-500 dark:text-slate-400"></p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button onclick="closeCmsClassModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                <button onclick="cmsConfirmClass()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CMS: 予定編集モーダル -->
+    <div id="cms-schedule-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-md max-h-[88vh] overflow-y-auto transform scale-95 transition-all duration-300" id="cms-schedule-card">
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-4">予定を編集</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">種類</label>
+                    <div class="flex gap-2">
+                        <button type="button" id="cms-sch-type-test" onclick="cmsSetSchType('test')" class="flex-1 py-2 rounded-xl text-xs font-black border transition-all">テスト</button>
+                        <button type="button" id="cms-sch-type-submission" onclick="cmsSetSchType('submission')" class="flex-1 py-2 rounded-xl text-xs font-black border transition-all">提出物</button>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">タイトル</label>
+                    <input type="text" id="cms-sch-title" placeholder="例：1学期期末考査"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">教科（任意）</label>
+                        <input type="text" id="cms-sch-subject" placeholder="例：英語"
+                            class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">日付</label>
+                        <input type="date" id="cms-sch-date"
+                            class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">対象クラス（未選択なら全員に表示）</label>
+                    <select id="cms-sch-class" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></select>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">メモ（任意）</label>
+                    <textarea id="cms-sch-memo" placeholder="範囲・持ち物など" rows="2"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">コーナー（任意・複数選択可）</label>
+                    <div id="cms-sch-corner-checks" class="flex flex-wrap gap-1.5"></div>
+                </div>
+                <div class="bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/40 rounded-xl p-3">
+                    <label class="text-[10px] font-black text-cyan-700 dark:text-cyan-300 flex items-center gap-1.5 mb-1">
+                        <i data-lucide="bell" class="w-3.5 h-3.5"></i><span>通知日時（任意）</span>
+                    </label>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-2">指定した日時になると、アプリを開いているユーザーの端末に通知が表示されます。</p>
+                    <input type="datetime-local" id="cms-sch-notify"
+                        class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-cyan-400">
+                    <button type="button" onclick="document.getElementById('cms-sch-notify').value=''" class="text-[10px] text-slate-400 hover:text-rose-500 mt-1">通知をクリア</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button onclick="closeCmsScheduleModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                <button onclick="cmsConfirmSchedule()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CMS: コーナー編集モーダル -->
+    <div id="cms-corner-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-sm transform scale-95 transition-all duration-300" id="cms-corner-card">
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-4">コーナーを編集</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">コーナー名</label>
+                    <input type="text" id="cms-corner-name" placeholder="例：英語コーナー"
+                        class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">カラー</label>
+                    <div id="cms-corner-color-picker" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button onclick="closeCmsCornerModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                <button onclick="cmsConfirmCorner()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CMS: 英コミュ セクション編集モーダル -->
+    <div id="cms-section-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-lg max-h-[88vh] overflow-y-auto transform scale-95 transition-all duration-300" id="cms-section-card">
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-1">セクションを追加</h3>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-4">プリントの写真をアップロードするとAIが自動解析します。</p>
+            <div class="grid grid-cols-3 gap-2 mb-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">ID</label>
+                    <input type="text" id="cms-sec-id" placeholder="例：L2S1" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Lesson</label>
+                    <input type="text" id="cms-sec-lesson-label" placeholder="Lesson 2" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Section</label>
+                    <input type="text" id="cms-sec-section-label" placeholder="Section 1" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">プリント画像</label>
+                <input type="file" id="cms-sec-image-file" accept="image/*" onchange="cmsHandleSectionImageSelect(event)" class="text-xs">
+                <div id="cms-sec-image-preview-wrap" class="hidden mt-2 relative inline-block">
+                    <img id="cms-sec-image-preview" class="max-w-full max-h-48 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <button type="button" onclick="cmsRemoveSectionImage()" class="absolute top-1 right-1 p-1 bg-white dark:bg-slate-900 rounded-full shadow"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                </div>
+            </div>
+            <div class="flex gap-2 mb-1">
+                <button type="button" id="cms-sec-analyze-btn" onclick="cmsAnalyzeSectionImage()" disabled class="flex-1 py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 disabled:opacity-40 flex items-center justify-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span id="cms-sec-analyze-btn-text">AIで解析する</span>
+                </button>
+                <button type="button" id="cms-sec-analyze-cancel-btn" onclick="cmsCancelSectionAnalysis()" class="hidden py-2 px-3 bg-slate-200 dark:bg-slate-700 rounded-xl text-xs font-black">キャンセル</button>
+            </div>
+            <p id="cms-sec-analyze-status" class="text-[10px] text-slate-500 dark:text-slate-400 min-h-[14px] mb-3"></p>
+            <div>
+                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-between mb-1">
+                    <span>解析結果データ（JSON・自動生成／手動編集も可）</span>
+                    <button type="button" onclick="cmsClearSectionData()" class="text-slate-400 hover:text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                </label>
+                <textarea id="cms-sec-data-json" rows="8" placeholder="画像をアップロードして解析すると、ここに自動入力されます"
+                    class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[11px] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></textarea>
+            </div>
+            <p id="cms-sec-json-error" class="hidden text-[11px] font-bold text-rose-500 mt-1"></p>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button onclick="closeCmsSectionModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                <button onclick="cmsConfirmSection()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CMS: 論理表現 セクション編集モーダル -->
+    <div id="cms-ronri-modal" class="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-lg max-h-[88vh] overflow-y-auto transform scale-95 transition-all duration-300" id="cms-ronri-card">
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-1">論理表現セクションを追加</h3>
+            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-4">文法問題プリントの写真をAIで解析します。</p>
+            <div class="grid grid-cols-3 gap-2 mb-3">
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">ID</label>
+                    <input type="text" id="cms-rsec-id" placeholder="例：RH1" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Lesson</label>
+                    <input type="text" id="cms-rsec-lesson-label" placeholder="Lesson 2" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Section</label>
+                    <input type="text" id="cms-rsec-section-label" placeholder="仮定法" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">プリント画像</label>
+                <input type="file" id="cms-rsec-image-file" accept="image/*" onchange="cmsHandleRonriSectionImageSelect(event)" class="text-xs">
+                <div id="cms-rsec-image-preview-wrap" class="hidden mt-2 relative inline-block">
+                    <img id="cms-rsec-image-preview" class="max-w-full max-h-48 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <button type="button" onclick="cmsRemoveRonriSectionImage()" class="absolute top-1 right-1 p-1 bg-white dark:bg-slate-900 rounded-full shadow"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                </div>
+            </div>
+            <div class="flex gap-2 mb-1">
+                <button type="button" id="cms-rsec-analyze-btn" onclick="cmsAnalyzeRonriSectionImage()" disabled class="flex-1 py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 disabled:opacity-40 flex items-center justify-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span id="cms-rsec-analyze-btn-text">AIで解析する</span>
+                </button>
+                <button type="button" id="cms-rsec-analyze-cancel-btn" onclick="cmsCancelRonriSectionAnalysis()" class="hidden py-2 px-3 bg-slate-200 dark:bg-slate-700 rounded-xl text-xs font-black">キャンセル</button>
+            </div>
+            <p id="cms-rsec-analyze-status" class="text-[10px] text-slate-500 dark:text-slate-400 min-h-[14px] mb-3"></p>
+            <div>
+                <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 flex items-center justify-between mb-1">
+                    <span>解析結果データ（JSON・自動生成／手動編集も可）</span>
+                    <button type="button" onclick="cmsClearRonriSectionData()" class="text-slate-400 hover:text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                </label>
+                <textarea id="cms-rsec-data-json" rows="8" placeholder="画像をアップロードして解析すると、ここに自動入力されます"
+                    class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[11px] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></textarea>
+            </div>
+            <p id="cms-rsec-json-error" class="hidden text-[11px] font-bold text-rose-500 mt-1"></p>
+            <div class="grid grid-cols-2 gap-3 mt-5">
+                <button onclick="closeCmsRonriModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                <button onclick="cmsConfirmRonriSection()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
             </div>
         </div>
     </div>
 
     <!-- 通常トースト -->
+
     <div id="toast" class="fixed bottom-6 right-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 px-5 py-4 rounded-2xl shadow-2xl max-w-sm flex items-center space-x-3 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none z-50 font-sans">
         <div class="p-1.5 bg-blue-100 dark:bg-cyan-900/40 rounded-full text-blue-500 dark:text-cyan-400">
             <i data-lucide="info" class="w-5 h-5"></i>
@@ -3864,6 +4202,9 @@
             await loadRemoteConfig();
             // 新しいお知らせがあれば全画面表示
             checkAndShowAnnouncement();
+            // 予定の通知（開発者が設定した日時に通知）の監視を開始
+            initScheduleNotifications();
+            updateScheduleNotifyToggleUI();
             // 利用制限UIを更新
             updateScanUI();
             const limTomEl = document.getElementById('limit-tomorrow');
@@ -5082,6 +5423,7 @@
                     memo: s.memo || null,
                     classId: s.classId || null,
                     cornerIds: Array.isArray(s.cornerIds) ? s.cornerIds : [],
+                    notifyAt: s.notifyAt || null,
                     isRemote: true,
                 }));
             return [...scheduleItems, ...remoteItems]
@@ -5092,6 +5434,84 @@
         function getUpcomingSchedules() {
             const todayStr = getJSTDateOnly().toISOString().slice(0, 10);
             return getAllSchedules().filter(s => s.date >= todayStr);
+        }
+
+        // ===== 予定通知（開発者モードで設定した日時に、テスト・提出物の予定を通知） =====
+        // 「予定・通知」で notifyAt（通知日時）が設定された予定について、その日時になったら
+        // アプリを開いている端末でブラウザ通知を表示する。バックグラウンド配信ではないため、
+        // アプリを開いている（タブが生きている）間のみ動作する点に注意。
+        function isScheduleNotifyEnabled() {
+            return safeStorage.get('pm_notify_enabled') !== false; // デフォルトON
+        }
+
+        function setScheduleNotifyEnabled(on) {
+            safeStorage.set('pm_notify_enabled', !!on);
+        }
+
+        function initScheduleNotifications() {
+            if (!('Notification' in window)) return;
+            checkScheduleNotifications();
+            if (window._scheduleNotifyTimer) clearInterval(window._scheduleNotifyTimer);
+            window._scheduleNotifyTimer = setInterval(checkScheduleNotifications, 60 * 1000);
+        }
+
+        function requestScheduleNotifyPermission() {
+            if (!('Notification' in window)) { showToast('この端末は通知に対応していません'); return; }
+            Notification.requestPermission().then(perm => {
+                if (perm === 'granted') {
+                    setScheduleNotifyEnabled(true);
+                    showToast('予定の通知をオンにしました');
+                    checkScheduleNotifications();
+                } else {
+                    showToast('通知が許可されませんでした');
+                }
+                updateScheduleNotifyToggleUI();
+            });
+        }
+
+        function toggleScheduleNotify() {
+            if (!('Notification' in window)) { showToast('この端末は通知に対応していません'); return; }
+            if (Notification.permission !== 'granted') {
+                requestScheduleNotifyPermission();
+                return;
+            }
+            const next = !isScheduleNotifyEnabled();
+            setScheduleNotifyEnabled(next);
+            showToast(next ? '予定の通知をオンにしました' : '予定の通知をオフにしました');
+            updateScheduleNotifyToggleUI();
+            if (next) checkScheduleNotifications();
+        }
+
+        function updateScheduleNotifyToggleUI() {
+            const label = document.getElementById('schedule-notify-toggle-label');
+            if (!label) return;
+            if (!('Notification' in window)) { label.textContent = '予定の通知（非対応）'; return; }
+            if (Notification.permission === 'denied') { label.textContent = '予定の通知（ブラウザ設定でブロック中）'; return; }
+            label.textContent = isScheduleNotifyEnabled() && Notification.permission === 'granted'
+                ? '予定の通知：オン' : '予定の通知：オフ';
+        }
+
+        function checkScheduleNotifications() {
+            if (!('Notification' in window) || Notification.permission !== 'granted' || !isScheduleNotifyEnabled()) return;
+            const now = Date.now();
+            const fired = safeStorage.get('pm_notify_fired') || [];
+            const items = getAllSchedules().filter(s => s.notifyAt);
+            let changed = false;
+            items.forEach(s => {
+                const t = new Date(s.notifyAt).getTime();
+                if (isNaN(t) || t > now) return;
+                if (fired.includes(String(s.id))) return;
+                const typeLabel = s.type === 'submission' ? '提出物' : 'テスト';
+                try {
+                    new Notification('予習ProMaster：' + typeLabel + 'のお知らせ', {
+                        body: `${s.title}${s.subject ? '（' + s.subject + '）' : ''} - ${s.date}`,
+                        tag: 'pm-schedule-' + s.id,
+                    });
+                } catch (e) { console.warn('通知表示に失敗:', e); }
+                fired.push(String(s.id));
+                changed = true;
+            });
+            if (changed) safeStorage.set('pm_notify_fired', fired.slice(-200));
         }
 
         // コーナー選択状態（HOME画面でどのコーナーを表示中か）
@@ -14158,6 +14578,7 @@ const TARGET1200 = [
             card.classList.remove('scale-95'); card.classList.add('scale-100');
             lockScroll();
             devRefreshDashboard();
+            cmsTryAutoConnect();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -14266,6 +14687,870 @@ const TARGET1200 = [
             document.getElementById('dev-new-pw2').value = '';
             showToast('パスワードを変更しました');
         }
+
+        // ================================================================
+        // ===== CMS管理機能（旧admin.htmlを開発者モードに統合したもの） =====
+        // ================================================================
+        let cmsSession = null; // { token, repo, branch }
+        let cmsConfigData = { announcements: [], globalSchedules: [], extraSections: [], corners: [], classes: [], ronriSections: [] };
+        let cmsCurrentSha = null;
+        let cmsDirty = false;
+        const CMS_SESSION_KEY = 'pm_cms_session_v1';
+
+        function cmsSetSaveStatus(msg, kind) {
+            const el = document.getElementById('cms-save-status');
+            if (!el) return;
+            el.textContent = msg;
+            el.classList.remove('text-green-500', 'text-rose-500', 'text-slate-500', 'dark:text-slate-400');
+            if (kind === 'ok') el.classList.add('text-green-500');
+            else if (kind === 'err') el.classList.add('text-rose-500');
+            else el.classList.add('text-slate-500', 'dark:text-slate-400');
+        }
+
+        function cmsMarkDirty() {
+            cmsDirty = true;
+            cmsSetSaveStatus('未保存の変更があります');
+        }
+
+        function cmsGhApiUrl() {
+            return `https://api.github.com/repos/${cmsSession.repo}/contents/config.json?ref=${encodeURIComponent(cmsSession.branch)}`;
+        }
+
+        async function cmsConnect() {
+            const token = document.getElementById('cms-gh-token').value.trim();
+            const repo = document.getElementById('cms-gh-repo').value.trim();
+            const branch = document.getElementById('cms-gh-branch').value.trim() || 'main';
+            const statusEl = document.getElementById('cms-gh-status');
+            if (!token || !repo) {
+                statusEl.textContent = 'Tokenとリポジトリ（owner/repo）は必須です';
+                statusEl.className = 'text-[10px] font-bold text-rose-500';
+                return;
+            }
+            cmsSession = { token, repo, branch };
+            try {
+                await cmsReloadFromGitHub();
+                safeStorage.set(CMS_SESSION_KEY, cmsSession);
+                document.getElementById('cms-panel').classList.remove('hidden');
+                cmsShowTab('announce');
+            } catch (e) {
+                statusEl.textContent = '接続に失敗しました：' + e.message;
+                statusEl.className = 'text-[10px] font-bold text-rose-500';
+                cmsSession = null;
+            }
+        }
+
+        async function cmsReloadFromGitHub() {
+            const statusEl = document.getElementById('cms-gh-status');
+            if (!cmsSession) { if (statusEl) { statusEl.textContent = '先にGitHubへ接続してください'; statusEl.className = 'text-[10px] font-bold text-rose-500'; } return; }
+            const res = await fetch(cmsGhApiUrl(), {
+                headers: { 'Authorization': `Bearer ${cmsSession.token}`, 'Accept': 'application/vnd.github+json' }
+            });
+            if (res.status === 404) {
+                cmsCurrentSha = null;
+                cmsConfigData = { announcements: [], globalSchedules: [], extraSections: [], corners: [], classes: [], ronriSections: [] };
+                cmsRenderAll();
+                cmsSetSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
+                if (statusEl) { statusEl.textContent = 'リポジトリに config.json がまだありません（新規作成されます）'; statusEl.className = 'text-[10px] font-bold text-amber-500'; }
+                document.getElementById('cms-panel').classList.remove('hidden');
+                return;
+            }
+            if (!res.ok) {
+                const body = await res.text();
+                throw new Error(`GitHub API エラー (${res.status}): ${body.slice(0,200)}`);
+            }
+            const json = await res.json();
+            cmsCurrentSha = json.sha;
+            const decoded = decodeURIComponent(escape(atob(json.content.replace(/\n/g, ''))));
+            cmsConfigData = JSON.parse(decoded);
+            cmsConfigData.announcements = cmsConfigData.announcements || [];
+            cmsConfigData.globalSchedules = cmsConfigData.globalSchedules || [];
+            cmsConfigData.extraSections = cmsConfigData.extraSections || [];
+            cmsConfigData.ronriSections = cmsConfigData.ronriSections || [];
+            cmsConfigData.corners = cmsConfigData.corners || [];
+            cmsConfigData.classes = cmsConfigData.classes || [];
+            cmsDirty = false;
+            cmsRenderAll();
+            cmsSetSaveStatus('GitHubの最新内容を読み込みました', 'ok');
+            if (statusEl) { statusEl.textContent = '接続済み：' + cmsSession.repo + '（' + cmsSession.branch + '）'; statusEl.className = 'text-[10px] font-bold text-green-500'; }
+            showToast('config.json を読み込みました');
+        }
+
+        async function cmsSaveToGitHub() {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); return; }
+            const btn = document.getElementById('cms-save-btn');
+            btn.disabled = true;
+            const origText = btn.textContent;
+            btn.textContent = '保存中…';
+            try {
+                const content = JSON.stringify(cmsConfigData, null, 2);
+                const encoded = btoa(unescape(encodeURIComponent(content)));
+                const body = {
+                    message: `config.json を更新 (${new Date().toLocaleString('ja-JP')})`,
+                    content: encoded,
+                    branch: cmsSession.branch,
+                };
+                if (cmsCurrentSha) body.sha = cmsCurrentSha;
+                const res = await fetch(`https://api.github.com/repos/${cmsSession.repo}/contents/config.json`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${cmsSession.token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(body),
+                });
+                if (!res.ok) {
+                    const errBody = await res.text();
+                    throw new Error(`保存に失敗しました (${res.status}): ${errBody.slice(0,200)}`);
+                }
+                const json = await res.json();
+                cmsCurrentSha = json.content.sha;
+                cmsDirty = false;
+                cmsSetSaveStatus('保存しました。ユーザーは次回アプリ起動時にこの内容が反映されます。', 'ok');
+                showToast('GitHubに保存しました');
+            } catch (e) {
+                cmsSetSaveStatus('エラー：' + e.message, 'err');
+                showToast('保存に失敗しました');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = origText;
+            }
+        }
+
+        // 開発者ダッシュボードを開いたとき、保存済みのGitHubセッションがあれば自動で入力・接続する
+        function cmsTryAutoConnect() {
+            const saved = safeStorage.get(CMS_SESSION_KEY);
+            if (!saved || !saved.token || !saved.repo) return;
+            document.getElementById('cms-gh-token').value = saved.token;
+            document.getElementById('cms-gh-repo').value = saved.repo;
+            document.getElementById('cms-gh-branch').value = saved.branch || 'main';
+        }
+
+        // ===== タブ切替 =====
+        function cmsShowTab(tab) {
+            document.querySelectorAll('.cms-tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById('cms-tab-content-' + tab);
+            if (target) target.classList.remove('hidden');
+            document.querySelectorAll('.cms-tab-btn').forEach(btn => {
+                const active = btn.getAttribute('data-cms-tab') === tab;
+                btn.classList.toggle('bg-blue-500', active);
+                btn.classList.toggle('text-white', active);
+                btn.classList.toggle('border-blue-500', active);
+                btn.classList.toggle('text-slate-500', !active);
+                btn.classList.toggle('dark:text-slate-400', !active);
+            });
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function cmsRenderAll() {
+            cmsRenderAnnouncements();
+            cmsRenderClasses();
+            cmsRenderSchedules();
+            cmsRenderCorners();
+            cmsRenderSections();
+            cmsRenderRonriSections();
+        }
+
+        const CMS_BADGE_COLOR = { INFO: '#06b6d4', UPDATE: '#34d399', WARNING: '#f59e0b', IMPORTANT: '#f87171' };
+
+        function cmsFormatDate(iso) {
+            if (!iso) return '';
+            const d = new Date(iso);
+            if (isNaN(d.getTime())) return '';
+            const pad = n => String(n).padStart(2, '0');
+            return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+
+        // ----- お知らせ -----
+        function cmsRenderAnnouncements() {
+            const wrap = document.getElementById('cms-announce-list');
+            const empty = document.getElementById('cms-announce-empty');
+            const list = cmsConfigData.announcements || [];
+            if (!wrap) return;
+            if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            wrap.innerHTML = list.map((a, idx) => `
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                        ${a.badge ? `<span class="text-[9px] font-black px-2 py-0.5 rounded-full text-white" style="background:${escapeHtml(a.badgeColor || CMS_BADGE_COLOR[a.badge] || '#06b6d4')}">${escapeHtml(a.badge)}</span>` : ''}
+                        <span class="text-xs font-black text-slate-800 dark:text-white ml-1">${escapeHtml(a.title || '(無題)')}</span>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 truncate">${escapeHtml((a.body||'').slice(0,50))}${(a.body||'').length>50?'…':''}</p>
+                    </div>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="cmsEditAnnouncement(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="cmsRemoveAnnouncement(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>`).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        let cmsAnnEditIdx = null;
+        function cmsAddAnnouncement() { cmsOpenAnnounceModal(null); }
+        function cmsEditAnnouncement(idx) { cmsOpenAnnounceModal(idx); }
+        function cmsOpenAnnounceModal(idx) {
+            cmsAnnEditIdx = idx;
+            const a = idx != null ? cmsConfigData.announcements[idx] : { badge: '', badgeColor: '#06b6d4', title: '', body: '', link: '' };
+            document.getElementById('cms-ann-badge').value = a.badge || '';
+            document.getElementById('cms-ann-badge-color').value = a.badgeColor || CMS_BADGE_COLOR[a.badge] || '#06b6d4';
+            document.getElementById('cms-ann-title').value = a.title || '';
+            document.getElementById('cms-ann-body').value = a.body || '';
+            document.getElementById('cms-ann-link').value = a.link || '';
+            cmsOpenModal('cms-announce-modal', 'cms-announce-card');
+        }
+        function closeCmsAnnounceModal() { cmsCloseModal('cms-announce-modal', 'cms-announce-card'); }
+        function cmsConfirmAnnouncement() {
+            const now = new Date().toISOString();
+            const existing = cmsAnnEditIdx != null ? cmsConfigData.announcements[cmsAnnEditIdx] : null;
+            const entry = {
+                badge: document.getElementById('cms-ann-badge').value.trim(),
+                badgeColor: document.getElementById('cms-ann-badge-color').value || '#06b6d4',
+                version: (existing && existing.version) || ('dev-' + Date.now()),
+                title: document.getElementById('cms-ann-title').value.trim(),
+                body: document.getElementById('cms-ann-body').value.trim(),
+                link: document.getElementById('cms-ann-link').value.trim(),
+                createdAt: (existing && existing.createdAt) || now,
+                updatedAt: now,
+            };
+            if (cmsAnnEditIdx != null) cmsConfigData.announcements[cmsAnnEditIdx] = entry;
+            else cmsConfigData.announcements.unshift(entry);
+            closeCmsAnnounceModal();
+            cmsRenderAnnouncements();
+            cmsMarkDirty();
+        }
+        function cmsRemoveAnnouncement(idx) {
+            if (!confirm('このお知らせを削除しますか？')) return;
+            cmsConfigData.announcements.splice(idx, 1);
+            cmsRenderAnnouncements();
+            cmsMarkDirty();
+        }
+
+        // ----- クラス -----
+        function cmsRenderClasses() {
+            const wrap = document.getElementById('cms-class-list');
+            const empty = document.getElementById('cms-class-empty');
+            if (!wrap) return;
+            const list = cmsConfigData.classes || [];
+            if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            wrap.innerHTML = list.map((c, idx) => `
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-start justify-between gap-2">
+                    <div class="min-w-0">
+                        <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(c.name || '(無題クラス)')}</span>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">コード：${escapeHtml(c.id || '-')}${c.subjects && c.subjects.length ? ' ・ ' + escapeHtml(c.subjects.join('、')) : ''}</p>
+                    </div>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="cmsEditClass(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="cmsRemoveClass(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>`).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        let cmsClassEditIdx = null;
+        function cmsAddClass() { cmsOpenClassModal(null); }
+        function cmsEditClass(idx) { cmsOpenClassModal(idx); }
+        function cmsOpenClassModal(idx) {
+            cmsClassEditIdx = idx;
+            const c = idx != null ? cmsConfigData.classes[idx] : { id: 'c' + Date.now(), name: '', subjects: [] };
+            document.getElementById('cms-class-name').value = c.name || '';
+            document.getElementById('cms-class-subjects').value = (c.subjects || []).join(', ');
+            document.getElementById('cms-class-code-display').textContent = idx != null ? `クラスコード：${c.id}` : '保存するとクラスコードが自動発行されます';
+            cmsOpenModal('cms-class-modal', 'cms-class-card');
+        }
+        function closeCmsClassModal() { cmsCloseModal('cms-class-modal', 'cms-class-card'); }
+        function cmsConfirmClass() {
+            const name = document.getElementById('cms-class-name').value.trim();
+            if (!name) { showToast('クラス名を入力してください'); return; }
+            const subjects = document.getElementById('cms-class-subjects').value.split(',').map(s => s.trim()).filter(Boolean);
+            if (cmsClassEditIdx != null) {
+                const existing = cmsConfigData.classes[cmsClassEditIdx];
+                cmsConfigData.classes[cmsClassEditIdx] = { id: existing.id, name, subjects };
+            } else {
+                cmsConfigData.classes.push({ id: 'c' + Date.now(), name, subjects });
+            }
+            closeCmsClassModal();
+            cmsRenderClasses();
+            cmsMarkDirty();
+        }
+        function cmsRemoveClass(idx) {
+            if (!confirm('このクラスを削除しますか？')) return;
+            cmsConfigData.classes.splice(idx, 1);
+            cmsRenderClasses();
+            cmsMarkDirty();
+        }
+        function cmsPopulateScheduleClassOptions() {
+            const classes = cmsConfigData.classes || [];
+            const optionsHtml = '<option value="">（未選択：全員に表示）</option>' +
+                classes.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');
+            const sel = document.getElementById('cms-sch-class');
+            if (sel) sel.innerHTML = optionsHtml;
+        }
+
+        // ----- 予定・通知 -----
+        function cmsRenderSchedules() {
+            const wrap = document.getElementById('cms-schedule-list');
+            const empty = document.getElementById('cms-schedule-empty');
+            if (!wrap) return;
+            const list = cmsConfigData.globalSchedules || [];
+            if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            const typeLabel = { test: 'テスト', submission: '提出物' };
+            const classNameOf = (classId) => {
+                if (!classId) return '全員';
+                const c = (cmsConfigData.classes || []).find(x => x.id === classId);
+                return c ? c.name : '（削除済み）';
+            };
+            const sorted = list.map((s, idx) => ({ s, idx })).sort((a, b) => (a.s.date || '').localeCompare(b.s.date || ''));
+            wrap.innerHTML = sorted.map(({ s, idx }) => `
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-start justify-between gap-2 cursor-pointer" onclick="cmsEditSchedule(${idx})">
+                    <div class="min-w-0">
+                        <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(s.title || '(無題)')}</span>
+                        ${s.notifyAt ? `<span class="ml-1 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-cyan-500 text-white inline-flex items-center gap-0.5"><i data-lucide="bell" class="w-2.5 h-2.5"></i>通知あり</span>` : ''}
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">${typeLabel[s.type]||s.type} ・ ${escapeHtml(s.subject||'-')} ・ ${escapeHtml(s.date||'-')} ・ 対象：${escapeHtml(classNameOf(s.classId))}</p>
+                        ${s.notifyAt ? `<p class="text-[10px] text-cyan-600 dark:text-cyan-400 mt-0.5">通知日時：${cmsFormatDate(s.notifyAt)}</p>` : ''}
+                    </div>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="event.stopPropagation(); cmsEditSchedule(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="event.stopPropagation(); cmsRemoveSchedule(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>`).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        let cmsSchEditIdx = null;
+        let cmsSchSelectedType = 'test';
+        function cmsAddSchedule() { cmsOpenScheduleModal(null); }
+        function cmsEditSchedule(idx) { cmsOpenScheduleModal(idx); }
+        function cmsOpenScheduleModal(idx) {
+            cmsSchEditIdx = idx;
+            const s = idx != null ? cmsConfigData.globalSchedules[idx] : { type: 'test', title: '', subject: '', date: '', memo: '', classId: '', notifyAt: '' };
+            cmsPopulateScheduleClassOptions();
+            document.getElementById('cms-sch-title').value = s.title || '';
+            document.getElementById('cms-sch-subject').value = s.subject || '';
+            document.getElementById('cms-sch-class').value = s.classId || '';
+            document.getElementById('cms-sch-date').value = s.date || '';
+            document.getElementById('cms-sch-memo').value = s.memo || '';
+            document.getElementById('cms-sch-notify').value = s.notifyAt ? s.notifyAt.slice(0, 16) : '';
+            cmsSetSchType(s.type || 'test');
+            cmsRenderScheduleCornerChecks();
+            cmsOpenModal('cms-schedule-modal', 'cms-schedule-card');
+        }
+        function cmsSetSchType(type) {
+            cmsSchSelectedType = type;
+            ['test', 'submission'].forEach(t => {
+                const btn = document.getElementById('cms-sch-type-' + t);
+                if (!btn) return;
+                const active = t === type;
+                btn.classList.toggle('bg-rose-500', active);
+                btn.classList.toggle('text-white', active);
+                btn.classList.toggle('border-rose-500', active);
+                btn.classList.toggle('border-slate-200', !active);
+                btn.classList.toggle('dark:border-slate-700', !active);
+                btn.classList.toggle('text-slate-500', !active);
+            });
+        }
+        function closeCmsScheduleModal() { cmsCloseModal('cms-schedule-modal', 'cms-schedule-card'); }
+        function cmsRenderScheduleCornerChecks() {
+            const wrap = document.getElementById('cms-sch-corner-checks');
+            if (!wrap) return;
+            const corners = cmsConfigData.corners || [];
+            if (corners.length === 0) { wrap.innerHTML = '<p class="text-[10px] text-slate-400">コーナーがまだありません</p>'; return; }
+            const currentIds = (cmsSchEditIdx != null && cmsConfigData.globalSchedules[cmsSchEditIdx].cornerIds) || [];
+            wrap.innerHTML = corners.map(c => `
+                <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 cursor-pointer text-[11px] font-bold">
+                    <input type="checkbox" class="cms-sch-corner-check" value="${escapeHtml(c.id)}" ${currentIds.includes(c.id) ? 'checked' : ''}>
+                    <span style="width:8px;height:8px;border-radius:50%;background:${escapeHtml(c.color)};display:inline-block;"></span>
+                    ${escapeHtml(c.name)}
+                </label>`).join('');
+        }
+        function cmsConfirmSchedule() {
+            const cornerIds = Array.from(document.querySelectorAll('.cms-sch-corner-check:checked')).map(el => el.value);
+            const notifyRaw = document.getElementById('cms-sch-notify').value;
+            const entry = {
+                id: Date.now(),
+                type: cmsSchSelectedType,
+                title: document.getElementById('cms-sch-title').value.trim(),
+                subject: document.getElementById('cms-sch-subject').value.trim() || null,
+                classId: document.getElementById('cms-sch-class').value || null,
+                date: document.getElementById('cms-sch-date').value,
+                memo: document.getElementById('cms-sch-memo').value.trim() || null,
+                cornerIds,
+                notifyAt: notifyRaw ? new Date(notifyRaw).toISOString() : null,
+            };
+            if (!entry.title || !entry.date) { showToast('タイトルと日付は必須です'); return; }
+            if (cmsSchEditIdx != null) {
+                entry.id = cmsConfigData.globalSchedules[cmsSchEditIdx].id || entry.id;
+                cmsConfigData.globalSchedules[cmsSchEditIdx] = entry;
+            } else {
+                cmsConfigData.globalSchedules.push(entry);
+            }
+            closeCmsScheduleModal();
+            cmsRenderSchedules();
+            cmsMarkDirty();
+        }
+        function cmsRemoveSchedule(idx) {
+            if (!confirm('この予定を削除しますか？')) return;
+            cmsConfigData.globalSchedules.splice(idx, 1);
+            cmsRenderSchedules();
+            cmsMarkDirty();
+        }
+
+        // ----- コーナー -----
+        const CMS_CORNER_COLORS = ['#a855f7','#8b5cf6','#6366f1','#0ea5e9','#06b6d4','#10b981','#f59e0b','#f97316','#ef4444','#ec4899'];
+        let cmsCornerEditIdx = null;
+        let cmsCornerSelectedColor = CMS_CORNER_COLORS[0];
+        function cmsRenderCorners() {
+            const wrap = document.getElementById('cms-corner-list');
+            const empty = document.getElementById('cms-corner-empty');
+            if (!wrap) return;
+            const list = cmsConfigData.corners || [];
+            if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            wrap.innerHTML = list.map((c, idx) => {
+                const count = (cmsConfigData.globalSchedules || []).filter(s => (s.cornerIds || []).includes(c.id)).length;
+                return `
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditCorner(${idx})">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span style="width:14px;height:14px;border-radius:50%;background:${escapeHtml(c.color)};display:inline-block;flex-shrink:0;"></span>
+                        <div class="min-w-0">
+                            <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(c.name)}</span>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400">${count}件の予定</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="event.stopPropagation(); cmsEditCorner(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="event.stopPropagation(); cmsRemoveCorner(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function cmsAddCorner() { cmsOpenCornerModal(null); }
+        function cmsEditCorner(idx) { cmsOpenCornerModal(idx); }
+        function cmsOpenCornerModal(idx) {
+            cmsCornerEditIdx = idx;
+            const c = idx != null ? cmsConfigData.corners[idx] : { name: '', color: CMS_CORNER_COLORS[(cmsConfigData.corners||[]).length % CMS_CORNER_COLORS.length] };
+            document.getElementById('cms-corner-name').value = c.name || '';
+            cmsCornerSelectedColor = c.color || CMS_CORNER_COLORS[0];
+            cmsRenderCornerColorPicker();
+            cmsOpenModal('cms-corner-modal', 'cms-corner-card');
+        }
+        function closeCmsCornerModal() { cmsCloseModal('cms-corner-modal', 'cms-corner-card'); }
+        function cmsRenderCornerColorPicker() {
+            const wrap = document.getElementById('cms-corner-color-picker');
+            if (!wrap) return;
+            wrap.innerHTML = CMS_CORNER_COLORS.map(color => `
+                <button type="button" onclick="cmsSelectCornerColor('${color}')" style="width:26px;height:26px;border-radius:50%;background:${color};border:2px solid ${color === cmsCornerSelectedColor ? '#fff' : 'transparent'};box-shadow:${color === cmsCornerSelectedColor ? '0 0 0 2px ' + color : 'none'};cursor:pointer;"></button>`).join('');
+        }
+        function cmsSelectCornerColor(color) { cmsCornerSelectedColor = color; cmsRenderCornerColorPicker(); }
+        function cmsConfirmCorner() {
+            const name = document.getElementById('cms-corner-name').value.trim();
+            if (!name) { showToast('コーナー名を入力してください'); return; }
+            const entry = {
+                id: (cmsCornerEditIdx != null && cmsConfigData.corners[cmsCornerEditIdx].id) || ('corner_' + Date.now()),
+                name,
+                color: cmsCornerSelectedColor,
+            };
+            if (cmsCornerEditIdx != null) cmsConfigData.corners[cmsCornerEditIdx] = entry;
+            else cmsConfigData.corners.push(entry);
+            closeCmsCornerModal();
+            cmsRenderCorners();
+            cmsMarkDirty();
+        }
+        function cmsRemoveCorner(idx) {
+            if (!confirm('このコーナーを削除しますか？')) return;
+            const removedId = cmsConfigData.corners[idx].id;
+            cmsConfigData.corners.splice(idx, 1);
+            (cmsConfigData.globalSchedules || []).forEach(s => {
+                if (Array.isArray(s.cornerIds)) s.cornerIds = s.cornerIds.filter(id => id !== removedId);
+            });
+            cmsRenderCorners();
+            cmsRenderSchedules();
+            cmsMarkDirty();
+        }
+
+        // ----- 英コミュ セクション（AI解析） -----
+        const CMS_GEMINI_ENDPOINT = 'https://promaster-api.kawaa1456.workers.dev';
+        function cmsRenderSections() {
+            const wrap = document.getElementById('cms-section-list');
+            const empty = document.getElementById('cms-section-empty');
+            if (!wrap) return;
+            const list = cmsConfigData.extraSections || [];
+            if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            wrap.innerHTML = list.map((s, idx) => `
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditSection(${idx})">
+                    <div class="min-w-0">
+                        <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(s.name || (s.lessonLabel+' '+s.sectionLabel))}</span>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400">ID: ${escapeHtml(s.id||'-')}</p>
+                    </div>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="event.stopPropagation(); cmsEditSection(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="event.stopPropagation(); cmsRemoveSection(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>`).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        let cmsSecEditIdx = null;
+        let cmsSecImageBase64 = null, cmsSecImageMimeType = null;
+        function cmsAddSection() { cmsOpenSectionModal(null); }
+        function cmsEditSection(idx) { cmsOpenSectionModal(idx); }
+        function cmsOpenSectionModal(idx) {
+            cmsSecEditIdx = idx;
+            const s = idx != null ? cmsConfigData.extraSections[idx] : { id: '', lessonLabel: '', sectionLabel: '', data: {} };
+            document.getElementById('cms-sec-id').value = s.id || '';
+            document.getElementById('cms-sec-lesson-label').value = s.lessonLabel || '';
+            document.getElementById('cms-sec-section-label').value = s.sectionLabel || '';
+            document.getElementById('cms-sec-data-json').value = s.data && Object.keys(s.data).length ? JSON.stringify(s.data, null, 2) : '';
+            document.getElementById('cms-sec-json-error').classList.add('hidden');
+            if (cmsSecAnalyzeAbortController) cmsSecAnalyzeAbortController.abort();
+            cmsSecImageBase64 = null; cmsSecImageMimeType = null;
+            document.getElementById('cms-sec-image-file').value = '';
+            document.getElementById('cms-sec-image-preview-wrap').classList.add('hidden');
+            document.getElementById('cms-sec-analyze-btn').disabled = true;
+            document.getElementById('cms-sec-analyze-cancel-btn').classList.add('hidden');
+            document.getElementById('cms-sec-analyze-status').textContent = '';
+            cmsOpenModal('cms-section-modal', 'cms-section-card');
+        }
+        function closeCmsSectionModal() { cmsCloseModal('cms-section-modal', 'cms-section-card'); }
+        function cmsHandleSectionImageSelect(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result;
+                cmsSecImageBase64 = result.slice(result.indexOf(',') + 1);
+                cmsSecImageMimeType = file.type || 'image/jpeg';
+                document.getElementById('cms-sec-image-preview').src = result;
+                document.getElementById('cms-sec-image-preview-wrap').classList.remove('hidden');
+                document.getElementById('cms-sec-analyze-btn').disabled = false;
+                document.getElementById('cms-sec-analyze-status').textContent = '';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            };
+            reader.readAsDataURL(file);
+        }
+        function cmsRemoveSectionImage() {
+            cmsSecImageBase64 = null; cmsSecImageMimeType = null;
+            document.getElementById('cms-sec-image-file').value = '';
+            document.getElementById('cms-sec-image-preview').src = '';
+            document.getElementById('cms-sec-image-preview-wrap').classList.add('hidden');
+            document.getElementById('cms-sec-analyze-btn').disabled = true;
+        }
+        function cmsClearSectionData() {
+            const ta = document.getElementById('cms-sec-data-json');
+            if (!ta.value.trim()) return;
+            if (!confirm('この解析結果データを削除しますか？')) return;
+            ta.value = '';
+            document.getElementById('cms-sec-json-error').classList.add('hidden');
+        }
+        const CMS_SECTION_ANALYSIS_PROMPT = "あなたは高校英語の学習支援AIです。添付の英語学習プリント画像をもとに、生徒用の予習学習ノートを作成してください。本文の丸写しは不要です。各英文を教育的に要約・解説する形で出力してください。クラス名・氏名欄など学習内容と無関係な部分は無視してください。できるだけ濃く・具体的に解説してください。\n" +
+            "1. transcription/transcriptionAnalysis: 各英文について①日本語での内容要約 ②文法・構文の解説 ③文の構造（SVOC等の文型・どの語がどの働きをしているか） ④文中で使われている重要表現・イディオムとその意味（英文そのものの転記は最小限にとどめ、解説を中心にすること）。\n" +
+            "2. putIntoJapaneseAnswers: 丸数字付き英文の自然な日本語訳と訳出ポイント、および和訳の際に間違えやすいポイント（直訳と意訳の違いなど）（英文の転記は番号と冒頭数語程度にとどめること）。\n" +
+            "3. vocabulary: 重要語彙の語義、プリント本文とは全く異なる独自の学習用例文、同義語・反意語、派生語（名詞形・動詞形・形容詞形など）、発音やアクセントで注意すべき点、大学入試での頻出度の目安。\n" +
+            "4. questions: Questions欄の模範解答(英語)・日本語訳・本文根拠を含む解説、および理解度を確認できる類題を1問。\n" +
+            "5. lessonTitle: Lesson/Unit番号など。";
+        const CMS_SECTION_ANALYSIS_SCHEMA = {
+            type: "OBJECT",
+            properties: {
+                transcription: { type: "STRING" },
+                transcriptionAnalysis: { type: "ARRAY", items: { type: "OBJECT", properties: {
+                    english: { type: "STRING" }, japanese: { type: "STRING" }, grammarExplanation: { type: "STRING" },
+                    sentenceStructure: { type: "STRING" }, keyExpressions: { type: "STRING" }
+                }, required: ["english","japanese","grammarExplanation","sentenceStructure","keyExpressions"] } },
+                putIntoJapaneseAnswers: { type: "ARRAY", items: { type: "OBJECT", properties: {
+                    num: { type: "STRING" }, english: { type: "STRING" }, japanese: { type: "STRING" },
+                    translationPoint: { type: "STRING" }, commonMistake: { type: "STRING" }
+                }, required: ["num","english","japanese","translationPoint","commonMistake"] } },
+                vocabulary: { type: "ARRAY", items: { type: "OBJECT", properties: {
+                    word: { type: "STRING" }, meaning: { type: "STRING" }, usage: { type: "STRING" },
+                    synonymsAntonyms: { type: "STRING" }, derivatives: { type: "STRING" },
+                    pronunciation: { type: "STRING" }, examFrequency: { type: "STRING" }
+                }, required: ["word","meaning","usage","synonymsAntonyms","derivatives","pronunciation","examFrequency"] } },
+                questions: { type: "ARRAY", items: { type: "OBJECT", properties: {
+                    question: { type: "STRING" }, questionJapanese: { type: "STRING" }, answer: { type: "STRING" },
+                    answerJapanese: { type: "STRING" }, explanation: { type: "STRING" }, similarQuestion: { type: "STRING" }
+                }, required: ["question","questionJapanese","answer","answerJapanese","explanation","similarQuestion"] } },
+                lessonTitle: { type: "STRING" }
+            },
+            required: ["transcription","transcriptionAnalysis","putIntoJapaneseAnswers","vocabulary","questions","lessonTitle"]
+        };
+        let cmsSecAnalyzeAbortController = null;
+        async function cmsFetchGemini(payload, abortGetter, retries = 5, delay = 600, timeoutMs = 90000) {
+            for (let i = 0; i < retries; i++) {
+                const timeoutController = new AbortController();
+                const timeoutId = setTimeout(() => timeoutController.abort(), timeoutMs);
+                const controller = abortGetter();
+                const onUserCancel = () => timeoutController.abort();
+                if (controller) controller.signal.addEventListener('abort', onUserCancel);
+                try {
+                    const response = await fetch(CMS_GEMINI_ENDPOINT, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload), signal: timeoutController.signal,
+                    });
+                    clearTimeout(timeoutId);
+                    if (response.ok) return await response.json();
+                    if (response.status === 429 || response.status >= 500) { await new Promise(r => setTimeout(r, delay)); delay *= 2; continue; }
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error((errData.error && errData.error.message) || `HTTP error! status: ${response.status}`);
+                } catch (error) {
+                    clearTimeout(timeoutId);
+                    const c = abortGetter();
+                    if (c && c.signal.aborted) throw new Error('ユーザーによりキャンセルされました');
+                    if (error.name === 'AbortError') {
+                        if (i === retries - 1) throw new Error('サーバーからの応答がタイムアウトしました。時間をおいて再試行してください。');
+                        await new Promise(r => setTimeout(r, delay)); delay *= 2; continue;
+                    }
+                    if (i === retries - 1) throw error;
+                    await new Promise(r => setTimeout(r, delay)); delay *= 2;
+                } finally {
+                    const c = abortGetter();
+                    if (c) c.signal.removeEventListener('abort', onUserCancel);
+                }
+            }
+        }
+        function cmsCancelSectionAnalysis() { if (cmsSecAnalyzeAbortController) cmsSecAnalyzeAbortController.abort(); }
+        async function cmsAnalyzeSectionImage() {
+            if (!cmsSecImageBase64) { showToast('先に画像を選択してください'); return; }
+            const btn = document.getElementById('cms-sec-analyze-btn');
+            const btnText = document.getElementById('cms-sec-analyze-btn-text');
+            const statusEl = document.getElementById('cms-sec-analyze-status');
+            const cancelBtn = document.getElementById('cms-sec-analyze-cancel-btn');
+            cmsSecAnalyzeAbortController = new AbortController();
+            btn.disabled = true; cancelBtn.classList.remove('hidden'); btnText.textContent = '解析中…';
+            let elapsedSec = 0;
+            statusEl.textContent = `AIが画像を解析しています…（経過 ${elapsedSec}秒）`;
+            const elapsedTimer = setInterval(() => { elapsedSec += 1; statusEl.textContent = `AIが画像を解析しています…（経過 ${elapsedSec}秒）`; }, 1000);
+            const parts = [{ text: CMS_SECTION_ANALYSIS_PROMPT }, { inlineData: { mimeType: cmsSecImageMimeType, data: cmsSecImageBase64 } }];
+            const payload = { contents: [{ role: "user", parts }], generationConfig: { responseMimeType: "application/json", responseSchema: CMS_SECTION_ANALYSIS_SCHEMA } };
+            try {
+                const responseData = await cmsFetchGemini(payload, () => cmsSecAnalyzeAbortController);
+                if (responseData && responseData.error) throw new Error(responseData.error.message || 'APIエラーが発生しました。');
+                const candidate = responseData && responseData.candidates && responseData.candidates[0];
+                if (!candidate) throw new Error('APIから応答がありませんでした。');
+                if (candidate.finishReason === 'SAFETY') throw new Error('安全フィルターにより画像がブロックされました。');
+                if (!candidate.content || !candidate.content.parts || !candidate.content.parts[0] || !candidate.content.parts[0].text) {
+                    throw new Error(`解析結果が空でした (finishReason: ${candidate.finishReason || '不明'})`);
+                }
+                const parsedData = JSON.parse(candidate.content.parts[0].text);
+                document.getElementById('cms-sec-data-json').value = JSON.stringify(parsedData, null, 2);
+                document.getElementById('cms-sec-json-error').classList.add('hidden');
+                const lessonLabelEl = document.getElementById('cms-sec-lesson-label');
+                if (!lessonLabelEl.value.trim() && parsedData.lessonTitle) lessonLabelEl.value = parsedData.lessonTitle;
+                statusEl.textContent = `解析が完了しました（${elapsedSec}秒）。内容を確認して「反映する」を押してください。`;
+                showToast('AI解析が完了しました');
+            } catch (e) {
+                console.error(e);
+                statusEl.textContent = 'エラー：' + e.message;
+                showToast('エラー: 解析に失敗しました');
+            } finally {
+                clearInterval(elapsedTimer);
+                cmsSecAnalyzeAbortController = null;
+                btn.disabled = false; cancelBtn.classList.add('hidden'); btnText.textContent = 'AIで解析する';
+            }
+        }
+        function cmsConfirmSection() {
+            const id = document.getElementById('cms-sec-id').value.trim();
+            const lessonLabel = document.getElementById('cms-sec-lesson-label').value.trim();
+            const sectionLabel = document.getElementById('cms-sec-section-label').value.trim();
+            const dataRaw = document.getElementById('cms-sec-data-json').value.trim();
+            const errEl = document.getElementById('cms-sec-json-error');
+            errEl.classList.add('hidden');
+            if (!id || !lessonLabel || !sectionLabel) { showToast('ID・ラベルは必須です'); return; }
+            let dataObj = {};
+            if (dataRaw) {
+                try { dataObj = JSON.parse(dataRaw); }
+                catch (e) { errEl.textContent = 'JSONの形式が正しくありません：' + e.message; errEl.classList.remove('hidden'); return; }
+            }
+            const entry = { id, lessonLabel, sectionLabel, name: `${lessonLabel}  ${dataObj.lessonTitle || ''}  ${sectionLabel}`, data: dataObj };
+            if (cmsSecEditIdx != null) cmsConfigData.extraSections[cmsSecEditIdx] = entry;
+            else cmsConfigData.extraSections.push(entry);
+            closeCmsSectionModal();
+            cmsRenderSections();
+            cmsMarkDirty();
+        }
+        function cmsRemoveSection(idx) {
+            if (!confirm('このセクションを削除しますか？')) return;
+            cmsConfigData.extraSections.splice(idx, 1);
+            cmsRenderSections();
+            cmsMarkDirty();
+        }
+
+        // ----- 論理表現 セクション（AI解析） -----
+        function cmsRenderRonriSections() {
+            const wrap = document.getElementById('cms-ronri-list');
+            const empty = document.getElementById('cms-ronri-empty');
+            if (!wrap) return;
+            const list = cmsConfigData.ronriSections || [];
+            if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
+            empty.classList.add('hidden');
+            wrap.innerHTML = list.map((s, idx) => `
+                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditRonriSection(${idx})">
+                    <div class="min-w-0">
+                        <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(s.sectionLabel || '(無題)')}</span>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400">${escapeHtml(s.lessonLabel||'-')} ・ ID: ${escapeHtml(s.id||'-')} ・ 問題数: ${(s.problems||[]).length}</p>
+                    </div>
+                    <div class="flex gap-1 shrink-0">
+                        <button onclick="event.stopPropagation(); cmsEditRonriSection(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="event.stopPropagation(); cmsRemoveRonriSection(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>`).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        let cmsRsecEditIdx = null;
+        let cmsRsecImageBase64 = null, cmsRsecImageMimeType = null;
+        let cmsRsecAnalyzeAbortController = null;
+        function cmsAddRonriSection() { cmsOpenRonriModal(null); }
+        function cmsEditRonriSection(idx) { cmsOpenRonriModal(idx); }
+        function cmsOpenRonriModal(idx) {
+            cmsRsecEditIdx = idx;
+            const s = idx != null ? cmsConfigData.ronriSections[idx] : { id: '', lessonLabel: '', sectionLabel: '', problems: [] };
+            document.getElementById('cms-rsec-id').value = s.id || '';
+            document.getElementById('cms-rsec-lesson-label').value = s.lessonLabel || '';
+            document.getElementById('cms-rsec-section-label').value = s.sectionLabel || '';
+            document.getElementById('cms-rsec-data-json').value = (s.problems && s.problems.length) ? JSON.stringify({ problems: s.problems }, null, 2) : '';
+            document.getElementById('cms-rsec-json-error').classList.add('hidden');
+            if (cmsRsecAnalyzeAbortController) cmsRsecAnalyzeAbortController.abort();
+            cmsRsecImageBase64 = null; cmsRsecImageMimeType = null;
+            document.getElementById('cms-rsec-image-file').value = '';
+            document.getElementById('cms-rsec-image-preview-wrap').classList.add('hidden');
+            document.getElementById('cms-rsec-analyze-btn').disabled = true;
+            document.getElementById('cms-rsec-analyze-cancel-btn').classList.add('hidden');
+            document.getElementById('cms-rsec-analyze-status').textContent = '';
+            cmsOpenModal('cms-ronri-modal', 'cms-ronri-card');
+        }
+        function closeCmsRonriModal() { cmsCloseModal('cms-ronri-modal', 'cms-ronri-card'); }
+        function cmsHandleRonriSectionImageSelect(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                const result = reader.result;
+                cmsRsecImageBase64 = result.slice(result.indexOf(',') + 1);
+                cmsRsecImageMimeType = file.type || 'image/jpeg';
+                document.getElementById('cms-rsec-image-preview').src = result;
+                document.getElementById('cms-rsec-image-preview-wrap').classList.remove('hidden');
+                document.getElementById('cms-rsec-analyze-btn').disabled = false;
+                document.getElementById('cms-rsec-analyze-status').textContent = '';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            };
+            reader.readAsDataURL(file);
+        }
+        function cmsRemoveRonriSectionImage() {
+            cmsRsecImageBase64 = null; cmsRsecImageMimeType = null;
+            document.getElementById('cms-rsec-image-file').value = '';
+            document.getElementById('cms-rsec-image-preview').src = '';
+            document.getElementById('cms-rsec-image-preview-wrap').classList.add('hidden');
+            document.getElementById('cms-rsec-analyze-btn').disabled = true;
+        }
+        function cmsClearRonriSectionData() {
+            const ta = document.getElementById('cms-rsec-data-json');
+            if (!ta.value.trim()) return;
+            if (!confirm('この解析結果データを削除しますか？')) return;
+            ta.value = '';
+            document.getElementById('cms-rsec-json-error').classList.add('hidden');
+        }
+        function cmsCancelRonriSectionAnalysis() { if (cmsRsecAnalyzeAbortController) cmsRsecAnalyzeAbortController.abort(); }
+        const CMS_RONRI_PROMPT = 'あなたは高校の「論理・表現」（英文法・英作文）の学習支援AIです。添付の画像には英文法の問題（空欄補充・整序・選択問題など）が写っています。' +
+            '写っている問題ごとに、次の順序で学習ノートを作成してください。' +
+            '1) reproducedWithAnswer：その問題の元のフォーマット（空欄の位置や(1)〜(4)などの選択肢の並び）をできるだけそのまま再現しながら、正解にあたる語句の部分だけを **正解** のようにMarkdownの**で囲んで示す（本文全体を勝手に書き換えない）。' +
+            '2) fullSentenceJapanese：空欄を埋めて完成した英文全体の、自然な日本語訳。' +
+            '3) explanation：なぜその答えになるのか、消去法や文構造をふまえて論理的かつ詳しく解説する。' +
+            '4) grammarPoint：この問題に関わる文法的なポイントを、他の問題にも応用できるように指導する形で説明する。' +
+            'クラス名・氏名欄など学習に無関係な部分は無視してください。問題が複数写っている場合はすべて出力してください。';
+        const CMS_RONRI_SCHEMA = {
+            type: 'OBJECT',
+            properties: { problems: { type: 'ARRAY', items: { type: 'OBJECT', properties: {
+                problemNumber: { type: 'STRING' }, reproducedWithAnswer: { type: 'STRING' },
+                fullSentenceJapanese: { type: 'STRING' }, explanation: { type: 'STRING' }, grammarPoint: { type: 'STRING' }
+            }, required: ['problemNumber','reproducedWithAnswer','fullSentenceJapanese','explanation','grammarPoint'] } } },
+            required: ['problems']
+        };
+        async function cmsAnalyzeRonriSectionImage() {
+            if (!cmsRsecImageBase64) { showToast('先に画像を選択してください'); return; }
+            const btn = document.getElementById('cms-rsec-analyze-btn');
+            const btnText = document.getElementById('cms-rsec-analyze-btn-text');
+            const statusEl = document.getElementById('cms-rsec-analyze-status');
+            const cancelBtn = document.getElementById('cms-rsec-analyze-cancel-btn');
+            cmsRsecAnalyzeAbortController = new AbortController();
+            btn.disabled = true; cancelBtn.classList.remove('hidden'); btnText.textContent = '解析中…';
+            let elapsedSec = 0;
+            statusEl.textContent = `AIが画像を解析しています…（経過 ${elapsedSec}秒）`;
+            const elapsedTimer = setInterval(() => { elapsedSec += 1; statusEl.textContent = `AIが画像を解析しています…（経過 ${elapsedSec}秒）`; }, 1000);
+            const parts = [{ text: CMS_RONRI_PROMPT }, { inlineData: { mimeType: cmsRsecImageMimeType, data: cmsRsecImageBase64 } }];
+            const payload = { contents: [{ role: "user", parts }], generationConfig: { responseMimeType: "application/json", responseSchema: CMS_RONRI_SCHEMA } };
+            try {
+                const responseData = await cmsFetchGemini(payload, () => cmsRsecAnalyzeAbortController);
+                if (responseData && responseData.error) throw new Error(responseData.error.message || 'APIエラーが発生しました。');
+                const candidate = responseData && responseData.candidates && responseData.candidates[0];
+                if (!candidate) throw new Error('APIから応答がありませんでした。');
+                if (candidate.finishReason === 'SAFETY') throw new Error('安全フィルターにより画像がブロックされました。');
+                if (!candidate.content || !candidate.content.parts || !candidate.content.parts[0] || !candidate.content.parts[0].text) {
+                    throw new Error(`解析結果が空でした (finishReason: ${candidate.finishReason || '不明'})`);
+                }
+                const parsedData = JSON.parse(candidate.content.parts[0].text);
+                document.getElementById('cms-rsec-data-json').value = JSON.stringify(parsedData, null, 2);
+                document.getElementById('cms-rsec-json-error').classList.add('hidden');
+                statusEl.textContent = `解析が完了しました（${elapsedSec}秒）。内容を確認して「反映する」を押してください。`;
+                showToast('AI解析が完了しました');
+            } catch (e) {
+                console.error(e);
+                statusEl.textContent = 'エラー：' + e.message;
+                showToast('エラー: 解析に失敗しました');
+            } finally {
+                clearInterval(elapsedTimer);
+                cmsRsecAnalyzeAbortController = null;
+                btn.disabled = false; cancelBtn.classList.add('hidden'); btnText.textContent = 'AIで解析する';
+            }
+        }
+        function cmsConfirmRonriSection() {
+            const id = document.getElementById('cms-rsec-id').value.trim();
+            const lessonLabel = document.getElementById('cms-rsec-lesson-label').value.trim();
+            const sectionLabel = document.getElementById('cms-rsec-section-label').value.trim();
+            const dataRaw = document.getElementById('cms-rsec-data-json').value.trim();
+            const errEl = document.getElementById('cms-rsec-json-error');
+            errEl.classList.add('hidden');
+            if (!id || !lessonLabel || !sectionLabel) { showToast('ID・Lesson・Sectionラベルは必須です'); return; }
+            let problems = [];
+            if (dataRaw) {
+                try {
+                    const parsed = JSON.parse(dataRaw);
+                    problems = Array.isArray(parsed.problems) ? parsed.problems : (Array.isArray(parsed) ? parsed : []);
+                } catch (e) { errEl.textContent = 'JSONの形式が正しくありません：' + e.message; errEl.classList.remove('hidden'); return; }
+            }
+            const entry = { id, lessonLabel, sectionLabel, problems };
+            cmsConfigData.ronriSections = cmsConfigData.ronriSections || [];
+            if (cmsRsecEditIdx != null) cmsConfigData.ronriSections[cmsRsecEditIdx] = entry;
+            else cmsConfigData.ronriSections.push(entry);
+            closeCmsRonriModal();
+            cmsRenderRonriSections();
+            cmsMarkDirty();
+        }
+        function cmsRemoveRonriSection(idx) {
+            if (!confirm('このセクションを削除しますか？')) return;
+            cmsConfigData.ronriSections.splice(idx, 1);
+            cmsRenderRonriSections();
+            cmsMarkDirty();
+        }
+
+        // ----- モーダル開閉共通ヘルパー -----
+        function cmsOpenModal(modalId, cardId) {
+            const modal = document.getElementById(modalId);
+            const card = document.getElementById(cardId);
+            if (!modal) return;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            if (card) { card.classList.remove('scale-95'); card.classList.add('scale-100'); }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function cmsCloseModal(modalId, cardId) {
+            const modal = document.getElementById(modalId);
+            const card = document.getElementById(cardId);
+            if (!modal) return;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            if (card) { card.classList.remove('scale-100'); card.classList.add('scale-95'); }
+        }
+
+        window.addEventListener('beforeunload', (e) => {
+            if (cmsDirty) { e.preventDefault(); e.returnValue = ''; }
+        });
+
 
         // ===== リセット機能 =====
         function showResetModal() {
