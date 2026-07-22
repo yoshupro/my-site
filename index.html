@@ -249,6 +249,9 @@
                 </button>
             </div>
             <p class="text-[11px] font-semibold text-slate-400 mb-3">クラスに参加すると、そのクラス向けの予定・お知らせが表示されます。</p>
+            <button onclick="cmsAddClassFromReal()" id="class-picker-dev-add-btn" class="hidden mb-3 w-full py-2 border border-dashed border-emerald-300 dark:border-emerald-700 text-emerald-500 rounded-xl text-xs font-black hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all flex items-center justify-center gap-1.5">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>クラスを追加（開発者モード）</span>
+            </button>
             <div id="class-picker-list" class="space-y-2 overflow-y-auto flex-1"></div>
             <p id="class-picker-empty" class="hidden text-xs text-slate-400 text-center py-6">現在参加できるクラスはありません</p>
             <button onclick="selectClassPicker(null)" class="mt-3 w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-black text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all">
@@ -556,6 +559,10 @@
                                 <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">コーナー</p>
                             </div>
                             <div id="corner-pill-list" class="flex flex-wrap gap-1.5 mb-2.5"></div>
+                            <div id="corner-view-toggle" class="hidden mb-2.5 inline-flex p-0.5 bg-slate-100 dark:bg-slate-800 rounded-lg">
+                                <button data-mode="date" onclick="setCornerViewMode('date')" class="corner-view-btn px-2.5 py-1 rounded-md text-[10px] font-black transition-all">日時順</button>
+                                <button data-mode="subject" onclick="setCornerViewMode('subject')" class="corner-view-btn px-2.5 py-1 rounded-md text-[10px] font-black transition-all">教科ごと</button>
+                            </div>
                             <div id="corner-item-list" class="space-y-1.5"></div>
                             <p id="corner-empty-msg" class="hidden text-xs font-bold text-slate-400 text-center py-2">このコーナーにはまだ予定がありません</p>
                         </div>
@@ -574,6 +581,7 @@
                                         <button id="home-next-submission-more" onclick="event.stopPropagation(); openUpcomingTypeListModal('submission')" class="hidden text-[10px] font-bold text-indigo-500 underline decoration-dotted"></button>
                                     </div>
                                 </div>
+                                <div id="home-next-submission-check" class="hidden shrink-0"></div>
                                 <div id="home-next-submission-count" class="hidden shrink-0 text-center leading-none">
                                     <p class="text-3xl font-black text-indigo-500 leading-none" id="home-next-submission-num"></p>
                                     <p class="text-[9px] font-bold text-indigo-400 mt-0.5" id="home-next-submission-unit"></p>
@@ -903,6 +911,9 @@
                         <span>Sectionを選んで学習する</span>
                     </h4>
                     <p class="text-[11px] text-slate-400 mt-1 font-semibold">解析済みのプリントからセクションを選んでください</p>
+                    <button onclick="cmsAddSectionFromReal()" id="preset-section-dev-add-btn" class="hidden mt-3 w-full py-2 border border-dashed border-cyan-300 dark:border-cyan-700 text-cyan-500 rounded-xl text-xs font-black hover:bg-cyan-50 dark:hover:bg-cyan-950/30 transition-all flex items-center justify-center gap-1.5">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>セクションを追加（開発者モード）</span>
+                    </button>
                 </div>
                 <div id="preset-section-grid" class="grid grid-cols-2 gap-3"></div>
                 <p id="preset-section-empty" class="hidden text-xs text-slate-400 dark:text-slate-500 font-bold text-center py-6">まだセクションが追加されていません。<br>「自分で画像をアップロード」から解析するか、後日追加されるのをお待ちください。</p>
@@ -1230,6 +1241,9 @@
                         <span>Sectionを選んで学習する</span>
                     </h4>
                     <p class="text-[11px] text-slate-400 mt-1 font-semibold">解析済みのプリントからセクションを選んでください</p>
+                    <button onclick="cmsAddRonriSectionFromReal()" id="ronri-section-dev-add-btn" class="hidden mt-3 w-full py-2 border border-dashed border-violet-300 dark:border-violet-700 text-violet-500 rounded-xl text-xs font-black hover:bg-violet-50 dark:hover:bg-violet-950/30 transition-all flex items-center justify-center gap-1.5">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>セクションを追加（開発者モード）</span>
+                    </button>
                 </div>
                 <div id="ronri-section-grid" class="grid grid-cols-2 gap-3"></div>
                 <p id="ronri-section-list-empty" class="hidden text-xs text-slate-400 dark:text-slate-500 font-bold text-center py-6">まだセクションが追加されていません。<br>「自分で画像をアップロード」から解析するか、後日追加されるのをお待ちください。</p>
@@ -2023,8 +2037,11 @@
                 </div>
             </div>
 
-            <div class="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end">
-                <button onclick="toggleAnnouncementModal(false)" class="px-5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-[#1e293b] text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-all">
+            <div class="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3">
+                <button onclick="cmsAddAnnouncementFromReal()" id="announcement-modal-dev-add-btn" class="hidden py-2 px-3 border border-dashed border-cyan-300 dark:border-cyan-700 text-cyan-500 rounded-xl text-[11px] font-black hover:bg-cyan-50 dark:hover:bg-cyan-950/30 transition-all flex items-center gap-1">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i><span>お知らせを追加</span>
+                </button>
+                <button onclick="toggleAnnouncementModal(false)" class="ml-auto px-5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-[#1e293b] text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-all">
                     閉じる
                 </button>
             </div>
@@ -2212,20 +2229,82 @@
     </div>
 
     <!-- 開発者ダッシュボードモーダル -->
-    <div id="dev-dashboard-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl w-full max-w-lg transform scale-95 transition-all duration-300 max-h-[90vh] overflow-y-auto" id="dev-dashboard-card">
+    <div id="dev-settings-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-all duration-300 max-h-[90vh] overflow-y-auto" id="dev-settings-card">
             <div class="sticky top-0 bg-white dark:bg-[#0c1220] border-b border-slate-200 dark:border-slate-800 px-5 py-4 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
                     <div class="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl">
-                        <i data-lucide="code-2" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
+                        <i data-lucide="settings-2" class="w-4 h-4 text-slate-500 dark:text-slate-400"></i>
                     </div>
-                    <h3 class="text-sm font-black text-slate-900 dark:text-white">開発者ダッシュボード</h3>
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white">開発者設定</h3>
                 </div>
-                <button onclick="closeDevDashboard()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
+                <button onclick="closeDevSettingsModal()" class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
                     <i data-lucide="x" class="w-4 h-4 text-slate-500"></i>
                 </button>
             </div>
             <div class="p-5 space-y-5">
+
+                <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/40 rounded-xl p-3">
+                    お知らせ・予定・コーナー・クラス・セクションの追加編集は、この設定画面ではなく<b>本体アプリの各画面をそのまま</b>使って行います。下のボタンからそれぞれの画面へ移動できます。ここではGitHub連携・利用制限・パスワードなど、アプリ全体に関わる設定のみを行います。
+                </p>
+
+                <!-- コンテンツ編集への入口（すべて本体の実画面へ移動） -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-2">
+                        <i data-lucide="compass" class="w-4 h-4"></i><span>編集画面への移動</span>
+                    </h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="closeDevSettingsModal(); cmsManageAnnouncements();" class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl text-left transition-all">
+                            <i data-lucide="megaphone" class="w-4 h-4 text-cyan-500 mb-1"></i>
+                            <p class="text-[11px] font-black text-slate-800 dark:text-white">お知らせ</p>
+                        </button>
+                        <button onclick="closeDevSettingsModal(); _navigateTo('calendar');" class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl text-left transition-all">
+                            <i data-lucide="calendar-days" class="w-4 h-4 text-rose-500 mb-1"></i>
+                            <p class="text-[11px] font-black text-slate-800 dark:text-white">予定・通知</p>
+                        </button>
+                        <button onclick="closeDevSettingsModal(); showTopHome();" class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl text-left transition-all">
+                            <i data-lucide="folder" class="w-4 h-4 text-violet-500 mb-1"></i>
+                            <p class="text-[11px] font-black text-slate-800 dark:text-white">コーナー</p>
+                        </button>
+                        <button onclick="closeDevSettingsModal(); openClassPickerModal();" class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl text-left transition-all">
+                            <i data-lucide="users" class="w-4 h-4 text-emerald-500 mb-1"></i>
+                            <p class="text-[11px] font-black text-slate-800 dark:text-white">クラス</p>
+                        </button>
+                        <button onclick="closeDevSettingsModal(); showEnglishSectionMode();" class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl text-left transition-all">
+                            <i data-lucide="book-open" class="w-4 h-4 text-blue-500 mb-1"></i>
+                            <p class="text-[11px] font-black text-slate-800 dark:text-white">英コミュ</p>
+                        </button>
+                        <button onclick="closeDevSettingsModal(); openRonriSectionListPage();" class="p-3 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl text-left transition-all">
+                            <i data-lucide="file-text" class="w-4 h-4 text-purple-500 mb-1"></i>
+                            <p class="text-[11px] font-black text-slate-800 dark:text-white">論理表現</p>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GitHub連携 -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-2">
+                        <i data-lucide="github" class="w-4 h-4"></i><span>GitHub連携（config.json）</span>
+                    </h4>
+                    <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 space-y-3">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">GitHub Personal Access Token（Fine-grained, Contents: Read &amp; write）でこのリポジトリの config.json を直接編集・公開できます。Tokenはこの端末のブラウザ内にのみ保存されます。</p>
+                        <input type="password" id="cms-gh-token" placeholder="GitHub Personal Access Token"
+                            class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="cms-gh-repo" placeholder="owner/repo"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                            <input type="text" id="cms-gh-branch" placeholder="ブランチ" value="main"
+                                class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="cmsConnect()" id="cms-connect-btn" class="py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 transition-all">接続して読み込み</button>
+                            <button onclick="cmsReloadFromGitHub()" class="py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-black hover:opacity-90 transition-all">再読込</button>
+                        </div>
+                        <p id="cms-gh-status" class="text-[10px] font-bold text-slate-500 dark:text-slate-400"></p>
+                        <button onclick="cmsSaveToGitHub()" id="cms-save-btn" class="w-full py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 transition-all">GitHubに保存して公開</button>
+                        <p id="cms-save-status" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 text-center"></p>
+                    </div>
+                </div>
 
                 <!-- 利用制限 -->
                 <div class="space-y-2">
@@ -2274,95 +2353,6 @@
                             class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
                         <button onclick="devChangePassword()" class="w-full py-2 bg-slate-700 hover:bg-slate-800 dark:bg-slate-600 dark:hover:bg-slate-500 text-white rounded-xl text-xs font-black transition-all">パスワードを変更</button>
                     </div>
-                </div>
-
-                <!-- ===== CMS管理（旧admin.htmlをここに統合） ===== -->
-                <div class="space-y-2">
-                    <h4 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center space-x-2">
-                        <i data-lucide="github" class="w-4 h-4"></i><span>GitHub連携（config.json編集）</span>
-                    </h4>
-                    <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 space-y-3">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">GitHub Personal Access Token（Fine-grained, Contents: Read &amp; write）でこのリポジトリの config.json を直接編集・公開できます。Tokenはこの端末のブラウザ内にのみ保存されます。</p>
-                        <input type="password" id="cms-gh-token" placeholder="GitHub Personal Access Token"
-                            class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="text" id="cms-gh-repo" placeholder="owner/repo"
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
-                            <input type="text" id="cms-gh-branch" placeholder="ブランチ" value="main"
-                                class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="cmsConnect()" id="cms-connect-btn" class="py-2 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 transition-all">接続して読み込み</button>
-                            <button onclick="cmsReloadFromGitHub()" class="py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-black hover:opacity-90 transition-all">再読込</button>
-                        </div>
-                        <p id="cms-gh-status" class="text-[10px] font-bold text-slate-500 dark:text-slate-400"></p>
-                    </div>
-                </div>
-
-                <div id="cms-panel" class="hidden space-y-4">
-                    <!-- タブ -->
-                    <div class="flex flex-wrap gap-1.5" id="cms-tab-buttons">
-                        <button onclick="cmsShowTab('announce')" data-cms-tab="announce" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">お知らせ</button>
-                        <button onclick="cmsShowTab('class')" data-cms-tab="class" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">クラス</button>
-                        <button onclick="cmsShowTab('schedule')" data-cms-tab="schedule" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">予定・通知</button>
-                        <button onclick="cmsShowTab('corner')" data-cms-tab="corner" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">コーナー</button>
-                        <button onclick="cmsShowTab('section')" data-cms-tab="section" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">英コミュ</button>
-                        <button onclick="cmsShowTab('ronri')" data-cms-tab="ronri" class="cms-tab-btn px-3 py-1.5 rounded-full text-[11px] font-black border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 transition-all">論理表現</button>
-                    </div>
-
-                    <!-- お知らせ -->
-                    <div id="cms-tab-content-announce" class="cms-tab-content hidden space-y-2">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">ユーザーが次回アプリを開いたときに全画面表示されます。一番上が最新として扱われます。</p>
-                        <div id="cms-announce-list" class="space-y-2"></div>
-                        <p id="cms-announce-empty" class="hidden text-[11px] text-slate-400 text-center py-3">お知らせはまだありません</p>
-                        <button onclick="cmsAddAnnouncement()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ お知らせを追加</button>
-                    </div>
-
-                    <!-- クラス -->
-                    <div id="cms-tab-content-class" class="cms-tab-content hidden space-y-2">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">クラスを作成すると、生徒は本体アプリの「クラス設定」からそのクラスに参加できます。予定に対象クラスを設定すると、そのクラスの生徒だけに表示されます。</p>
-                        <div id="cms-class-list" class="space-y-2"></div>
-                        <p id="cms-class-empty" class="hidden text-[11px] text-slate-400 text-center py-3">クラスはまだありません</p>
-                        <button onclick="cmsAddClass()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ クラスを追加</button>
-                    </div>
-
-                    <!-- 予定・通知 -->
-                    <div id="cms-tab-content-schedule" class="cms-tab-content hidden space-y-2">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">ここで追加した予定は全ユーザーのHOME・カレンダーに表示されます。「通知日時」を設定すると、その日時になった時にユーザーの端末で通知が表示されます（アプリを開いている必要があります）。</p>
-                        <div id="cms-schedule-list" class="space-y-2"></div>
-                        <p id="cms-schedule-empty" class="hidden text-[11px] text-slate-400 text-center py-3">予定はまだありません</p>
-                        <button onclick="cmsAddSchedule()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ 予定を追加</button>
-                    </div>
-
-                    <!-- コーナー -->
-                    <div id="cms-tab-content-corner" class="cms-tab-content hidden space-y-2">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">コーナーは予定を仕分ける「ファイル」です。生徒はHOME画面でコーナーを選ぶと、そのコーナーの予定だけを一覧できます。</p>
-                        <div id="cms-corner-list" class="space-y-2"></div>
-                        <p id="cms-corner-empty" class="hidden text-[11px] text-slate-400 text-center py-3">コーナーはまだありません</p>
-                        <button onclick="cmsAddCorner()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ コーナーを追加</button>
-                    </div>
-
-                    <!-- 英コミュ セクション -->
-                    <div id="cms-tab-content-section" class="cms-tab-content hidden space-y-2">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">プリント画像をアップロードしてAIで解析し、本体アプリと同じ内容のセクションを追加します。</p>
-                        <div id="cms-section-list" class="space-y-2"></div>
-                        <p id="cms-section-empty" class="hidden text-[11px] text-slate-400 text-center py-3">追加済みセクションはありません</p>
-                        <button onclick="cmsAddSection()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ セクションを追加</button>
-                    </div>
-
-                    <!-- 論理表現 セクション -->
-                    <div id="cms-tab-content-ronri" class="cms-tab-content hidden space-y-2">
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">文法問題プリントの写真をAIで解析し、解答・日本語訳・解説・文法ポイントを問題ごとに生成します。</p>
-                        <div id="cms-ronri-list" class="space-y-2"></div>
-                        <p id="cms-ronri-empty" class="hidden text-[11px] text-slate-400 text-center py-3">追加済みセクションはありません</p>
-                        <button onclick="cmsAddRonriSection()" class="w-full py-2 border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-black hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all">＋ セクションを追加</button>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
-                        <button onclick="cmsReloadFromGitHub()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90 transition-all">再読込</button>
-                        <button onclick="cmsSaveToGitHub()" id="cms-save-btn" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90 transition-all">GitHubに保存して公開</button>
-                    </div>
-                    <p id="cms-save-status" class="text-[10px] font-bold text-slate-500 dark:text-slate-400 text-center">未保存の変更があります</p>
                 </div>
 
             </div>
@@ -2425,9 +2415,14 @@
                 </div>
                 <p id="cms-class-code-display" class="text-[10px] text-slate-500 dark:text-slate-400"></p>
             </div>
-            <div class="grid grid-cols-2 gap-3 mt-5">
-                <button onclick="closeCmsClassModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
-                <button onclick="cmsConfirmClass()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            <div class="flex items-center justify-between mt-5 gap-3">
+                <button onclick="cmsDeleteClassFromModal()" id="cms-class-delete-btn" class="hidden items-center space-x-1.5 px-3 py-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl text-xs font-black transition-all">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>削除</span>
+                </button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeCmsClassModal()" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                    <button onclick="cmsConfirmClass()" class="py-2.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2506,9 +2501,14 @@
                     <div id="cms-corner-color-picker" class="flex flex-wrap gap-2"></div>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-3 mt-5">
-                <button onclick="closeCmsCornerModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
-                <button onclick="cmsConfirmCorner()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            <div class="flex items-center justify-between mt-5 gap-3">
+                <button onclick="cmsDeleteCornerFromModal()" id="cms-corner-delete-btn" class="hidden items-center space-x-1.5 px-3 py-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl text-xs font-black transition-all">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>削除</span>
+                </button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeCmsCornerModal()" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                    <button onclick="cmsConfirmCorner()" class="py-2.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2556,9 +2556,14 @@
                     class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[11px] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></textarea>
             </div>
             <p id="cms-sec-json-error" class="hidden text-[11px] font-bold text-rose-500 mt-1"></p>
-            <div class="grid grid-cols-2 gap-3 mt-5">
-                <button onclick="closeCmsSectionModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
-                <button onclick="cmsConfirmSection()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            <div class="flex items-center justify-between mt-5 gap-3">
+                <button onclick="cmsDeleteSectionFromModal()" id="cms-sec-delete-btn" class="hidden items-center space-x-1.5 px-3 py-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl text-xs font-black transition-all">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>削除</span>
+                </button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeCmsSectionModal()" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                    <button onclick="cmsConfirmSection()" class="py-2.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2568,18 +2573,14 @@
         <div class="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-2xl w-full max-w-lg max-h-[88vh] overflow-y-auto transform scale-95 transition-all duration-300" id="cms-ronri-card">
             <h3 class="text-sm font-black text-slate-900 dark:text-white mb-1">論理表現セクションを追加</h3>
             <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-4">文法問題プリントの写真をAIで解析します。</p>
-            <div class="grid grid-cols-3 gap-2 mb-3">
+            <div class="grid grid-cols-2 gap-2 mb-3">
                 <div>
                     <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">ID</label>
                     <input type="text" id="cms-rsec-id" placeholder="例：RH1" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
                 </div>
                 <div>
-                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Lesson</label>
-                    <input type="text" id="cms-rsec-lesson-label" placeholder="Lesson 2" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
-                </div>
-                <div>
-                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Section</label>
-                    <input type="text" id="cms-rsec-section-label" placeholder="仮定法" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">タイトル</label>
+                    <input type="text" id="cms-rsec-title" placeholder="例：Lesson 2　仮定法" class="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-blue-400">
                 </div>
             </div>
             <div class="mb-2">
@@ -2606,11 +2607,24 @@
                     class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-[11px] font-mono text-slate-900 dark:text-white focus:outline-none focus:border-blue-400"></textarea>
             </div>
             <p id="cms-rsec-json-error" class="hidden text-[11px] font-bold text-rose-500 mt-1"></p>
-            <div class="grid grid-cols-2 gap-3 mt-5">
-                <button onclick="closeCmsRonriModal()" class="py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
-                <button onclick="cmsConfirmRonriSection()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+            <div class="flex items-center justify-between mt-5 gap-3">
+                <button onclick="cmsDeleteRonriSectionFromModal()" id="cms-rsec-delete-btn" class="hidden items-center space-x-1.5 px-3 py-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 rounded-xl text-xs font-black transition-all">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i><span>削除</span>
+                </button>
+                <div class="flex gap-2 ml-auto">
+                    <button onclick="closeCmsRonriModal()" class="py-2.5 px-4 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-black hover:opacity-90">キャンセル</button>
+                    <button onclick="cmsConfirmRonriSection()" class="py-2.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black hover:opacity-90">反映する</button>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- 開発者編集モード中を示すフローティングインジケーター -->
+    <div id="dev-floating-indicator" class="hidden fixed bottom-6 left-6 z-40 flex items-center gap-1.5 bg-slate-900/95 dark:bg-slate-800/95 text-white pl-3.5 pr-1.5 py-1.5 rounded-full shadow-2xl backdrop-blur-sm border border-slate-700">
+        <i data-lucide="pencil-ruler" class="w-3.5 h-3.5 text-cyan-400"></i>
+        <span class="text-[11px] font-black">編集モード</span>
+        <button onclick="openDevDashboard()" class="p-1.5 rounded-full hover:bg-white/10 transition-all" title="開発者設定（GitHub連携など）"><i data-lucide="settings-2" class="w-3.5 h-3.5"></i></button>
+        <button onclick="devExitEditMode()" class="p-1.5 rounded-full hover:bg-white/10 transition-all" title="編集モードを終了"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
     </div>
 
     <!-- 通常トースト -->
@@ -2911,6 +2925,7 @@
                 </button>
             </div>
             <input type="hidden" id="schedule-edit-id" value="">
+            <input type="hidden" id="schedule-input-is-remote" value="">
             <div class="px-6 pb-5 space-y-3.5">
                 <div>
                     <div class="flex items-center space-x-2.5">
@@ -2949,6 +2964,35 @@
                     <i data-lucide="align-left" class="w-4 h-4 text-slate-400 mt-2.5 shrink-0"></i>
                     <textarea id="schedule-input-memo" placeholder="メモ（範囲・持ち物など、任意）" rows="2" class="w-full px-0 py-2 bg-transparent border-0 border-b-2 border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white focus:outline-none focus:border-rose-400 placeholder:text-slate-400 placeholder:font-normal resize-none"></textarea>
                 </div>
+
+                <!-- 開発者モード限定：学校全体への公開設定 -->
+                <div id="schedule-input-dev-section" class="hidden bg-cyan-50 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/40 rounded-2xl p-3.5 space-y-3">
+                    <label class="flex items-center justify-between cursor-pointer">
+                        <span class="text-[11px] font-black text-cyan-700 dark:text-cyan-300 flex items-center gap-1.5">
+                            <i data-lucide="megaphone" class="w-3.5 h-3.5"></i><span>学校全体に公開する予定として保存</span>
+                        </span>
+                        <input type="checkbox" id="schedule-input-publish-toggle" onchange="onSchedulePublishToggle()" class="w-4 h-4 accent-cyan-500">
+                    </label>
+                    <div id="schedule-input-publish-fields" class="hidden space-y-3 pt-1 border-t border-cyan-200 dark:border-cyan-800/40">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">対象クラス（未選択なら全員に表示）</label>
+                            <select id="schedule-input-class" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-cyan-400"></select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">コーナー（任意・複数選択可）</label>
+                            <div id="schedule-input-corner-checks" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-black text-cyan-700 dark:text-cyan-300 flex items-center gap-1.5 mb-1">
+                                <i data-lucide="bell" class="w-3.5 h-3.5"></i><span>通知日時（任意）</span>
+                            </label>
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mb-1.5">指定した日時に、アプリを開いているユーザーの端末へ通知が表示されます。</p>
+                            <input type="datetime-local" id="schedule-input-notify" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-cyan-400">
+                        </div>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">保存すると「変更を保存」状態になります。実際に全員に反映するには、開発者ダッシュボードの「GitHubに保存して公開」を押してください。</p>
+                    </div>
+                </div>
+
                 <p id="schedule-input-error" class="hidden text-xs text-rose-500 font-bold"></p>
                 <!-- Googleカレンダー風：削除は控えめに左、保存はアクセントカラーで右 -->
                 <div class="flex items-center justify-between pt-2">
@@ -2998,6 +3042,10 @@
                         <span id="schedule-detail-subject-wrap" class="flex items-center space-x-1"><i data-lucide="book" class="w-3.5 h-3.5"></i><span id="schedule-detail-subject"></span></span>
                     </div>
                     <p id="schedule-detail-memo-wrap" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800/50 rounded-xl p-3 whitespace-pre-wrap"></p>
+                    <label id="schedule-detail-done-wrap" class="hidden flex items-center gap-2.5 bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800/40 rounded-xl p-3 cursor-pointer">
+                        <input type="checkbox" id="schedule-detail-done-checkbox" onchange="toggleSubmissionDone(_scheduleDetailCurrentId, event)" class="w-4 h-4 rounded accent-indigo-500 cursor-pointer">
+                        <span class="text-xs font-black text-indigo-600 dark:text-indigo-300">提出済み・完了としてチェックする</span>
+                    </label>
                 </div>
             </div>
         </div>
@@ -3301,21 +3349,37 @@
             const emptyEl = document.getElementById('class-picker-empty');
             if (!wrap) return;
             const classes = window._remoteClasses || [];
+            const devAddBtn = document.getElementById('class-picker-dev-add-btn');
+            if (devAddBtn) devAddBtn.classList.toggle('hidden', !devUnlocked);
             if (classes.length === 0) {
                 wrap.innerHTML = '';
-                if (emptyEl) emptyEl.classList.remove('hidden');
+                if (emptyEl) emptyEl.classList.toggle('hidden', devUnlocked);
                 return;
             }
             if (emptyEl) emptyEl.classList.add('hidden');
             const myClassId = window.currentUserClassId || null;
             wrap.innerHTML = classes.map(c => {
                 const active = c.id === myClassId;
+                const devControls = devUnlocked ? `
+                    <span onclick="event.stopPropagation(); cmsEditClassFromReal('${c.id}')" class="absolute top-2 right-2 p-1.5 rounded-lg bg-white/80 dark:bg-slate-900/70 hover:bg-white dark:hover:bg-slate-900"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></span>` : '';
                 return `
-                <button onclick="selectClassPicker('${c.id}')" class="w-full text-left p-3 rounded-xl border transition-all ${active ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
-                    <p class="text-xs font-black text-slate-800 dark:text-slate-100">${escapeHtml(c.name || '')}${active ? '（参加中）' : ''}</p>
-                    ${(c.subjects && c.subjects.length) ? `<p class="text-[10px] font-bold text-slate-400 mt-0.5">${escapeHtml(c.subjects.join('、'))}</p>` : ''}
+                <button onclick="selectClassPicker('${c.id}')" class="relative w-full text-left p-3 rounded-xl border transition-all ${active ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
+                    <p class="text-xs font-black text-slate-800 dark:text-slate-100 pr-8">${escapeHtml(c.name || '')}${active ? '（参加中）' : ''}</p>
+                    ${(c.subjects && c.subjects.length) ? `<p class="text-[10px] font-bold text-slate-400 mt-0.5 pr-8">${escapeHtml(c.subjects.join('、'))}</p>` : ''}
+                    ${devControls}
                 </button>`;
             }).join('');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function cmsAddClassFromReal() {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); openDevDashboard(); return; }
+            cmsAddClass();
+        }
+        function cmsEditClassFromReal(classId) {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); openDevDashboard(); return; }
+            const idx = (cmsConfigData.classes || []).findIndex(c => c.id === classId);
+            if (idx < 0) { showToast('データが見つかりませんでした。再読込してください'); return; }
+            cmsEditClass(idx);
         }
         async function selectClassPicker(classId) {
             try {
@@ -3612,21 +3676,28 @@
             if (bannerBody) bannerBody.innerHTML = html;
             const modalList = document.querySelector('#announcement-modal .space-y-3');
             if (modalList) {
-                modalList.innerHTML = list.length > 0 ? list.map(a => {
+                modalList.innerHTML = list.length > 0 ? list.map((a, idx) => {
                     const color = getColor(a);
                     const linkEl = getLinkAttrs(a);
                     const dateStr = formatAnnDate(a.createdAt);
-                    return `${linkEl.open} class="block p-3.5 rounded-xl border overflow-hidden${a.link ? ' cursor-pointer hover:opacity-80 active:opacity-70 transition-opacity' : ''}" style="background:${color}11;border-color:${color}33;">
-                        <div class="flex items-center space-x-1.5 mb-1 flex-wrap gap-y-1">
+                    const devControls = devUnlocked ? `
+                        <div class="absolute top-2 right-2 flex gap-1">
+                            <span onclick="event.preventDefault(); event.stopPropagation(); cmsEditAnnouncementFromReal(${idx})" class="p-1.5 rounded-lg bg-white/80 dark:bg-slate-900/70 hover:bg-white dark:hover:bg-slate-900 cursor-pointer"><i data-lucide="pencil" class="w-3 h-3"></i></span>
+                            <span onclick="event.preventDefault(); event.stopPropagation(); cmsRemoveAnnouncementFromReal(${idx})" class="p-1.5 rounded-lg bg-white/80 dark:bg-slate-900/70 hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500 cursor-pointer"><i data-lucide="trash-2" class="w-3 h-3"></i></span>
+                        </div>` : '';
+                    return `${linkEl.open} class="relative block p-3.5 rounded-xl border overflow-hidden${a.link ? ' cursor-pointer hover:opacity-80 active:opacity-70 transition-opacity' : ''}" style="background:${color}11;border-color:${color}33;">
+                        <div class="flex items-center space-x-1.5 mb-1 flex-wrap gap-y-1 pr-14">
                             ${a.badge ? `<span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full text-white tracking-wider shrink-0" style="background:${color}">${escapeHtml(a.badge)}</span>` : ''}
                             ${a.version ? `<span class="text-[9px] font-bold text-slate-400 dark:text-slate-500">Ver ${escapeHtml(a.version)}</span>` : ''}
                             ${dateStr ? `<span class="text-[9px] font-semibold text-slate-400 dark:text-slate-500">${dateStr}</span>` : ''}
                         </div>
-                        ${a.title ? `<h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1 break-words">${escapeHtml(a.title)}</h4>` : ''}
-                        ${a.body ? `<p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(a.body)}</p>` : ''}
+                        ${a.title ? `<h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1 break-words pr-14">${escapeHtml(a.title)}</h4>` : ''}
+                        ${a.body ? `<p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed break-words whitespace-pre-wrap pr-14">${escapeHtml(a.body)}</p>` : ''}
                         ${a.link ? `<span class="inline-flex items-center space-x-1 text-[10px] font-bold mt-1.5" style="color:${color}"><i data-lucide="external-link" class="w-3 h-3"></i><span>詳しくはこちら</span></span>` : ''}
-                    ${linkEl.close}`;
+                    ${devControls}${linkEl.close}`;
                 }).join('') : emptyHtml;
+                const devAddBtn = document.getElementById('announcement-modal-dev-add-btn');
+                if (devAddBtn) devAddBtn.classList.toggle('hidden', !devUnlocked);
             }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -3725,6 +3796,8 @@
             const grid = document.getElementById('preset-section-grid');
             if (!grid) return;
             const emptyMsg = document.getElementById('preset-section-empty');
+            const devAddBtn = document.getElementById('preset-section-dev-add-btn');
+            if (devAddBtn) devAddBtn.classList.toggle('hidden', !devUnlocked);
             if (PRESET_SECTIONS.length === 0) {
                 grid.innerHTML = '';
                 grid.classList.add('hidden');
@@ -3744,7 +3817,7 @@
                     <div class="grid grid-cols-2 gap-2">
                         ${lessons[lk].map(sec => `
                         <button onclick="loadPresetSection('${sec.id}')"
-                            class="p-3 bg-slate-50 dark:bg-slate-800 hover:bg-cyan-50 dark:hover:bg-cyan-950/40 border border-slate-200 dark:border-slate-700 hover:border-cyan-400 rounded-xl text-left transition-all group">
+                            class="relative p-3 bg-slate-50 dark:bg-slate-800 hover:bg-cyan-50 dark:hover:bg-cyan-950/40 border border-slate-200 dark:border-slate-700 hover:border-cyan-400 rounded-xl text-left transition-all group">
                             <div class="flex items-center space-x-2 mb-1">
                                 <div class="w-5 h-5 rounded-lg bg-cyan-100 dark:bg-cyan-950 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-500 group-hover:text-white transition-all">
                                     <i data-lucide="file-check" class="w-3 h-3"></i>
@@ -3752,6 +3825,7 @@
                                 <span class="text-[11px] font-black text-cyan-600 dark:text-cyan-400">${sec.sectionLabel}</span>
                             </div>
                             <p class="text-[10px] text-slate-400 font-semibold">解析済み ✓</p>
+                            ${devUnlocked ? `<span onclick="event.stopPropagation(); cmsEditSectionFromReal('${sec.id}')" class="absolute top-1.5 right-1.5 p-1 rounded-lg bg-white/80 dark:bg-slate-900/70 hover:bg-white dark:hover:bg-slate-900"><i data-lucide="pencil" class="w-3 h-3"></i></span>` : ''}
                         </button>`).join('')}
                     </div>
                 </div>`).join('');
@@ -4344,6 +4418,7 @@
             const announcementModalCard = document.getElementById('announcement-modal-card');
             if (!announcementModal || !announcementModalCard) return;
             if (show) {
+                if (typeof renderAnnouncementContent === 'function') renderAnnouncementContent();
                 announcementModal.classList.remove('opacity-0', 'pointer-events-none');
                 announcementModalCard.classList.remove('scale-95');
                 announcementModalCard.classList.add('scale-100');
@@ -5436,6 +5511,49 @@
             return getAllSchedules().filter(s => s.date >= todayStr);
         }
 
+        // ===== 提出物の完了チェック（この端末だけに保存される個人的な記録） =====
+        // 学校全体の提出物（学校から配信されたもの）も含め、「終わったかどうか」は
+        // 生徒本人だけのチェック状態であり、config.json（全員に共有されるデータ）には含めない。
+        function getDoneSubmissionIds() {
+            return new Set((safeStorage.get('pm_done_submissions') || []).map(String));
+        }
+        function isSubmissionDone(id) {
+            return getDoneSubmissionIds().has(String(id));
+        }
+        function setSubmissionDone(id, done) {
+            const set = getDoneSubmissionIds();
+            if (done) set.add(String(id)); else set.delete(String(id));
+            safeStorage.set('pm_done_submissions', Array.from(set));
+        }
+        // チェックボックスがクリックされた時に呼ぶ。表示中の画面をまとめて更新する
+        function toggleSubmissionDone(id, event) {
+            if (event) { event.preventDefault(); event.stopPropagation(); }
+            setSubmissionDone(id, !isSubmissionDone(id));
+            refreshSubmissionDoneViews();
+        }
+        // 提出物カード・コーナー・カレンダー・詳細モーダルなど、表示されている可能性のある
+        // 画面すべてのチェック状態を更新する
+        function refreshSubmissionDoneViews() {
+            if (typeof renderScheduleSection === 'function') renderScheduleSection();
+            if (typeof renderCornerBrowser === 'function') renderCornerBrowser();
+            if (typeof renderCalendarDayList === 'function') renderCalendarDayList();
+            if (typeof renderCalendarPanel === 'function') renderCalendarPanel();
+            const detailCheckbox = document.getElementById('schedule-detail-done-checkbox');
+            if (detailCheckbox && _scheduleDetailCurrentId != null) {
+                detailCheckbox.checked = isSubmissionDone(_scheduleDetailCurrentId);
+            }
+        }
+        // 提出物用のチェックボックスHTMLを生成する共通ヘルパー
+        function renderSubmissionCheckbox(item, extraClass) {
+            if (item.type !== 'submission') return '';
+            const done = isSubmissionDone(item.id);
+            const idAttr = item.isRemote ? `'${item.id}'` : item.id;
+            return `<label onclick="event.stopPropagation();" class="flex items-center justify-center shrink-0 ${extraClass || ''}">
+                <input type="checkbox" ${done ? 'checked' : ''} onclick="toggleSubmissionDone(${idAttr}, event)"
+                    class="w-4 h-4 rounded accent-indigo-500 cursor-pointer">
+            </label>`;
+        }
+
         // ===== 予定通知（開発者モードで設定した日時に、テスト・提出物の予定を通知） =====
         // 「予定・通知」で notifyAt（通知日時）が設定された予定について、その日時になったら
         // アプリを開いている端末でブラウザ通知を表示する。バックグラウンド配信ではないため、
@@ -5516,6 +5634,11 @@
 
         // コーナー選択状態（HOME画面でどのコーナーを表示中か）
         let selectedCornerId = null;
+        let cornerViewMode = 'date'; // 'date' = 日時順, 'subject' = 教科ごと
+        function setCornerViewMode(mode) {
+            cornerViewMode = mode;
+            renderCornerBrowser();
+        }
         function selectCornerPill(cornerId) {
             selectedCornerId = cornerId;
             renderCornerBrowser();
@@ -5525,27 +5648,46 @@
             const pillList = document.getElementById('corner-pill-list');
             const itemList = document.getElementById('corner-item-list');
             const emptyMsg = document.getElementById('corner-empty-msg');
+            const viewToggle = document.getElementById('corner-view-toggle');
             if (!card || !pillList || !itemList || !emptyMsg) return;
 
             const corners = window._remoteCorners || [];
-            if (corners.length === 0) {
+            if (corners.length === 0 && !devUnlocked) {
                 card.classList.add('hidden');
                 return;
             }
             card.classList.remove('hidden');
 
-            if (!selectedCornerId || !corners.find(c => c.id === selectedCornerId)) {
+            if (corners.length > 0 && (!selectedCornerId || !corners.find(c => c.id === selectedCornerId))) {
                 selectedCornerId = corners[0].id;
             }
 
-            pillList.innerHTML = corners.map(c => {
+            const pillsHtml = corners.map(c => {
                 const active = c.id === selectedCornerId;
+                const editIcon = devUnlocked
+                    ? `<i data-lucide="pencil" onclick="event.stopPropagation(); cmsEditCornerFromHome('${c.id}')" class="w-3 h-3 opacity-70 hover:opacity-100"></i>`
+                    : '';
                 return `
                 <button onclick="selectCornerPill('${c.id}')" class="px-3 py-1.5 rounded-full text-[11px] font-black transition-all flex items-center gap-1.5" style="${active ? `background:${c.color};color:#fff;` : `background:${c.color}18;color:${c.color};`}">
                     <span style="width:6px;height:6px;border-radius:50%;background:${active ? '#fff' : c.color};display:inline-block;"></span>
                     ${escapeHtml(c.name)}
+                    ${editIcon}
                 </button>`;
             }).join('');
+            const addPill = devUnlocked
+                ? `<button onclick="cmsAddCornerFromHome()" class="px-3 py-1.5 rounded-full text-[11px] font-black border border-dashed border-slate-300 dark:border-slate-600 text-slate-400 hover:text-cyan-500 hover:border-cyan-400 transition-all flex items-center gap-1">
+                    <i data-lucide="plus" class="w-3 h-3"></i><span>コーナーを追加</span>
+                   </button>`
+                : '';
+            pillList.innerHTML = pillsHtml + addPill;
+            if (corners.length === 0) {
+                itemList.innerHTML = '';
+                if (viewToggle) viewToggle.classList.add('hidden');
+                emptyMsg.classList.remove('hidden');
+                emptyMsg.textContent = 'コーナーはまだありません（上の「＋ コーナーを追加」から作成できます）';
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
 
             const allItems = getAllSchedules().filter(s => Array.isArray(s.cornerIds) && s.cornerIds.includes(selectedCornerId));
             const todayStr = getJSTDateOnly().toISOString().slice(0, 10);
@@ -5553,20 +5695,75 @@
 
             if (allItems.length === 0) {
                 itemList.innerHTML = '';
+                if (viewToggle) viewToggle.classList.add('hidden');
+                emptyMsg.textContent = 'このコーナーにはまだ予定がありません';
                 emptyMsg.classList.remove('hidden');
                 return;
             }
             emptyMsg.classList.add('hidden');
+            if (viewToggle) {
+                viewToggle.classList.remove('hidden');
+                viewToggle.querySelectorAll('.corner-view-btn').forEach(btn => {
+                    const active = btn.getAttribute('data-mode') === cornerViewMode;
+                    btn.classList.toggle('bg-white', active);
+                    btn.classList.toggle('dark:bg-slate-700', active);
+                    btn.classList.toggle('shadow-sm', active);
+                    btn.classList.toggle('text-slate-800', active);
+                    btn.classList.toggle('dark:text-white', active);
+                    btn.classList.toggle('text-slate-400', !active);
+                });
+            }
+
             const typeIcon = { test: 'file-edit', submission: 'package-check' };
-            itemList.innerHTML = allItems.map(item => {
+            const typeLabel = { test: 'テスト', submission: '提出物' };
+            const renderItemRow = (item) => {
                 const isPast = item.date < todayStr;
+                const isToday = item.date === todayStr;
+                const done = item.type === 'submission' && isSubmissionDone(item.id);
+                const openCall = item.isRemote ? `openScheduleViewModal('${item.id}')` : `openScheduleViewModal(${item.id})`;
                 return `
-                <div class="flex items-center gap-2 px-2.5 py-2 rounded-xl ${isPast ? 'opacity-50' : ''} bg-slate-50 dark:bg-slate-800/50">
-                    <i data-lucide="${typeIcon[item.type] || 'file-edit'}" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200 truncate flex-1">${escapeHtml(item.title)}</span>
-                    <span class="text-[10px] font-bold text-slate-400 shrink-0">${escapeHtml(item.date)}</span>
+                <div onclick="${openCall}" class="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition-all ${(isPast || done) ? 'opacity-50' : ''} bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-700/60 active:scale-[0.99]">
+                    ${renderSubmissionCheckbox(item)}
+                    <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${item.type === 'test' ? 'bg-rose-100 dark:bg-rose-900/30 text-rose-500' : 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-500'}">
+                        <i data-lucide="${typeIcon[item.type] || 'file-edit'}" class="w-3.5 h-3.5"></i>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-xs font-black text-slate-700 dark:text-slate-200 truncate ${done ? 'line-through' : ''}">${escapeHtml(item.title)}</span>
+                            ${isToday ? `<span class="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-rose-500 text-white shrink-0">今日</span>` : ''}
+                            ${done ? `<span class="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-emerald-500 text-white shrink-0">完了</span>` : ''}
+                        </div>
+                        <div class="flex items-center gap-1.5 mt-0.5">
+                            <span class="text-[10px] font-bold text-slate-400">${typeLabel[item.type] || ''}</span>
+                            ${item.subject ? `<span class="text-[10px] font-bold text-slate-400">・${escapeHtml(item.subject)}</span>` : ''}
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-black text-slate-400 shrink-0">${escapeHtml(item.date)}</span>
+                    <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-300 group-hover:text-slate-500 shrink-0"></i>
                 </div>`;
-            }).join('');
+            };
+
+            if (cornerViewMode === 'subject') {
+                const groups = {};
+                const order = [];
+                allItems.forEach(item => {
+                    const key = item.subject || 'その他';
+                    if (!groups[key]) { groups[key] = []; order.push(key); }
+                    groups[key].push(item);
+                });
+                order.sort((a, b) => {
+                    if (a === 'その他') return 1;
+                    if (b === 'その他') return -1;
+                    return a.localeCompare(b, 'ja');
+                });
+                itemList.innerHTML = order.map(subject => `
+                    <div class="mb-2.5 last:mb-0">
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-1.5 px-0.5">${escapeHtml(subject)}</p>
+                        <div class="space-y-1.5">${groups[subject].map(renderItemRow).join('')}</div>
+                    </div>`).join('');
+            } else {
+                itemList.innerHTML = `<div class="space-y-1.5">${allItems.map(renderItemRow).join('')}</div>`;
+            }
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -5594,6 +5791,7 @@
             const countEl = document.getElementById('home-next-' + type + '-count');
             const numEl = document.getElementById('home-next-' + type + '-num');
             const unitEl = document.getElementById('home-next-' + type + '-unit');
+            const checkWrap = document.getElementById('home-next-' + type + '-check');
             if (!wrap || !titleEl || !dateEl) return;
             if (!item) {
                 titleEl.textContent = '予定なし';
@@ -5602,11 +5800,22 @@
                 wrap.style.cursor = 'default';
                 if (moreBtn) moreBtn.classList.add('hidden');
                 if (countEl) countEl.classList.add('hidden');
+                if (checkWrap) checkWrap.classList.add('hidden');
                 return;
             }
             const d = daysUntil(item.date);
             titleEl.textContent = item.title;
+            titleEl.classList.toggle('line-through', type === 'submission' && isSubmissionDone(item.id));
+            titleEl.classList.toggle('opacity-50', type === 'submission' && isSubmissionDone(item.id));
             dateEl.textContent = item.date;
+            if (checkWrap) {
+                if (type === 'submission') {
+                    checkWrap.classList.remove('hidden');
+                    checkWrap.innerHTML = renderSubmissionCheckbox(item);
+                } else {
+                    checkWrap.classList.add('hidden');
+                }
+            }
             if (countEl && numEl && unitEl) {
                 if (d === 0) {
                     numEl.textContent = '当日';
@@ -5649,14 +5858,16 @@
             if (titleEl) titleEl.textContent = `${dateStr.replace(/-/g, '/')} の予定`;
             bodyEl.innerHTML = items.map(s => {
                 const typeInfo = SCHEDULE_TYPE_INFO[s.type] || SCHEDULE_TYPE_INFO.test;
+                const done = s.type === 'submission' && isSubmissionDone(s.id);
                 const openCall = s.isRemote ? `openScheduleViewModal('${s.id}')` : `openScheduleViewModal(${s.id})`;
-                return `<div onclick="closeUpcomingTypeListModal(); ${openCall}" class="flex items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 transition-all cursor-pointer">
+                return `<div onclick="closeUpcomingTypeListModal(); ${openCall}" class="flex items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 transition-all cursor-pointer ${done ? 'opacity-50' : ''}">
                     <div class="flex items-center space-x-2.5 min-w-0">
+                        ${renderSubmissionCheckbox(s)}
                         <div class="w-7 h-7 rounded-lg flex items-center justify-center text-white shrink-0" style="background:${typeInfo.color}">
                             <i data-lucide="${typeInfo.icon}" class="w-3.5 h-3.5"></i>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate">${escapeHtml(s.title)}</p>
+                            <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate ${done ? 'line-through' : ''}">${escapeHtml(s.title)}</p>
                             <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${escapeHtml(s.subject || typeInfo.label)}</p>
                         </div>
                     </div>
@@ -5825,6 +6036,7 @@
             if (emptyEl) emptyEl.classList.add('hidden');
             listEl.innerHTML = items.map(s => {
                 const typeInfo = SCHEDULE_TYPE_INFO[s.type] || SCHEDULE_TYPE_INFO.test;
+                const done = s.type === 'submission' && isSubmissionDone(s.id);
                 const clickAttr = s.isRemote
                     ? `onclick="openScheduleViewModal('${s.id}')"`
                     : `onclick="openScheduleViewModal(${s.id})"`;
@@ -5834,13 +6046,14 @@
                             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                         </button>`;
                 return `
-                <div class="flex items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 transition-all cursor-pointer" ${clickAttr}>
+                <div class="flex items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-rose-300 dark:hover:border-rose-700 transition-all cursor-pointer ${done ? 'opacity-50' : ''}" ${clickAttr}>
                     <div class="flex items-center space-x-3 min-w-0">
+                        ${renderSubmissionCheckbox(s)}
                         <div class="w-9 h-9 rounded-lg flex items-center justify-center text-white shrink-0" style="background:${typeInfo.color}">
                             <i data-lucide="${typeInfo.icon}" class="w-4 h-4"></i>
                         </div>
                         <div class="min-w-0">
-                            <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate">${escapeHtml(s.title)}</p>
+                            <p class="text-xs font-black text-slate-800 dark:text-slate-200 truncate ${done ? 'line-through' : ''}">${escapeHtml(s.title)}</p>
                             <p class="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">${escapeHtml(s.subject || typeInfo.label)}</p>
                         </div>
                     </div>
@@ -5914,11 +6127,26 @@
                 if (s.memo) { memoWrap.textContent = s.memo; memoWrap.classList.remove('hidden'); }
                 else { memoWrap.textContent = ''; memoWrap.classList.add('hidden'); }
             }
+            // 提出物の場合のみ「完了」チェックを表示する（この端末だけの個人的な記録）
+            const doneWrap = document.getElementById('schedule-detail-done-wrap');
+            const doneCheckbox = document.getElementById('schedule-detail-done-checkbox');
+            if (doneWrap && doneCheckbox) {
+                if (s.type === 'submission') {
+                    doneWrap.classList.remove('hidden');
+                    doneCheckbox.checked = isSubmissionDone(s.id);
+                } else {
+                    doneWrap.classList.add('hidden');
+                }
+            }
             // ローカルの予定（自分で追加したもの）だけ、編集・削除ボタンを表示する
             const editBtn = document.getElementById('schedule-detail-edit-btn');
             const deleteBtn = document.getElementById('schedule-detail-delete-btn');
-            if (editBtn) editBtn.classList.toggle('hidden', !!s.isRemote);
-            if (deleteBtn) deleteBtn.classList.toggle('hidden', !!s.isRemote);
+            const canEditRemote = s.isRemote && devUnlocked;
+            editBtn?.classList.toggle('hidden', !!s.isRemote && !canEditRemote);
+            deleteBtn?.classList.toggle('hidden', !!s.isRemote && !canEditRemote);
+            if (canEditRemote) {
+                if (sourceLabelEl) sourceLabelEl.textContent = '学校からのお知らせ予定（開発者として編集可）';
+            }
 
             modal.classList.remove('opacity-0', 'pointer-events-none');
             card.classList.remove('scale-95'); card.classList.add('scale-100');
@@ -5946,8 +6174,21 @@
         function deleteFromScheduleDetail() {
             if (_scheduleDetailCurrentId == null) return;
             const id = _scheduleDetailCurrentId;
+            const s = getAllSchedules().find(x => x.id === id);
             closeScheduleDetailModal();
+            if (s && s.isRemote && devUnlocked) {
+                cmsDeleteGlobalScheduleById(cmsStripRemoteIdPrefix(id));
+                return;
+            }
             quickDeleteSchedule(id);
+        }
+
+        // getAllSchedules() は学校全体の予定のidに 'remote_' という接頭辞を付けて返すため、
+        // 元のconfig.json上のid（cmsConfigData / window._remoteGlobalSchedulesで使われるid）に
+        // 戻す必要がある場合はこの関数を使う。
+        function cmsStripRemoteIdPrefix(id) {
+            const str = String(id);
+            return str.startsWith('remote_') ? str.slice('remote_'.length) : str;
         }
 
         function openScheduleInputModal(editId, presetDate) {
@@ -5959,20 +6200,52 @@
             const deleteBtn = document.getElementById('schedule-delete-btn');
             if (errorEl) errorEl.classList.add('hidden');
 
-            if (editId) {
+            // 開発者モード用セクションの表示切替＆選択肢の準備
+            const devSection = document.getElementById('schedule-input-dev-section');
+            if (devSection) devSection.classList.toggle('hidden', !devUnlocked);
+            if (devUnlocked) populateScheduleInputDevOptions();
+
+            let remoteMatch = null;
+            let rawEditId = editId;
+            if (editId != null) {
+                rawEditId = cmsStripRemoteIdPrefix(editId);
+                remoteMatch = (window._remoteGlobalSchedules || []).find(x => String(x.id) === String(rawEditId));
+            }
+
+            if (editId != null && !remoteMatch) {
                 const s = scheduleItems.find(x => x.id === editId);
                 if (!s) return;
                 titleEl.textContent = '予定を編集';
                 document.getElementById('schedule-edit-id').value = s.id;
+                document.getElementById('schedule-input-is-remote').value = '';
                 document.getElementById('schedule-input-title').value = s.title || '';
                 setScheduleSubjectValue(s.subject || '');
                 document.getElementById('schedule-input-date').value = s.date || '';
                 document.getElementById('schedule-input-memo').value = s.memo || '';
                 scheduleSelectedType = s.type || 'test';
                 if (deleteBtn) deleteBtn.classList.remove('hidden');
+                setSchedulePublishToggle(false);
+                populateScheduleInputCornerChecks([]);
+            } else if (editId != null && remoteMatch) {
+                // 学校全体に公開されている予定を開発者として編集
+                const s = remoteMatch;
+                titleEl.textContent = '公開中の予定を編集';
+                document.getElementById('schedule-edit-id').value = s.id;
+                document.getElementById('schedule-input-is-remote').value = '1';
+                document.getElementById('schedule-input-title').value = s.title || '';
+                setScheduleSubjectValue(s.subject || '');
+                document.getElementById('schedule-input-date').value = s.date || '';
+                document.getElementById('schedule-input-memo').value = s.memo || '';
+                scheduleSelectedType = s.type || 'test';
+                if (deleteBtn) deleteBtn.classList.remove('hidden');
+                setSchedulePublishToggle(true);
+                document.getElementById('schedule-input-class').value = s.classId || '';
+                document.getElementById('schedule-input-notify').value = s.notifyAt ? s.notifyAt.slice(0, 16) : '';
+                populateScheduleInputCornerChecks(s.cornerIds || []);
             } else {
                 titleEl.textContent = '予定を追加';
                 document.getElementById('schedule-edit-id').value = '';
+                document.getElementById('schedule-input-is-remote').value = '';
                 document.getElementById('schedule-input-title').value = '';
                 setScheduleSubjectValue('');
                 let dateValue;
@@ -5989,6 +6262,8 @@
                 document.getElementById('schedule-input-memo').value = '';
                 scheduleSelectedType = 'test';
                 if (deleteBtn) deleteBtn.classList.add('hidden');
+                setSchedulePublishToggle(false);
+                populateScheduleInputCornerChecks([]);
             }
             selectScheduleType(scheduleSelectedType);
 
@@ -6006,6 +6281,38 @@
             unlockScroll();
         }
 
+        // ----- 開発者モード：予定入力モーダル内の「学校全体に公開」まわりのヘルパー -----
+        function setSchedulePublishToggle(on) {
+            const toggle = document.getElementById('schedule-input-publish-toggle');
+            if (toggle) toggle.checked = !!on;
+            onSchedulePublishToggle();
+        }
+        function onSchedulePublishToggle() {
+            const toggle = document.getElementById('schedule-input-publish-toggle');
+            const fields = document.getElementById('schedule-input-publish-fields');
+            if (fields) fields.classList.toggle('hidden', !(toggle && toggle.checked));
+        }
+        function populateScheduleInputDevOptions() {
+            const classes = window._remoteClasses || [];
+            const sel = document.getElementById('schedule-input-class');
+            if (sel) {
+                sel.innerHTML = '<option value="">（未選択：全員に表示）</option>' +
+                    classes.map(c => `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join('');
+            }
+        }
+        function populateScheduleInputCornerChecks(selectedIds) {
+            const wrap = document.getElementById('schedule-input-corner-checks');
+            if (!wrap) return;
+            const corners = window._remoteCorners || [];
+            if (corners.length === 0) { wrap.innerHTML = '<p class="text-[10px] text-slate-400">コーナーがまだありません（開発者ダッシュボードから作成できます）</p>'; return; }
+            wrap.innerHTML = corners.map(c => `
+                <label class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 cursor-pointer text-[11px] font-bold bg-white dark:bg-slate-900">
+                    <input type="checkbox" class="schedule-input-corner-check" value="${escapeHtml(c.id)}" ${selectedIds.includes(c.id) ? 'checked' : ''}>
+                    <span style="width:8px;height:8px;border-radius:50%;background:${escapeHtml(c.color)};display:inline-block;"></span>
+                    ${escapeHtml(c.name)}
+                </label>`).join('');
+        }
+
         function saveScheduleEntry() {
             const errorEl = document.getElementById('schedule-input-error');
             const showError = (msg) => { if (errorEl) { errorEl.textContent = msg; errorEl.classList.remove('hidden'); } };
@@ -6019,9 +6326,48 @@
             if (!title) { showError('タイトルを入力してください'); return; }
             if (!date) { showError('日付を入力してください'); return; }
 
-            const editId = document.getElementById('schedule-edit-id').value;
+            const editIdRaw = document.getElementById('schedule-edit-id').value;
+            const wasRemote = document.getElementById('schedule-input-is-remote').value === '1';
+            const publishToggle = document.getElementById('schedule-input-publish-toggle');
+            const publish = devUnlocked && publishToggle && publishToggle.checked;
+
+            if (publish) {
+                // ----- 学校全体に公開する予定として、開発者モードのCMSデータへ保存 -----
+                if (!cmsSession) {
+                    showError('学校全体に公開するには、先に開発者ダッシュボードでGitHubへ接続してください');
+                    return;
+                }
+                const cornerIds = Array.from(document.querySelectorAll('.schedule-input-corner-check:checked')).map(el => el.value);
+                const notifyRaw = document.getElementById('schedule-input-notify').value;
+                const entry = {
+                    id: (wasRemote && editIdRaw) ? (isNaN(editIdRaw) ? editIdRaw : Number(editIdRaw)) : Date.now(),
+                    type: scheduleSelectedType,
+                    title,
+                    subject: subject || null,
+                    date,
+                    memo: memo || null,
+                    classId: document.getElementById('schedule-input-class').value || null,
+                    cornerIds,
+                    notifyAt: notifyRaw ? new Date(notifyRaw).toISOString() : null,
+                };
+                cmsUpsertGlobalSchedule(entry, wasRemote);
+                // ローカル予定として同じidが残っていた場合は矛盾するため削除
+                if (!wasRemote) scheduleItems = scheduleItems.filter(x => x.id !== entry.id);
+                persistScheduleItems();
+                closeScheduleInputModal();
+                renderScheduleSection();
+                refreshCalendarIfVisible();
+                showToast((wasRemote ? '公開予定を更新しました' : '学校全体への公開予定として保存しました') + '（GitHubへの保存が必要です）');
+                return;
+            }
+
+            if (wasRemote) {
+                // 公開予定だったものを、個人予定に切り替えて保存（公開設定をOFFにした場合）
+                if (cmsSession) cmsDeleteGlobalScheduleById(editIdRaw, { silent: true, skipRerender: true });
+            }
+
             const entry = {
-                id: editId ? parseInt(editId) : Date.now(),
+                id: (editIdRaw && !wasRemote) ? parseInt(editIdRaw) : Date.now(),
                 type: scheduleSelectedType,
                 title,
                 subject: subject || null,
@@ -6029,23 +6375,27 @@
                 memo: memo || null,
             };
 
-            if (editId) {
-                const idx = scheduleItems.findIndex(x => x.id === entry.id);
-                if (idx >= 0) scheduleItems[idx] = entry;
-            } else {
-                scheduleItems.push(entry);
-            }
+            const idx = scheduleItems.findIndex(x => x.id === entry.id);
+            if (idx >= 0) scheduleItems[idx] = entry;
+            else scheduleItems.push(entry);
+
             persistScheduleItems();
             closeScheduleInputModal();
             renderScheduleSection();
             refreshCalendarIfVisible();
-            showToast(editId ? '予定を更新しました' : '予定を記録しました');
+            showToast(editIdRaw ? '予定を更新しました' : '予定を記録しました');
         }
 
         function deleteScheduleEntry() {
-            const editId = document.getElementById('schedule-edit-id').value;
-            if (!editId) return;
-            scheduleItems = scheduleItems.filter(x => x.id !== parseInt(editId));
+            const editIdRaw = document.getElementById('schedule-edit-id').value;
+            if (!editIdRaw) return;
+            const wasRemote = document.getElementById('schedule-input-is-remote').value === '1';
+            if (wasRemote) {
+                closeScheduleInputModal();
+                cmsDeleteGlobalScheduleById(editIdRaw);
+                return;
+            }
+            scheduleItems = scheduleItems.filter(x => x.id !== parseInt(editIdRaw));
             persistScheduleItems();
             closeScheduleInputModal();
             renderScheduleSection();
@@ -12235,6 +12585,8 @@ const TARGET1200 = [
             const grid = document.getElementById('ronri-section-grid');
             const empty = document.getElementById('ronri-section-list-empty');
             if (!grid || !empty) return;
+            const devAddBtn = document.getElementById('ronri-section-dev-add-btn');
+            if (devAddBtn) devAddBtn.classList.toggle('hidden', !devUnlocked);
             const sections = window._remoteRonriSections || [];
             if (sections.length === 0) {
                 grid.innerHTML = '';
@@ -12243,7 +12595,7 @@ const TARGET1200 = [
             }
             empty.classList.add('hidden');
             grid.innerHTML = sections.map((s, idx) => `
-                <button onclick="selectRonriSectionFromList(${idx})" class="group text-left p-4 bg-white dark:bg-[#0f172a] hover:bg-gradient-to-br hover:from-violet-50 hover:to-purple-50 dark:hover:from-violet-950/30 dark:hover:to-purple-950/30 border border-slate-200 dark:border-slate-800 hover:border-violet-400 dark:hover:border-violet-500 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                <button onclick="selectRonriSectionFromList(${idx})" class="relative group text-left p-4 bg-white dark:bg-[#0f172a] hover:bg-gradient-to-br hover:from-violet-50 hover:to-purple-50 dark:hover:from-violet-950/30 dark:hover:to-purple-950/30 border border-slate-200 dark:border-slate-800 hover:border-violet-400 dark:hover:border-violet-500 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5">
                     <div class="flex items-center space-x-2">
                         <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center shrink-0"><i data-lucide="file-text" class="w-4 h-4 text-white"></i></div>
                         <div class="min-w-0">
@@ -12251,6 +12603,7 @@ const TARGET1200 = [
                             <p class="text-[10px] text-emerald-500 font-bold mt-0.5">解析済み ✓　（${(s.problems || []).length}問）</p>
                         </div>
                     </div>
+                    ${devUnlocked ? `<span onclick="event.stopPropagation(); cmsEditRonriSectionFromReal('${s.id}')" class="absolute top-1.5 right-1.5 p-1 rounded-lg bg-white/80 dark:bg-slate-900/70 hover:bg-white dark:hover:bg-slate-900"><i data-lucide="pencil" class="w-3 h-3"></i></span>` : ''}
                 </button>
             `).join('');
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -14562,7 +14915,12 @@ const TARGET1200 = [
             if (hash === storedHash) {
                 devUnlocked = true;
                 closeDevLogin();
-                openDevDashboard();
+                updateDevFloatingIndicator();
+                showToast('開発者モードを開始しました。各画面の＋や鉛筆から編集できます');
+                // ダッシュボードは開かず、今見ている実画面のまま編集アイコンを表示する
+                refreshAllDevEditableViews();
+                // 前回接続したGitHubセッションがあれば、設定画面を開かずに裏側で自動接続しておく
+                cmsSilentAutoConnect().then(() => refreshAllDevEditableViews());
             } else {
                 if (err) err.classList.remove('hidden');
                 input.value = '';
@@ -14570,9 +14928,36 @@ const TARGET1200 = [
             }
         }
 
+        // 開発者モードのON/OFFや接続状況が変わった時に、現在表示されている可能性がある
+        // 実画面すべての「編集アイコン」表示を更新する
+        function refreshAllDevEditableViews() {
+            if (typeof renderCornerBrowser === 'function') renderCornerBrowser();
+            if (typeof renderPresetSectionGrid === 'function') renderPresetSectionGrid();
+            if (typeof renderRonriSectionListPage === 'function') renderRonriSectionListPage();
+            if (typeof renderClassPickerList === 'function') renderClassPickerList();
+            if (typeof renderAnnouncementContent === 'function') renderAnnouncementContent();
+            if (typeof refreshCalendarIfVisible === 'function') refreshCalendarIfVisible();
+        }
+
+        // 前回接続したGitHubトークンが保存されていれば、ダイアログを開かずに裏側で再接続する
+        async function cmsSilentAutoConnect() {
+            const saved = safeStorage.get(CMS_SESSION_KEY);
+            if (!saved || !saved.token || !saved.repo) return;
+            document.getElementById('cms-gh-token').value = saved.token;
+            document.getElementById('cms-gh-repo').value = saved.repo;
+            document.getElementById('cms-gh-branch').value = saved.branch || 'main';
+            cmsSession = saved;
+            try {
+                await cmsReloadFromGitHub();
+            } catch (e) {
+                console.warn('自動接続に失敗しました:', e);
+                cmsSession = null;
+            }
+        }
+
         function openDevDashboard() {
-            const modal = document.getElementById('dev-dashboard-modal');
-            const card  = document.getElementById('dev-dashboard-card');
+            const modal = document.getElementById('dev-settings-modal');
+            const card  = document.getElementById('dev-settings-card');
             if (!modal) return;
             modal.classList.remove('opacity-0','pointer-events-none');
             card.classList.remove('scale-95'); card.classList.add('scale-100');
@@ -14583,12 +14968,36 @@ const TARGET1200 = [
         }
 
         function closeDevDashboard() {
-            const modal = document.getElementById('dev-dashboard-modal');
-            const card  = document.getElementById('dev-dashboard-card');
+            const modal = document.getElementById('dev-settings-modal');
+            const card  = document.getElementById('dev-settings-card');
             modal.classList.add('opacity-0','pointer-events-none');
             card.classList.remove('scale-100'); card.classList.add('scale-95');
             unlockScroll();
+            // 開発者モードのセッション自体は維持し、本体アプリの画面（カレンダー・コーナー等）を
+            // 「サイトの見た目のまま」編集できる状態にしておく。終了はフローティングボタンから行う。
+            updateDevFloatingIndicator();
+        }
+
+        // 呼び名のエイリアス（新しい「開発者設定」モーダルのHTML側で使用）
+        function openDevSettingsModal() { openDevDashboard(); }
+        function closeDevSettingsModal() { closeDevDashboard(); }
+        // 各画面の編集ボタンから「まずGitHubへ接続してください」と案内する際に呼ぶ
+        function cmsOpenConnectPopup() { openDevDashboard(); }
+
+        // 本体アプリの画面を編集可能な状態のまま、開発者モードを完全に終了する
+        function devExitEditMode() {
             devUnlocked = false;
+            closeDevDashboard();
+            updateDevFloatingIndicator();
+            refreshAllDevEditableViews();
+            showToast('開発者モードを終了しました');
+        }
+
+        // 開発者モード中であることを示す、画面下部の小さなフローティングボタン
+        function updateDevFloatingIndicator() {
+            const el = document.getElementById('dev-floating-indicator');
+            if (!el) return;
+            el.classList.toggle('hidden', !devUnlocked);
         }
 
         function devRefreshDashboard() {
@@ -14730,8 +15139,7 @@ const TARGET1200 = [
             try {
                 await cmsReloadFromGitHub();
                 safeStorage.set(CMS_SESSION_KEY, cmsSession);
-                document.getElementById('cms-panel').classList.remove('hidden');
-                cmsShowTab('announce');
+                showToast('GitHubに接続しました。各画面の「＋」ボタンなどから編集できます');
             } catch (e) {
                 statusEl.textContent = '接続に失敗しました：' + e.message;
                 statusEl.className = 'text-[10px] font-bold text-rose-500';
@@ -14748,10 +15156,9 @@ const TARGET1200 = [
             if (res.status === 404) {
                 cmsCurrentSha = null;
                 cmsConfigData = { announcements: [], globalSchedules: [], extraSections: [], corners: [], classes: [], ronriSections: [] };
-                cmsRenderAll();
+                cmsSyncAllRealDisplays();
                 cmsSetSaveStatus('config.json はまだリポジトリに存在しません。保存すると新規作成されます。', 'err');
                 if (statusEl) { statusEl.textContent = 'リポジトリに config.json がまだありません（新規作成されます）'; statusEl.className = 'text-[10px] font-bold text-amber-500'; }
-                document.getElementById('cms-panel').classList.remove('hidden');
                 return;
             }
             if (!res.ok) {
@@ -14769,10 +15176,31 @@ const TARGET1200 = [
             cmsConfigData.corners = cmsConfigData.corners || [];
             cmsConfigData.classes = cmsConfigData.classes || [];
             cmsDirty = false;
-            cmsRenderAll();
+            cmsSyncAllRealDisplays();
             cmsSetSaveStatus('GitHubの最新内容を読み込みました', 'ok');
             if (statusEl) { statusEl.textContent = '接続済み：' + cmsSession.repo + '（' + cmsSession.branch + '）'; statusEl.className = 'text-[10px] font-bold text-green-500'; }
             showToast('config.json を読み込みました');
+        }
+
+        // GitHubから読み込んだ内容を、本体アプリの実画面が参照しているデータへすべて反映する
+        function cmsSyncAllRealDisplays() {
+            window._remoteAnnouncements = (cmsConfigData.announcements || []).slice();
+            window._remoteGlobalSchedules = (cmsConfigData.globalSchedules || []).slice();
+            window._remoteCorners = (cmsConfigData.corners || []).slice();
+            window._remoteClasses = (cmsConfigData.classes || []).slice();
+            window._remoteRonriSections = (cmsConfigData.ronriSections || []).slice();
+            (cmsConfigData.extraSections || []).forEach(sec => {
+                const idx = PRESET_SECTIONS.findIndex(p => p.id === sec.id);
+                if (idx >= 0) PRESET_SECTIONS[idx] = sec;
+                else PRESET_SECTIONS.push(sec);
+            });
+            if (typeof renderAnnouncementContent === 'function') renderAnnouncementContent();
+            if (typeof renderScheduleSection === 'function') renderScheduleSection();
+            if (typeof refreshCalendarIfVisible === 'function') refreshCalendarIfVisible();
+            if (typeof renderCornerBrowser === 'function') renderCornerBrowser();
+            if (typeof renderClassPickerList === 'function') renderClassPickerList();
+            if (typeof renderPresetSectionGrid === 'function') renderPresetSectionGrid();
+            if (typeof renderRonriSectionListPage === 'function') renderRonriSectionListPage();
         }
 
         async function cmsSaveToGitHub() {
@@ -14869,16 +15297,18 @@ const TARGET1200 = [
             if (!wrap) return;
             if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
+            // 実際にユーザーへ表示される「お知らせ」カードと全く同じ見た目でプレビュー表示する
             wrap.innerHTML = list.map((a, idx) => `
-                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-start justify-between gap-2">
-                    <div class="min-w-0">
-                        ${a.badge ? `<span class="text-[9px] font-black px-2 py-0.5 rounded-full text-white" style="background:${escapeHtml(a.badgeColor || CMS_BADGE_COLOR[a.badge] || '#06b6d4')}">${escapeHtml(a.badge)}</span>` : ''}
-                        <span class="text-xs font-black text-slate-800 dark:text-white ml-1">${escapeHtml(a.title || '(無題)')}</span>
-                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1 truncate">${escapeHtml((a.body||'').slice(0,50))}${(a.body||'').length>50?'…':''}</p>
+                <div class="relative group bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-950/40 dark:to-blue-950/40 p-3.5 rounded-xl border border-cyan-200 dark:border-cyan-800/60 cursor-pointer" onclick="cmsEditAnnouncement(${idx})">
+                    <div class="flex items-center space-x-1.5 mb-1">
+                        ${a.badge ? `<span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-full text-white tracking-wider" style="background:${escapeHtml(a.badgeColor || CMS_BADGE_COLOR[a.badge] || '#06b6d4')}">${escapeHtml(a.badge)}</span>` : ''}
+                        <span class="text-[9px] font-bold text-slate-400 dark:text-slate-500">${escapeHtml(a.version || '')}</span>
                     </div>
-                    <div class="flex gap-1 shrink-0">
-                        <button onclick="cmsEditAnnouncement(${idx})" class="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
-                        <button onclick="cmsRemoveAnnouncement(${idx})" class="p-1.5 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                    <h4 class="text-xs font-black text-slate-800 dark:text-slate-100 mt-1 pr-14">${escapeHtml(a.title || '(無題)')}</h4>
+                    <p class="text-[10px] text-slate-600 dark:text-slate-300 mt-1 font-medium leading-relaxed pr-14">${escapeHtml(a.body || '')}</p>
+                    <div class="absolute top-2.5 right-2.5 flex gap-1 opacity-70 group-hover:opacity-100">
+                        <button onclick="event.stopPropagation(); cmsEditAnnouncement(${idx})" class="p-1.5 rounded-lg bg-white/70 dark:bg-slate-900/60 hover:bg-white dark:hover:bg-slate-900"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="event.stopPropagation(); cmsRemoveAnnouncement(${idx})" class="p-1.5 rounded-lg bg-white/70 dark:bg-slate-900/60 hover:bg-rose-100 dark:hover:bg-rose-900/40 text-rose-500"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                     </div>
                 </div>`).join('');
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -14913,15 +15343,37 @@ const TARGET1200 = [
             };
             if (cmsAnnEditIdx != null) cmsConfigData.announcements[cmsAnnEditIdx] = entry;
             else cmsConfigData.announcements.unshift(entry);
+            window._remoteAnnouncements = cmsConfigData.announcements.slice();
             closeCmsAnnounceModal();
             cmsRenderAnnouncements();
+            if (typeof renderAnnouncementContent === 'function') renderAnnouncementContent();
             cmsMarkDirty();
+            showToast('お知らせを保存しました（GitHubへの保存が必要です）');
         }
         function cmsRemoveAnnouncement(idx) {
             if (!confirm('このお知らせを削除しますか？')) return;
             cmsConfigData.announcements.splice(idx, 1);
+            window._remoteAnnouncements = cmsConfigData.announcements.slice();
             cmsRenderAnnouncements();
+            if (typeof renderAnnouncementContent === 'function') renderAnnouncementContent();
             cmsMarkDirty();
+        }
+        // 設定メニューの「お知らせ」から開く、本体そのままの一覧モーダルを管理画面として使う
+        function cmsManageAnnouncements() {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); openDevDashboard(); return; }
+            toggleAnnouncementModal(true);
+        }
+        function cmsAddAnnouncementFromReal() {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); openDevDashboard(); return; }
+            cmsAddAnnouncement();
+        }
+        function cmsEditAnnouncementFromReal(idx) {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); openDevDashboard(); return; }
+            cmsEditAnnouncement(idx);
+        }
+        function cmsRemoveAnnouncementFromReal(idx) {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); openDevDashboard(); return; }
+            cmsRemoveAnnouncement(idx);
         }
 
         // ----- クラス -----
@@ -14933,7 +15385,7 @@ const TARGET1200 = [
             if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
             wrap.innerHTML = list.map((c, idx) => `
-                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-start justify-between gap-2">
+                <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-3 flex items-start justify-between gap-2">
                     <div class="min-w-0">
                         <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(c.name || '(無題クラス)')}</span>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">コード：${escapeHtml(c.id || '-')}${c.subjects && c.subjects.length ? ' ・ ' + escapeHtml(c.subjects.join('、')) : ''}</p>
@@ -14954,7 +15406,15 @@ const TARGET1200 = [
             document.getElementById('cms-class-name').value = c.name || '';
             document.getElementById('cms-class-subjects').value = (c.subjects || []).join(', ');
             document.getElementById('cms-class-code-display').textContent = idx != null ? `クラスコード：${c.id}` : '保存するとクラスコードが自動発行されます';
+            const delBtn = document.getElementById('cms-class-delete-btn');
+            if (delBtn) delBtn.classList.toggle('hidden', idx == null);
             cmsOpenModal('cms-class-modal', 'cms-class-card');
+        }
+        function cmsDeleteClassFromModal() {
+            if (cmsClassEditIdx == null) return;
+            const idx = cmsClassEditIdx;
+            closeCmsClassModal();
+            cmsRemoveClass(idx);
         }
         function closeCmsClassModal() { cmsCloseModal('cms-class-modal', 'cms-class-card'); }
         function cmsConfirmClass() {
@@ -14967,14 +15427,19 @@ const TARGET1200 = [
             } else {
                 cmsConfigData.classes.push({ id: 'c' + Date.now(), name, subjects });
             }
+            window._remoteClasses = cmsConfigData.classes.slice();
             closeCmsClassModal();
             cmsRenderClasses();
+            if (typeof renderClassPickerList === 'function') renderClassPickerList();
             cmsMarkDirty();
+            showToast('クラスを保存しました（GitHubへの保存が必要です）');
         }
         function cmsRemoveClass(idx) {
             if (!confirm('このクラスを削除しますか？')) return;
             cmsConfigData.classes.splice(idx, 1);
+            window._remoteClasses = cmsConfigData.classes.slice();
             cmsRenderClasses();
+            if (typeof renderClassPickerList === 'function') renderClassPickerList();
             cmsMarkDirty();
         }
         function cmsPopulateScheduleClassOptions() {
@@ -15093,6 +15558,59 @@ const TARGET1200 = [
             cmsMarkDirty();
         }
 
+        // 本体アプリのカレンダー・予定入力モーダル（見た目そのまま）から呼ばれる、
+        // 学校全体への公開予定の追加・更新・削除ヘルパー。
+        // cmsConfigData（保存待ちデータ）と window._remoteGlobalSchedules（画面表示用）の
+        // 両方を更新し、その場でカレンダーに反映されるようにする。
+        function cmsUpsertGlobalSchedule(entry, wasRemote) {
+            cmsConfigData.globalSchedules = cmsConfigData.globalSchedules || [];
+            const idx = cmsConfigData.globalSchedules.findIndex(x => String(x.id) === String(entry.id));
+            if (idx >= 0) cmsConfigData.globalSchedules[idx] = entry;
+            else cmsConfigData.globalSchedules.push(entry);
+
+            window._remoteGlobalSchedules = window._remoteGlobalSchedules || [];
+            const ridx = window._remoteGlobalSchedules.findIndex(x => String(x.id) === String(entry.id));
+            if (ridx >= 0) window._remoteGlobalSchedules[ridx] = entry;
+            else window._remoteGlobalSchedules.push(entry);
+
+            cmsMarkDirty();
+        }
+
+        function cmsDeleteGlobalScheduleById(id, opts) {
+            opts = opts || {};
+            cmsConfigData.globalSchedules = (cmsConfigData.globalSchedules || []).filter(x => String(x.id) !== String(id));
+            window._remoteGlobalSchedules = (window._remoteGlobalSchedules || []).filter(x => String(x.id) !== String(id));
+            cmsMarkDirty();
+            if (!opts.silent) showToast('公開予定を削除しました（GitHubへの保存が必要です）');
+            if (!opts.skipRerender) {
+                renderScheduleSection();
+                refreshCalendarIfVisible();
+            }
+        }
+
+        // 本体アプリの「英コミュ」セクション選択画面（見た目そのまま）から呼ばれる追加・編集の入口
+        function cmsAddSectionFromReal() {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); cmsOpenConnectPopup(); return; }
+            cmsAddSection();
+        }
+        function cmsEditSectionFromReal(id) {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); cmsOpenConnectPopup(); return; }
+            const idx = (cmsConfigData.extraSections || []).findIndex(s => s.id === id);
+            if (idx < 0) { showToast('データが見つかりませんでした。再読込してください'); return; }
+            cmsEditSection(idx);
+        }
+        // 本体アプリの「論理表現」セクション選択画面（見た目そのまま）から呼ばれる追加・編集の入口
+        function cmsAddRonriSectionFromReal() {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); cmsOpenConnectPopup(); return; }
+            cmsAddRonriSection();
+        }
+        function cmsEditRonriSectionFromReal(id) {
+            if (!cmsSession) { showToast('先にGitHubへ接続してください'); cmsOpenConnectPopup(); return; }
+            const idx = (cmsConfigData.ronriSections || []).findIndex(s => s.id === id);
+            if (idx < 0) { showToast('データが見つかりませんでした。再読込してください'); return; }
+            cmsEditRonriSection(idx);
+        }
+
         // ----- コーナー -----
         const CMS_CORNER_COLORS = ['#a855f7','#8b5cf6','#6366f1','#0ea5e9','#06b6d4','#10b981','#f59e0b','#f97316','#ef4444','#ec4899'];
         let cmsCornerEditIdx = null;
@@ -15125,13 +15643,32 @@ const TARGET1200 = [
         }
         function cmsAddCorner() { cmsOpenCornerModal(null); }
         function cmsEditCorner(idx) { cmsOpenCornerModal(idx); }
+        // 本体アプリのホーム画面（見た目そのまま）のコーナー欄から呼ばれる、追加・編集の入口
+        function cmsAddCornerFromHome() {
+            if (!cmsSession) { showToast('先に開発者ダッシュボードでGitHubへ接続してください'); openDevDashboard(); return; }
+            cmsOpenCornerModal(null);
+        }
+        function cmsEditCornerFromHome(cornerId) {
+            if (!cmsSession) { showToast('先に開発者ダッシュボードでGitHubへ接続してください'); openDevDashboard(); return; }
+            const idx = (cmsConfigData.corners || []).findIndex(c => c.id === cornerId);
+            if (idx < 0) { showToast('このコーナーのデータが見つかりませんでした。再読込してください'); return; }
+            cmsOpenCornerModal(idx);
+        }
         function cmsOpenCornerModal(idx) {
             cmsCornerEditIdx = idx;
             const c = idx != null ? cmsConfigData.corners[idx] : { name: '', color: CMS_CORNER_COLORS[(cmsConfigData.corners||[]).length % CMS_CORNER_COLORS.length] };
             document.getElementById('cms-corner-name').value = c.name || '';
             cmsCornerSelectedColor = c.color || CMS_CORNER_COLORS[0];
             cmsRenderCornerColorPicker();
+            const delBtn = document.getElementById('cms-corner-delete-btn');
+            if (delBtn) delBtn.classList.toggle('hidden', idx == null);
             cmsOpenModal('cms-corner-modal', 'cms-corner-card');
+        }
+        function cmsDeleteCornerFromModal() {
+            if (cmsCornerEditIdx == null) return;
+            const idx = cmsCornerEditIdx;
+            closeCmsCornerModal();
+            cmsRemoveCorner(idx);
         }
         function closeCmsCornerModal() { cmsCloseModal('cms-corner-modal', 'cms-corner-card'); }
         function cmsRenderCornerColorPicker() {
@@ -15151,9 +15688,12 @@ const TARGET1200 = [
             };
             if (cmsCornerEditIdx != null) cmsConfigData.corners[cmsCornerEditIdx] = entry;
             else cmsConfigData.corners.push(entry);
+            window._remoteCorners = cmsConfigData.corners.slice();
             closeCmsCornerModal();
             cmsRenderCorners();
+            renderCornerBrowser();
             cmsMarkDirty();
+            showToast('コーナーを保存しました（GitHubへの保存が必要です）');
         }
         function cmsRemoveCorner(idx) {
             if (!confirm('このコーナーを削除しますか？')) return;
@@ -15162,8 +15702,9 @@ const TARGET1200 = [
             (cmsConfigData.globalSchedules || []).forEach(s => {
                 if (Array.isArray(s.cornerIds)) s.cornerIds = s.cornerIds.filter(id => id !== removedId);
             });
+            window._remoteCorners = cmsConfigData.corners.slice();
             cmsRenderCorners();
-            cmsRenderSchedules();
+            renderCornerBrowser();
             cmsMarkDirty();
         }
 
@@ -15177,7 +15718,7 @@ const TARGET1200 = [
             if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
             wrap.innerHTML = list.map((s, idx) => `
-                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditSection(${idx})">
+                <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditSection(${idx})">
                     <div class="min-w-0">
                         <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(s.name || (s.lessonLabel+' '+s.sectionLabel))}</span>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400">ID: ${escapeHtml(s.id||'-')}</p>
@@ -15208,7 +15749,15 @@ const TARGET1200 = [
             document.getElementById('cms-sec-analyze-btn').disabled = true;
             document.getElementById('cms-sec-analyze-cancel-btn').classList.add('hidden');
             document.getElementById('cms-sec-analyze-status').textContent = '';
+            const delBtn = document.getElementById('cms-sec-delete-btn');
+            if (delBtn) delBtn.classList.toggle('hidden', idx == null);
             cmsOpenModal('cms-section-modal', 'cms-section-card');
+        }
+        function cmsDeleteSectionFromModal() {
+            if (cmsSecEditIdx == null) return;
+            const idx = cmsSecEditIdx;
+            closeCmsSectionModal();
+            cmsRemoveSection(idx);
         }
         function closeCmsSectionModal() { cmsCloseModal('cms-section-modal', 'cms-section-card'); }
         function cmsHandleSectionImageSelect(event) {
@@ -15362,16 +15911,33 @@ const TARGET1200 = [
             const entry = { id, lessonLabel, sectionLabel, name: `${lessonLabel}  ${dataObj.lessonTitle || ''}  ${sectionLabel}`, data: dataObj };
             if (cmsSecEditIdx != null) cmsConfigData.extraSections[cmsSecEditIdx] = entry;
             else cmsConfigData.extraSections.push(entry);
+            cmsSyncPresetSections();
             closeCmsSectionModal();
             cmsRenderSections();
+            renderPresetSectionGrid();
             cmsMarkDirty();
+            showToast('セクションを保存しました（GitHubへの保存が必要です）');
         }
         function cmsRemoveSection(idx) {
             if (!confirm('このセクションを削除しますか？')) return;
+            const removedId = cmsConfigData.extraSections[idx].id;
             cmsConfigData.extraSections.splice(idx, 1);
+            const pIdx = PRESET_SECTIONS.findIndex(p => p.id === removedId);
+            if (pIdx >= 0) PRESET_SECTIONS.splice(pIdx, 1);
             cmsRenderSections();
+            renderPresetSectionGrid();
             cmsMarkDirty();
         }
+        // extraSections（英コミュ）は本体アプリではPRESET_SECTIONSという配列にマージされて
+        // 表示されるため、CMSで編集した内容をその都度反映する（追加・更新のみ。削除は呼び出し側で行う）
+        function cmsSyncPresetSections() {
+            (cmsConfigData.extraSections || []).forEach(sec => {
+                const idx = PRESET_SECTIONS.findIndex(p => p.id === sec.id);
+                if (idx >= 0) PRESET_SECTIONS[idx] = sec;
+                else PRESET_SECTIONS.push(sec);
+            });
+        }
+
 
         // ----- 論理表現 セクション（AI解析） -----
         function cmsRenderRonriSections() {
@@ -15382,7 +15948,7 @@ const TARGET1200 = [
             if (list.length === 0) { wrap.innerHTML = ''; empty.classList.remove('hidden'); return; }
             empty.classList.add('hidden');
             wrap.innerHTML = list.map((s, idx) => `
-                <div class="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditRonriSection(${idx})">
+                <div class="bg-white dark:bg-[#0c1220]/95 border border-slate-200 dark:border-slate-800 shadow-sm rounded-xl p-3 flex items-center justify-between gap-2 cursor-pointer" onclick="cmsEditRonriSection(${idx})">
                     <div class="min-w-0">
                         <span class="text-xs font-black text-slate-800 dark:text-white">${escapeHtml(s.sectionLabel || '(無題)')}</span>
                         <p class="text-[10px] text-slate-500 dark:text-slate-400">${escapeHtml(s.lessonLabel||'-')} ・ ID: ${escapeHtml(s.id||'-')} ・ 問題数: ${(s.problems||[]).length}</p>
@@ -15401,10 +15967,9 @@ const TARGET1200 = [
         function cmsEditRonriSection(idx) { cmsOpenRonriModal(idx); }
         function cmsOpenRonriModal(idx) {
             cmsRsecEditIdx = idx;
-            const s = idx != null ? cmsConfigData.ronriSections[idx] : { id: '', lessonLabel: '', sectionLabel: '', problems: [] };
+            const s = idx != null ? cmsConfigData.ronriSections[idx] : { id: '', title: '', problems: [] };
             document.getElementById('cms-rsec-id').value = s.id || '';
-            document.getElementById('cms-rsec-lesson-label').value = s.lessonLabel || '';
-            document.getElementById('cms-rsec-section-label').value = s.sectionLabel || '';
+            document.getElementById('cms-rsec-title').value = s.title || '';
             document.getElementById('cms-rsec-data-json').value = (s.problems && s.problems.length) ? JSON.stringify({ problems: s.problems }, null, 2) : '';
             document.getElementById('cms-rsec-json-error').classList.add('hidden');
             if (cmsRsecAnalyzeAbortController) cmsRsecAnalyzeAbortController.abort();
@@ -15414,7 +15979,15 @@ const TARGET1200 = [
             document.getElementById('cms-rsec-analyze-btn').disabled = true;
             document.getElementById('cms-rsec-analyze-cancel-btn').classList.add('hidden');
             document.getElementById('cms-rsec-analyze-status').textContent = '';
+            const delBtn = document.getElementById('cms-rsec-delete-btn');
+            if (delBtn) delBtn.classList.toggle('hidden', idx == null);
             cmsOpenModal('cms-ronri-modal', 'cms-ronri-card');
+        }
+        function cmsDeleteRonriSectionFromModal() {
+            if (cmsRsecEditIdx == null) return;
+            const idx = cmsRsecEditIdx;
+            closeCmsRonriModal();
+            cmsRemoveRonriSection(idx);
         }
         function closeCmsRonriModal() { cmsCloseModal('cms-ronri-modal', 'cms-ronri-card'); }
         function cmsHandleRonriSectionImageSelect(event) {
@@ -15502,12 +16075,11 @@ const TARGET1200 = [
         }
         function cmsConfirmRonriSection() {
             const id = document.getElementById('cms-rsec-id').value.trim();
-            const lessonLabel = document.getElementById('cms-rsec-lesson-label').value.trim();
-            const sectionLabel = document.getElementById('cms-rsec-section-label').value.trim();
+            const title = document.getElementById('cms-rsec-title').value.trim();
             const dataRaw = document.getElementById('cms-rsec-data-json').value.trim();
             const errEl = document.getElementById('cms-rsec-json-error');
             errEl.classList.add('hidden');
-            if (!id || !lessonLabel || !sectionLabel) { showToast('ID・Lesson・Sectionラベルは必須です'); return; }
+            if (!id || !title) { showToast('IDとタイトルは必須です'); return; }
             let problems = [];
             if (dataRaw) {
                 try {
@@ -15515,18 +16087,23 @@ const TARGET1200 = [
                     problems = Array.isArray(parsed.problems) ? parsed.problems : (Array.isArray(parsed) ? parsed : []);
                 } catch (e) { errEl.textContent = 'JSONの形式が正しくありません：' + e.message; errEl.classList.remove('hidden'); return; }
             }
-            const entry = { id, lessonLabel, sectionLabel, problems };
+            const entry = { id, title, problems };
             cmsConfigData.ronriSections = cmsConfigData.ronriSections || [];
             if (cmsRsecEditIdx != null) cmsConfigData.ronriSections[cmsRsecEditIdx] = entry;
             else cmsConfigData.ronriSections.push(entry);
+            window._remoteRonriSections = cmsConfigData.ronriSections.slice();
             closeCmsRonriModal();
             cmsRenderRonriSections();
+            renderRonriSectionListPage();
             cmsMarkDirty();
+            showToast('セクションを保存しました（GitHubへの保存が必要です）');
         }
         function cmsRemoveRonriSection(idx) {
             if (!confirm('このセクションを削除しますか？')) return;
             cmsConfigData.ronriSections.splice(idx, 1);
+            window._remoteRonriSections = cmsConfigData.ronriSections.slice();
             cmsRenderRonriSections();
+            renderRonriSectionListPage();
             cmsMarkDirty();
         }
 
