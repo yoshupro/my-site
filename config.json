@@ -31,7 +31,7 @@
       "date": "2026-08-19",
       "memo": null,
       "cornerIds": [],
-      "notifyAt": "2026-07-21T09:19:00.000Z"
+      "notifyAt": "2026-08-18T00:00:00.000Z"
     },
     {
       "id": 1784599452580,
@@ -340,6 +340,19 @@
       "cornerIds": [
         "corner_1784461896715"
       ]
+    },
+    {
+      "id": 1784679277192,
+      "type": "submission",
+      "title": "公共レポート",
+      "subject": "公共",
+      "classId": null,
+      "date": "2026-07-24",
+      "memo": null,
+      "cornerIds": [
+        "corner_1784461896715"
+      ],
+      "notifyAt": null
     }
   ],
   "extraSections": [
