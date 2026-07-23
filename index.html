@@ -1484,7 +1484,7 @@
                         <div class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-rose-500"><i data-lucide="layers" class="w-5 h-5"></i></div>
                         <div class="mt-2">
                             <p class="text-sm font-black text-slate-800 dark:text-slate-100">古語単語帳</p>
-                            <p class="text-[10px] text-slate-400 font-semibold mt-0.5">重要古語 全25語をフラッシュカードで</p>
+                            <p class="text-[10px] text-slate-400 font-semibold mt-0.5">重要古語 376語・フラッシュカード/テスト/苦手復習</p>
                         </div>
                     </button>
                     <button onclick="openKobunKatsuyou()" class="p-4 bg-white dark:bg-[#0f172a] hover:bg-gradient-to-br hover:from-rose-50 hover:to-pink-50 dark:hover:from-rose-950/30 dark:hover:to-pink-950/30 border-2 border-rose-200 dark:border-rose-800 hover:border-rose-400 rounded-2xl text-left transition-all flex flex-col justify-between min-h-[120px] hover:-translate-y-0.5 hover:shadow-md">
@@ -1831,10 +1831,10 @@
                         <p class="text-sm font-black text-slate-800 dark:text-white text-center">出題モードを選択</p>
                         <div class="grid grid-cols-2 gap-3">
                             <button onclick="startT19QuizMode2('en2ja')" class="t19-accent-grad py-4 text-white rounded-2xl text-xs font-black shadow hover:opacity-90 flex flex-col items-center space-y-1.5">
-                                <i data-lucide="arrow-right" class="w-5 h-5"></i><span>英語 → 日本語</span>
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i><span id="t19q-dir-label-1">英語 → 日本語</span>
                             </button>
                             <button onclick="startT19QuizMode2('ja2en')" class="t19-accent-grad py-4 text-white rounded-2xl text-xs font-black shadow hover:opacity-90 flex flex-col items-center space-y-1.5">
-                                <i data-lucide="arrow-left" class="w-5 h-5"></i><span>日本語 → 英語</span>
+                                <i data-lucide="arrow-left" class="w-5 h-5"></i><span id="t19q-dir-label-2">日本語 → 英語</span>
                             </button>
                         </div>
                         <button onclick="startT19QuizMode2('mixed')" class="w-full py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-2xl text-xs font-black border border-slate-200 dark:border-slate-700 flex items-center justify-center space-x-2">
@@ -3102,6 +3102,21 @@
     </div>
 
     <!-- ツアーオーバーレイ -->
+    <!-- 初めて訪れた人向け：使い方ツアーの案内 -->
+    <div id="welcome-tour-modal" class="hidden fixed inset-0 z-[9997] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm">
+        <div class="bg-white dark:bg-[#0c1220] rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-cyan-500 via-blue-500 to-violet-500 flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-7 h-7 text-white"></i>
+            </div>
+            <h3 class="text-sm font-black text-slate-900 dark:text-white mb-1.5">はじめまして！</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium mb-5">初めての方は、使い方ツアー（約1分）で基本の操作をサクッと確認できます。あとからでも設定メニューからいつでも見られます。</p>
+            <div class="grid grid-cols-2 gap-2.5">
+                <button onclick="closeWelcomeTourModal()" class="py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-xl text-xs font-bold transition-all">あとで見る</button>
+                <button onclick="startTourFromWelcome()" class="py-2.5 bg-gradient-to-r from-cyan-500 via-blue-500 to-violet-500 text-white rounded-xl text-xs font-black transition-all hover:opacity-90">ツアーを見る</button>
+            </div>
+        </div>
+    </div>
+
     <div id="tour-overlay" class="hidden">
         <div id="tour-spotlight"></div>
         <div id="tour-tooltip">
@@ -3116,7 +3131,12 @@
                     </button>
                 </div>
             </div>
-            <h4 id="tour-title" class="text-sm font-black text-slate-900 dark:text-white mb-1.5"></h4>
+            <h4 id="tour-title" class="text-sm font-black text-slate-900 dark:text-white mb-1.5 flex items-center gap-2">
+                <span id="tour-icon-wrap" class="shrink-0 w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-500 via-blue-500 to-violet-500 text-white flex items-center justify-center">
+                    <i id="tour-icon" data-lucide="sparkles" class="w-4 h-4"></i>
+                </span>
+                <span id="tour-title-text"></span>
+            </h4>
             <p id="tour-desc" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium mb-4"></p>
 
             <!-- 開発者モード限定：このステップをその場で編集するフォーム -->
@@ -3128,6 +3148,11 @@
                 <div>
                     <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">説明文</label>
                     <textarea id="tour-edit-desc" rows="3" class="w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:border-cyan-400"></textarea>
+                </div>
+                <div>
+                    <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">アイコン（lucideアイコン名）</label>
+                    <input type="text" id="tour-edit-icon" placeholder="例：sparkles" class="w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-mono text-slate-900 dark:text-white focus:outline-none focus:border-cyan-400">
+                    <p class="text-[9px] text-slate-400 mt-0.5">一覧は lucide.dev で確認できます（例：sparkles, image-plus, wand-2, book-marked, calendar-check-2）</p>
                 </div>
                 <div>
                     <label class="text-[10px] font-bold text-slate-500 dark:text-slate-400 block mb-1">スポットライトを当てる要素のID</label>
@@ -4317,6 +4342,9 @@
             // 予定の通知（開発者が設定した日時に通知）の監視を開始
             initScheduleNotifications();
             updateScheduleNotifyToggleUI();
+            // 初めて訪れた人には、少し間を置いてから使い方ツアーをそっと案内する
+            // （お知らせのポップアップが出る場合はそちらを優先し、重ならないようにする）
+            maybeShowWelcomeTourPrompt();
             // 利用制限UIを更新
             updateScanUI();
             const limTomEl = document.getElementById('limit-tomorrow');
@@ -4789,6 +4817,9 @@
 
             if (index === 3) {
                 activeTabIndex = 3;
+                // 英単語帳グループに切り替える（古文単語帳とは混ぜない）
+                t19_currentGroup = 'english';
+                if ((T19_BOOKS[t19_currentBook].group || 'english') !== 'english') t19_currentBook = 'T1900';
                 // ホーム・アップロード・右パネルを隠す
                 const homeEl   = document.getElementById('home-container');
                 const uploadEl = document.getElementById('image-upload-panel');
@@ -11514,13 +11545,396 @@ const TARGET1200 = [
         // ========================================
         // ターゲットモード - 複数単語帳対応版
         // ========================================
+const KOBUN_TANGO = [
+  {n:1,w:'あやし（怪し、賤し）',m:'不思議だ、疑わしい、身分が低い、みすぼらしい'},
+  {n:2,w:'あらまほし',m:'理想的だ、〜であってほしい'},
+  {n:3,w:'あさまし（浅まし）',m:'意外だ、情けない、見苦しい'},
+  {n:4,w:'ありがたし（有り難し）',m:'めったにない、立派だ、難しい'},
+  {n:5,w:'いみじ',m:'非常に、すばらしい、ひどい'},
+  {n:6,w:'ゆゆし',m:'不吉だ、たいへん、すばらしい'},
+  {n:7,w:'おぼつかなし（覚束無し）',m:'ぼんやりしている、気がかりだ、待ち遠しい'},
+  {n:8,w:'こころもとなし（心許無し）',m:'じれったい、気がかりだ、ぼんやりしている'},
+  {n:9,w:'うし（憂し）',m:'つらい、薄情だ'},
+  {n:10,w:'うつくし（美し）',m:'かわいい、立派だ'},
+  {n:11,w:'かなし（愛し、悲し）',m:'いとしい、心ひかれる'},
+  {n:12,w:'らうたし（労たし）',m:'かわいらしい'},
+  {n:13,w:'こころにくし（心憎し）',m:'心ひかれる'},
+  {n:14,w:'ゆかし',m:'見たい、聞きたい、知りたい、心ひかれる'},
+  {n:15,w:'をかし',m:'趣深い、かわいい'},
+  {n:16,w:'かたはらいたし（傍ら痛し）',m:'気の毒だ、見苦しい、きまりが悪い'},
+  {n:17,w:'うしろめたし（後ろめたし）',m:'気がかりだ'},
+  {n:18,w:'よろし',m:'悪くない'},
+  {n:19,w:'わろし（悪し）',m:'よくない'},
+  {n:20,w:'びんなし（便無し）',m:'不都合だ、感心しない、気の毒だ'},
+  {n:21,w:'はづかし（恥づかし）',m:'きまりが悪い、立派だ'},
+  {n:22,w:'ほいなし（本意無し）',m:'残念だ'},
+  {n:23,w:'まめなり（実なり、忠実なり）',m:'真面目だ、実用的だ'},
+  {n:24,w:'あだなり（徒なり）',m:'はかなり、無駄だ、浮気だ'},
+  {n:25,w:'あはれなり',m:'しみじみと趣深い、しみじみとかわいい'},
+  {n:26,w:'あてなり',m:'（貴なり） 高貴だ、上品だ'},
+  {n:27,w:'いたづらなり（徒らなり）',m:'無駄だ、むなしい、退屈だ'},
+  {n:28,w:'つれづれなり（徒然なり）',m:'することがなく手持ちぶさただ、しんみりとしてもの寂しい'},
+  {n:29,w:'おどろく（驚く）',m:'はっと気づく、目覚める'},
+  {n:30,w:'かしづく',m:'大切に養育する、大切に世話をする'},
+  {n:31,w:'かづく（被く）',m:'カ行四段 かぶる、ほうびとしていただく'},
+  {n:32,w:'かづく（被く）',m:'カ行下二段 かぶせる、ほうびとして与える'},
+  {n:33,w:'ながむ（眺む）',m:'物思いに沈む'},
+  {n:34,w:'ながむ（詠む）',m:'(漢詩や和歌を)口ずさむ'},
+  {n:35,w:'ののしる',m:'大声で騒ぐ、評判になる、勢力が盛んだ'},
+  {n:36,w:'いらふ（答ふ、応ふ）',m:'応える'},
+  {n:37,w:'ものす（物す）',m:'行く、くる、食べる、書く、言う、など'},
+  {n:38,w:'ねんず（念ず）',m:'祈る、我慢する'},
+  {n:39,w:'たより（頼り・便り）',m:'つて、便宜、機会、(恋文などの)仲介者'},
+  {n:40,w:'ふみ（文）',m:'手紙、漢詩'},
+  {n:41,w:'かげ（影）',m:'光、姿、面影'},
+  {n:42,w:'けしき（景色）',m:'様子、考え、兆候'},
+  {n:43,w:'にほひ（匂ひ）',m:'つやのある美しさ'},
+  {n:44,w:'としごろ（年来、年頃）',m:'長年'},
+  {n:45,w:'つと',m:'め て 早朝、翌朝'},
+  {n:46,w:'ついで（序）',m:'順序、機会'},
+  {n:47,w:'つごもり（晦日）',m:'下旬'},
+  {n:48,w:'やうやう',m:'次第に'},
+  {n:49,w:'いかで（如何で）',m:'(疑問)どうして〜か。(反語)どうして〜か、いや〜ない。(意志、希望)なんとかして〜。'},
+  {n:50,w:'やがて',m:'そのまま、すぐに'},
+  {n:51,w:'いと',m:'たいへん'},
+  {n:52,w:'いとど',m:'いっそう'},
+  {n:53,w:'など',m:'(疑問)どうして〜か。(反語)どうして〜か、いや〜でない。'},
+  {n:54,w:'いつしか（何時しか）',m:'いつの間にか、早く'},
+  {n:55,w:'かたみに（互に）',m:'互いに'},
+  {n:56,w:'げに（実に）',m:'なるほど'},
+  {n:57,w:'むべ',m:'なるほど'},
+  {n:58,w:'ひねもす（終日）',m:'一日中'},
+  {n:59,w:'よもすがら（夜もすがら）',m:'一晩中'},
+  {n:60,w:'え〜［打消］',m:'〜できない'},
+  {n:61,w:'とく（疾く）',m:'早く、すでに'},
+  {n:62,w:'な〜そ',m:'〜ないでください'},
+  {n:63,w:'ありつる、ありし',m:'さっきの、以前の'},
+  {n:64,w:'あらぬ',m:'別の、意外な'},
+  {n:65,w:'さはれ',m:'どうにでもなれ'},
+  {n:66,w:'あなかま',m:'しっ、静かに'},
+  {n:67,w:'〜あへず',m:'〜しきれない、〜するとすぐに'},
+  {n:68,w:'さるべき',m:'そうなるはずの、ふさわしい、立派な'},
+  {n:69,w:'いざたまへ（いざ給へ）',m:'さあ、いらっしゃい'},
+  {n:70,w:'さればこそ',m:'思ったとおりだ'},
+  {n:71,w:'なに（し）おふ（名（し）負ふ）',m:'名前として持っている、有名だ'},
+  {n:72,w:'れいの（例の）',m:'いつものように'},
+  {n:73,w:'おろかならず（疎かならず、愚かならず）',m:'並々ではない'},
+  {n:74,w:'いふもおろかなり（言ふも疎かなり）',m:'言うまでもない'},
+  {n:75,w:'あかず（飽かず）',m:'物足りない、いつまでも飽きることがない'},
+  {n:76,w:'あふ（会ふ・合ふ・逢ふ）',m:'結婚する、皆で〜する'},
+  {n:77,w:'みる（見る）',m:'妻とする'},
+  {n:78,w:'かたらふ（語らふ）',m:'男女が関係を持つ、親しくする、説得して味方につける'},
+  {n:79,w:'ひと（人）',m:'あなた、世間の人、立派な人'},
+  {n:80,w:'やつす（窶す）',m:'目立たない格好にする、出家姿にする'},
+  {n:81,w:'かよふ（通ふ）',m:'(夫として)通う、似通う'},
+  {n:82,w:'おもふ（思ふ）',m:'愛する、思い悩む'},
+  {n:83,w:'かれがれなり（離れ離れなり）',m:'途絶えがちだ'},
+  {n:84,w:'うつろふ（移ろふ）',m:'移動する、色あせる、心変わりする'},
+  {n:85,w:'よ、よのなか（世、世の中）',m:'夫婦の中'},
+  {n:86,w:'やさし（優し）',m:'優美だ、けなげだ'},
+  {n:87,w:'いうなり（優なり）',m:'優れている、優美だ'},
+  {n:88,w:'なまめかし（生めかし、艶かし）',m:'優美だ'},
+  {n:89,w:'すきずきし（好き好きし）',m:'風流だ、色好みだ'},
+  {n:90,w:'ゆゑゆゑし（故故し）',m:'風情がある'},
+  {n:91,w:'らうらうし（労労し）',m:'物慣れている、気品がある'},
+  {n:92,w:'こころあり（心有り）',m:'風流を解する、分別がある'},
+  {n:93,w:'あそび（遊び）',m:'詩歌管弦の遊び'},
+  {n:94,w:'うちいづ（うち出づ）',m:'口ずさむ'},
+  {n:95,w:'て（手）',m:'筆跡、曲'},
+  {n:96,w:'いはけなし（稚けなし）',m:'幼い'},
+  {n:97,w:'わりなし',m:'道理に合わない、耐えがたい、どうしようもない、並々でない'},
+  {n:98,w:'おどろおどろし',m:'大げさだ、不気味だ'},
+  {n:99,w:'つれなし',m:'平気だ、冷淡だ、なんの変化もない'},
+  {n:100,w:'うるはし（麗し・美し）',m:'整っている、正式だ'},
+  {n:101,w:'おとなし（大人し）',m:'大人らしい、(年配で)思慮分別がある'},
+  {n:102,w:'ところせし（所狭し）',m:'場所が狭い、窮屈だ、堂々としている'},
+  {n:103,w:'つらし（辛し）',m:'薄情だ、うらめしい'},
+  {n:104,w:'つつまし（慎まし）',m:'気がひける'},
+  {n:105,w:'かしこし（畏し、恐し）',m:'恐ろしい、おそれ多い'},
+  {n:106,w:'かしこし（賢し）',m:'すぐれている、はなはだしく'},
+  {n:107,w:'さうざうし',m:'もの足りない'},
+  {n:108,w:'つきづきし（付き付きし）',m:'ふさわしい、もっともらしい'},
+  {n:109,w:'つきなし（付き無し）',m:'ふさわしくない'},
+  {n:110,w:'ものし（物し）',m:'不愉快だ'},
+  {n:111,w:'なめし（無礼し）',m:'無礼だ'},
+  {n:112,w:'めでたし（愛でたし）',m:'すばらしい'},
+  {n:113,w:'いとほし',m:'かわいそうだ、かわいい'},
+  {n:114,w:'すごし（凄し）',m:'ものさびしい'},
+  {n:115,w:'めざまし（目覚まし）',m:'気にくわない、意外とすばらしい'},
+  {n:116,w:'むつかし（難し）',m:'不快だ、わずらわしい、気味悪い'},
+  {n:117,w:'やむごとなし',m:'捨てておけない、高貴だ、貴重だ、並々でない'},
+  {n:118,w:'ことわりなり（理なり）',m:'もっともだ'},
+  {n:119,w:'すずろなり（漫ろなり）',m:'わけもなく、思いがけない、無関係だ、むやみに'},
+  {n:120,w:'をこなり（痴なり）',m:'ばかだ'},
+  {n:121,w:'さらなり（更なり）',m:'いまさら言うまでもない'},
+  {n:122,w:'ねんごろなり（懇ろなり）',m:'熱心だ、親しみあっている'},
+  {n:123,w:'あからさまなり',m:'ほんのちょっと、まったく(〜ない)'},
+  {n:124,w:'あくがる（憧る）',m:'(人が家から)さまよい出る、(魂が体から)さまよい出る、うわの空になる'},
+  {n:125,w:'ぐす（具す）',m:'備わる、連れ立つ、連れる'},
+  {n:126,w:'したたむ（認む）',m:'処理する、用意する'},
+  {n:127,w:'まねぶ（学ぶ）',m:'口真似する、そのまま話す'},
+  {n:128,w:'めづ（愛づ、賞づ）',m:'賞賛する、かわいがる'},
+  {n:129,w:'あきらむ（明らむ）',m:'晴れやかにする、明らかにする'},
+  {n:130,w:'しのぶ（忍ぶ）',m:'我慢する、人目を避ける'},
+  {n:131,w:'しのぶ（偲ぶ）',m:'懐かしく思い出す'},
+  {n:132,w:'さはる（障る）',m:'妨げられる'},
+  {n:133,w:'たのむ（頼む）',m:'マ行四段 期待する'},
+  {n:134,w:'たのむ（頼む）',m:'マ行下二段 期待させる'},
+  {n:135,w:'ゐる（率る）',m:'連れる'},
+  {n:136,w:'きこゆ（聞こゆ）',m:'聞こえる、評判になる、わかる'},
+  {n:137,w:'きこえ（聞こえ）',m:'評判'},
+  {n:138,w:'おぼゆ（覚ゆ）',m:'(自然と)思われる、(人から)思われる、思い出す、似る'},
+  {n:139,w:'おぼえ（覚え）',m:'評判、(上位者からの)ご寵愛、心当たり、自信'},
+  {n:140,w:'おもひやる（思ひ遣る）',m:'憂いを晴らす、思いを馳せる'},
+  {n:141,w:'〜おこす（〜遣す)',m:'こちらに〜する'},
+  {n:142,w:'〜やる（〜遣る）',m:'あちらに〜する、最後まで〜する'},
+  {n:143,w:'〜さす',m:'〜しかけてやめる'},
+  {n:144,w:'〜はつ（〜果つ）',m:'完全に〜する'},
+  {n:145,w:'〜わたる（〜渡る）',m:'〜し続ける、一面に〜する'},
+  {n:146,w:'〜かぬ（〜兼ぬ）',m:'〜ことができない'},
+  {n:147,w:'〜ありく（〜歩く）',m:'〜してまわる、〜し続ける'},
+  {n:148,w:'あなた（彼方）',m:'あちら'},
+  {n:149,w:'かれ（彼）',m:'あの人、あれ'},
+  {n:150,w:'そこ（其処、其所）',m:'(目下や親しいものに対して)あなた'},
+  {n:151,w:'ここ（此処）',m:'私'},
+  {n:152,w:'こころざし（志、心ざし）',m:'意向、愛情、贈り物'},
+  {n:153,w:'ちぎり（契り）',m:'約束、宿縁、夫婦の縁'},
+  {n:154,w:'ひがごと（僻事）',m:'間違い'},
+  {n:155,w:'おのづから（自ら）',m:'自然に、たまたま、(仮定条件を伴い)もしも'},
+  {n:156,w:'あまた（数多）',m:'数多く、たくさん'},
+  {n:157,w:'ここら、そこら',m:'数多く、ひどく'},
+  {n:158,w:'おほかた（大方）〜［打消］',m:'まったく(〜ない)'},
+  {n:159,w:'さらに（更に）〜［打消］',m:'まったく(〜ない)'},
+  {n:160,w:'たえて（絶えて）〜［打消］',m:'まったく(〜ない)'},
+  {n:161,w:'つゆ〜［打消］',m:'まったく(〜ない)'},
+  {n:162,w:'いと〜［打消］',m:'それほど(〜ない)'},
+  {n:163,w:'をさをさ〜［打消］',m:'ほとんど(〜ない)'},
+  {n:164,w:'よも〜じ',m:'まさか(〜ないだろう)'},
+  {n:165,w:'さすがに',m:'そうはいってもやはり'},
+  {n:166,w:'むげに（無下に、無碍に）',m:'むやみに、(打消を伴い)まったく'},
+  {n:167,w:'なかなか',m:'中途半端に、かえって'},
+  {n:168,w:'とかく',m:'あれこれと'},
+  {n:169,w:'さしたる',m:'大事な、(打消を伴い)たいした(〜ない)'},
+  {n:170,w:'させる',m:'(打消を伴い)たいした(〜ない)'},
+  {n:171,w:'いかが（は）せむ',m:'(疑問)どうしようか。(反語)どうしようか、いや、どうしようもない。'},
+  {n:172,w:'さらぬ（然らぬ）',m:'そうではない、たいしたことのない'},
+  {n:173,w:'さらぬ（避らぬ）',m:'避けられない'},
+  {n:174,w:'かちより',m:'(徒歩より) 徒歩で'},
+  {n:175,w:'けしうはあらず（怪しうはあらず）',m:'悪くはない'},
+  {n:176,w:'せむかたなし（為む方無し）',m:'どうしようもない'},
+  {n:177,w:'みかうしまゐる（御格子参る）',m:'御格子をお下げする'},
+  {n:178,w:'いさ〜しらず（いさ〜知らず）',m:'さあ〜知らない'},
+  {n:179,w:'おとにきく（音に聞く）',m:'うわさに聞く'},
+  {n:180,w:'えもいはず（えも言はず）',m:'なんとも言えない(ほど〜だ)'},
+  {n:181,w:'よをすつ（世を捨つ）',m:'出家する'},
+  {n:182,w:'みぐしおろす（御髪おろす）',m:'髪を切って出家する'},
+  {n:183,w:'さまかふ（様変ふ）',m:'出家する'},
+  {n:184,w:'ごせをとふ（後世を訪ふ）',m:'極楽往生を願って供養する'},
+  {n:185,w:'おこなふ（行う）',m:'仏道修行をする'},
+  {n:186,w:'ほい（本意）',m:'かねてからの(出家の)念願'},
+  {n:187,w:'ほだし（絆）',m:'束縛'},
+  {n:188,w:'いもせ（妹兄、妹背）',m:'妹と兄、夫婦'},
+  {n:189,w:'おとうと',m:'(弟、妹) 弟、妹'},
+  {n:190,w:'せうと（兄人）',m:'兄弟'},
+  {n:191,w:'はらから（同胞）',m:'兄弟姉妹'},
+  {n:192,w:'つま（端、夫、妻）',m:'端、きっかけ、夫、妻'},
+  {n:193,w:'あいなし',m:'無意味だ、つまらない、わけもなく'},
+  {n:194,w:'いぶせし',m:'気が晴れない'},
+  {n:195,w:'いまめかし（今めかし）',m:'現代風だ'},
+  {n:196,w:'こちたし',m:'煩わしい、仰々しい'},
+  {n:197,w:'ことごとし（事事し）',m:'仰々しい'},
+  {n:198,w:'さうなし（左右無し）',m:'(あれこれ)ためらわない'},
+  {n:199,w:'くちをし（口惜し）',m:'残念だ、もの足りない'},
+  {n:200,w:'さがなし',m:'意地悪だ、いたずらだ'},
+  {n:201,w:'すさまじ（凄じ、荒まじ）',m:'興ざめだ、寒々しい'},
+  {n:202,w:'しるし（著し）',m:'はっきりしている、まさにその通りだ'},
+  {n:203,w:'まさなし（正無し）',m:'思いがけない、よくない'},
+  {n:204,w:'なつかし（懐かし）',m:'心ひかれる'},
+  {n:205,w:'はかなし（果無し、果敢無し）',m:'頼りない、つまらない、他愛無い'},
+  {n:206,w:'はかばかし（果果し）',m:'思い通りに進む、はっきりしている、しっかりしている'},
+  {n:207,w:'はしたなし（端なし）',m:'中途半端だ、きまりが悪い、失礼だ、激しい'},
+  {n:208,w:'たいだいし（怠怠し）',m:'もってのほかだ'},
+  {n:209,w:'かどかどし（才才し）',m:'才気がある'},
+  {n:210,w:'おほけなし',m:'身の程知らずだ、おそれ多い'},
+  {n:211,w:'めやすし（目安し）',m:'見苦しくない'},
+  {n:212,w:'ゆくりなし',m:'思いがけない、不用意だ'},
+  {n:213,w:'うちつけなり',m:'突然だ、軽々しい'},
+  {n:214,w:'あやにくなり',m:'都合が悪い、意地が悪い'},
+  {n:215,w:'あながちなり（強ちなり）',m:'無理やりだ、（連用形で）しいて、一途だ、（連用形で）熱心に'},
+  {n:216,w:'ただなり（徒なり、只なり）',m:'何もしない、普通だ、（「ただならず」で）並々でない、（「ただならずなる」で）妊娠する'},
+  {n:217,w:'せちなり（切なり）',m:'胸にしみ入る、（「せちに」で）ひたすら'},
+  {n:218,w:'よそなり',m:'無関係だ'},
+  {n:219,w:'ことなり（異なり）',m:'違っている'},
+  {n:220,w:'ことなり（殊なり）',m:'格別だ'},
+  {n:221,w:'まもる（守る）',m:'じっと見る、守護する'},
+  {n:222,w:'おきつ（掟つ）',m:'取り決める、指図する'},
+  {n:223,w:'おもひおきつ（思ひ掟つ）',m:'心づもりする'},
+  {n:224,w:'ならふ(慣らふ、馴らふ)',m:'慣れる、慣れ親しむ'},
+  {n:225,w:'まうく(設く)',m:'準備する'},
+  {n:226,w:'おもひまうく(思ひ設く)',m:'心づもりする'},
+  {n:227,w:'こうず(困ず)',m:'疲れる'},
+  {n:228,w:'ためらふ(躊躇ふ)',m:'気を静める、静養する'},
+  {n:229,w:'やすらふ(休らふ)',m:'たたずむ、ためらう'},
+  {n:230,w:'すまふ(争ふ、辞ふ)',m:'抵抗する'},
+  {n:231,w:'おとづる(音づる、訪る)',m:'声を立てる、(手紙や伝言で)連絡する'},
+  {n:232,w:'おとなふ(音なふ、訪ふ)',m:'音を立てる、(手紙や伝言で)連絡する'},
+  {n:233,w:'とぶらふ(訪ふ、弔ふ)',m:'見舞う、弔問する'},
+  {n:234,w:'もてなす(もて成す)',m:'とりはからう、ふるまう、世話する'},
+  {n:235,w:'あつかふ(扱ふ)',m:'世話する、もてあます'},
+  {n:236,w:'かこつ(託つ)',m:'(〜の)せいにする、不平を言う'},
+  {n:237,w:'かごと(託言)',m:'言い訳、愚痴'},
+  {n:238,w:'わぶ(侘ぶ)',m:'つらく思う、落ちぶれる、(動詞に付いて)〜かねる'},
+  {n:239,w:'わびし(侘びし)',m:'情けない、ものさびしい、貧しい'},
+  {n:240,w:'あらまし',m:'計画'},
+  {n:241,w:'うつつ(現)',m:'現実、正気'},
+  {n:242,w:'せうそこ(消息)',m:'手紙、(訪問時の)取り次ぎの挨拶'},
+  {n:243,w:'そのかみ(其の上)',m:'その時'},
+  {n:244,w:'みち(道)',m:'道理、仏道、歌道'},
+  {n:245,w:'まらうと(客、客人)',m:'客'},
+  {n:246,w:'ふるさと(古里、故郷)',m:'住み慣れた所、自宅'},
+  {n:247,w:'ひま(隙、暇)',m:'すき間、合間'},
+  {n:248,w:'ようい(用意)',m:'気遣い'},
+  {n:249,w:'なにがし、それがし(何がし、某)(某)',m:'だれそれ、(主に男性が使う)私'},
+  {n:250,w:'よし(由)',m:'由緒、理由、(事の)次第、手段、風情(「よしあり(=風情がある)」の形で主に使われる)、ふり'},
+  {n:251,w:'よしなし(由無し)',m:'無益だ、無関係だ'},
+  {n:252,w:'なほ(猶、尚)',m:'やはり、もっと'},
+  {n:253,w:'すべからく〜べし(須らく〜べし)',m:'当然〜すべきだ'},
+  {n:254,w:'はやく〜けり（早く〜けり）',m:'なんとまあ〜たよ。'},
+  {n:255,w:'かまへて〜〔命令など・禁止〕（構へて）',m:'〔命令・願望・意志を伴って〕ぜひ〜せよ。〜してほしい。〜しよう。　〔禁止を伴って〕決して〜するな。絶対に〜してはいけない。'},
+  {n:256,w:'あなかしこ〜｛禁止｝',m:'決して〜するな。絶対に〜してはいけない。'},
+  {n:257,w:'ゆめ・ゆめゆめ〜｛禁止・打消｝',m:'決して〜するな。絶対に〜してはいけない。　まったく〜ない。少しも〜ない。'},
+  {n:258,w:'やをら',m:'そっと。静かに。おもむろに。'},
+  {n:259,w:'わざと',m:'わざわざ。ことさらに。　特別に。とりわけ。　本格的に。正式に。'},
+  {n:260,w:'さながら',m:'そのまま。　すべて。そっくりそのまま。'},
+  {n:261,w:'せめて',m:'しいて。無理に。　ひどく。とても。'},
+  {n:262,w:'すなはち（即ち・則ち）',m:'〔副詞〕すぐに。　〔接続詞〕そこで。その時。'},
+  {n:263,w:'うたて',m:'情けなく。不快なことに。　気味悪く。異様に。いやに。'},
+  {n:264,w:'なでふ',m:'〔連体詞〕どんな。どのような。　〔副詞〕どうして。'},
+  {n:265,w:'〜がり（〜許）',m:'（だれそれの）もとに。ところに。'},
+  {n:266,w:'こころをつくす（心を尽くす）',m:'あれこれ悩む。限りなく物思いをする。'},
+  {n:267,w:'ひとやりならず（人遣りならず）',m:'（他人から強制されるわけではなく）自分の意志で。'},
+  {n:268,w:'われから（我から）',m:'（誰のせいでもない）自分のせいで。'},
+  {n:269,w:'こころと（心と）',m:'（他人からさせられるのではなく）自分から進んで。自分の考えで。'},
+  {n:270,w:'ものもおぼえず（物も覚えず）',m:'正気を失っている。どうしたらよいかわからない。　　道理をわきまえない。分別が付かない。'},
+  {n:271,w:'われか「ひとか」（我か「人か」）',m:'正気を失っている。茫然自失。'},
+  {n:272,w:'あきれたり',m:'〔「呆る」＋存続の助動詞〕あっけにとられる。呆然とする。'},
+  {n:273,w:'ねをなく（音を泣く・鳴く）',m:'声を出し泣く。鳴く。'},
+  {n:274,w:'やすからず（安からず）',m:'心が穏やかでない。不安だ。不快だ。もってのほかだ。'},
+  {n:275,w:'名詞＋(を)＋形容詞語幹＋み',m:'〜が…なので。'},
+  {n:276,w:'未然形＋まほし・ばや',m:'連用形＋たし・てしがな 〜たい。'},
+  {n:277,w:'〜ぬべし・〜つべし・〜な',m:'む・〜てむ きっと〜だろう。今にも〜しそうだ。ぜひ〜しよう。'},
+  {n:278,w:'〜ならば・〜てば',m:'もし〜てしまったら。'},
+  {n:279,w:'〜むずらむ',m:'〜だろう。'},
+  {n:280,w:'あんなり・あなり',m:'（〜で）あるそうだ。（〜で）あるようだ。'},
+  {n:281,w:'未然形＋ば、・〜せば、・〜ませば、・〜ましかば、｝…まし',m:'〔反実仮想〕もし〜たならば、…ただろうに。'},
+  {n:282,w:'未然形＋ばこそ(あらめ)',m:'〜ならとかく（、実際はそうではない）。　〜ならよいだろうが（、実際はそうではない）。　〜ならよくないだろうが（、実際はそうではない）。'},
+  {n:283,w:'なやむ（悩む）',m:'（病気や出産で）苦しむ。病気になる。　　困る。苦労する。'},
+  {n:284,w:'ここちたがふ（心地違ふ）',m:'気分が悪くなる'},
+  {n:285,w:'いたはる（労る）',m:'苦しむ、世話をする'},
+  {n:286,w:'しるし（験）',m:'霊験、効果'},
+  {n:287,w:'おこたる（怠る）',m:'病気が良くなる'},
+  {n:288,w:'みまかる（身罷る）',m:'亡くなる'},
+  {n:289,w:'たまのを（玉の緒）',m:'命'},
+  {n:290,w:'のべのおくり（野辺の送り）',m:'葬送'},
+  {n:291,w:'おくる（後る・遅る）',m:'取り残される、先立たれる'},
+  {n:292,w:'そで＋ぬる（袖＋濡る）',m:'涙を流す'},
+  {n:293,w:'まくら＋ぬる（枕＋濡る）',m:'涙を流す'},
+  {n:294,w:'しほたる（潮垂る）',m:'涙を流す'},
+  {n:295,w:'かきくらす(掻き暗す）',m:'悲しみにくれる'},
+  {n:296,w:'おはす',m:'おはします いらっしゃる。おありになる。　　いらっしゃる。おいでになる。　　〜(て)いらっしゃる'},
+  {n:297,w:'ます・まします',m:'いらっしゃる'},
+  {n:298,w:'います',m:'いらっしゃる'},
+  {n:299,w:'いますがり',m:'いらっしゃる'},
+  {n:300,w:'はべり（侍り）',m:'お仕えする、伺候する　　おります　　〜ます。〜(で)ございます。'},
+  {n:301,w:'さぶらふ・さうらふ（候ふ）',m:'お仕えする、伺候する　　おります　　〜ます。〜(で)ございます。'},
+  {n:302,w:'おぼす・おもほす・おぼしめす（思す・思ほす・思し召す）',m:'お思いになる'},
+  {n:303,w:'まゐる（参る）',m:'参上する、差し上げる、召しあがる'},
+  {n:304,w:'まうづ（詣づ）',m:'参上する'},
+  {n:305,w:'まかる（罷る）',m:'退出する、参ります'},
+  {n:306,w:'まかづ（罷づ）',m:'退出する'},
+  {n:307,w:'たまふ（給ふ・賜う）',m:'お与えになる'},
+  {n:308,w:'たまはす（給はす・賜はす）',m:'お与えになる'},
+  {n:309,w:'たうぶ・たぶ（給ぶ・賜ぶ）',m:'お与えになる'},
+  {n:310,w:'たてまつる（奉る）',m:'差し上げる、召しあがる、〜(し)申しあげる'},
+  {n:311,w:'まゐらす（参らす）',m:'差し上げる、〜(し)申しあげる'},
+  {n:312,w:'たまはる（給はる・賜はる）',m:'いただく'},
+  {n:313,w:'のたまふ',m:'のたまはす（宣ふ・宣はす） おっしゃる'},
+  {n:314,w:'おほす（仰す）',m:'おっしゃる'},
+  {n:315,w:'おほせらる（仰せらる）',m:'おっしゃる'},
+  {n:316,w:'きこゆ（聞こゆ）',m:'申しあげる、〜(し)申しあげる'},
+  {n:317,w:'きこえさす（聞こえさす）',m:'申しあげる、〜(し)申しあげる'},
+  {n:318,w:'まうす（申す）',m:'申しあげる、〜(し)申しあげる'},
+  {n:319,w:'そうす（奏す）',m:'帝に申しあげる'},
+  {n:320,w:'けいす（啓す）',m:'皇后に申しあげる'},
+  {n:321,w:'きこしめす（聞こし召す）',m:'聞きなさる、召し上がる'},
+  {n:322,w:'うけたまはる（承る）',m:'お聞きする'},
+  {n:323,w:'あそばす（遊ばす）',m:'なさる'},
+  {n:324,w:'つかうまつる（仕うまつる）',m:'し申しあげる'},
+  {n:325,w:'めす（召す）',m:'お呼びになる、召しあがる'},
+  {n:326,w:'しろしめす（知ろしめす・領ろしめす）',m:'ご存じである、お治めになる'},
+  {n:327,w:'ごらんず（御覧ず）',m:'ご覧になる'},
+  {n:328,w:'おほとのごもる（大殿籠る）',m:'おやすみになる'},
+  {n:329,w:'〜たまふ(〜給ふ、〜賜ふ)',m:'(私が)〜ます'},
+  {n:330,w:'うへ（上）',m:'天皇、奥方'},
+  {n:331,w:'うち（内・内裏）',m:'天皇、宮中'},
+  {n:332,w:'きみ（君）',m:'天皇、あなた'},
+  {n:333,w:'みゆき（行幸・御幸）',m:'天皇のお出まし'},
+  {n:334,w:'くもゐ（雲居・雲井）',m:'宮中'},
+  {n:335,w:'ときめく（時めく）',m:'時勢に合って栄える、寵愛を受ける'},
+  {n:336,w:'ときめかす（時めかす）',m:'寵愛する'},
+  {n:337,w:'みや（宮）',m:'中宮、御殿'},
+  {n:338,w:'やまがつ（山賤）',m:'木こり'},
+  {n:339,w:'あま（海人・海士）',m:'漁師'},
+  {n:340,w:'もと（本・元）',m:'上の句、根本'},
+  {n:341,w:'すゑ（末）',m:'下の句、あと、末世、結果、子孫'},
+  {n:342,w:'こしをれ（腰折れ）',m:'下手な和歌'},
+  {n:343,w:'こころ（心・情）',m:'内容、気持ち、情趣を解する心、道理を理解する心'},
+  {n:344,w:'ことば（言葉・詞）',m:'表現、詞書'},
+  {n:345,w:'ふるうた（古歌）',m:'古人の詠んだ歌'},
+  {n:346,w:'ますらをぶり(益荒男振り・丈夫振り)',m:'素朴で力強い、歌風'},
+  {n:347,w:'だい(題)',m:'題'},
+  {n:348,w:'こころとし(心疾し)',m:'すばやい、気が早い'},
+  {n:349,w:'まばゆし(目映し・眩し)',m:'恥ずかしい、見ていられない'},
+  {n:350,w:'いふかひなし(言ふ甲斐無し)',m:'どうしようもない、つまらない'},
+  {n:351,w:'こよなし',m:'格段にすぐれている、格段に劣っている'},
+  {n:352,w:'あぢきなし',m:'どうしようもない、つまらない'},
+  {n:353,w:'むつまし(睦まし)',m:'親しい、慕わしい'},
+  {n:354,w:'おぼろけない',m:'〔打消を伴って〕並一通り(ではない)、並々ではない'},
+  {n:355,w:'なのめなり',m:'いい加減だ、並一通りだ'},
+  {n:356,w:'なほざりなり(等閑なり)',m:'いい加減だ、ほどほどだ'},
+  {n:357,w:'きよげなり(清げなり)',m:'美しい'},
+  {n:358,w:'かたくななり(頑ななり)',m:'頑固だ、教養がない、情趣を理解しない、見苦しい'},
+  {n:359,w:'あないす(案内す)',m:'事情を尋ねる、取次ぎを頼む'},
+  {n:360,w:'あるじす(主す、饗す)',m:'もてなす'},
+  {n:361,w:'むすぶ(掬ぶ)',m:'すくう'},
+  {n:362,w:'こころう(心得)',m:'理解する、よく通じる'},
+  {n:363,w:'いぬ(去ぬ、往ぬ）',m:'行ってしまう'},
+  {n:364,w:'すさぶ(遊ぶ、荒ぶ)',m:'気の向くまま に〜する'},
+  {n:365,w:'そらごと(空言、虚言)',m:'うそ'},
+  {n:366,w:'かたへ(片方)',m:'片側、かたわら、かたわらにいる人'},
+  {n:367,w:'そばめ(側目、傍目)',m:'横から見ること、横顔'},
+  {n:368,w:'よすが(縁、因、便)',m:'縁者、身を寄せる所、手段、方法'},
+  {n:369,w:'ものがたり(物語)',m:'話'},
+  {n:370,w:'ためし(例)',m:'前例'},
+  {n:371,w:'よろこび(喜び、慶び、悦び)',m:'昇進、慶事、お礼'},
+  {n:372,w:'しか(然)',m:'そのように'},
+  {n:373,w:'なべて(並べて)',m:'一般に、一面に、〔「なべて」の形で〕普通の'},
+  {n:374,w:'はた(将)',m:'そのうえまた、一方では'},
+  {n:375,w:'さらば(然らば)',m:'それならば'},
+  {n:376,w:'さるは(然るは)',m:'〔順接〕それというのも実は、〔累加〕そのうえ、〔逆接〕そうではあるが'}
+];
+
         const T19_SECTION_SIZE = 100;
         // 選べる単語帳の一覧（今後別の単語帳を追加する場合はここに足す）
         // color: メインカラー / dark: グラデーション用の濃い色 / text: そのカラー上に乗せる文字色
         const T19_BOOKS = {
-            T1900: { label: 'TARGET 1900', data: TARGET1900, icon: 'book-marked', color: '#2255a8', dark: '#173d78', text: '#ffffff' },
-            T1200: { label: 'TARGET 1200', data: TARGET1200, icon: 'book-open', color: '#f7b500', dark: '#c99400', text: '#4a3300' },
+            T1900: { label: 'TARGET 1900', data: TARGET1900, icon: 'book-marked', color: '#2255a8', dark: '#173d78', text: '#ffffff', lang: 'en', wordLabel: '英単語', meaningLabel: '意味', group: 'english', badge: '19' },
+            T1200: { label: 'TARGET 1200', data: TARGET1200, icon: 'book-open', color: '#f7b500', dark: '#c99400', text: '#4a3300', lang: 'en', wordLabel: '英単語', meaningLabel: '意味', group: 'english', badge: '12' },
+            KOBUN: { label: 'Look@古文単語337', data: KOBUN_TANGO, icon: 'scroll-text', color: '#b74392', dark: '#8a2f6d', text: '#ffffff', lang: 'ja', wordLabel: '古語', meaningLabel: '意味', group: 'kobun', noVoice: true, badge: '古' },
         };
+        // 現在、単語帳切り替えタブに表示するグループ（英語系 / 古文）。
+        // 教科が別物なので英単語帳と古文単語帳は混ぜて切り替えず、別々に扱う。
+        let t19_currentGroup = 'english';
         // 現在選択中の単語帳（'T1900' | 'T1200'）。前回の続きから始められるよう記憶する。
         let t19_currentBook = safeStorage.get('pm_t19_book') || 'T1900';
         if (!T19_BOOKS[t19_currentBook]) t19_currentBook = 'T1900';
@@ -11529,6 +11943,12 @@ const TARGET1200 = [
         function t19Words() { return T19_BOOKS[t19_currentBook].data; }
         function t19Max() { return t19Words().length; }
         function t19Label() { return T19_BOOKS[t19_currentBook].label; }
+        // 単語帳ごとの言語・表示ラベル（英単語帳=英語⇔日本語、古文単語帳=古語⇔意味 のように切り替える）
+        function t19BookLang() { return T19_BOOKS[t19_currentBook].lang || 'en'; }
+        function t19WordLabel() { return T19_BOOKS[t19_currentBook].wordLabel || '英語'; }
+        function t19MeaningLabel() { return T19_BOOKS[t19_currentBook].meaningLabel || '日本語'; }
+        // 単語帳によっては音声読み上げを出さない（例：古文単語帳）
+        function t19VoiceAllowed() { return !T19_BOOKS[t19_currentBook].noVoice; }
 
         let t19_masteredSet = {};  // {wordNum: true/false} 習得済み（現在選択中の単語帳の分）
         let t19_weakSet = {};      // {wordNum: count} 苦手回数（現在選択中の単語帳の分）
@@ -11588,7 +12008,7 @@ const TARGET1200 = [
                 panel.style.setProperty('--t19-accent-text', book.text);
             }
             const badge = document.getElementById('t19-header-badge');
-            if (badge) badge.textContent = t19_currentBook === 'T1200' ? '12' : '19';
+            if (badge) badge.textContent = T19_BOOKS[t19_currentBook].badge || '19';
         }
         function hexToRgba(hex, alpha) {
             const h = hex.replace('#', '');
@@ -11602,18 +12022,26 @@ const TARGET1200 = [
             t19ApplyTheme();
             const wrap = document.getElementById('t19-book-switcher');
             if (wrap) {
-                wrap.innerHTML = Object.keys(T19_BOOKS).map(key => {
-                    const book = T19_BOOKS[key];
-                    const active = key === t19_currentBook;
-                    const style = active
-                        ? `background:linear-gradient(135deg, ${book.color}, ${book.dark});color:${book.text};box-shadow:0 6px 14px -4px ${hexToRgba(book.color, 0.5)};`
-                        : `background:${hexToRgba(book.color, 0.10)};color:${book.dark};`;
-                    return `<button onclick="t19SwitchBook('${key}')" class="flex-1 py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center space-x-1.5 ${active ? 'scale-[1.02]' : 'hover:opacity-80'}" style="${style}">
-                        <i data-lucide="${book.icon}" class="w-3.5 h-3.5"></i>
-                        <span>${escapeHtml(book.label)}</span>
-                        ${active ? '<i data-lucide="check" class="w-3.5 h-3.5"></i>' : ''}
-                    </button>`;
-                }).join('');
+                const keysInGroup = Object.keys(T19_BOOKS).filter(key => (T19_BOOKS[key].group || 'english') === t19_currentGroup);
+                if (keysInGroup.length <= 1) {
+                    // 切り替え先が無い（教科が別物で単独の単語帳）場合はタブ自体を表示しない
+                    wrap.innerHTML = '';
+                    wrap.classList.add('hidden');
+                } else {
+                    wrap.classList.remove('hidden');
+                    wrap.innerHTML = keysInGroup.map(key => {
+                        const book = T19_BOOKS[key];
+                        const active = key === t19_currentBook;
+                        const style = active
+                            ? `background:linear-gradient(135deg, ${book.color}, ${book.dark});color:${book.text};box-shadow:0 6px 14px -4px ${hexToRgba(book.color, 0.5)};`
+                            : `background:${hexToRgba(book.color, 0.10)};color:${book.dark};`;
+                        return `<button onclick="t19SwitchBook('${key}')" class="flex-1 py-2.5 rounded-xl text-xs font-black transition-all flex items-center justify-center space-x-1.5 ${active ? 'scale-[1.02]' : 'hover:opacity-80'}" style="${style}">
+                            <i data-lucide="${book.icon}" class="w-3.5 h-3.5"></i>
+                            <span>${escapeHtml(book.label)}</span>
+                            ${active ? '<i data-lucide="check" class="w-3.5 h-3.5"></i>' : ''}
+                        </button>`;
+                    }).join('');
+                }
             }
             const titleEl = document.getElementById('t19-panel-title');
             if (titleEl) titleEl.textContent = t19Label();
@@ -11622,11 +12050,18 @@ const TARGET1200 = [
             const toEl = document.getElementById('t19-to');
             if (fromEl) fromEl.setAttribute('max', String(t19Max()));
             if (toEl) toEl.setAttribute('max', String(t19Max()));
+            // 古文単語帳には音声機能を出さない（教科が別物のため、英単語帳とは別に単独で用意している）
+            const speakBtn = document.getElementById('t19f-speak-btn');
+            const voiceBtn = document.getElementById('t19f-voice-btn');
+            const noVoice = !!T19_BOOKS[t19_currentBook].noVoice;
+            if (speakBtn) speakBtn.classList.toggle('hidden', noVoice);
+            if (voiceBtn) voiceBtn.classList.toggle('hidden', noVoice);
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         let t19_pendingFrom = 1;
         let t19_pendingTo = 100;
+
 
         function t19StartFlashOrderSelect(from, to) {
             if (from !== undefined) {
@@ -11896,9 +12331,9 @@ const TARGET1200 = [
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         ${badge}
-                        <button onclick="t19Speak('${w.w.replace(/'/g, "\\'")}', 'en')" class="p-1.5 rounded-lg text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all" title="発音を聞く">
+                        ${t19VoiceAllowed() ? `<button onclick="t19Speak('${w.w.replace(/'/g, "\\'")}', '${t19BookLang()}')" class="p-1.5 rounded-lg text-slate-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all" title="発音を聞く">
                             <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
-                        </button>
+                        </button>` : ''}
                     </div>
                 </div>`;
             }).join('') + (words.length > MAX_RENDER
@@ -12012,6 +12447,8 @@ const TARGET1200 = [
             t19ShowScreen('flash');
             document.getElementById('t19f-complete2')?.classList.add('hidden');
             document.getElementById('t19f-card2')?.classList.remove('hidden');
+            const modeBtn = document.getElementById('t19f-mode-btn');
+            if (modeBtn) modeBtn.textContent = t19_flashMode === 'en2ja' ? (t19WordLabel() + '→' + t19MeaningLabel()) : (t19MeaningLabel() + '→' + t19WordLabel());
             t19fShowCard2('in-right');
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
@@ -12044,12 +12481,12 @@ const TARGET1200 = [
             t19fUpdateStatusBtns(w);
 
             if (t19_flashMode === 'en2ja') {
-                if (labelEl) labelEl.textContent = '英語';
+                if (labelEl) labelEl.textContent = t19WordLabel();
                 if (wordEl)  wordEl.textContent  = w.w;
                 if (mEl)     mEl.textContent     = w.m;
                 if (word2El) word2El.textContent = w.w;
             } else {
-                if (labelEl) labelEl.textContent = '日本語';
+                if (labelEl) labelEl.textContent = t19MeaningLabel();
                 if (wordEl)  wordEl.textContent  = w.m;
                 if (mEl)     mEl.textContent     = w.m;
                 if (word2El) word2El.textContent = w.w;
@@ -12070,7 +12507,7 @@ const TARGET1200 = [
                 }));
             } catch(e) {}
 
-            if (t19_voiceOn) t19Speak(t19_flashMode === 'en2ja' ? w.w : w.m, t19_flashMode === 'en2ja' ? 'en' : 'ja');
+            if (t19_voiceOn && t19VoiceAllowed()) t19Speak(t19_flashMode === 'en2ja' ? w.w : w.m, t19_flashMode === 'en2ja' ? t19BookLang() : 'ja');
         }
 
         function t19fUpdateStatusBtns(w) {
@@ -12113,9 +12550,9 @@ const TARGET1200 = [
             if (!inner) return;
             t19_flashFlipped = !t19_flashFlipped;
             inner.classList.toggle('flipped', t19_flashFlipped);
-            if (t19_flashFlipped && t19_voiceOn) {
+            if (t19_flashFlipped && t19_voiceOn && t19VoiceAllowed()) {
                 const w = t19_flashWords[t19_flashIdx];
-                setTimeout(() => t19Speak(w.w, 'en'), 350);
+                setTimeout(() => t19Speak(w.w, t19BookLang()), 350);
                 setTimeout(() => t19Speak(w.m, 'ja'), 1500);
             }
         }
@@ -12154,9 +12591,10 @@ const TARGET1200 = [
         }
 
         function t19fSpeakCurrent() {
+            if (!t19VoiceAllowed()) return;
             const w = t19_flashWords[t19_flashIdx];
             if (!w) return;
-            t19Speak(w.w, 'en');
+            t19Speak(w.w, t19BookLang());
             setTimeout(() => t19Speak(w.m, 'ja'), 1200);
         }
 
@@ -12197,7 +12635,7 @@ const TARGET1200 = [
         function t19fToggleMode() {
             t19_flashMode = t19_flashMode === 'en2ja' ? 'ja2en' : 'en2ja';
             const btn = document.getElementById('t19f-mode-btn');
-            if (btn) btn.textContent = t19_flashMode === 'en2ja' ? '英→日' : '日→英';
+            if (btn) btn.textContent = t19_flashMode === 'en2ja' ? (t19WordLabel() + '→' + t19MeaningLabel()) : (t19MeaningLabel() + '→' + t19WordLabel());
             t19_flashFlipped = false;
             t19fShowCard2();
         }
@@ -12246,6 +12684,10 @@ const TARGET1200 = [
             document.getElementById('t19q-mode-screen2')?.classList.remove('hidden');
             document.getElementById('t19q-content2')?.classList.add('hidden');
             document.getElementById('t19q-complete2')?.classList.add('hidden');
+            const dirLabel1 = document.getElementById('t19q-dir-label-1');
+            const dirLabel2 = document.getElementById('t19q-dir-label-2');
+            if (dirLabel1) dirLabel1.textContent = t19WordLabel() + ' → ' + t19MeaningLabel();
+            if (dirLabel2) dirLabel2.textContent = t19MeaningLabel() + ' → ' + t19WordLabel();
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -12278,7 +12720,7 @@ const TARGET1200 = [
                 choices.push('この中にはない');
                 finalAnswer = correct;
             }
-            const label = dir === 'en2ja' ? '次の英単語の意味を選べ' : '次の意味の英単語を選べ';
+            const label = dir === 'en2ja' ? ('次の' + t19WordLabel() + 'の意味を選べ') : ('次の意味の' + t19WordLabel() + 'を選べ');
             const noLabel = 'No.' + q.n;
             const progEl = document.getElementById('t19q-progress2');
             const barEl  = document.getElementById('t19q-bar2');
@@ -12286,7 +12728,7 @@ const TARGET1200 = [
             if (progEl)  progEl.textContent  = 'Q' + (t19_quizIdx+1) + ' / ' + t19_quizWords.length;
             if (barEl)   barEl.style.width   = (t19_quizIdx / t19_quizWords.length * 100) + '%';
             if (scoreEl) scoreEl.textContent = '正解: ' + t19_quizScore;
-            if (t19_voiceOn && dir === 'en2ja') t19Speak(q.w, 'en');
+            if (t19_voiceOn && t19VoiceAllowed() && dir === 'en2ja') t19Speak(q.w, t19BookLang());
             const cont = document.getElementById('t19q-content2');
             if (!cont) return;
             cont.innerHTML = `
@@ -13198,15 +13640,22 @@ const TARGET1200 = [
             { w: 'あいなし', m: 'つまらない・筋違いだ' },
         ];
         let kvQueue = [], kvIndex = 0, kvScore = 0, kvFlipped = false;
+        // 古語単語帳は「ターゲットMODE」と全く同じ仕組み（T19_BOOKS の KOBUN）を利用する。
+        // 以前の簡易フラッシュカード実装（KOBUN_VOCAB・kv-系関数）は使用しなくなったが、
+        // 他に影響しないようそのまま残してある。
         function openKobunVocab() {
             hideAllPanels();
-            document.getElementById('kobun-vocab-panel')?.classList.remove('hidden');
-            document.getElementById('kv-result')?.classList.add('hidden');
-            document.getElementById('kv-card-area')?.classList.remove('hidden');
-            document.getElementById('kv-answer-buttons')?.classList.remove('hidden');
-            kvQueue = [...KOBUN_VOCAB].sort(() => Math.random() - 0.5);
-            kvIndex = 0; kvScore = 0;
-            renderKobunVocabCard();
+            const targetEl = document.getElementById('target1900-panel');
+            if (!targetEl) return;
+            targetEl.classList.remove('hidden');
+            // 古文単語帳グループに切り替える（英単語帳とは混ぜない、単独の単語帳として扱う）
+            t19_currentGroup = 'kobun';
+            t19_currentBook = 'KOBUN';
+            safeStorage.set('pm_t19_book', 'KOBUN');
+            renderTarget1900Panel();
+            pushState({ screen: 'kobun-vocab' }, '古語単語帳 - 予習ProMaster');
+            const mc = document.getElementById('main-container');
+            if (mc) mc.className = "flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6 items-stretch relative z-10";
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
         function renderKobunVocabCard() {
@@ -14201,6 +14650,8 @@ const TARGET1200 = [
 
         function _showTarget() {
             currentSubject = 'english';
+            t19_currentGroup = 'english';
+            if ((T19_BOOKS[t19_currentBook].group || 'english') !== 'english') t19_currentBook = 'T1900';
             hideAllPanels();
             const mc = document.getElementById('main-container');
             if (mc) mc.className = 'flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6 items-stretch relative z-10';
@@ -16301,53 +16752,62 @@ const TARGET1200 = [
         // デフォルトのツアー内容。config.json に tourSteps が保存されている場合はそちらが優先される
         // （開発者モードでツアーを開くと、その場で内容を編集できる）。
         // onShow の代わりに action（文字列）で画面遷移を指定し、JSON化・保存できるようにしている。
+        // 初めてこのアプリに触れる人でも迷わないよう、専門用語を避けてやさしい言葉で説明している。
         const DEFAULT_TOUR_STEPS = [
             {
+                icon: 'sparkles',
                 targetId: 'header-home-btn',
-                title: 'ようこそ！予習ProMasterへ',
-                desc: 'このアプリはAIを使って教科書・プリントを解析し、予習ノートを自動生成します。左上のロゴをクリックするといつでもホームに戻れます。',
+                title: 'はじめまして！予習ProMasterです',
+                desc: 'このアプリは、教科書やプリントの写真を撮ってアップロードするだけで、AIが予習ノートを自動で作ってくれるアプリです。使い方を1分ほどでご案内しますね。左上のロゴはいつでも「ホームに戻るボタン」なので、迷ったらここを押してください。',
                 action: 'none',
             },
             {
+                icon: 'layout-grid',
                 targetId: 'subject-card-en',
-                title: 'Step 1: 教科を選ぶ',
-                desc: 'ホーム画面には国語・数学・英語・理科・社会の5教科があります。現在、英語と社会が「利用可」、他の教科は一部の単元のみ利用できます。',
+                title: '① まずは教科を選びます',
+                desc: 'ホーム画面に並んでいるカードから、勉強したい教科をタップします。国語・数学・英語・理科・社会の5教科があり、今は英語と社会がまるごと使えます（他の教科は少しずつ増えていきます）。まずは「英語」で試してみましょう。',
                 action: 'showTopHome',
             },
             {
+                icon: 'image-plus',
                 targetId: 'image-upload-panel',
-                title: 'Step 2: プリントをアップロード',
-                desc: '教科書・プリントの写真を撮ってアップロードします。ドラッグ＆ドロップでも追加できます。PNG・JPG・WEBPに対応しています。',
+                title: '② プリントの写真を追加します',
+                desc: 'スマホやパソコンで撮った教科書・プリントの写真を、ここにドラッグするか、タップして選びます。写真は1枚でもOKです。',
                 action: 'showEnglishUploadDemo',
             },
             {
+                icon: 'wand-2',
                 targetId: 'scan-start-btn',
-                title: 'Step 3: AIスキャンを開始',
-                desc: 'ボタンを押すと解析が始まります。AIが本文・和訳・単語・Questionsをまとめて生成します。1日に利用できる回数には上限があります。',
+                title: '③ ボタン1つでAIが読み取ります',
+                desc: '写真を追加したら、このボタンをタップするだけ。数十秒待つと、AIが本文の内容・和訳・単語の意味・問題の解説をまとめて作ってくれます。読むだけで予習が終わる感覚です。1日に使える回数には上限があるので、ここぞという時に使ってくださいね。',
                 action: 'showEnglishUploadDemo',
             },
             {
+                icon: 'book-marked',
                 targetId: 'tab-btn-3',
-                title: 'Step 4: ターゲットモード',
-                desc: 'ターゲットモードではTARGET 1900の単語帳機能が使えます。フラッシュカード・単語テスト・苦手語の復習・音声読み上げに対応しています。',
+                title: '④ 単語は自動で単語帳に貯まります',
+                desc: 'スキャンした英単語は「ターゲットモード」の単語帳に自動で追加されます。フラッシュカードやミニテストで復習したり、読み上げ機能で発音を確認したりできます。すきま時間の復習にぴったりです。',
                 action: 'showEnglishUploadDemo',
             },
             {
+                icon: 'calendar-check-2',
                 targetId: 'home-calendar-more-btn',
-                title: 'Step 5: 予定・カレンダー',
-                desc: 'ホームにはテスト・提出物の予定がまとめて表示されます。「もっと見る」でカレンダー全体を、「予定を追加」で新しい予定を登録できます。提出物にはチェックボックスが付いていて、終わったものにチェックを入れておくと一目でわかります。',
+                title: '⑤ テストや提出物も管理できます',
+                desc: 'ホーム画面には、近づいているテストや提出物が自動で表示されます。「もっと見る」でカレンダー全体を確認したり、「予定を追加」で自分の予定を登録したりできます。提出物にはチェックボックスが付いていて、終わったらチェックを入れるだけで管理できます。',
                 action: 'showTopHome',
             },
             {
+                icon: 'folder-heart',
                 targetId: 'corner-browser-card',
-                title: 'Step 6: コーナーで整理',
-                desc: '学校から「コーナー」が設定されている場合、予定を教科やカテゴリごとに仕分けて確認できます。「日時順」「教科ごと」の切り替えボタンで見やすい並びに変更できます。',
+                title: '⑥ コーナーで見やすく整理',
+                desc: '学校の先生が「コーナー」を用意している場合、ここから教科やカテゴリごとに予定を絞り込んで見られます。「日時順」「教科ごと」のボタンで、見やすい並びにいつでも切り替えられます。',
                 action: 'showTopHome',
             },
             {
+                icon: 'party-popper',
                 targetId: 'settings-menu-btn',
-                title: 'ツアー完了！',
-                desc: '設定メニューからは「お知らせ」の確認、クラス設定、予定の通知のオン/オフ、フィードバックの送信ができます。困ったときはここを確認してみてください。',
+                title: 'これでツアーは完了です！',
+                desc: 'お疲れさまでした。困ったときは、この設定メニューから「お知らせ」の確認、クラスへの参加、通知のオン/オフ、フィードバックの送信ができます。それでは、さっそく最初の1枚をアップロードしてみましょう！',
                 action: 'none',
             },
         ];
@@ -16367,6 +16827,36 @@ const TARGET1200 = [
 
         let tourCurrentStep = 0;
         let tourActive = false;
+
+        // ===== 初めて訪れた人への、使い方ツアーのお誘い =====
+        function maybeShowWelcomeTourPrompt() {
+            if (safeStorage.get('pm_welcome_tour_prompt_shown')) return;
+            setTimeout(() => {
+                const annModal = document.getElementById('announcement-banner');
+                const isAnnouncementShowing = annModal && !annModal.classList.contains('hidden');
+                if (isAnnouncementShowing) {
+                    // お知らせのポップアップが先に出ている場合は、閉じられるまで少し長めに待つ
+                    setTimeout(showWelcomeTourModal, 4000);
+                } else {
+                    showWelcomeTourModal();
+                }
+            }, 1200);
+        }
+        function showWelcomeTourModal() {
+            safeStorage.set('pm_welcome_tour_prompt_shown', true);
+            const modal = document.getElementById('welcome-tour-modal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        function closeWelcomeTourModal() {
+            const modal = document.getElementById('welcome-tour-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+        function startTourFromWelcome() {
+            closeWelcomeTourModal();
+            startTour();
+        }
 
         function startTour() {
             tourActive = true;
@@ -16409,6 +16899,7 @@ const TARGET1200 = [
                 const step = getTourSteps()[tourCurrentStep];
                 document.getElementById('tour-edit-title').value = step.title || '';
                 document.getElementById('tour-edit-desc').value = step.desc || '';
+                document.getElementById('tour-edit-icon').value = step.icon || 'sparkles';
                 document.getElementById('tour-edit-target').value = step.targetId || '';
                 document.getElementById('tour-edit-action').value = step.action || 'none';
             }
@@ -16423,6 +16914,7 @@ const TARGET1200 = [
             step.desc = document.getElementById('tour-edit-desc').value.trim();
             step.targetId = document.getElementById('tour-edit-target').value.trim();
             step.action = document.getElementById('tour-edit-action').value;
+            step.icon = document.getElementById('tour-edit-icon').value.trim() || 'sparkles';
             cmsMarkDirty();
             showToast('ステップを保存しました（GitHubへの保存が必要です）');
             renderTourStep(tourCurrentStep);
@@ -16443,7 +16935,7 @@ const TARGET1200 = [
         function tourAddStepAfterCurrent() {
             tourEnsureEditableSteps();
             const steps = window._remoteTourSteps;
-            steps.splice(tourCurrentStep + 1, 0, { targetId: 'header-home-btn', title: '新しいステップ', desc: '', action: 'none' });
+            steps.splice(tourCurrentStep + 1, 0, { icon: 'sparkles', targetId: 'header-home-btn', title: '新しいステップ', desc: '', action: 'none' });
             cmsMarkDirty();
             tourCurrentStep++;
             renderTourStep(tourCurrentStep);
@@ -16474,7 +16966,8 @@ const TARGET1200 = [
             const action = step.action && TOUR_ACTIONS[step.action] ? TOUR_ACTIONS[step.action] : (step.onShow || null);
             if (action) action();
 
-            const titleEl = document.getElementById('tour-title');
+            const titleEl = document.getElementById('tour-title-text');
+            const iconEl  = document.getElementById('tour-icon');
             const descEl  = document.getElementById('tour-desc');
             const badgeEl = document.getElementById('tour-step-badge');
             const prevBtn = document.getElementById('tour-prev-btn');
@@ -16485,6 +16978,12 @@ const TARGET1200 = [
             if (!tooltip || !spotlight) return;
 
             if (titleEl) titleEl.textContent = step.title;
+            if (iconEl) {
+                iconEl.setAttribute('data-lucide', step.icon || 'sparkles');
+                // data-lucide属性を書き換えただけではアイコンが再描画されないため、
+                // 一度中身を空にしてlucide.createIconsで再生成する
+                iconEl.innerHTML = '';
+            }
             if (descEl) {
                 descEl.style.whiteSpace = 'pre-line';
                 descEl.textContent = step.desc;
@@ -16494,6 +16993,7 @@ const TARGET1200 = [
             const editForm = document.getElementById('tour-edit-form');
             if (editBtn) editBtn.classList.toggle('hidden', !devUnlocked);
             if (editForm) editForm.classList.add('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
             // リンクボタン
             const existingLink = document.getElementById('tour-link-btn');
             if (existingLink) existingLink.remove();
