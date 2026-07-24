@@ -354,6 +354,45 @@
         "corner_1784461896715"
       ],
       "notifyAt": "2026-07-22T00:19:00.000Z"
+    },
+    {
+      "id": 1784864415836,
+      "type": "submission",
+      "title": "化学夏休み課題tokuMo",
+      "subject": "化学基礎",
+      "date": "2026-08-19",
+      "memo": "夏休みの課題①物質の量\n夏休みの課題②化学反応式\n夏休みの課題③酸と塩基",
+      "classId": "c1783747972349",
+      "cornerIds": [
+        "corner_1784461896715"
+      ],
+      "notifyAt": null
+    },
+    {
+      "id": 1784864446568,
+      "type": "submission",
+      "title": "化学夏休み課題tokuMo",
+      "subject": "化学基礎",
+      "date": "2026-08-19",
+      "memo": "夏休みの課題①物質の量\n夏休みの課題②化学反応式\n夏休みの課題③酸と塩基",
+      "classId": "c1783747980943",
+      "cornerIds": [
+        "corner_1784461896715"
+      ],
+      "notifyAt": null
+    },
+    {
+      "id": 1784864483896,
+      "type": "submission",
+      "title": "化学夏休み課題tokuMo",
+      "subject": "化学基礎",
+      "date": "2026-08-19",
+      "memo": "夏休みの課題①物質の量\n夏休みの課題②化学反応式\n夏休みの課題③酸と塩基",
+      "classId": "c1783747990115",
+      "cornerIds": [
+        "corner_1784461896715"
+      ],
+      "notifyAt": null
     }
   ],
   "extraSections": [
